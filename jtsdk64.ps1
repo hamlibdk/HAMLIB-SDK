@@ -69,11 +69,11 @@ $env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
 # *** Review necessity of this considering JTSDK-APPS package ***
 
 Write-Host "* Creating Directories (If Required)"
-if (!(Test-Path $env:JTSDK_CONFIG)) { New-Item -Path $env:JTSDK_HOME -Name  "config" -ItemType "directory" }
-if (!(Test-Path $env:JTSDK_DATA)) { New-Item -Path $env:JTSDK_HOME -Name "data" -ItemType "directory" }
-if (!(Test-Path $env:JTSDK_SRC)) { New-Item -Path $env:JTSDK_HOME -Name "src" -ItemType "directory" }
-if (!(Test-Path $env:JTSDK_TMP)) { New-Item -Path $env:JTSDK_HOME -Name "tmp" -ItemType "directory" }
-if (!(Test-Path $env:JTSDK_SCRIPTS)) { New-Item -Path $env:JTSDK_TOOLS -Name "\scripts" -ItemType "directory" }
+if (!(Test-Path $env:JTSDK_CONFIG)) { New-Item -Path $env:JTSDK_HOME -Name  "config" -ItemType "directory" | Out-Null }
+if (!(Test-Path $env:JTSDK_DATA)) { New-Item -Path $env:JTSDK_HOME -Name "data" -ItemType "directory"  | Out-Null  }
+if (!(Test-Path $env:JTSDK_SRC)) { New-Item -Path $env:JTSDK_HOME -Name "src" -ItemType "directory"  | Out-Null }
+if (!(Test-Path $env:JTSDK_TMP)) { New-Item -Path $env:JTSDK_HOME -Name "tmp" -ItemType "directory"  | Out-Null }
+if (!(Test-Path $env:JTSDK_SCRIPTS)) { New-Item -Path $env:JTSDK_TOOLS -Name "\scripts" -ItemType "directory"  | Out-Null }
 
 # ------------------------------------------------------------------------------
 # CORE TOOLS
@@ -312,7 +312,8 @@ $LTOOLS_PATH = $env:JTSDK_TOOLS + "\tc-files"
 
 # Create tc-files if it does not exist
 if (-not (Test-Path $LTOOLS_PATH)) { 
-    New-Item -Path $JTSDK_TOOLS -Name "tc-files" -ItemType "directory"
+    New-Item -Path $env:JTSDK_TOOLS -Name "tc-files" -ItemType "directory" | Out-Null
+	Write-Host "  --> `'tc-files`' does not exist. Creating $LTOOLS_PATH"
 }
 
 # Hamlib3 Dirs
