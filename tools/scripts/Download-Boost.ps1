@@ -12,17 +12,19 @@
 #
 #-----------------------------------------------------------------------------#
 
-Set-Location -Path $PSScriptRoot
+Set-Location -Path $env:JTSDK_HOME
 
 # These are here temporary for Development purposes only
-
-$env:JTSDK_HOME = "C:\JTSDK64-Tools"
-$env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
-$env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
-$env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
-$env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"
-$env:JTSDK_TOOLS = $env:JTSDK_HOME + "\tools"
-$env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
+#
+# Set-Location -Path $PSScriptRoot
+#
+#$env:JTSDK_HOME = "C:\JTSDK64-Tools"
+#$env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
+#$env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
+#$env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
+#$env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"
+#$env:JTSDK_TOOLS = $env:JTSDK_HOME + "\tools"
+#$env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
 
 # Describe Action
 
