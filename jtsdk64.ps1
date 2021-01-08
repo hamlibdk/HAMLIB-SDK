@@ -15,9 +15,10 @@
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-Dec-2020 to 2-Jan-2021
-#				: Need for qt-gen-tc.cmd and some markers $env:JTSDK_CONFIG eliminated
+#				: Need for qt-gen-tc.cmd and some markers eliminated
+#-----------------------------------------------------------------------------::
 
-# Set PowerShell Prompt 
+# Set PowerShell Prompt (Possibly redundant).
 # Ref: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.1
 
 function SetPrompt { 
@@ -44,12 +45,12 @@ $winname = "JTSDK64 Tools " + $jtsdk64Version
 $host.ui.RawUI.WindowTitle = $winname
 
 Clear-Host
-Write-Host "--------------------------------"
+Write-Host "---------------------------------"
 Write-Host "  JTSDK64 Core Tools $jtsdk64Version"
-Write-Host "--------------------------------"
-Write-Host " "
+Write-Host "---------------------------------"
+Write-Host ""
 Write-Host "*  Starting jtsdk64.ps1 in $currentDir"
-Write-Host " "
+Write-Host ""
 Set-Location -Path $currentDir
 
 # ------------------------------------------------------------------------------
@@ -141,9 +142,8 @@ if ($env:cmakev -eq "qtcmake") {
 	$env:cmake_dir = $env:JTSDK_HOME + "\tools\Qt\Tools\CMake_64\bin"
 	Write-Host "  --> CMake sourced from Qt deployment"
 } else {
-	# CMAKE-PACKAGED
+	# CMAKE-PACKAGED: Found in C:\JTSDK64-Tools\tools\cmake\x.xx.x
 	# Use the CMAKE from https://cmake.org/download/ 
-	# Found in C:\JTSDK64-Tools\tools\cmake\x.xx.x
 	$env:cmake_dir = $env:JTSDK_HOME + "\tools\cmake\" + $env:cmakev + "\bin"
 	Write-Host "  --> CMake sourced from $cmake_Dir"
 }
@@ -151,14 +151,15 @@ $env:cmake_dir_f = $env:cmake_dir.replace("\","/")
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:cmake_dir
 
 # Boost
-$pathTest = $env:JTSDK_HOME + "\tools\boost"
+$env:boostv = $configTable.Get_Item("boostv")
+$pathTest = $env:JTSDK_HOME + "\tools\boost\" + $env:boostv
 if ((Test-Path $pathTest)) { 
-	$env:boostv = $configTable.Get_Item("boostv")
-	## $env:BOOST_ROOT = $env:JTSDK_HOME + "\tools\boost\"+ $env:boostv # Possibly redundant
 	$env:boost_dir = $env:JTSDK_HOME + "\tools\boost\" + $env:boostv
 	$env:boost_dir_f = $env:boost_dir.replace("\","/")
 	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
-	Write-Host "  --> Boost library present"
+	Write-Host "  --> Boost library $boostv present"
+} else {
+	Write-Host "  --> Boost library NOT DEPLOYED"
 }
 
 # Scripts Directory
@@ -222,9 +223,9 @@ if ($countMinGW -eq 1)
 	Write-Host "  --> MinGW Version: $tempMinGWVersion" # - contains MinGW Release
 } else {
     Write-Host "  --> Qt Version Marker NOT SET in $env:JTSDK_CONFIG"
-    Write-Host " "
+    Write-Host ""
     Write-Host "**** **** **** QT DEPLOYED INCORRECTLY **** **** ****"
-	Write-Host " "
+	Write-Host ""
 	pause
     exit(-1)
 }
@@ -363,60 +364,60 @@ Add-Content $of "# END Cmake Tool Chain File"
 
 Write-Host "  --> Tool Chain generation for `'jtbuild`' complete"
 
-Write-Host " "
+Write-Host ""
 pause
 # ------------------------------------------------------------------------------
-#  PRINT ENVIRONMENT MESSAGE in a new PowerShell
+#  Start PowerShell Interactive Build Environment
 # ------------------------------------------------------------------------------
 invoke-expression 'cmd /c start powershell -NoExit -Command {                           `                `
     $host.UI.RawUI.WindowTitle = "JTSDK64 Setup Powershell Window"
 	New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2_shell.cmd"	
-	Write-Host "--------------------------------"
-	Write-Host "  JTSDK64 Core Tools $env:JTSDK64_VERSION"
-	Write-Host "--------------------------------"
-	Write-Host " "
+	Write-Host "--------------------------------------------"
+	Write-Host "          JTSDK64 Tools $env:JTSDK64_VERSION"
+	Write-Host "--------------------------------------------"
+	Write-Host ""
 	Write-Host "Config: $env:jtsdk64VersionConfig"
-	Write-Host " "
+	Write-Host ""
 	Write-Host "Package       Version/Status"
-	Write-Host "................................"
-    Write-Host "Unix Tools    $env:UNIXTOOLS"
-	$pathTest = $env:JTSDK_HOME + "\tools\qt\" + $env:qtv
+	Write-Host "............................................"
+	Write-Host "Unix Tools    $env:UNIXTOOLS"
+	$pathTest = $env:JTSDK_TOOLS + "\qt\" + $env:qtv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "Qt            $env:QTV"
 	} else {
 		Write-Host "Qt            $env:QTV  Missing"
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\fftw\" + $env:fftwv
+	$pathTest = $env:JTSDK_TOOLS + "\fftw\" + $env:fftwv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "FFTW          $env:fftwv"
 	} else {
 		Write-Host "FFTW          $env:fftwv  Missing"
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\libusb\" + $env:libusbv
+	$pathTest = $env:JTSDK_TOOLS + "\libusb\" + $env:libusbv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "LibUSB        $env:libusbv"
 	} else {
 		Write-Host "LibUSB        $env:libusbv  Missing"
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\nsis\" + $env:nsisv
+	$pathTest = $env:JTSDK_TOOLS + "\nsis\" + $env:nsisv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "NSIS          $env:nsisv"
 	} else {
 		Write-Host "NSIS          $env:nsisv  Missing"
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\pkgconfig\" + $env:pkgconfigv
+	$pathTest = $env:JTSDK_TOOLS + "\pkgconfig\" + $env:pkgconfigv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "PackageConfig $env:pkgconfigv"
 	} else {
 		Write-Host "PackageConfig $env:pkgconfigv  Missing"
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\ruby\" + $env:rubyv
+	$pathTest = $env:JTSDK_TOOLS + "\ruby\" + $env:rubyv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "Ruby          $env:rubyv"
 	} else {
 		Write-Host "Ruby          $env:rubyv  Missing"
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\subversion\" + $env:svnv
+	$pathTest = $env:JTSDK_TOOLS + "\subversion\" + $env:svnv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "Subversion    $env:svnv"
 	} else {
@@ -425,35 +426,32 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 	if ($env:cmakev -eq "qtcmake") {
 		Write-Host "CMake         $env:cmakev"
 	} else {
-		$pathTest = $env:JTSDK_HOME + "\tools\cmake\" + $env:cmakev
+		$pathTest = $env:JTSDK_TOOLS + "\cmake\" + $env:cmakev
 		if ((Test-Path $pathTest)) { 
 			Write-Host "CMake         $env:cmakev"
 		} else {
-			Write-Host "CMake         $env:cmakev  Missing"
+			Write-Host "CMake         $env:cmakev  Not Deployed"
 		}
 	}
-	$pathTest = $env:JTSDK_HOME + "\tools\sqlite\" + $env:sqlitev
+	$pathTest = $env:JTSDK_TOOLS + "\sqlite\" + $env:sqlitev
 	if ((Test-Path $pathTest)) { 
 		Write-Host "SQLite        $env:sqlitev"
 	} else {
 		Write-Host "SQLite        $env:sqlitev  Missing"
 	}
-
-	# Boost Message Component (Needs "Generic" checking rather than literal checks)
-
-	$pathTest = $env:JTSDK_HOME + "\tools\boost"
+	$pathTest = $env:JTSDK_TOOLS + "\boost\$env:boostv"
 	if ((Test-Path $pathTest)) { 
-		if (($env:qtv -eq "5.15.2") -or ($env:qtv -eq "6.0.0")) {
-			Write-Host "Boost         $env:boostv  Enabled"
-		} else {
-			Write-Host "Boost         $env:boostv Qt < 5.15.2"
-		}
+		Write-Host "Boost         $env:boostv  Enabled"
 	} else {
-		Write-Host "Boost         $env:boostv  Missing"
+		Write-Host "Boost         $env:boostv  Not Deployed"
 	}
 
-	Write-Host "................................"
-	Write-Host " "
-    Write-Host "Commands: jtbuild `[option`], msys2"
-    Write-Host " "
+	Write-Host "............................................"
+	Write-Host ""
+    Write-Host "Commands:"
+	Write-Host ""
+	Write-Host "   Deploy Selected Boost . Deploy-Boost"
+	Write-Host "   MSYS2 (Build Hamlib) .. msys2"
+	Write-Host "   Build JT- Software .... jtbuild `[option`]"
+    Write-Host ""
 }'

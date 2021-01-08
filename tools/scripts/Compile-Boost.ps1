@@ -121,7 +121,7 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 	
 	Write-Host "  --> Source already Compiled"
 	Write-Host "  --> To refresh: Delete source directory in $env:JTSDK_TOOLS\boost\$boostv and re-run `'Compile-Boost.ps1`'"
-
+}
 # Complete
 
 Write-Host "  --> Distribution in $env:JTSDK_TOOLS\boost\$boostv"
