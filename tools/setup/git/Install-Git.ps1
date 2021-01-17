@@ -8,8 +8,8 @@
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: HAMLIB SDK COntributors <hamlibdk@hotmail.com>
-# Copyright ....: Copyright (C) 2013-2019 Greg Beam, KI7MT
-#               : Copyright (C) 2020 HAMLIB SDK Contributors
+# Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
+#               : Copyright (C) 2020-2021 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
 #-----------------------------------------------------------------------------#
@@ -69,10 +69,11 @@ function UninstallGit {
 	Write-Host " JTSDK64 Git Uninstall"
 	Write-Host "-----------------------------------------------------"
 	Write-Host " "
-	Write-Host "Running Uninstall for VS Code"
+	Write-Host "Running Uninstall for Git-SCM"
 	$pathTest = "$env:PROGRAMFILES\Git\unins000.exe"
 	if ((Test-Path $pathTest)) {
-		call "$env:PROGRAMFILES\Git\unins000.exe"
+        $cmd = "$env:PROGRAMFILES\Git\unins000.exe /SILENT /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /LOADINF=.\git.inf"
+	    $exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	} else {
 		Write-Host " "
 		Write-Host "Uninstall failed, cannot find uninstall binary."
@@ -101,9 +102,11 @@ function InstallGit {
 	Write-Host "Installing Command Line Git"
 	Write-Host "-----------------------------------------------------"
 
-    Invoke-Expression -Command $PSScriptRoot\Download-Git.ps1
+    #Invoke-Expression -Command $PSScriptRoot\Download-Git.ps1
+    Invoke-Expression -Command $PSScriptRoot\Download-GitCurrent.ps1
 
-	$cmd = "$PSScriptRoot\Git-2.29.2.3-64-bit.exe /SILENT /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /LOADINF=.\git.inf"
+	#$cmd = "$PSScriptRoot\Git-2.29.2.3-64-bit.exe /SILENT /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /LOADINF=.\git.inf"
+    $cmd = "$PSScriptRoot\Git-Current-x64.exe /SILENT /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /LOADINF=.\git.inf"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
     if ($exitCode -ne 0) { 
         Write-Host "*** Error ***"

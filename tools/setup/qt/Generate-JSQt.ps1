@@ -113,6 +113,7 @@ Add-Content $of  "Controller.prototype.ComponentSelectionPageCallback `= functio
 Add-Content $of  " var widget `= gui.currentPageWidget`(`)`;"
 Add-Content $of  " widget.deselectAll`(`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2017_x64`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2019_x64`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.maintenance`"`)"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.qtcreator`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.cmake.win64`"`)`;"
