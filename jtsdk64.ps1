@@ -362,7 +362,23 @@ Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_INCLUDE BOTH)"
 Add-Content $of " "
 Add-Content $of "# END Cmake Tool Chain File"
 
-Write-Host "  --> Tool Chain generation for `'jtbuild`' complete"
+#JT Source Selection Check
+Write-Host "* Check if source section marker file exists"
+
+$env:JT_SRC="None"
+$listSrcDeploy = Get-ChildItem -Path $env:JTSDK_CONFIG -EA SilentlyContinue
+$subPathSrcStore = "NULL";
+ForEach ($subPathSrc in $listSrcDeploy)
+{    
+	if ($subPathSrc.Name -like 'src*') {
+        Write-Host "  --> Found Source configuration marker `[$subPathSrc`] in $env:JTSDK_CONFIG"
+        $subPathSrcStore = $subPathSrc
+		$env:JT_SRC = $subPathSrc.Name.substring(4)
+        break
+    }
+}
+
+Write-Host "* Tool Chain generation for `'jtbuild`' complete"
 
 Write-Host ""
 pause
@@ -370,17 +386,18 @@ pause
 #  Start PowerShell Interactive Build Environment
 # ------------------------------------------------------------------------------
 invoke-expression 'cmd /c start powershell -NoExit -Command {                           `                `
-    $host.UI.RawUI.WindowTitle = "JTSDK64 Setup Powershell Window"
+    $host.UI.RawUI.WindowTitle = "JTSDK64 Tools Powershell Window"
 	New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2_shell.cmd"	
-	Write-Host "--------------------------------------------"
+	Write-Host "---------------------------------------------"
 	Write-Host "          JTSDK64 Tools $env:JTSDK64_VERSION"
-	Write-Host "--------------------------------------------"
+	Write-Host "---------------------------------------------"
 	Write-Host ""
 	Write-Host "Config: $env:jtsdk64VersionConfig"
 	Write-Host ""
 	Write-Host "Package       Version/Status"
-	Write-Host "............................................"
+	Write-Host "............................................."
 	Write-Host "Unix Tools    $env:UNIXTOOLS"
+	Write-Host "Source Marker $env:JT_SRC"
 	$pathTest = $env:JTSDK_TOOLS + "\qt\" + $env:qtv
 	if ((Test-Path $pathTest)) { 
 		Write-Host "Qt            $env:QTV"
@@ -446,12 +463,12 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 		Write-Host "Boost         $env:boostv  Not Deployed"
 	}
 
-	Write-Host "............................................"
+	Write-Host "............................................."
 	Write-Host ""
     Write-Host "Commands:"
 	Write-Host ""
-	Write-Host "   Deploy Selected Boost . Deploy-Boost"
-	Write-Host "   MSYS2 (Build Hamlib) .. msys2"
-	Write-Host "   Build JT- Software .... jtbuild `[option`]"
+	Write-Host "  Deploy Boost ....... Deploy-Boost"
+	Write-Host "  MSYS2 Environment .. msys2"
+	Write-Host "  Build JT-ware ...... jtbuild `[option`]"
     Write-Host ""
 }'
