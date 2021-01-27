@@ -4,7 +4,7 @@
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 ->
 # Copyright .........: Copyright (C) 2018-2021 Greg Beam, KI7MT
-#                      Copyright (C) 2018-2021 JTSDK Contributors ->
+#                      Subsequent JTSDK Contributors 20-01-2021 ->
 # License ...........: GPL-3
 #
 # jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 11-12-2020
@@ -13,14 +13,14 @@
 # Repository based on flag src-wsjtx | src-jtdx | src-js8call in
 # C:\JTSDK64-Tools\config
 #
-# Conversion to and refactoring for PowerShell commenced 20-1-2020 by Steve VK3VM
+# Conversion to and refactoring for PowerShell 20-22-1-2020 by Steve VK3VM
 #
-# jtbuild-test.ps1 is free software: you can redistribute it and/or modify it
+# jtbuild-cmd.cmd is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
 # Software Foundation either version 3 of the License, or (at your option) any
 # later version. 
 #
-# This script is distributed in the hope that it will be useful, but WITHOUT
+# jtbuild.cmd is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
@@ -29,7 +29,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-----------------------------------------------------------------------------#
 
-# ---------------------------------------------------------------- THIS IS THE END !!!
 function TheEnd($code) {
 
 	Push-Location $env:JTSDK_HOME\tools\msys64\usr\bin
@@ -39,101 +38,8 @@ function TheEnd($code) {
 	exit($code)
 }
 
-# ---------------------------------------------------------------- Commence Build
-function CommenceBuild {
-	Param ($srcOrigin)
-	
-	Write-Host ""
-	Write-Host "--------------------------------------------"
-	Write-Host " Commencing Build of $srcOrigin"
-	Write-Host "--------------------------------------------"
-	Write-Host ""
-}
-
-# ---------------------------------------------------------------- Process Options
-function ProcessOptions {
-	Param ($aarg, [ref]$rcopt, [ref]$rtopt)
-
-	if ($aarg -eq "Zero") { HelpOptions } 
-	if ($aarg -eq "-h") { HelpOptions } 
-	if ($aarg -eq "help") { HelpOptions }
-	if ($aarg -eq $null) { HelpOptions } 	
-
-	# if ($args[0] -eq "-o") { OptionStatus }
-
-	#Case Independence of arguments conversion
-	#very grotty error overcome error method
-	#try {
-		if (!($aarg -like "*System.Management*")) {
-			if ($aarg -ne $null) { $aarg=($aarg).ToLower() }
-	}
-	#catch { }
-
-	if ($aarg -like "rconfig") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Config"
-	}
-
-	if ($aarg -like "dconfig") { 
-		$rcopt.Value="Debug"
-		$rtopt.Value="Config"
-	}
-
-	if ($aarg -like "rinstall") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Install"
-	}
-
-	if ($aarg -like "dinstall") { 
-		$rcopt.Value="Debug"
-		$rtopt.Value="Install"
-	}
-
-	if ($aarg -like "package") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Package"
-	}
-
-	if ($aarg -like "docs") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Docs"
-	}
-
-	if (($rcopt.Value -eq $null) -or ($rtopt.Value -eq $null)) { HelpOptions }
-}
-
-# ---------------------------------------------------------------- Download Source
-function DownloadSource {
-	Param($srcd)
-	if (!(Test-Path $srcd)) { 
-		Write-Host ""
-		Write-Host "* No source directory detected."
-		Write-Host ""
-		Remove-Item "$env:JTSDK_HOME\tmp\*" -include src-* | Out-Null
-		Out-File -FilePath "$env:JTSDK_HOME\tmp\src-null" | Out-Null
-	}
-
-	# Source selection changed detection block 
-	if ((Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
-		if (!(Test-Path $env:JTSDK_HOME\tmp\src-wsjtx)) { 
-			SelectionChanged("src-wsjtx") 
-		} 
-	} else { 
-		if ((Test-Path $env:JTSDK_CONFIG\src-jtdx))  { 
-			if (!(Test-Path $env:JTSDK_HOME\tmp\src-jtdx)) { 
-				SelectionChanged("src-jtdx") 
-			}			
-		} else {
-			if ((Test-Path $env:JTSDK_CONFIG\src-js8call))  { 
-				if (!(Test-Path $env:JTSDK_HOME\tmp\src-js8call)) { 
-					SelectionChanged("src-js8call") 
-				} 
-			}
-		}
-	}
-}
-
 # ---------------------------------------------------------------- Generate Error
+
 function GenerateError($type) {
 	Write-Host "*** Error: $type ***"
 	Write-Host "*** Report error to JTSDK@Groups.io *** "
@@ -208,12 +114,11 @@ function NoSource {
 	Write-Host " NO SOURCE CODE"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host " Place ONE of the following marker files in:" 
-	Write-Host " $env:JTSDK_CONFIG"
+	Write-Host "Place ONE of the following marker files in $env:JTSDK_CONFIG"
 	Write-Host ""
-	Write-Host "` - src-wsjtx ... Pull git package for WSJT-X "   
-	Write-Host "` - src-jtdx .... Pull git package for JTDX"
-	Write-Host "` - src-js8call . Pull git package for JS8CALL"
+	Write-Host "`- src-wsjtx ..... Pull git package for WSJT-X "   
+	Write-Host "`- src-jtdx ...... Pull git package for JTDX"
+	Write-Host "`- src-js8call ... Pull git package for JS8CALL"
 	Write-Host ""
 	TheEnd(-1)
 }
@@ -227,12 +132,10 @@ function ErrorCMake {
 	Write-Host ""
 	Write-Host " There was a problem building `( $desc `)"
 	Write-Host ""
-	Write-Host " Check the screen for error messages."
+	Write-Host " Check the screen for error messages, correct, then try to"
+	Write-Host " re-build."
 	Write-Host ""
-	Write-Host " Correct the issue then try to re-build."
 	Write-Host ""
-	Write-Host ""
-	TheEnd(-1)
 }
 
 # ---------------------------------------------------------------- HELP OPTIONS
@@ -265,19 +168,19 @@ function BuildInformation {
 	Write-Host " Build Information"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "  Description ...`: $desc"
-	Write-Host "  Version .......`: $aver"
-	Write-Host "  Type ..........`: $copt"
-	Write-Host "  Target ........`: $topt"
-	Write-Host "  Tool Chain ....`: $qtv"
-	Write-Host "  SRC ...........`: $srcd"
-	Write-Host "  Build .........`: $buildd"
-	Write-Host "  Install .......`: $installd"
-	Write-Host "  Package .......`: $pkgd"
-	Write-Host "  TC File .......`: $tchain"
-	Write-Host "  Clean .........`: $cleanFirst"
-	Write-Host "  Reconfigure ...`: $reconfigure"
-	# Write-Host ""
+	Write-Host " Description ...`: $desc"
+	Write-Host " Version .......`: $aver"
+	Write-Host " Type ..........`: $copt"
+	Write-Host " Target ........`: $topt"
+	Write-Host " Tool Chain ....`: $qtv"
+	Write-Host " SRC ...........`: $srcd"
+	Write-Host " Build .........`: $buildd"
+	Write-Host " Install .......`: $installd"
+	Write-Host " Package .......`: $pkgd"
+	Write-Host " TC File .......`: $tchain"
+	Write-Host " Clean .........`: $cleanFirst"
+	Write-Host " Reconfigure ...`: $reconfigure"
+	Write-Host ""
 }
 
 # --------------------------------------------------------------- CONFIGURATION ONLY
@@ -294,6 +197,7 @@ function ConfigOnly {
 		-D CMAKE_BUILD_TYPE=$copt `
 		-D CMAKE_INSTALL_PREFIX=$installd $srcd
 	if ($LastExitCode -eq 1) { ErrorCMake }
+	FinishConfig
 	TheEnd(0)
 }
 
@@ -304,27 +208,26 @@ function FinishConfig {
 	Write-Host " Configure Summary"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "   Description .`: $desc"
-	Write-Host "   Version .....`: $aver"
-	Write-Host "   Type ........`: $copt"
-	Write-Host "   Target ......`: $topt"
-	Write-Host "   Tool Chain ..`: $qtv"
-	Write-Host "   Clean .......`: $cleanFirst"
-	Write-Host "   Reconfigure .`: $reconfigure"
-	Write-Host "   SRC .........`: $srcd"
-	Write-Host "   Build .......`: $buildd"
-	Write-Host "   Install .....`: $installd"
+	Write-Host "  Description .`: $desc"
+	Write-Host "  Version .....`: $aver"
+	Write-Host "  Type ........`: $copt"
+	Write-Host "  Target ......`: $topt"
+	Write-Host "  Tool Chain ..`: $qtv"
+	Write-Host "  Clean .......`: $cleanFirst"
+	Write-Host "  Reconfigure .`: $reconfigure"
+	Write-Host "  SRC .........`: $srcd"
+	Write-Host "  Build .......`: $buildd"
+	Write-Host "  Install .....`: $installd"
 	Write-Host ""
-	Write-Host " Config Only builds simply configure the build tree with"
-	Write-Host " default options. To further configure or re-configure this build,"
-	Write-Host " run the following commands:"
+	Write-Host "  Config Only builds simply configure the build tree with"
+	Write-Host "  default options. To further configure or re-configure this build,"
+	Write-Host "  run the following commands:"
 	Write-Host ""
 	Write-Host "  cd $buildd"
 	Write-Host "  cmake-gui ."
+	Write-Host "  Once the CMake-GUI opens, click on Generate, then Configure"
 	Write-Host ""
-	Write-Host " Once the CMake-GUI opens, click on Generate, then Configure"
-	Write-Host ""
-	Write-Host " You now have have a fully configured build tree."
+	Write-Host "  You now have have a fully configured build tree."
 	Write-Host ""
 }
 
@@ -336,21 +239,21 @@ function FinishUserGuide {
 	Write-Host " User Guide Summary"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "   Name ........`: $dn"
-	Write-Host "   Version .....`: $aver"
-	Write-Host "   Type ........`: $copt"
-	Write-Host "   Target ......`: $topt"
-	Write-Host "   Tool Chain ..`: $qtv"
-	Write-Host "   SRC .........`: $srcd"
-	Write-Host "   Build .......`: $buildd"
-	Write-Host "   Location ....`: $buildd\doc\$dn"
+	Write-Host "  Name ........`: $dn"
+	Write-Host "  Version .....`: $aver"
+	Write-Host "  Type ........`: $copt"
+	Write-Host "  Target ......`: $topt"
+	Write-Host "  Tool Chain ..`: $qtv"
+	Write-Host "  SRC .........`: $srcd"
+	Write-Host "  Build .......`: $buildd"
+	Write-Host "  Location ....`: $buildd\doc\$dn"
 	Write-Host ""
-	Write-Host " The user guide does *not* get installed like normal install"
-	Write-Host " builds, it remains in the build folder to aid in browser"
-	Write-Host " shortcuts for quicker refresh during development iterations."
+	Write-Host "  The user guide does *not* get installed like normal install"
+	Write-Host "  builds, it remains in the build folder to aid in browser"
+	Write-Host "  shortcuts for quicker refresh during development iterations."
 	Write-Host ""
-	Write-Host " The name `[ $dn `] also remains constant rather"
-	Write-Host " than including the version infomation."
+	Write-Host "  The name `[ $dn `] also remains constant rather"
+	Write-Host "  than including the version infomation."
 	Write-Host ""
 	TheEnd(0)
 }
@@ -362,19 +265,19 @@ function FinishPackage {
 	Write-Host " Windows Installer Summary"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "   Name ........`: $wsjtxpkg"
-	Write-Host "   Version .....`: $aver"
-	Write-Host "   Type ........`: $copt"
-	Write-Host "   Target ......`: $topt"
-	Write-Host "   Tool Chain ..`: $qtv"
-	Write-Host "   Clean .......`: $cleanFirst"
-	Write-Host "   Reconfigure .`: $reconfigure"
-	Write-Host "   SRC .........`: $srcd"
-	Write-Host "   Build .......`: $buildd"
-	Write-Host "   Location ....`: $pkgd\$wsjtxpkg"
+	Write-Host "  Name ........`: $wsjtxpkg"
+	Write-Host "  Version .....`: $aver"
+	Write-Host "  Type ........`: $copt"
+	Write-Host "  Target ......`: $topt"
+	Write-Host "  Tool Chain ..`: $qtv"
+	Write-Host "  Clean .......`: $cleanFirst"
+	Write-Host "  Reconfigure .`: $reconfigure"
+	Write-Host "  SRC .........`: $srcd"
+	Write-Host "  Build .......`: $buildd"
+	Write-Host "  Location ....`: $pkgd\$wsjtxpkg"
 	Write-Host ""
-	Write-Host " To Install the package, browse to Location and"
-	Write-Host " run as you normally do to install Windows applications."
+	Write-Host "  To Install the package, browse to Location and"
+	Write-Host "  run as you normally do to install Windows applications."
 	Write-Host ""
 	TheEnd(0)
 }
@@ -386,14 +289,13 @@ function NSISError {
 	Write-Host " WINDOWS INSTALLER BUILD ERROR"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host " There was a problem building the package,"
-	Write-Host " or the script could not find:"
+	Write-Host " There was a problem building the package, or the script"
+	Write-Host " could not find:"
 	Write-Host ""
 	Write-Host " $buildd\$WSJTXPKG"
 	Write-Host ""
-	Write-Host " Check the Cmake logs for any errors, or" 
-	Write-Host " correct any build script issues that were" 
-	Write-Host " obverved and try to rebuild the package."
+	Write-Host " Check the Cmake logs for any errors, or correct any build"
+	Write-Host " script issues that were obverved and try to rebuild the package."
 	Write-Host ""
 	TheEnd(-1)
 }
@@ -408,9 +310,8 @@ function PackageTarget {
 	Write-Host ""
 	Write-Host "* Build Directory: $buildd"
 	Write-Host ""
-	
-	# The following 2 lines first introduced by Steve VK3VM 30-4-2020 
-	# removes an ald annoyance in final info screens !
+	#The following 2 lines first added by Steve VK3VM 30-4-2020 
+	#removes an ald annoyance in final info screens !
 	
 	Write-Host "* Removing Old Install Packages `(if exist`)"
 	
@@ -447,25 +348,8 @@ function PackageTargetTwo {
 	Copy-Item -Path $buildd\$wsjtxpkg  -Destination $pkgd | Out-Null
 	FinishPackage
 }
-
-# ---------------------------------------------------------------- SETUP DIRECTORIES
-function SetupDirectories {
-	
-	Write-Host ""
-	Write-Host "--------------------------------------------"
-	Write-Host " Folder Locations"
-	Write-Host "--------------------------------------------"
-	Write-Host ""
-	if (!(Test-Path "$buildd")) {  New-Item -Path "$buildd" -ItemType directory | Out-Null }
-	if (!(Test-Path "$installd")) { New-Item -Path "$installd" -ItemType directory | Out-Null }
-	if (!(Test-Path "$pkgd")) { New-Item -Path "$pkgd" -ItemType directory | Out-Null }
-	Write-Host " Build .......`: $buildd"
-	Write-Host " Install .....`: $installd"
-	Write-Host " Package .....`: $pkgd"
-	Write-Host ""
-}
-
 # ---------------------------------------------------------------- FINISH INSTALLATION
+
 function FinishInstall {
 	Write-Host ""
 	Write-Host "--------------------------------------------"
@@ -482,26 +366,23 @@ function FinishInstall {
 	Write-Host "  SRC ...........`: $srcd"
 	Write-Host "  Build .........`: $buildd"
 	Write-Host "  Install .......`: $installd"
-	
+	Write-Host ""
+
 	# AUTO RUN ----------------------------------------------------------- 
 
 	if ($autorun -eq "Yes") {
 		Write-Host "  JTSDK Option ..: Autorun Enabled"
 		Write-Host "  Starting ......: wsjtx $aver r$sver $desc in $copt mode"
-		Write-Host ""
 		if ($copt -eq "Debug") {
-			Write-Host ""
 			Set-Location -Path "$installd\bin"
 			Invoke-Expression "cmd.exe /c ./wsjtx.cmd"
 			TheEnd(0)
 		} else {
-			Write-Host ""
 			Invoke-Expression "./wsjtx.exe" 
 			TheEnd(0)
 		}
 		TheEnd(0)	
 	} else {
-		Write-Host ""
 		TheEnd(0)
 	}
 }
@@ -600,78 +481,12 @@ function DocsTargetTwo {
 	FinishUserGuide
 }
 
-# ---------------------------------------------------------------- GET VERSION DATA
-# Source is either from CMakeLists.txt or from Versions.cmake
-function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$rrelx) {
-	Write-Host "* Obtaining Source Version Data"
-	Write-Host ""
-	if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {
-		$mlConfig = Get-Content $env:JTSDK_TMP\wsjtx\CMakeLists.txt
-		Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
-		[Int]$count = 0
-		foreach ($line in $mlConfig) {
-			if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value) {
-				$temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
-				Write-Host -NoNewLine "  --> Version data: $temp "
-				$verArr = @($temp.split('.'))
-				$rmav.value = $verArr[0]
-				$rmiv.value = $verArr[1]
-				$rpav.value = $verArr[2]
-				$rrelx.value = $verArr[3]
-			}
-			if ($line -like 'set_build_type*') {
-				$rrcx.value = ($line) -replace "[^0-9]" , ''
-				Write-Host "rc $rcx"
-				$count++
-			}
-		}
-
-		if ($count -eq 0) { Write-Host "" }
-
-		try { 
-			if ($verArr[0] -eq 0) { GenerateError("Data not read from CMakeLists.txt" ) } 
-		}
-		catch { 
-			GenerateError("Unable to read data from CMakeLists.txt") 
-		}
-	} else {	# From Versions.cmake -----------------
-		$vcConfig = Get-Content $env:JTSDK_TMP\wsjtx\Versions.cmake
-		Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\Versions.cmake"
-		[Int]$count = 0
-		foreach ($line in $vcConfig) {
-			if ($line -like '*WSJTX_VERSION_MAJOR*') {
-				$rmav.value = ($line) -replace "[^0-9]" , ''
-			}
-			if ($line -like '*WSJTX_VERSION_MINOR*') {
-				$rmiv.value = ($line) -replace "[^0-9]" , ''
-			}
-			if ($line -like '*WSJTX_VERSION_PATCH*') {
-				$rpav.value = ($line) -replace "[^0-9]" , ''
-			}
-			if ($line -like '*WSJTX_RC*') {
-				$rrelx.value = ($line) -replace "[^0-9]" , ''
-			}
-			if ($line -like '*WSJTX_VERSION_IS_RELEASE*') {
-				$rrcx.value = ($line) -replace "[^0-9]" , ''
-			}
-
-			$count++
-		}
-		
-		if ($count -ne 0) { 
-			Write-Host "  --> Version data: $mav.$miv.$pav RC: $relx Release: $rcx "
-		} else {
-			GenerateError("Unable to read data from CMakeList.txt")
-		}
-	}
-}
-
 ##################################################
 ########## MAIN LOGIC ############################
 ##################################################
 
 # Used to prevent CMake errors with MinGW Makefiles
-# This  fixes a long-standing annoyance seen while developing...  !!!
+# This nasty option fixes a long-standing annoyance while developing...  !!!
 if (Test-Path("$env:JTSDK_HOME\tools\msys64\usr\bin\sh-bak.exe")) { 
 	Rename-Item $env:JTSDK_HOME\tools\msys64\usr\bin\sh-bak.exe $env:JTSDK_HOME\tools\msys64\usr\bin\sh.exe | Out-Null 
 }
@@ -683,10 +498,46 @@ Pop-Location
 # Process Options ------------------------------------------------- PROCESS OPTIONS
 # This processes the options behind the command jtbuild
 
-if ($args -ne $null) { $aarg = [string]$args } else { $aarg=$null }
-$copt="Release"
-$topt="Config"
-ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt)	
+if ($args -eq $null) { HelpOptions } 
+if ($args -eq "-h") { HelpOptions } 
+if ($args -eq "help") { HelpOptions } 
+
+# if ($args[0] -eq "-o") { OptionStatus }
+
+#Case Independence of arguments conversion
+if ($args -ne $null) { $args=($args).ToLower() }
+
+if ($args -like "rconfig") { 
+	$copt="Release"
+	$topt="Config"
+}
+
+if ($args -like "dconfig") { 
+	$copt="Debug"
+	$topt="Config"
+}
+
+if ($args -like "rinstall") { 
+	$copt="Release"
+	$topt="Install"
+}
+
+if ($args -like "dinstall") { 
+	$copt="Debug"
+	$topt="Install"
+}
+
+if ($args -like "package") { 
+	$copt="Release"
+	$topt="Package"
+}
+
+if ($args -like "docs") { 
+	$copt="Release"
+	$topt="Docs"
+}
+
+if (($copt -eq $null) -or ($topt -eq $null)) { HelpOptions }
 
 # Reads in configuration data from Versions.ini --------------------- PROCESS key data from Versions.ini
 
@@ -712,16 +563,37 @@ $autorun= $configTable.Get_Item("autorun")			# Autorun Flag
 
 $JJ=$env:NUMBER_OF_PROCESSORS						# Read from ENV; Can set mamnually
 
-# Display Build Commencement Message --------------------------------- COMMENCE BUILD
-
-CommenceBuild ($env:JT_SRC)
-
-# Download source based on switch in $cfgd -------------------------- DOWNLOAD SOURCE
+# Code to download source based on switch in $cfgd ------------------ DOWNLOAD SOURCE
 # Switch is src-wsjtx, src-jtdx or src-js8call
+
 # If no switch in env:JTSDK_CONFIG src-wsjtx is set for you !
 # setting src-null in env:JTSDK_HOME\tmp forces a pull-down !
+if (!(Test-Path $srcd)) { 
+	Write-Host ""
+	Write-Host "* No source directory detected."
+	Write-Host ""
+	Remove-Item "$env:JTSDK_HOME\tmp\*" -include src-* | Out-Null
+	Out-File -FilePath "$env:JTSDK_HOME\tmp\src-null" | Out-Null
+}
 
-DownloadSource($srcd)
+# Source selection changed detection block 
+if ((Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
+	if (!(Test-Path $env:JTSDK_HOME\tmp\src-wsjtx)) { 
+		SelectionChanged("src-wsjtx") 
+	} 
+} else { 
+	if ((Test-Path $env:JTSDK_CONFIG\src-jtdx))  { 
+		if (!(Test-Path $env:JTSDK_HOME\tmp\src-jtdx)) { 
+			SelectionChanged("src-jtdx") 
+		}			
+	} else {
+		if ((Test-Path $env:JTSDK_CONFIG\src-js8call))  { 
+			if (!(Test-Path $env:JTSDK_HOME\tmp\src-js8call)) { 
+				SelectionChanged("src-js8call") 
+			} 
+		}
+	}
+}
 
 # QT CMake Tool Chain File Selection # ------------------------------- QT TOOLCHAIN
 # Needs Refactoring: Make Generic !!!!
@@ -734,16 +606,81 @@ if ((Test-Path "$cfgd\qt5.14.2")) { $tchain="$JTSDK_HOME_F/tools/tc-files/QT5142
 
 # Set Version Data  -------------------------------------------------- SET VERSION DATA
 
+# From CMakeLists.txt ----------------------------
+Write-Host ""
+Write-Host "* Obtaining Source Version Data"
+Write-Host ""
+
 [Int]$mav = 0  # Major Version
 [Int]$miv = 0  # Minor Version
 [Int]$pav = 0  # Patch Version
 [Int]$rcx = 0  # Release Candidate Nbr  
 [Int]$relx = 0 # Release flag
 
-GetVersionData -rmav ([ref]$mav) -rmiv ([ref]$miv) -rpav ([ref]$pav) -rrcx ([ref]$rcx) -rrelx([ref]$relx)
+if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {
+	$mlConfig = Get-Content $env:JTSDK_TMP\wsjtx\CMakeLists.txt
+	Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
+	[Int]$count = 0
+	foreach ($line in $mlConfig) {
+		if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value) {
+			$temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
+			Write-Host -NoNewLine "  --> Version data: $temp "
+			$verArr = @($temp.split('.'))
+			$mav = $verArr[0]
+			$miv = $verArr[1]
+			$pav = $verArr[2]
+			$relx = $verArr[3]
+		}
+		if ($line -like 'set_build_type*') {
+			$rcx = ($line) -replace "[^0-9]" , ''
+			Write-Host "rc $rcx"
+			$count++
+		}
+	}
+
+	if ($count -eq 0) { Write-Host "" }
+
+	try { 
+		if ($verArr[0] -eq 0) { GenerateError("Data not read from CMakeLists.txt" ) } 
+	}
+	catch { 
+		GenerateError("Unable to read data from CMakeLists.txt") 
+	}
+} else {	# From Versions.cmake -----------------
+	$vcConfig = Get-Content $env:JTSDK_TMP\wsjtx\Versions.cmake
+	Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\Versions.cmake"
+	[Int]$count = 0
+	foreach ($line in $vcConfig) {
+		if ($line -like '*WSJTX_VERSION_MAJOR*') {
+			$mav = ($line) -replace "[^0-9]" , ''
+		}
+		if ($line -like '*WSJTX_VERSION_MINOR*') {
+			$miv = ($line) -replace "[^0-9]" , ''
+		}
+		if ($line -like '*WSJTX_VERSION_PATCH*') {
+			$pav = ($line) -replace "[^0-9]" , ''
+		}
+		if ($line -like '*WSJTX_RC*') {
+			$relx = ($line) -replace "[^0-9]" , ''
+		}
+		if ($line -like '*WSJTX_VERSION_IS_RELEASE*') {
+			$rcx = ($line) -replace "[^0-9]" , ''
+		}
+
+		$count++
+	}
+	
+	if ($count -ne 0) { 
+		Write-Host "  --> Version data: $mav.$miv.$pav RC: $relx Release: $rcx "
+	} else {
+		GenerateError("Unable to read data from CMakeList.txt")
+	}
+}
+
+# GetVersionData([ref]$mav) ([ref]$miv) ([ref]$pav) ([ref]$relx) ([ref]$rcx) # Not Yet !
 
 $aver="$mav.$miv.$pav"
-$desc="Development"
+$desc="Test"
 if ($relx -eq 1) { $desc="GA Release" }
 if (($relx -gt 0) -and ($relx -eq 1)) { $desc="GA Release" }
 if (($relx -eq 0) -and ($relx -eq 0)) { $desc="Development" }
@@ -751,16 +688,25 @@ if (($relx -gt 0) -and ($relx -eq 0)) { $desc="Release Candidate" }
 
 # Setup Directories ------------------------------------------------ SETUP DIRECTORIES
 
+Write-Host ""
+Write-Host "--------------------------------------------"
+Write-Host " Folder Locations"
+Write-Host "--------------------------------------------"
+Write-Host ""
 $buildd="$dest\qt\$qtv\$aver\$copt\build"
 $installd="$dest\qt\$qtv\$aver\$copt\install"
 $pkgd="$dest\qt\$qtv\$aver\$copt\package"
-SetupDirectories
-
-# Build Information ------------------------------------------------ BUILD INFORMATION
+if (!(Test-Path $buildd)) {  New-Item -Path $buildd -ItemType directory | Out-Null }
+if (!(Test-Path $installd)) { New-Item -Path $installd -ItemType directory | Out-Null }
+if (!(Test-Path $pkgd)) { New-Item -Path $pkgd -ItemType directory | Out-Null }
+Write-Host " Build .......`: $buildd"
+Write-Host " Install .....`: $installd"
+Write-Host " Package .....`: $pkgd"
+Write-Host ""
 
 BuildInformation
 
-# select build type ------------------------------------------------ BUILD SELECT
+# select build type ---------------------------------------------- BUILD SELECT
 
 if ($topt -like "Config") { ConfigOnly }
 if ($topt -like "Install") { InstallTarget }

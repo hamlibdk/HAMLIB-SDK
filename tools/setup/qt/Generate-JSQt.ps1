@@ -72,7 +72,7 @@ $installDir_F = $installDir_F.replace("\","/")
 #  INSTALL SECTION
 # -----------------------------------------------------------------
 
-Write-Host " "
+# Write-Host " "
 Write-Host "-----------------------------------------------------"
 Write-Host " Generate QT Install Scripts"
 Write-Host "-----------------------------------------------------"

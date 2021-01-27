@@ -31,7 +31,7 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host "   Install-Git.ps1 help         Shows this help screen"
 	Write-Host ""
-	Write-Host " Install Qit"
+	Write-Host " Install Git"
 	Write-Host ""
 	Write-Host "   Install-Git.ps1 install      Install Git"
 	Write-Host ""
@@ -58,11 +58,11 @@ function InstallSummary {
 	Write-Host ""
 	Write-Host "* Installation Summary."
 	Write-Host ""
-	Write-Host "  --> Install Directory ...: $PSScriptRoot"
-	Write-Host " To ensure the install worked properly, exit this"
-    Write-Host ""
+	Write-Host "  --> Install Directory ...: $env:PROGRAMFILES\Git"
 	Write-Host "  --> Test Git install ....: git `-`-version"
-	Write-Host " environment and re`-launch jtsdk64-tools-setup."
+	Write-Host ""
+	Write-Host " To ensure the install worked properly, exit this"
+	Write-Host " environment and re`-launch jtsdk64-tools."	
 	Write-Host ""
 	exit(0)
 }
@@ -115,7 +115,7 @@ function InstallError {
 
 # INSTALL Git ----------------------------------------------------------------
 function InstallGit {
-	Write-Host ""
+	# Write-Host ""
 	Write-Host "-----------------------------------------------------"
 	Write-Host "Installing Git Source Code Management Windows x64"
 	Write-Host "-----------------------------------------------------"
