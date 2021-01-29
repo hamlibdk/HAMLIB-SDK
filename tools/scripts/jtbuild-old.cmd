@@ -595,7 +595,8 @@ ECHO.
 ECHO  Usage .....^: jtbuild ^[ OPTION ^]
 ECHO  Example....^: jtbuild rinstall
 ECHO.
-ECHO  OPTIONS:
+ECHO  Options:
+ECHO.
 ECHO     rconfig    Release, Config Only
 ECHO     dconfig    Debug, Config Only
 ECHO     rinstall   Release, Non-packaged Install
@@ -603,7 +604,7 @@ ECHO     dinstall   Debug, Non-packaged Install
 ECHO     package    Release, Windows Package
 ECHO     docs       Release, User Guide
 ECHO.
-ECHO  ^* To Display this message, type .....^: jtbuild ^-h
+ECHO  ^* To Display this message .....^: jtbuild ^-h
 ECHO.
 GOTO EOF
 
@@ -719,13 +720,15 @@ echo --------------------------------------------
 echo.
 echo No Versions.cmake file. Please create in %srcd%
 echo.
+echo This can be generated with ^'Create-Versions.ps1^'
+echo.
 echo Sample Versions.cmake
 echo.
 echo # Version number components
 echo set (WSJTX_VERSION_MAJOR 2)
 echo set (WSJTX_VERSION_MINOR 3)
 echo set (WSJTX_VERSION_PATCH 0)
-echo set (WSJTX_RC 2)                 # release candidate number, comment out or zero for development versions
+echo set (WSJTX_RC 4)                 # release candidate number, comment out or zero for development versions
 echo set (WSJTX_VERSION_IS_RELEASE 0) # set to 1 for final release build 
 goto EOF
 
