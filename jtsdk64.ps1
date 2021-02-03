@@ -65,6 +65,7 @@ $env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
 $env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"
 $env:JTSDK_TOOLS = $env:JTSDK_HOME + "\tools"
 $env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts" 
+$env:TOOLSROOT = $env:JTSDK_TOOLS
 
 # Create Folders
 # *** Review necessity of this considering JTSDK-APPS package ***

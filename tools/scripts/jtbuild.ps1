@@ -32,22 +32,53 @@
 # ---------------------------------------------------------------- THIS IS THE END !!!
 function TheEnd($code) {
 
-	Push-Location $env:JTSDK_HOME\tools\msys64\usr\bin
-	Rename-Item $env:JTSDK_HOME\tools\msys64\usr\bin\sh-bak.exe $env:JTSDK_HOME\tools\msys64\usr\bin\sh.exe | Out-Null
+	Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
+	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null
 	Pop-Location
 
 	exit($code)
 }
 
+# ----------------------------------------------------------------- CHECK JT_SRC IS ALIGNED WITH MARKER
+function AlignJT_SRCWithMarker {
+	
+	$nbrSrcMarkers = (Get-ChildItem -Path $env:JTSDK_CONFIG -filter "src-*" | Measure-Object).Count
+	
+	if ($nbrSrcMarkers -gt 1) { GenerateError("Multiple Source Markers Exist")}
+	
+	$listSrcDeploy = Get-ChildItem -Path $env:JTSDK_CONFIG -EA SilentlyContinue
+	$subPathSrcStore = "NULL";
+	ForEach ($subPathSrc in $listSrcDeploy)
+	{    
+		if ($subPathSrc.Name -like 'src*') {
+			Write-Host "* Aligning `$env`:JT_ENV with selection marker"
+			Write-Host ""
+			$subPathSrcStore = $subPathSrc
+			$env:JT_SRC = $subPathSrc.Name.substring(4)
+			break
+		}
+	}
+}
+
 # ---------------------------------------------------------------- COMMENCE BUILD
-function CommenceBuild {
-	Param ($srcOrigin)
+function CommenceBuildMessage {
 	
 	Write-Host ""
 	Write-Host "--------------------------------------------"
-	Write-Host " Commencing Build of $srcOrigin"
+	Write-Host " Commencing Build of JT- Source"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
+}
+
+# ---------------------------------------------------------------- RESTART ENVIRONMENT
+function RestartEnvironMessage {
+	Param ($retCode)
+	Write-Host ""
+	Write-Host "--------------------------------------------"
+	Write-Host " **** PLEASE RESTART ALL ENVIRONMENTS ****"
+	Write-Host "--------------------------------------------"
+	Write-Host ""
+	TheEnd($retCode)
 }
 
 # ---------------------------------------------------------------- PROCESS OPTIONS
@@ -103,35 +134,90 @@ function ProcessOptions {
 }
 
 # ---------------------------------------------------------------- DOWNLOAD SOURCE
-# If no switch in env:JTSDK_CONFIG src-wsjtx is set for you !
-# setting src-null in env:JTSDK_HOME\tmp forces a pull-down !
+# If no switch in $env:JTSDK_CONFIG src-wsjtx is set for you !
+# setting src-null in env:JTSDK_TMP forces a pull-down !
 function DownloadSource {
-	Param($srcd)
-	if (!(Test-Path $srcd)) { 
+	Param ($srcd, $pullUpdates)
+	
+	$nbrSrcMarkers = (Get-ChildItem -Path $env:JTSDK_CONFIG -filter "src-*" | Measure-Object).Count
+	$bypassFlag = false
+	
+	if ($nbrSrcMarkers -gt 1) { GenerateError("Multiple Source Markers Exist")}
+	
+	# Option if no source directory exists: set to WSJT-X
+	if ((!(Test-Path $srcd)) -and ($nbrSrcMarkers -eq 0)) { 
 		# Write-Host ""
 		Write-Host "* No source directory detected."
+		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
 		Write-Host ""
-		Remove-Item "$env:JTSDK_HOME\tmp\*" -include src-* | Out-Null
-		Out-File -FilePath "$env:JTSDK_HOME\tmp\src-null" | Out-Null
+		Write-Host "  --> Pulling down WSJTX as a default"
+		SelectionChanged("src-wsjtx")
+		$bypassFlag = true
 	}
-
-	# Source selection changed detection block 
-	if ((Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
-		if (!(Test-Path $env:JTSDK_HOME\tmp\src-wsjtx)) { 
-			SelectionChanged("src-wsjtx") 
-		} 
-	} else { 
-		if ((Test-Path $env:JTSDK_CONFIG\src-jtdx))  { 
-			if (!(Test-Path $env:JTSDK_HOME\tmp\src-jtdx)) { 
-				SelectionChanged("src-jtdx") 
-			}			
-		} else {
-			if ((Test-Path $env:JTSDK_CONFIG\src-js8call))  { 
-				if (!(Test-Path $env:JTSDK_HOME\tmp\src-js8call)) { 
-					SelectionChanged("src-js8call") 
-				} 
+	
+	# Option if no source directory exists but WSJTX marker Exists
+	if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
+		# Write-Host ""
+		Write-Host "* No source directory detected but WSJTX Marker Found"
+		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+		SelectionChanged("src-wsjtx")
+		$bypassFlag = true
+	}
+	
+	# Option if no source directory exists but JTDX marker Exists
+	if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-jtdx)) { 
+		# Write-Host ""
+		Write-Host "* No source directory detected but JTDX Marker Found"
+		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+		SelectionChanged("src-jtdx")
+		$bypassFlag = true
+	}
+	
+	# Option if no source directory exists but JS8CALL marker Exists
+	if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-js8call)) { 
+		# Write-Host ""
+		Write-Host "* No source directory detected but JS8CALL Marker Found"
+		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+		SelectionChanged("src-js8call")
+		$bypassFlag = true
+	}
+	
+	# Source selection changed detection block - Only executed if $bypassFlag is false
+	if (!($bypassFlag)) {
+		 
+		if ((Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
+			if (!(Test-Path $env:JTSDK_TMP\src-wsjtx)) { 
+				SelectionChanged("src-wsjtx") 
+			} 
+		} else { 
+			if ((Test-Path $env:JTSDK_CONFIG\src-jtdx))  { 
+				if (!(Test-Path $env:JTSDK_TMP\src-jtdx)) { 
+					SelectionChanged("src-jtdx") 
+				}			
+			} else {
+				if ((Test-Path $env:JTSDK_CONFIG\src-js8call))  { 
+					if (!(Test-Path $env:JTSDK_TMP\src-js8call)) { 
+						SelectionChanged("src-js8call") 		
+					}
+				}
 			}
 		}
+	}
+	
+	if ($pullUpdates -ne "No") {
+		Write-Host "* Performing a source update check"
+		write-Host ""
+		# Ensure source is latest with a git pull
+		Set-Location -Path $srcd | Out-Null
+		git pull
+		write-Host ""
+	} else {
+		Write-Host "* Source update checking disabled"
+		Write-Host ""
 	}
 }
 
@@ -143,72 +229,55 @@ function GenerateError($type) {
 	TheEnd(-1)
 }
 
-# ---------------------------------------------------------------- CLONE SOURCE FUNCTIONS
-function CloneWSJTX {
-	Write-Host ""
-	Write-Host "* Downloading WSJTX from Home Repository"
-	Write-Host ""
-	Set-Location $env:JTSDK_TMP
-	$url = "git://git.code.sf.net/p/wsjt/wsjtx"
-	Write-Host "URL...: $url"
-	git clone $url $srcd
-	Remove-Item "$env:JTSDK_TMP\src*" | Out-Null
-	Write-Host ""
-	Write-Host "* WSJTX set as Previous" 
-	Out-File -FilePath "$env:JTSDK_HOME\tmp\src-wsjtx" | Out-Null
-}
+# ---------------------------------------------------------------- CLONE SOURCE 
+function CloneSource {
+	Param($jtSrc, $url)	
+	$upperJtSrc=($jtSrc).ToUpper()
+	
+	if ( $upperJTSrc -eq "NONE" ) { $upperJTSrc = "WSJTX"}		# A special case for messages !
 
-function CloneJTDX {
 	Write-Host ""
-	Write-Host "* Downloading JTDX from Home Repository"
-	Write-Host ""
-	Set-Location $env:JTSDK_TMP
-	$url = "https://github.com/jtdx-project/jtdx.git"
-	Write-Host "URL...: $url"
-	git clone $url $srcd
-	Remove-Item "$env:JTSDK_TMP\src*" | Out-Null
-	Write-Host ""
-	Write-Host "* JTDX set as Previous" 
-	Out-File -FilePath "$env:JTSDK_HOME\tmp\src-jtdx" | Out-Null
-}
-
-function CloneJS8CALL {
-	Write-Host ""
-	Write-Host "* Downloading JS8CALL from Home Repository"
+	Write-Host "* Downloading $upperJTSrc from Home Repository"
 	Write-Host ""
 	Set-Location $env:JTSDK_TMP
-	$url = "https://widefido@bitbucket.org/widefido/js8call.git"
 	Write-Host "URL...: $url"
 	git clone $url $srcd
 	Remove-Item "$env:JTSDK_TMP\src*"
 	Write-Host ""
-	Write-Host "* JS8CALL set as Previous" 
-	Out-File -FilePath "$env:JTSDK_HOME\tmp\src-js8call" | Out-Null
+	Write-Host "* $upperJTSrc set as Previous"
+	Write-Host ""	
+	Out-File -FilePath "$env:JTSDK_TMP\src-$jtSrc" | Out-Null
 }
 
 # ---------------------------------------------------------------- SOURCE SELECTION CHANGED
-function SelectionChanged($selection) {
+function SelectionChanged {
+	Param ($selection)
 	# Source selection has changed so delete old source
-	if ((Test-Path $env:JTSDK_HOME\tmp\wsjtx)) {
+	if ((Test-Path $env:JTSDK_TMP\wsjtx)) {
 		# Write-Host ""
 		Write-Host -NoNewline "* Deleting Original Source: " 
-		Remove-Item $env:JTSDK_HOME\tmp\wsjtx -Recurse -Force | Out-Null
+		#Remove-Item $env:JTSDK_HOME\tmp\wsjtx -Recurse -Force | Out-Null
+		Remove-Item $srcd -Recurse -Force | Out-Null
 		Write-Host "Done"
 	} else {
-		Write-Host "  --> Setting configuration marker for wsjtx"
-		Out-File -FilePath "$env:JTSDK_CONFIG\src-wsjtx"
+		# prepare to write a source marker if none exists
+		$nbrSrcMarkers = (Get-ChildItem -Path $env:JTSDK_CONFIG -filter "src-*" | Measure-Object).Count
+		if ($nbrSrcMarkers -eq 0) {
+			Write-Host "  --> Setting configuration marker for wsjtx"
+			Out-File -FilePath "$env:JTSDK_CONFIG\src-wsjtx"
+		}
 	}
 
-	if ($selection -eq "src-wsjtx") { CloneWSJTX }
-	if ($selection -eq "src-jtdx") { CloneJTDX }
-	if ($selection -eq "src-js8call") { CloneJS8CALL }	
+	if ($selection -eq "src-wsjtx") { CloneSource -jtSrc $env:JT_SRC -url "git://git.code.sf.net/p/wsjt/wsjtx" }
+	if ($selection -eq "src-jtdx") { CloneSource -jtSrc $env:JT_SRC -url "https://github.com/jtdx-project/jtdx.git" }
+	if ($selection -eq "src-js8call") { CloneSource -jtSrc $env:JT_SRC -url "https://widefido@bitbucket.org/widefido/js8call.git" }	
 }
 
 # ---------------------------------------------------------------- NO SOURCE
-function NoSource {
+function NoSourceMarker {
 	Write-Host ""
 	Write-Host "--------------------------------------------"
-	Write-Host " NO SOURCE CODE"
+	Write-Host " NO SOURCE SELECTION MARKER FILE"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
 	Write-Host " Place ONE of the following marker files in:" 
@@ -404,9 +473,10 @@ function NSISError {
 # ---------------------------------------------------------------- PACKAGE TARGET FUNCTIONS
 function PackageTarget {
 	Set-Location -Path $buildd
+	$jtSrc=($env:JT_SRC).ToUpper()
 	Write-Host ""
 	Write-Host "--------------------------------------------"
-	Write-Host " Building $env:JT_SRC "
+	Write-Host " Building $jtSrc "
 	Write-Host "--------------------------------------------"
 	Write-Host ""
 	Write-Host "* Build Directory: $buildd"
@@ -422,7 +492,7 @@ function PackageTarget {
 	# Remove-Item * -force -include *.exe | Out-Null
 
 	Write-Host "--------------------------------------------"
-	Write-Host ""
+	# Write-Host ""
 	
 	if (!(Test-Path "$buildd\Makefile")) { PackageTargetOne }
 	
@@ -679,12 +749,12 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 
 # Used to prevent CMake errors with MinGW Makefiles
 # This prevents a long-standing annoyance seen while developing...  !!!
-if (Test-Path("$env:JTSDK_HOME\tools\msys64\usr\bin\sh-bak.exe")) { 
-	Rename-Item $env:JTSDK_HOME\tools\msys64\usr\bin\sh-bak.exe $env:JTSDK_HOME\tools\msys64\usr\bin\sh.exe | Out-Null 
+if (Test-Path("$env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe")) { 
+	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null 
 }
 
-Push-Location $env:JTSDK_HOME\tools\msys64\usr\bin
-Rename-Item $env:JTSDK_HOME\tools\msys64\usr\bin\sh.exe $env:JTSDK_HOME\tools\msys64\usr\bin\sh-bak.exe | Out-Null
+Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
+Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe | Out-Null
 Pop-Location
 
 # Process Options ------------------------------------------------ PROCESS OPTIONS
@@ -714,16 +784,24 @@ $reconfigure=$configTable.Get_Item("reconfigure")	# Reconfigure Flag
 $autorun="No"
 $autorun= $configTable.Get_Item("autorun")			# Autorun Flag
 
+$pullUpd="No"
+$pullUpd=$configTable.Get_Item("pulllatest")		# Pull latest updates Flag
+
 $JJ=$env:NUMBER_OF_PROCESSORS						# Read from ENV; Can set mamnually
+
 
 # Display Build Commencement Message ----------------------------- COMMENCE BUILD
 
-CommenceBuild ($env:JT_SRC)
+CommenceBuildMessage
+
+# Adjust $env:JT_SRC if there has been a source change ----------- COMMENCE BUILD
+
+AlignJT_SRCWithMarker
 
 # Download source based on switch in $cfgd ----------------------- DOWNLOAD SOURCE
 # Switch is src-wsjtx, src-jtdx or src-js8call
 
-DownloadSource($srcd)
+DownloadSource -srcd $srcd -pullupd $pullUpd
 
 # QT CMake Tool Chain File Selection # --------------------------- QT TOOLCHAIN
 
