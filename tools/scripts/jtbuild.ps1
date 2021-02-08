@@ -140,68 +140,72 @@ function DownloadSource {
 	Param ($srcd, $pullUpdates)
 	
 	$nbrSrcMarkers = (Get-ChildItem -Path $env:JTSDK_CONFIG -filter "src-*" | Measure-Object).Count
-	$bypassFlag = false
+	[bool]$bypassFlag = $false
 	
 	if ($nbrSrcMarkers -gt 1) { GenerateError("Multiple Source Markers Exist")}
 	
-	# Option if no source directory exists: set to WSJT-X
+	# Option if no source directory or source marker exists: set to WSJT-X
 	if ((!(Test-Path $srcd)) -and ($nbrSrcMarkers -eq 0)) { 
 		# Write-Host ""
 		Write-Host "* No source directory detected."
 		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
 		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+		$env:JT_SRC="wsjtx"			# Needed to over-ride None for source on first-run
 		Write-Host ""
 		Write-Host "  --> Pulling down WSJTX as a default"
 		SelectionChanged("src-wsjtx")
-		$bypassFlag = true
+		$bypassFlag = $true
 	}
 	
-	# Option if no source directory exists but WSJTX marker Exists
-	if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
-		# Write-Host ""
-		Write-Host "* No source directory detected but WSJTX Marker Found"
-		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
-		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
-		SelectionChanged("src-wsjtx")
-		$bypassFlag = true
-	}
+	if ($bypassFlag -eq $false) {
 	
-	# Option if no source directory exists but JTDX marker Exists
-	if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-jtdx)) { 
-		# Write-Host ""
-		Write-Host "* No source directory detected but JTDX Marker Found"
-		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
-		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
-		SelectionChanged("src-jtdx")
-		$bypassFlag = true
-	}
-	
-	# Option if no source directory exists but JS8CALL marker Exists
-	if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-js8call)) { 
-		# Write-Host ""
-		Write-Host "* No source directory detected but JS8CALL Marker Found"
-		Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
-		Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
-		SelectionChanged("src-js8call")
-		$bypassFlag = true
-	}
-	
-	# Source selection changed detection block - Only executed if $bypassFlag is false
-	if (!($bypassFlag)) {
-		 
-		if ((Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
-			if (!(Test-Path $env:JTSDK_TMP\src-wsjtx)) { 
-				SelectionChanged("src-wsjtx") 
-			} 
-		} else { 
-			if ((Test-Path $env:JTSDK_CONFIG\src-jtdx))  { 
-				if (!(Test-Path $env:JTSDK_TMP\src-jtdx)) { 
-					SelectionChanged("src-jtdx") 
-				}			
-			} else {
-				if ((Test-Path $env:JTSDK_CONFIG\src-js8call))  { 
-					if (!(Test-Path $env:JTSDK_TMP\src-js8call)) { 
-						SelectionChanged("src-js8call") 		
+		# Option if no source directory exists but WSJTX marker Exists
+		if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
+			# Write-Host ""
+			Write-Host "* No source directory detected but WSJTX Marker Found"
+			Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+			Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+			SelectionChanged("src-wsjtx")
+			$bypassFlag = $true
+		}
+		
+		# Option if no source directory exists but JTDX marker Exists
+		if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-jtdx)) { 
+			# Write-Host ""
+			Write-Host "* No source directory detected but JTDX Marker Found"
+			Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+			Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+			SelectionChanged("src-jtdx")
+			$bypassFlag = $true
+		}
+		
+		# Option if no source directory exists but JS8CALL marker Exists
+		if ((!(Test-Path $srcd)) -and (Test-Path $env:JTSDK_CONFIG\src-js8call)) { 
+			# Write-Host ""
+			Write-Host "* No source directory detected but JS8CALL Marker Found"
+			Remove-Item "$env:JTSDK_TMP\*" -include src-* | Out-Null
+			Out-File -FilePath "$env:JTSDK_TMP\src-null" | Out-Null
+			SelectionChanged("src-js8call")
+			$bypassFlag = $true
+		}
+		
+		# Source selection changed detection block - Only executed if $bypassFlag is false
+		if (!($bypassFlag)) {
+			 
+			if ((Test-Path $env:JTSDK_CONFIG\src-wsjtx)) { 
+				if (!(Test-Path $env:JTSDK_TMP\src-wsjtx)) { 
+					SelectionChanged("src-wsjtx") 
+				} 
+			} else { 
+				if ((Test-Path $env:JTSDK_CONFIG\src-jtdx))  { 
+					if (!(Test-Path $env:JTSDK_TMP\src-jtdx)) { 
+						SelectionChanged("src-jtdx") 
+					}			
+				} else {
+					if ((Test-Path $env:JTSDK_CONFIG\src-js8call))  { 
+						if (!(Test-Path $env:JTSDK_TMP\src-js8call)) { 
+							SelectionChanged("src-js8call") 		
+						}
 					}
 				}
 			}
