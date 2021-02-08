@@ -20,19 +20,21 @@
 #
 #-----------------------------------------------------------------------------#
 
-
+# ------------------------------------------------------------------- MESSAGE DISPLAY
 function MsgDisplay {
+	Write-Host ""
 	Write-Host " If you wish to re-enter selections type: postinstall"
 	exit (0)
 }
 
-function WriteErrorMessage {
+# ------------------------------------------------------------------- WRITE ERROR MESSAGE
+function WriteErrorMessage($param) {
     Write-Host ""
     Write-Host "**************************************************** "
 	Write-Host "Processing Error"
     Write-Host "**************************************************** "
 	Write-Host ""
-	Write-Host "The exit status from step `[ $step `] returned"
+	Write-Host "The exit status from step `[ $param `] returned"
 	Write-Host "a non-zero status. Check the error message and"
 	Write-Host "and try again."
 	Write-Host ""
@@ -41,58 +43,68 @@ function WriteErrorMessage {
 	exit (-1)
 }
 
-$install="N"
+# ------------------------------------------------------------------- START MESSAGE
+function StartMessage {
+	Write-Host ""
+	Write-Host "------------------------------------------------------"
+	Write-Host "  JTSDK64 Tools Post Install/Redeployment Selections"
+	Write-Host "------------------------------------------------------"
+	Write-Host ""
+	Write-Host " At the prompts indicate which components you want to"
+	Write-Host " install or redeploy."
+	Write-Host ""
+	Write-Host " For OmniRig, Git, MSYS2 and VS Code use Y`/Yes or N`/No"
+	Write-Host ""
+	Write-Host " For the Qt Install Selection:"
+	Write-Host ""
+	Write-Host "   D / Y = Default ( minimal set of tools )"
+	Write-Host "   F = Full ( full set of tools )"
+	Write-Host "   N = Skip Installation"
+	Write-Host ""
+	Write-Host " NOTE: Git, Qt and MSYS2 are mandatory to build" 
+	Write-Host " JT-software."
+}
 
-Clear-Host
+# ------------------------------------------------------------------- DISPLAY SELECTIONS
+function DisplaySelections ($userInputOmniRig, $userInputGit, $userInputQt, $userInputMsys2, $userInputVSCode) {
+	Write-Host ""
+	Write-Host "* Your Installation Selections:"
+	Write-Host ""
+	Write-Host "  --> OmniRig .: $userInputOmniRig"
+	Write-Host "  --> Git .....: $userInputGit"
+	Write-Host "  --> Qt ......: $userInputQt"
+	Write-Host "  --> MSYS2 ...: $userInputMsys2"
+	Write-Host "  --> VS Code .: $userInputVSCode"
+	Write-Host ""
+}
 
-Write-Host ""
-Write-Host "-----------------------------------------------------"
-Write-Host " JTSDK64 Tools Post Install/Redeployment Selections"
-Write-Host "-----------------------------------------------------"
-Write-Host ""
-Write-Host " At the prompts indicate which components you want to"
-Write-Host " install or redeploy."
-Write-Host ""
-Write-Host " For Git, MSYS2 and VS Code use Y = Yes or N = No"
-Write-Host ""
-Write-Host " For the Qt Install Selection:"
-Write-Host ""
-Write-Host "   D / Y = Default ( minimal set of tools )"
-Write-Host "   F = Full ( full set of tools )"
-Write-Host "   N = Skip Installation"
-Write-Host ""
-Write-Host " NOTE: Git, Qt and MSYS2 are mandatory to build" 
-Write-Host " JT-software."
+# ------------------------------------------------------------------- GET SELECTIONS
+function GetSelections([ref]$iOmniRig, [ref]$iGit, [ref]$iQt, [ref]$iMsys2, [ref]$iVSCode) {
+	Write-Host ""
+	Write-Host " Enter Your Install/Redeployment Selection(s)`:"
+	Write-Host ""
 
-# GET SELECTIONS
+	$iOmniRig.value = Read-Host "(required) OmniRig (Y|N)        "
+	$iGit.value = Read-Host "(required) Git-SCM (Y|N)        "
+	$iQt.value = Read-Host "(required) Default Qt (D/Y|F|N) "
+	$iMsys2.value = Read-Host "(required) MSYS2 Setup (Y|N)    "
+	$iVSCode.value = Read-Host "(optional) VS Code (Y|N)        "
+}
 
-Write-Host ""
-Write-Host " Enter Your Install/Redeployment Selection(s)`:"
-Write-Host ""
+# ------------------------------------------------------------------- PROCESS OMNIRIG
+function ProcessOmniRig {
+	$install = "Y"
+    $step = "OmniRig Install"
 
-$userInputGit = Read-Host "(required) Git-SCM (Y|N)        "
-$userInputQt = Read-Host "(required) Default Qt (D/Y|F|N) "
-$userInputMsys2 = Read-Host "(required) MSYS2 Setup (Y|N)    "
-$userInputVSCode = Read-Host "(optional) VS Code (Y|N)        "
+    $cmd = "$env:JTSDK_SETUP\omnirig\Install-Omnirig.ps1"
+    $param="install"
+    Invoke-Expression "$cmd $param"
+	
+    if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
+}
 
-# DISPLAY SELECTIONS
-
-Write-Host ""
-Write-Host "* Your Installation Selections:"
-Write-Host ""
-Write-Host "  --> Git .....: $userInputGit"
-Write-Host "  --> Qt ......: $userInputQt"
-Write-Host "  --> MSYS2 ...: $userInputMsys2"
-Write-Host "  --> VS Code .: $userInputVSCode"
-Write-Host ""
-
-# -----------------------------------------------------------------------------
-# SELECTIONS
-# -----------------------------------------------------------------------------
-
-# GIT SELECTION
-
-if ($userInputGit -eq "Y") {
+# ------------------------------------------------------------------- PROCESS GIT
+function ProcessGit {
     $install = "Y"
     $step = "Git Install"
 
@@ -100,11 +112,11 @@ if ($userInputGit -eq "Y") {
     $param="install"
     Invoke-Expression "$cmd $param"
 	
-    if ($LASTEXITCODE -ne 0) { WriteErrorMessage }
+    if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
 }
 
-# VS CODE SELECTION
-if  ($userInputVSCode -eq "Y") {
+# ------------------------------------------------------------------- PROCESS VS CODE
+function ProcessVSCode {
     $install="Y"
     $step = "VS Code Install"
     
@@ -112,18 +124,15 @@ if  ($userInputVSCode -eq "Y") {
     $param="install"
     Invoke-Expression "$cmd $param"
 
-    if ($LASTEXITCODE -ne 0) { WriteErrorMessage }
+    if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
 }
 
-# QTSELECTION
-
-# If option -eq N, skip installation
-if  ($userInputQt -ne "N") {
-
+# ------------------------------------------------------------------- PROCESS Qt
+function ProcessQt {
 	$cmd = "$env:JTSDK_SETUP\qt\Generate-JSQt.ps1"
 	$step = "QT Generate Script"
     Invoke-Expression "$cmd $param"
-    if ($LASTEXITCODE -ne 0) { WriteErrorMessage }
+    if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
 
 	$cmd = "$env:JTSDK_SETUP\qt\Install-Qt.ps1"
 	
@@ -134,7 +143,7 @@ if  ($userInputQt -ne "N") {
 		$step = "QT Default Install"
         $param="min"
         Invoke-Expression "$cmd $param"
-        if ($LASTEXITCODE -ne 0) { WriteErrorMessage }
+        if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
 	}
 	
 	# If option -eq F, install full (basic) set of Scripted Qt options
@@ -144,58 +153,90 @@ if  ($userInputQt -ne "N") {
 		$step = "QT Full Install"
         $param="full"
         Invoke-Expression "$cmd $param"
-        if ($LASTEXITCODE -ne 0) { WriteErrorMessage }
+        if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
 	}
 }
 
-# MSYS2 SELECTION
-
-if  ($userInputMsys2 -eq "Y") {
-    $install="Y"
+# ------------------------------------------------------------------- PROCESS MSYS2
+function ProcessMSYS2 {
+	$install="Y"
+	$step = "MSYS2 Deploy"
     $cmd = "$env:JTSDK_HOME\tools\msys64\msys2_shell.cmd"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
-	if ($exitCode -ne 0) { WriteErrorMessage }
+	if ($exitCode -ne 0) { WriteErrorMessage($step) }
 }
+
+# ------------------------------------------------------------------- DISPLAY POST INSTALL MESSAGES
+function DisplayPostInstall ($userInputMsys2) {
+	if  ($install -eq "Y") {
+		
+		Write-Host ""
+		# Clear-Host
+		Write-Host "------------------------------------------------------"
+		Write-Host " JTSDK64 Tools Post Install Summary"
+		Write-Host "------------------------------------------------------"
+		Write-Host ""
+		Write-Host "* Post Installation Stage Complete"
+		Write-Host ""
+		Write-Host " Exit the JTSDK64 Tools Setup Environment and re-open"
+		Write-Host " to see the current status of installed tools."
+
+		if  ($userInputMsys2 -eq "Y") {
+			Write-Host ""
+			Write-Host " MSYS2 Initial Setup requires several additional steps."
+			Write-Host " Open the MSYS2 environemnt and refer to the on-screen" 
+			Write-Host " messages to perform the initial installation`/updates."
+			Write-Host ""
+			Write-Host " After fully updating MSYS2, select the appropriate menu"
+			Write-Host " option to install the Hamlib Dependencies. Close the"
+			Write-Host " installation environment."
+			Write-Host ""
+			Write-Host " Perform the remaining tasks including building Hamlib" 
+			Write-Host " under the `"JTSDK64-Tools`" Environment."
+			Write-Host ""
+		}
+	} else {
+
+		# NOTHING TO DO
+		
+		Write-Host "*** Nothing to do. All available options were No ***"
+	}
+	# EXIT INSTALL
+
+	Write-Host ""
+	Write-Host "* Completing Post Installation."
+	Write-Host ""
+}
+
+#-----------------------------------------------------------------------------#
+# Main Logic
+#-----------------------------------------------------------------------------#
+
+$install="N"
+$userInputOmniRig = " "
+$userInputGit = " "
+$userInputQt = " "
+$userInputMsys2 = " "
+$userInputVSCode = " "
+
+Clear-Host
+
+StartMessage 
+
+GetSelections([ref]$userInputOmniRig) ([ref]$userInputGit) ([ref]$userInputQt) ([ref]$userInputMsys2) ([ref]$userInputVSCode)
+
+DisplaySelections ($userInputOmniRig) ($userInputGit) ($userInputQt) ($userInputMsys2) ($userInputVSCode)
+
+# ----------------------------------------------------------------------------- SELECTIONS
+
+if ($userInputOmniRig -eq "Y") { ProcessOmniRig }
+if ($userInputGit -eq "Y") { ProcessGit }
+if ($userInputVSCode -eq "Y") { ProcessVSCode }
+if ($userInputQt -ne "N") { ProcessQt }
+if ($userInputMsys2 -eq "Y") { ProcessMSYS2 }
 
 # FINISHED
 
-if  ($install -eq "Y") {
-	
-	Write-Host ""
-	# Clear-Host
-	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Tools Post Install Summary"
-	Write-Host "-----------------------------------------------------"
-	Write-Host ""
-	Write-Host "* Post Installation Stage Complete"
-	Write-Host ""
-	Write-Host " Exit the JTSDK64 Tools Setup Environment and re-open"
-	Write-Host " to see the current status of installed tools."
+DisplayPostInstall($userInputMsys2)
 
-	if  ($userInputMsys2 -eq "Y") {
-		Write-Host ""
-		Write-Host " MSYS2 Initial Setup requires several additional steps."
-		Write-Host " Open the MSYS2 environemnt and refer to the on-screen" 
-		Write-Host " messages to perform the initial installation`/updates."
-		Write-Host ""
-		Write-Host " After fully updating MSYS2, select the appropriate menu"
-		Write-Host " option to install the Hamlib Dependencies. Close the"
-		Write-Host " installation environment."
-		Write-Host ""
-		Write-Host " Perform the remaining tasks including building Hamlib" 
-		Write-Host " under the `"JTSDK64-Tools`" Environment."
-		Write-Host ""
-	}
-} else {
-
-	# NOTHING TO DO
-	
-	Write-Host "*** Nothing to do. All available options were No ***"
-}
-
-# EXIT INSTALL
-
-Write-Host ""
-Write-Host "* Exiting Post Installation."
-Write-Host ""
 exit (0)

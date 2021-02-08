@@ -64,7 +64,7 @@ function InstallQt($script) {
 	# qt-unified-windows-x86-online.exe --script .\qt-%script%-install.qs
 	#$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs"
 	# This version specifies the funet.fi mirror as source
-	$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
+	$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	# A proper exit returns 1 at the moment ... crazy !
 	IF ($LASTEXITCODE -eq 1) {

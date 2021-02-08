@@ -1,0 +1,8 @@
+NOTE REGARDING MIRROR SELECTION
+===============================
+
+The currtent install is set to point to the funet.fi mirror. Some users in the AP
+area are being pointed to unstable servers. Use the ever reliable funet.fi repos.
+
+To use "default" rename current Install-Qt.ps1 to say Install-Qt.ps1.funet.fi and 
+rename Install-Qt-Original.ps1 to Install-Qt.ps1 
