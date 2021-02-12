@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.1.0.2 Production
-# Description ..: Build Hamlib from GITHUB Hamlib Integration Branch
+# Version ......: 3.2.0 Beta
+# Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Hamlib Repo ..: https://github.com/Hamlib/Hamlib.git 
 #
@@ -11,14 +11,19 @@
 #
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-# Copyright ....: Copyright (C) 2013-2019 Greg Beam, KI7MT
+# Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
+#                 Copyright (c) 2020-2021 Subsequent JTSDK Contributors
 #
-# Support for Qt 5.12.10, 5.14.2, 5.15.1, 6.0.0 by Steve VK3VM
+# Support for Qt 5.12.10, 5.14.2, 5.15.1, 6.0.1 by Steve VK3VM
 #
 ################################################################################
 
 # Exit on errors
 set -e
+
+#-----------------------------------------------------------------------------#
+# SET UP VARIABLES THAT NEED GLOBAL SCOPE                                     #
+#-----------------------------------------------------------------------------#
 
 # Script Info
 VER="$JTSDK64_VERSION"
@@ -31,7 +36,8 @@ C_Y='\033[01;33m'		# yellow
 C_C='\033[01;36m'		# cyan
 C_NC='\033[01;37m'		# no color
 
-# Process Variables
+# -- Process Variables --------------------------------------------------------
+
 PKG_NAME=Hamlib
 TODAY=$(date +"%d-%m-%Y")
 TIMESTAMP=$(date +"%d-%m-%Y at %R")
@@ -41,44 +47,38 @@ DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
 SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
 PREFIX="/$DRIVE/JTSDK64-Tools/tools/hamlib/qt/$QTV"
-# LIBUSBINC="/$DRIVE/JTSDK64-Tools/tools/libusb/1.0.22/include"
 LIBUSBINC="/${libusb_dir_f//:}/include"
-# LIBUSBD="/DRIVE/JTSDK64-Tools/tools/libusb/1.0.22/MinGW64/dll"
 LIBUSBD="/${libusb_dir_f//:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
-# QT Tool Chain Paths
+# -- QT Tool Chain Paths ------------------------------------------------------
 QTV="$QTV"
-case $QTV in
-	5.12.10)
-		TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw730_64/bin"
-		QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw73_64/bin"
-		QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
-		;;
-	5.14.2)
-		TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw730_64/bin"
-		QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw73_64/bin"
-		QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
-		;;
-	5.15.2)
-		TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin"
-		QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw81_64/bin"
-		QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
-		;;
-	6.0.0)
-		TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin"
-		QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw81_64/bin"
-		QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
-		;;
-	*)
-	echo "QT Version $QTV is unsupported at this time."
-	exit 1
-esac
+
+# Defaults to Qt MinGW 8.1 [ The current release ] for Qt 5.15.x and 6.x
+TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin"
+QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw81_64/bin"
+QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
+
+# Over-rides - for Qt versions earlier than 5.15.x - MinGW 7.1
+# Works under the principle that if char 0 is '5' --> enters IF
+# If its not 15 in positions 2 and 3 then an over-ride needed to MinGW 7.1
+if [ ${QTV:0:1} == '5' ];
+	then if [ ${QTV:2:2} != '15' ];
+		then
+			TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw730_64/bin"
+			QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw73_64/bin"
+			QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
+		fi
+fi
 
 # Export the final QT abd Lib USB paths
 export PATH="$TC:$QTDIR:$QTPLATFORM:$LIBUSBINC:$LIBUSBD:$PATH"
 
-# Function: main script header -------------------------------------------------
+#-----------------------------------------------------------------------------#
+# FUNCTIONS                                                                   #
+#-----------------------------------------------------------------------------#
+
+# Function: main script header ------------------------------------------------
 script-header () {
 	echo ''
 	echo '---------------------------------------------------------------'
@@ -87,7 +87,7 @@ script-header () {
 	echo ''
 }
 
-# Function: package data -------------------------------------------------------
+# Function: package data ------------------------------------------------------
 package-data () {
 	echo " Date ............ $TODAY"
 	echo " Package ......... $PKG_NAME"
@@ -148,7 +148,7 @@ tool-check () {
 # START MAIN SCRIPT                                                            #
 #------------------------------------------------------------------------------#
 
-# run tool check
+# -- run tool check -----------------------------------------------------------
 cd
 clear
 script-header
@@ -168,7 +168,7 @@ else
 	exit 1
 fi
 
-# Start Git clone
+# -- Start Git clone ----------------------------------------------------------
 # As long as HLREPO does not = NONE (added Steve I VK3VM 11-30/5/2020)
 #
 # Default (no valid entry of hlnone or hlg4wjs or in C:\JTSDK64-Tools\ )
@@ -249,7 +249,7 @@ else
 	fi
 fi
 
-# run hamlib bootstrap
+# -- run hamlib bootstrap -----------------------------------------------------
 cd "$SRCD/src"
 echo ''
 echo '---------------------------------------------------------------'
@@ -259,7 +259,7 @@ echo ''
 echo 'Running bootstrap'
 ./bootstrap
 
-# run configure
+# -- run configure ------------------------------------------------------------
 cd "$BUILDD"
 echo ''
 echo '---------------------------------------------------------------'
@@ -286,7 +286,7 @@ CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
 LDFLAGS="-Wl,--gc-sections" \
 LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
 
-# clean build
+# -- clean build --------------------------------------------------------------
 echo ''
 echo '---------------------------------------------------------------'
 echo -e ${C_Y} " RUNNING MAKE CLEAN [ $PKG_NAME ]"${C_NC}
@@ -298,7 +298,7 @@ then
 	make clean
 fi
 
-# run make
+# -- run make -----------------------------------------------------------------
 echo ''
 echo '----------------------------------------------------------------'
 echo -e ${C_Y} " RUNNING MAKE ALL [ $PKG_NAME ]"${C_NC}
@@ -306,7 +306,7 @@ echo '----------------------------------------------------------------'
 echo ''
 make -j $CPUS
 
-# make install-strip
+# -- make install-strip -------------------------------------------------------
 echo ''
 echo '----------------------------------------------------------------'
 echo -e ${C_Y} " INSTALLING [ $PKG_NAME ]"${C_NC}
@@ -314,7 +314,7 @@ echo '----------------------------------------------------------------'
 echo ''
 make install-strip
 
-# generate Build Info file
+# -- Generate Build Info file -------------------------------------------------
 if [[ $? = "0" ]];
 then
 	if [[ -f $PREFIX/$PKG_NAME.build.info ]]
@@ -366,7 +366,7 @@ EOF
 	echo '  Finished'
 fi
 
-# copy dll
+# -- copy dll -----------------------------------------------------------------
 echo ''
 echo '---------------------------------------------------------------'
 echo -e ${C_Y} " COPY DLL's TO [ $PREFIX/BIN ]"${C_NC}
@@ -378,7 +378,7 @@ echo "* $TC/libwinpthread-1.dll"
 cp -u "$TC/libwinpthread-1.dll" "$PREFIX/bin"
 echo ''
 
-# update pkgconfig
+# -- update pkgconfig ---------------------------------------------------------
 echo ''
 echo '---------------------------------------------------------------'
 echo -e ${C_Y} " FIXUP PKGCONFIG "${C_NC}
@@ -387,7 +387,7 @@ echo ''
 echo '  Updating hamlib.pc'
 sed -i 's/Requires.private\: libusb-1.0/Requires.private\:/g' "$PREFIX/lib/pkgconfig/hamlib.pc" >/dev/null 2>&1
 
-# test rigctl.exe binary
+# -- test rigctl.exe binary ---------------------------------------------------
 echo ''
 echo '---------------------------------------------------------------'
 echo -e ${C_Y} " TESTING RIGCTL"${C_NC}
@@ -395,7 +395,7 @@ echo '---------------------------------------------------------------'
 echo ''
 $PREFIX/bin/rigctl.exe --version
 
-# finished
+# -- finished -----------------------------------------------------------------
 echo ''
 echo '----------------------------------------------------------------'
 echo -e ${C_G} " FINISHED COMPILING [ $PKG_NAME ]"${C_NC}

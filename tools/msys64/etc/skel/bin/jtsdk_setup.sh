@@ -2,7 +2,7 @@
 AUTHOR="Greg Beam, KI7MT"
 JTSDK64_VER="$JTSDK64_VERSION" # interoperability variable from JTSDK64 env
 JTSDK64_NAME="JTSDK64 Tools MSYS2"
-# Adjustments: Steve VK3VM 16-4-2020 - 2-12-2020 
+# Adjustments: Steve VK3VM 16-4-2020 - 11-2-2021 and other JTSDK Contributors
 
 # foreground colors ------------------------------------------------------------
 C_R='\033[01;31m'	# red
@@ -90,7 +90,7 @@ function jtversion () {
     echo " JTSDK64 Version .. v$JTSDK64_VER"
     echo " Qt Environment ... $QTV"
     echo ''
-    echo " Copyright (C) 2013-2020, GPLv3, $AUTHOR & Contributors"
+    echo " Copyright (C) 2013-2021, GPLv3, $AUTHOR & Contributors"
     echo ' This is free software; There is NO warranty; not even'
     echo ' for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'
     echo ''
@@ -298,7 +298,7 @@ function greeting_message (){
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
     echo ''
-    echo "Copyright (C) 2013-2020, GPLv3, $AUTHOR and contributors."
+    echo "Copyright (C) 2013-2021, GPLv3, $AUTHOR and Contributors."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'
 	echo ''

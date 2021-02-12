@@ -2,7 +2,8 @@
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
 # Version ......: 3.2.0 Beta
-# Description ..: Main Environment Script
+# Description ..: Main Development Environment Script
+#                 Sets environment variables for development and MSYS2
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line
 # 
@@ -14,8 +15,9 @@
 #                 (C) 2020-2021 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8-Dec-2020 to 8-Feb-2021
+# Adjustments...: Steve VK3VM 8-Dec-2020 to 11-Feb-2021
 #				: Need for qt-gen-tc.cmd and some markers eliminated
+#               : Refactoring and modularisation taking place
 #-----------------------------------------------------------------------------::
 
 # --- Set PowerShell Prompt ---------------------------------------------------
@@ -32,6 +34,39 @@ function GenerateError($type) {
 	Write-Host ""
 	pause
 	exit($code)
+}
+
+# --- CONVERT FORWARD ---------------------------------------------------------
+# Converts to Unix/MinGW/MSYS2 Path format !
+function ConvertForward($inValue) {
+	$inValue = ($inValue).substring(0,1).tolower() + ($inValue).substring(1)
+	$inValue = ($inValue).replace("\","/")
+	$inValue = ($inValue).Insert(0,'/')
+	return $inValue.replace(":","")
+}
+
+# --- CHECK BOOST DEPLOY IS FOR CORRECT MINGW VERSION -------------------------
+# Still needs code to ensure build matches MinGW Version !
+# Get from examing nomenclature in C:\JTSDK64-Tools\tools\boost\<ver>\lib
+# i.e. xxxx-mgw8-XXX for MinGW 8.1	xxxx-mgw7-XXX for MinGW 7.1	
+function CheckBoostCorrectMinGWVersion($boostDir) {
+	$retval = "Not Found"
+		
+	$listBoostDeploy = Get-ChildItem -Path "$boostDir\lib" -EA SilentlyContinue
+
+	ForEach ($subPathBoost in $listBoostDeploy)
+	{    
+		if ($subPathBoost.Name -like '*-mgw8-*') {
+			$retval="mingw81_64"
+			break
+		}
+		if ($subPathBoost.Name -like '*-mgw7-*') {
+			$retval="mingw71_64"
+			break
+		}
+	}
+ 
+	return $retVal
 }
 
 # --- Basic ENV variables primed ----------------------------------------------
@@ -124,49 +159,50 @@ Write-Host "  --> Package Versions: $env:jtsdk64VersionConfig"
 
 $env:sqlitev = $configTable.Get_Item("sqlitev")
 $env:sqlite_dir = $env:JTSDK_TOOLS + "\sqlite\" + $env:sqlitev
-$env:sqlite_dir_f = $env:sqlite_dir.replace("\","/")
+$env:sqlite_dir_f = ConvertForward($env:sqlite_dir)
 $env:JTSDK_PATH = $env:sqlite_dir   # Nothing to accumulate yet so start the ball rolling !
+Write-Host "  --> SQLITE_DIR_F: $env:sqlite_dir_f"
 
 # --- FFTW --------------------------------------------------------------------
 
 $env:fftwv = $configTable.Get_Item("fftwv")
 $env:fftw3f_dir = $env:JTSDK_TOOLS + "\fftw\" + $env:fftwv
-$env:fftw3f_dir_f = $env:fftw3f_dir.replace("\","/")
+$env:fftw3f_dir_f = ConvertForward($env:fftw3f_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:fftw3f_dir
 
 # --- LibUSB ------------------------------------------------------------------
 
 $env:libusbv = $configTable.Get_Item("libusbv")	
 $env:libusb_dir = $env:JTSDK_TOOLS + "\libusb\" + $env:libusbv
-$env:libusb_dir_f = $env:libusb_dir.replace("\","/")
+$env:libusb_dir_f = ConvertForward($env:libusb_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:libusb_dir
 
 # --- Nullsoft Installer System - NSIS ----------------------------------------
 
 $env:nsisv = $configTable.Get_Item("nsisv")	
 $env:nsis_dir = $env:JTSDK_TOOLS + "\nsis\" + $env:nsisv
-$env:nsis_dir_f = $env:nsis_dir.replace("\","/")
+$env:nsis_dir_f = ConvertForward($env:nsis_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:nsis_dir
 
 # --- Package Config ----------------------------------------------------------
 
 $env:pkgconfigv = $configTable.Get_Item("pkgconfigv")
 $env:pkgconfig_dir = $env:JTSDK_TOOLS + "\pkgconfig\" + $env:pkgconfigv
-$env:pkgconfig_dir_f = $env:pkgconfig_dir.replace("\","/")
+$env:pkgconfig_dir_f = ConvertForward($env:pkgconfig_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:pkgconfig_dir
 
 # --- Ruby --------------------------------------------------------------------
 
 $env:rubyv = $configTable.Get_Item("rubyv")	
 $env:ruby_dir = $env:JTSDK_TOOLS + "\ruby\" + $env:rubyv
-$env:ruby_dir_f = $env:ruby_dir.replace("\","/")
+$env:ruby_dir_f = ConvertForward($env:ruby_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:ruby_dir
 
 # --- Subversion --------------------------------------------------------------
 
 $env:svnv = $configTable.Get_Item("svnv")
 $env:svn_dir = $env:JTSDK_TOOLS + "\subversion\" + $env:svnv
-$env:svn_dir_f = $env:svn_dir.replace("\","/")
+$env:svn_dir_f = ConvertForward($env:svn_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:svn_dir
 
 # --- CMake -------------------------------------------------------------------
@@ -180,26 +216,13 @@ if ($env:cmakev -eq "qtcmake") {		# Use the CMAKE Supplied with Qt
 	$env:cmake_dir = $env:JTSDK_TOOLS + "\cmake\" + $env:cmakev + "\bin"
 	Write-Host "  --> CMake sourced from $env:cmake_dir"
 }
-$env:cmake_dir_f = $env:cmake_dir.replace("\","/")
+$env:cmake_dir_f = ConvertForward($env:cmake_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:cmake_dir
-
-# --- Boost -------------------------------------------------------------------
-
-$env:boostv = $configTable.Get_Item("boostv")
-if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
-	$env:boost_dir = $env:JTSDK_TOOLS + "\boost\" + $env:boostv
-	$env:boost_dir_f = $env:boost_dir.replace("\","/")
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
-	Write-Host "  --> Boost version $env:boostv deployed"
-} else {
-	Write-Host "  --> *** Boost NOT DEPLOYED ***"
-	Write-Host "  --> *** Build or download a library to $env:JTSDK_TOOLS\boost\<version> ***"
-}
 
 # --- Scripts Directory ------------------------------------------------------
 
 $env:scripts_dir = $env:JTSDK_TOOLS + "\scripts\"
-$env:scripts_dir_f = $env:scripts_dir.replace("\","/")
+$env:scripts_dir_f = ConvertForward($env:scripts_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:scripts_dir
 
 # --- Qt ----------------------------------------------------------------------
@@ -231,7 +254,7 @@ if ($subPathQtStore -eq "NULL") {
 
 $listQtDeploy = Get-ChildItem -Path $env:JTSDK_TOOLS\qt -EA SilentlyContinue                 
 
-$tempMinGWVersion=" " 				# Remember: $env:QTV contains the QT Version!	
+$verMinGW=" " 				# Remember: $env:QTV contains the QT Version!	
 $countMinGW = 0						#           $subPathQt contains name of Qt version from marker
 
 ForEach ($subPathQt in $listQtDeploy)
@@ -241,7 +264,7 @@ ForEach ($subPathQt in $listQtDeploy)
 		ForEach ($itemListSubUnderQtDir in $listSubUnderQtDir) {
             if ($subPathQt.Name -eq $env:QTV) {
                 if (($itemListSubUnderQtDir -like '*64')) {
-                    $tempMinGWVersion = $itemListSubUnderQtDir
+                    $verMinGW = $itemListSubUnderQtDir
                     if ($itemListSubUnderQtDir -like 'mingw*') {
                         $countMinGW = $countMinGW + 1
                         break
@@ -254,35 +277,51 @@ ForEach ($subPathQt in $listQtDeploy)
 
 if ($countMinGW -eq 1) 
 {
-	Write-Host "  --> MinGW Version: $tempMinGWVersion" # - contains MinGW Release
+	Write-Host "  --> MinGW Version: $verMinGW" # - contains MinGW Release
 } else {
 	GenerateError("MULTIPLE Qt MARKERS SET IN $env:JTSDK_CONFIG. PLEASE CORRECT")
 }
 
-# Set Qt Environment variables
-# --> Note the MinGW environs need be set for detected version in $tempMinGWVersion
+# --- Boost -------------------------------------------------------------------
 
-$env:QTD=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$tempMinGWVersion+"\bin"
-$env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$tempMinGWVersion+"\plugins\platforms"
+$env:boostv = $configTable.Get_Item("boostv")
+$env:BOOST_FUNCTIONAL  = "Non Functional"
+if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
+	$env:boost_dir = $env:JTSDK_TOOLS + "\boost\" + $env:boostv
+	$env:boost_dir_f = ConvertForward($env:boost_dir)
+	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
+	Write-Host "* Boost version $env:boostv is deployed"
+	$calcMinGWV = CheckBoostCorrectMinGWVersion($env:boost_dir)
+	if ($calcMinGWV -like $verMinGW) {
+		$env:BOOST_FUNCTIONAL="Functional"
+		Write-Host "  --> Functional `[ for Qt $verMinGW `]"
+	} else {
+		Write-Host "  --> *** NON FUNCTIONAL *** `[ for Qt M$verMinGW `]"
+	}
+} else {
+	Write-Host "* BOOST NOT DEPLOYED"
+	Write-Host "  --> *** Build or download a library to $env:JTSDK_TOOLS\boost\<version> ***"
+}
 
+# --- Set Qt Environment variables --------------------------------------------
+# --> MinGW environs need be set for detected version in $verMinGW
+
+$env:QTD=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$verMinGW+"\bin"
+$env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$verMinGW+"\plugins\platforms"
 # Dirty method to add additional 0 required for Tools MinGW
 # May cause issues if the MinGW people change structures or use sub-versions !
-
-$tempMinGWVersionAddZero = $tempMinGWVersion -replace "_", "0_"
-
-$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$tempMinGWVersionAddZero+"\bin"
-
-Write-Host "* Setting Qt Environment Variables"
-Write-Host "  --> QTD $env:QTD"
-Write-Host "  --> QTP $env:QTP"
-Write-Host "  --> GCCD $env:GCCD"
-
-$env:QTD_F = $env:QTD.replace("\","/")
-$env:GCCD_F = $env:GCCD.replace("\","/")
+$verMinGWAddZero = $verMinGW -replace "_", "0_"
+$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$verMinGWAddZero+"\bin"
+$env:QTD_F = ConvertForward($env:QTD)
+$env:GCCD_F = ConvertForward($env:GCCD)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP
 
-Write-Host "  --> QTD_F $env:QTD_F"
-Write-Host "  --> GCCD_F $env:GCCD_F"
+Write-Host "* Qt Environment Variables"
+Write-Host "  --> QTD ----> $env:QTD"
+Write-Host "  --> QTD_F --> $env:QTD_F"
+Write-Host "  --> QTP ----> $env:QTP"
+Write-Host "  --> GCCD ---> $env:GCCD"
+Write-Host "  --> GCCD_F -> $env:GCCD_F"
 
 # --- UNIX TOOLS --------------------------------------------------------------
 # --> Unix marker files deprecated where practical to settings in Versions.ini
@@ -340,12 +379,12 @@ if (-not (Test-Path $LTOOLS_PATH)) {
 # --- Hamlib3 Dirs ------------------------------------------------------------
 
 $env:hamlib_base = $env:JTSDK_TOOLS + "\hamlib"
-$env:hamlib_base_f = $env:hamlib_base.replace("\","/")
+$env:hamlib_base_f = ConvertForward($env:hamlib_base)
+
+# --- Generate Tool Chain File for Qt using Supported MinGW GCC version -------
 
 $pathDPDel = $env:QTV
 $pathDPDelR = $pathDPDel -replace "\.",''
-
-# --- Generate Tool Chain File for Qt using Supported MinGW GCC version -------
 
 $of = $env:JTSDK_TOOLS + "\tc-files\QT"+$pathDPDelR+".cmake"
 
@@ -477,7 +516,7 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 		Write-Host "SQLite        $env:sqlitev  Missing"
 	}
 	if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
-		Write-Host "Boost         $env:boostv  Enabled"
+		Write-Host "Boost         $env:boostv  $env:BOOST_FUNCTIONAL"
 	} else {
 		Write-Host "Boost         $env:boostv  Not Deployed"
 	}
