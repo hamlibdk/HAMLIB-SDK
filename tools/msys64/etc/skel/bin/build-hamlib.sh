@@ -7,8 +7,8 @@
 # Hamlib Repo ..: https://github.com/Hamlib/Hamlib.git 
 #
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
-#          Qt Version Adjustments 21-04 to 11-12(Dec)-2020 
-#
+#          Qt Version Adjustments 21-04 to 11-Feb-2021 
+#          Refactoring to use Environment variables better 13-Feb-2021
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
@@ -26,7 +26,7 @@ set -e
 #-----------------------------------------------------------------------------#
 
 # Script Info
-VER="$JTSDK64_VERSION"
+
 SCRIPT_NAME="JTSDK64 Tools MSYS2 Hamlib Build Script"
 
 # Foreground colors
@@ -47,67 +47,49 @@ DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
 SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
 PREFIX="/$DRIVE/JTSDK64-Tools/tools/hamlib/qt/$QTV"
-LIBUSBINC="/${libusb_dir_f//:}/include"
-LIBUSBD="/${libusb_dir_f//:}/MinGW64/dll"
+LIBUSBINC="${libusb_dir_f/:}/include"
+LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
 # -- QT Tool Chain Paths ------------------------------------------------------
-QTV="$QTV"
+# QTV="$QTV"
 
-# Defaults to Qt MinGW 8.1 [ The current release ] for Qt 5.15.x and 6.x
-TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin"
-QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw81_64/bin"
-QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
-
-# Over-rides - for Qt versions earlier than 5.15.x - MinGW 7.1
-# Works under the principle that if char 0 is '5' --> enters IF
-# If its not 15 in positions 2 and 3 then an over-ride needed to MinGW 7.1
-if [ ${QTV:0:1} == '5' ];
-	then if [ ${QTV:2:2} != '15' ];
-		then
-			TC="/$DRIVE/JTSDK64-Tools/tools/Qt/Tools/mingw730_64/bin"
-			QTDIR="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/mingw73_64/bin"
-			QTPLATFORM="/$DRIVE/JTSDK64-Tools/tools/Qt/$QTV/plugins/platforms"
-		fi
-fi
-
-# Export the final QT abd Lib USB paths
-export PATH="$TC:$QTDIR:$QTPLATFORM:$LIBUSBINC:$LIBUSBD:$PATH"
+export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
 
 #-----------------------------------------------------------------------------#
 # FUNCTIONS                                                                   #
 #-----------------------------------------------------------------------------#
 
 # Function: main script header ------------------------------------------------
-script-header () {
+Script-Header () {
 	echo ''
 	echo '---------------------------------------------------------------'
-	echo -e ${C_C}" $SCRIPT_NAME $VER"${C_NC}
+	echo -e ${C_C}" $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
 	echo '---------------------------------------------------------------'
 	echo ''
 }
 
 # Function: package data ------------------------------------------------------
-package-data () {
+Package-Data () {
 	echo " Date ............ $TODAY"
 	echo " Package ......... $PKG_NAME"
 	echo " User ............ $BUILDER"
 	echo " CPU Count ....... $CPUS"
 	echo " QT Version ...... $QTV"
-	echo " QT Tools ........ $TC"
-	echo " QT Directory .... $QTDIR"
-	echo " QT Platform ..... $QTPLATFORM"
+	echo " QT Tools ........ $GCCD_F"
+	echo " QT Directory .... $QTD_F"
+	echo " QT Platform ..... $QTP_F"
 	echo " SRC Dir ......... $SRCD"
 	echo " Build Dir ....... $BUILDD"
 	echo " Install Prefix .. $PREFIX"
 	echo " Libusb Include .. $LIBUSBINC"
 	echo " Libusb DLL ...... $LIBUSBD"
 	echo " Package Config... $PREFIX/lib/pkgconfig/hamlib.pc"
-	echo " Tool Chain ...... $TC"
+	echo " Tool Chain ...... $GCCD_F"
 }
 
 # Function: tool chain check ---------------------------------------------------
-tool-check () {
+Tool-Check () {
 	echo ''
 	echo '---------------------------------------------------------------'
 	echo -e ${C_Y}" CHECKING TOOL-CHAIN [ QT $QTV ]"${C_NC}
@@ -151,17 +133,17 @@ tool-check () {
 # -- run tool check -----------------------------------------------------------
 cd
 clear
-script-header
-package-data
-tool-check
+Script-Header
+Package-Data
+Tool-Check
 
 if [ "$?" = "0" ];
 then
-echo -en " TC Status ....."&& echo -e ${C_G}' OK'${C_NC}
+echo -en " Tool-Chain .... "&& echo -e ${C_G}'OK'${C_NC}
 	echo ''
 else
 	echo ''
-	echo -e ${C_R}"TOOL CHAIN WARNING"${C_NC}
+	echo -e ${C_R}"TOOL-CHAIN WARNING"${C_NC}
 	echo 'There was a problem with the Tool-Chain.'
 	echo "$0 Will now exit .."
 	exit ''
@@ -280,8 +262,8 @@ echo ''
 --without-cxx-binding \
 --without-readline \
 --without-libusb \
-CC="$TC/gcc.exe" \
-CXX="$TC/g++.exe" \
+CC="$GCCD_F/gcc.exe" \
+CXX="$GCCD_F/g++.exe" \
 CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
 LDFLAGS="-Wl,--gc-sections" \
 LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
@@ -351,8 +333,8 @@ Git Extra....: git checkout integration
 --disable-winradio \
 --without-cxx-binding \
 --without-readline \
-CC="$TC/gcc.exe" \
-CXX="$TC/g++.exe" \
+CC="$GCCD_F/gcc.exe" \
+CXX="$GCCD_F/g++.exe" \
 CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
 LDFLAGS="-Wl,--gc-sections" \
 LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
@@ -374,9 +356,8 @@ echo '---------------------------------------------------------------'
 echo ''
 echo "* $LIBUSBD/libusb-1.0.dll"
 cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
-echo "* $TC/libwinpthread-1.dll"
-cp -u "$TC/libwinpthread-1.dll" "$PREFIX/bin"
-echo ''
+echo "* $GCCD_F/libwinpthread-1.dll"
+cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
 
 # -- update pkgconfig ---------------------------------------------------------
 echo ''
@@ -401,7 +382,7 @@ echo '----------------------------------------------------------------'
 echo -e ${C_G} " FINISHED COMPILING [ $PKG_NAME ]"${C_NC}
 echo '----------------------------------------------------------------'
 echo ''
-package-data
+Package-Data
 echo ''
 
 # exit script

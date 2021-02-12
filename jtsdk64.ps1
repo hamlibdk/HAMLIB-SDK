@@ -308,10 +308,12 @@ if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) {
 
 $env:QTD=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$verMinGW+"\bin"
 $env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$verMinGW+"\plugins\platforms"
+
 # Dirty method to add additional 0 required for Tools MinGW
 # May cause issues if the MinGW people change structures or use sub-versions !
 $verMinGWAddZero = $verMinGW -replace "_", "0_"
 $env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$verMinGWAddZero+"\bin"
+$env:QTP_F = ConvertForward($env:QTP)
 $env:QTD_F = ConvertForward($env:QTD)
 $env:GCCD_F = ConvertForward($env:GCCD)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP
@@ -320,6 +322,7 @@ Write-Host "* Qt Environment Variables"
 Write-Host "  --> QTD ----> $env:QTD"
 Write-Host "  --> QTD_F --> $env:QTD_F"
 Write-Host "  --> QTP ----> $env:QTP"
+Write-Host "  --> QTP_F --> $env:QTP_F"
 Write-Host "  --> GCCD ---> $env:GCCD"
 Write-Host "  --> GCCD_F -> $env:GCCD_F"
 
