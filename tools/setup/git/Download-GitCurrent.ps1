@@ -23,25 +23,29 @@ Write-Host ""
 $appName="latest-version.txt"
 $appURL="https://gitforwindows.org/latest-version.txt"
 Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appName
+$appName="latest-tag.txt"
+$appURL="https://gitforwindows.org/latest-tag.txt"
+Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appName
 
-$content = [IO.File]::ReadAllText("$PSScriptRoot\latest-version.txt")
-Write-Host "  --> Determining latest Git-SCM version: $content "
+$verContent = [IO.File]::ReadAllText("$PSScriptRoot\latest-version.txt")
+Write-Host "  --> Determining latest Git-SCM version: $verContent "
 
-# Array seperating version details 
-$verArr = @($content.split('.'))
+$tagContent = [IO.File]::ReadAllText("$PSScriptRoot\latest-tag.txt")
 
 # Actually get current Git-SCM Version
-$appName="Git-" + $content + "-64-bit.exe"
+$appName="Git-" + $verContent + "-64-bit.exe"
 
 # Intemediate to calculate the path
+# Sample: https://gitforwindows.org/latest-version.txt  ---> 2.30.1
+#         https://gitforwindows.org/latest-tag.txt --------> v2.30.1.windows.1
 # Sample: https://github.com/git-for-windows/git/releases/download/v2.30.0.windows.2/Git-2.30.0.2-64-bit.exe
+# Sample: https://github.com/git-for-windows/git/releases/download/v2.30.1.windows.1/Git-2.30.1-64-bit.exe
 
-$calcPath="v" + $verArr[0] + "." + $verArr[1] + "." + $verArr[2] + ".windows." + $verArr[3]
-$appURL="https://github.com/git-for-windows/git/releases/download/" + $calcPath + "/" + $appName
+$appURL="https://github.com/git-for-windows/git/releases/download/" + $tagContent + "/" + $appName
 
 Write-Host "  --> Path: $appURL"
 
-Write-Host "  --> Downloading Git $content Installer"
+Write-Host "  --> Downloading Git $verContent Installer"
 
 $appCurrent="Git-Current-x64.exe"
 Write-Host "  --> Saving as $appCurrent"

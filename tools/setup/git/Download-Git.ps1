@@ -18,21 +18,17 @@ Set-Location -Path $PSScriptRoot
 # Process variables
 
 # dir$app = "git"
-$appName="Git-2.29.2.3-64-bit.exe"
-$appURL="https://github.com/git-for-windows/git/releases/download/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe"
+$appName="Git-2.30.1-64-bit.exe"
+$appURL="https://github.com/git-for-windows/git/releases/download/v2.30.1.windows.1/Git-2.30.1-64-bit.exe"
 #$param = "-o $appName -J -L $appURL"
 
 Write-Host " "
-Write-Host "* Downloading Git Installer"
+Write-Host "* Downloading Fixed Version Git Installer"
 Write-Host " "
-Write-Host "  --> Downloading Git 2.29.2.3 Installer"
-# Write-Host " Using Curl."
+Write-Host "  --> Downloading Git 2.30.1 Installer"
 
-
-# DOS Command: curl -o %app_name% -J -L %app_url
-# Using CURL Installation: Start-Process -FilePath $app -ArgumentList $param
-
-Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appName
+$appCurrent="Git-Current-x64.exe"
+Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appCurrent
 
 Write-Host "  --> Git Download Complete"
 
