@@ -61,7 +61,7 @@ function CheckBoostCorrectMinGWVersion($boostDir) {
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw7-*') {
-			$retval="mingw71_64"
+			$retval="mingw73_64"
 			break
 		}
 	}
@@ -298,11 +298,12 @@ if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) {
 	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
 	Write-Host "* Boost version $env:boostv is deployed"
 	$calcMinGWV = CheckBoostCorrectMinGWVersion($env:boost_dir)
+	# Write-Host "  --> Calculated: $calcMinGWV Version:$verMinGW"
 	if ($calcMinGWV -like $verMinGW) {
 		$env:BOOST_FUNCTIONAL="Functional"
 		Write-Host "  --> Functional `[ for Qt $verMinGW `]"
 	} else {
-		Write-Host "  --> *** NON FUNCTIONAL *** `[ for Qt M$verMinGW `]"
+		Write-Host "  --> *** NON FUNCTIONAL *** `[ for Qt $verMinGW `]"
 	}
 } else {
 	Write-Host "* BOOST NOT DEPLOYED"
