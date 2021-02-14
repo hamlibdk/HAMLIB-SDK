@@ -1,0 +1,1 @@
+C:/JTSDK64-Tools/tools/Qt/MaintenanceTool.exe --mirror http://www.nic.funet.fi/pub/mirrors/download.qt-project.org

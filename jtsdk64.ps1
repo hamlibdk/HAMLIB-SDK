@@ -167,6 +167,7 @@ Write-Host "  --> SQLITE_DIR_F: $env:sqlite_dir_f"
 
 $env:fftwv = $configTable.Get_Item("fftwv")
 $env:fftw3f_dir = $env:JTSDK_TOOLS + "\fftw\" + $env:fftwv
+$fftw3f_dir_ff = ($env:fftw3f_dir).replace("\","/")
 $env:fftw3f_dir_f = ConvertForward($env:fftw3f_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:fftw3f_dir
 
@@ -195,6 +196,7 @@ $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:pkgconfig_dir
 
 $env:rubyv = $configTable.Get_Item("rubyv")	
 $env:ruby_dir = $env:JTSDK_TOOLS + "\ruby\" + $env:rubyv
+$ruby_dir_ff = ($env:ruby_dir).replace("\","/")
 $env:ruby_dir_f = ConvertForward($env:ruby_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:ruby_dir
 
@@ -202,6 +204,7 @@ $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:ruby_dir
 
 $env:svnv = $configTable.Get_Item("svnv")
 $env:svn_dir = $env:JTSDK_TOOLS + "\subversion\" + $env:svnv
+$svn_dir_ff = ($env:svn_dir).replace("\","/")
 $env:svn_dir_f = ConvertForward($env:svn_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:svn_dir
 
@@ -216,14 +219,16 @@ if ($env:cmakev -eq "qtcmake") {		# Use the CMAKE Supplied with Qt
 	$env:cmake_dir = $env:JTSDK_TOOLS + "\cmake\" + $env:cmakev + "\bin"
 	Write-Host "  --> CMake sourced from $env:cmake_dir"
 }
+$cmake_dir_ff = ($env:cmake_dir).replace("\","/")
 $env:cmake_dir_f = ConvertForward($env:cmake_dir)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:cmake_dir
 
 # --- Scripts Directory ------------------------------------------------------
 
 $env:scripts_dir = $env:JTSDK_TOOLS + "\scripts\"
+$scripts_dir_ff = ($env:scripts_dir).replace("\","/")
 $env:scripts_dir_f = ConvertForward($env:scripts_dir)
-$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:scripts_dir
+$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $scripts_dir_ff
 
 # --- Qt ----------------------------------------------------------------------
 
@@ -288,6 +293,7 @@ $env:boostv = $configTable.Get_Item("boostv")
 $env:BOOST_FUNCTIONAL  = "Non Functional"
 if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
 	$env:boost_dir = $env:JTSDK_TOOLS + "\boost\" + $env:boostv
+	$boost_dir_ff = ($env:boost_dir).replace("\","/")
 	$env:boost_dir_f = ConvertForward($env:boost_dir)
 	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
 	Write-Host "* Boost version $env:boostv is deployed"
@@ -307,12 +313,19 @@ if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) {
 # --> MinGW environs need be set for detected version in $verMinGW
 
 $env:QTD=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$verMinGW+"\bin"
+$QTD_ff = ($env:QTD).replace("\","/")
 $env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$verMinGW+"\plugins\platforms"
+$QTP_ff = ($env:QTP).replace("\","/")
+
 # Dirty method to add additional 0 required for Tools MinGW
 # May cause issues if the MinGW people change structures or use sub-versions !
 $verMinGWAddZero = $verMinGW -replace "_", "0_"
 $env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$verMinGWAddZero+"\bin"
+$GCCD_ff = ($env:GCCD).replace("\","/")
+$env:QTP_F = ConvertForward($env:QTP)
+$QTP_ff = ($env:QTP).replace("\","/")
 $env:QTD_F = ConvertForward($env:QTD)
+$GCCD_ff = ($env:GCCD).replace("\","/")
 $env:GCCD_F = ConvertForward($env:GCCD)
 $env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP
 
@@ -320,6 +333,7 @@ Write-Host "* Qt Environment Variables"
 Write-Host "  --> QTD ----> $env:QTD"
 Write-Host "  --> QTD_F --> $env:QTD_F"
 Write-Host "  --> QTP ----> $env:QTP"
+Write-Host "  --> QTP_F --> $env:QTP_F"
 Write-Host "  --> GCCD ---> $env:GCCD"
 Write-Host "  --> GCCD_F -> $env:GCCD_F"
 
@@ -379,6 +393,7 @@ if (-not (Test-Path $LTOOLS_PATH)) {
 # --- Hamlib3 Dirs ------------------------------------------------------------
 
 $env:hamlib_base = $env:JTSDK_TOOLS + "\hamlib"
+$hamlib_base_ff = ($env:hamlib_base).replace("\","/")
 $env:hamlib_base_f = ConvertForward($env:hamlib_base)
 
 # --- Generate Tool Chain File for Qt using Supported MinGW GCC version -------
@@ -396,22 +411,22 @@ Add-Content $of "# Tool Chain File for Qt $pathDPDel"
 Add-Content $of " "
 Add-Content $of "# System Type and Based Paths"
 Add-Content $of "SET (CMAKE_SYSTEM_NAME Windows)"
-Add-Content $of "SET (QTDIR $env:QTD_F)"
-Add-Content $of "SET (GCCD $env:GCCD_F)"
+Add-Content $of "SET (QTDIR $QTD_ff)"
+Add-Content $of "SET (GCCD $GCCD_ff)"
 Add-Content $of " "
 Add-Content $of "# AsciiDoctor"
-Add-Content $of "SET (ADOCD $env:ruby_dir_f)"
+Add-Content $of "SET (ADOCD $ruby_dir_ff)"
 Add-Content $of " "
 Add-Content $of "# FFTW"
-Add-Content $of "SET (FFTWD $env:fftw3f_dir_f)"
-Add-Content $of "SET (FFTW3_LIBRARY $env:fftw3f_dir_f/libfftw3-3.dll)"
-Add-Content $of "SET (FFTW3F_LIBRARY $env:fftw3f_dir_f/libfftw3f-3.dll)"
+Add-Content $of "SET (FFTWD $fftw3f_dir_ff)"
+Add-Content $of "SET (FFTW3_LIBRARY $fftw3f_dir_ff/libfftw3-3.dll)"
+Add-Content $of "SET (FFTW3F_LIBRARY $fftw3f_dir_ff/libfftw3f-3.dll)"
 Add-Content $of " "
 Add-Content $of "# Hamlib"
-Add-Content $of "SET (HLIB $env:hamlib_base_f/qt/$pathDPDel)"
+Add-Content $of "SET (HLIB $hamlib_base_ff/qt/$pathDPDel)"
 Add-Content $of " "
 Add-Content $of "# Subversion"
-Add-Content $of "SET (SVND $env:svn_dir_f)"
+Add-Content $of "SET (SVND $svn_dir_ff)"
 Add-Content $of " "
 Add-Content $of "# Cmake Consolidated Variables"
 Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND})"
