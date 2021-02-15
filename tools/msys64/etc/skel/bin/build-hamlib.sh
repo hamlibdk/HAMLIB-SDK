@@ -42,7 +42,7 @@ PKG_NAME=Hamlib
 TODAY=$(date +"%d-%m-%Y")
 TIMESTAMP=$(date +"%d-%m-%Y at %R")
 BUILDER=$(whoami)
-CPUS=`nproc --all`
+# CPUS=$((`nproc --all`))
 DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
 SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
@@ -50,6 +50,23 @@ PREFIX="/$DRIVE/JTSDK64-Tools/tools/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
 LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
+
+CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "/$DRIVE/JTSDK64-Tools/config/Versions.ini")
+if [ "$CPUREC" = "All" ]; 
+then 
+	CPUS=$((`nproc --all`))
+fi
+if [ "$CPUREC" = "Half" ]; 
+then 
+	echo "Half"
+	NONO=`nproc --all`
+	CPUS=$(($NONO / 2))
+	echo $CPUS
+fi
+if [ "$CPUREC" = "Solo" ]; 
+then 
+	CPUS=1
+fi
 
 # -- QT Tool Chain Paths ------------------------------------------------------
 # QTV="$QTV"
