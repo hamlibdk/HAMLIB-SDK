@@ -2,7 +2,8 @@
 AUTHOR="Greg Beam, KI7MT"
 JTSDK64_VER="$JTSDK64_VERSION" # interoperability variable from JTSDK64 env
 JTSDK64_NAME="JTSDK64 Tools MSYS2"
-# Adjustments: Steve VK3VM 16-4-2020 - 11-2-2021 and other JTSDK Contributors
+# Adjustments: Steve VK3VM 16-4-2020 - 16-2-2021 and other JTSDK Contributors
+#              16-2-2021 - Incorporated groff, dos2unix and zip for DLL build
 
 # foreground colors ------------------------------------------------------------
 C_R='\033[01;31m'	# red
@@ -26,6 +27,7 @@ alias l='ls -CF'                              #
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
 alias build-hamlib="bash /home/$USER/bin/build-hamlib.sh"
+alias build-hamlib-dll="bash /home/$USER/bin/build-hamlib-dll.sh"
 
 # Function: Help Menu ---------------------------------------------------------
 function jthelp () {
@@ -64,9 +66,9 @@ function jtsetup () {
     echo ''
 
     # declare the package array
-    declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" \
+    declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "dos2unix" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -240,13 +242,14 @@ function menu () {
         echo  "------------------------------------"
 		echo ''
         echo " 1. List help commands"
-        echo " 2. Install Hamlib dependencies"
-        echo " 3. Update MSYS2 Keyring"
-        echo " 4. Print version information"
-        echo " 5. Build Hamlib"
-        echo " 6. Update MSYS2"
+		echo " 2. Update MSYS2"
+        echo " 3. Install Hamlib dependencies"
+        echo " 4. Update MSYS2 Keyring"
+		echo " 5. Build Hamlib - Static Libraries"
+        echo " 6. Build Hamlib - Dynamic Package"
 		echo " 7. Clear Hamlib Source"
 		echo " 8. Select HAMLIB Repository"
+		echo " 9. Print version information"
 		echo ''
         echo " e. Enter 'e' or 'q' to exit"
 		echo ''
@@ -257,20 +260,20 @@ function menu () {
                 jthelp
                 read -p "Press enter to continue..." ;;
             2)
-                jtsetup
+			    msys-update
+                echo ''
                 read -p "Press enter to continue..." ;;
             3)
-                msys-keyring
+                jtsetup
                 read -p "Press enter to continue..." ;;
             4)
-                jtversion
+                msys-keyring
                 read -p "Press enter to continue..." ;;
             5)
                 build-hamlib
                 read -p "Press enter to continue..." ;;
-            6)
-                msys-update
-                echo ''
+			6)
+                build-hamlib-dll
                 read -p "Press enter to continue..." ;;
 			7)
                 clear-hamlib
@@ -279,6 +282,9 @@ function menu () {
 			8)
                 change-repo
                 echo ''
+                read -p "Press enter to continue..." ;;
+			9)
+                jtversion
                 read -p "Press enter to continue..." ;;
             e|E|q|Q)
                 greeting_message
