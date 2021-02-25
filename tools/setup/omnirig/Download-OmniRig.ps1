@@ -30,7 +30,7 @@ Write-Host "  --> Omnirig Archive Download Complete"
 
 #Decompress
 if (Test-Path("$PSScriptRoot\$appName")) {
-	if (Test-Path("$PSScriptRoot\OmniRigSetup.exe")) { Remove-Item "$PSScriptRoot\OmniRigSetup.exe" }
+	if (Test-Path("$PSScriptRoot\OmniRigSetup.exe")) { Remove-Item "$PSScriptRoot\OmniRigSetup.exe" } 
 	Write-Host "  --> Old decompressed archive removed"
 }
 

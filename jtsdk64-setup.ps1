@@ -51,6 +51,7 @@ $env:PATH=$env:PATH+";"+$env:JTSDK_HOME+";"+$env:JTSDK_TOOLS+";"+$env:JTSDK_SETU
 
 # --- Set Initial tool status -------------------------------------------------
 
+$env:VCRUNTIME_STATUS="Not Installed"
 $env:GIT_STATUS="Not Installed"
 $env:QTMAINT_STATUS="Not Installed"
 $env:QTCREATOR_STATUS="Not Installed"
@@ -68,11 +69,20 @@ $env:OMNIRIG_STATUS="Not Installed"
 # APP CHECK
 #------------------------------------------------------------------------------
 
+# --- VC Runtimes -------------------------------------------------------------
+
+Write-Host -NoNewline "* Checking VC 2019 Runtime availability (Please wait) ..."
+
+$vcRunInstance = Get-CimInstance -ClassName Win32_Product -Filter "Vendor = 'Microsoft Corporation' and Name LIKE '%Microsoft Visual C++ 2019%'"
+Write-Host " Done"
+if ($vcRunInstance) { $env:VCRUNTIME_STATUS="Installed" }
+
 # --- OmniRig -----------------------------------------------------------------
 
 Write-Host "* Checking OmniRig"
 $exe = "$env:ProgramFiles `(x86`)\Afreet\OmniRig\OmniRig.exe"
 if (Test-Path $exe) { $env:OMNIRIG_STATUS="Installed" }
+
 # --- Git ---------------------------------------------------------------------
 
 Write-Host "* Checking Git"
@@ -135,6 +145,7 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 	Write-Host " "
 	Write-Host "  Required Tool Status"
 	Write-Host " "
+	Write-Host "     VC Runtimes ... $env:VCRUNTIME_STATUS"
 	Write-Host "     Git ........... $env:GIT_STATUS"
 	Write-Host "     OmniRig ....... $env:OMNIRIG_STATUS"
 	Write-Host " "

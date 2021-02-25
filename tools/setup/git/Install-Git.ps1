@@ -29,15 +29,15 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host " Help"
 	Write-Host ""
-	Write-Host "   Install-Git.ps1 help         Shows this help screen"
+	Write-Host "   Install-Git.ps1 help ....... Shows this help screen"
 	Write-Host ""
 	Write-Host " Install Git"
 	Write-Host ""
-	Write-Host "   Install-Git.ps1 install      Install Git"
+	Write-Host "   Install-Git.ps1 install .... Install Git"
 	Write-Host ""
 	Write-Host " Uninstall Git"
 	Write-Host ""
-	Write-Host "   Install-Git.ps1 uninstall    Uninstall Git"
+	Write-Host "   Install-Git.ps1 uninstall .. Uninstall Git"
 	Write-Host ""
 	Write-Host " Verifying Git Deployment"
 	Write-Host ""
@@ -79,9 +79,9 @@ function UninstallGit {
 	
 	$gitInstDir = "$env:PROGRAMFILES\Git"
 	$filePrefix = "unins*.exe"
-
-	$proc = @(Get-ChildItem $gitInstDir -Recurse -Include $filePrefix | where {$_.length -gt 0})
-
+	if (Test-Path $gitInstDir) {
+		$proc = @(Get-ChildItem $gitInstDir -Recurse -Include $filePrefix | where {$_.length -gt 0})
+	}
 	if ($proc.count -gt 0) {
 		foreach ($item in $proc) {
 			$exitCode = Invoke-Command -ScriptBlock { cmd /c $proc *> $null; return $LASTEXITCODE }

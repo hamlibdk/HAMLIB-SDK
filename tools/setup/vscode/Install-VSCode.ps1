@@ -12,7 +12,7 @@
 #               : Copyright (C) 2020 - 2021 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
-# Release Candidate 17-01-2021 by Steve VK3SIR/VK3VM
+# Release Candidate 17-01-2021 - 25-2-2021 by Steve VK3SIR/VK3VM
 #
 #-----------------------------------------------------------------------------#
 
@@ -29,15 +29,15 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host " Help"
 	Write-Host ""
-	Write-Host "   Install-Git.ps1 help          Shows this help screen"
+	Write-Host "   Install-VSCode.ps1 help ....... Shows help screen"
 	Write-Host ""
 	Write-Host " Install Visual Studio Code"
 	Write-Host ""
-	Write-Host "   Install-VSCode.ps1 install    Install VS Code"
+	Write-Host "   Install-VSCode.ps1 install .... Install VS Code"
 	Write-Host ""
 	Write-Host " Uninstall Visual Studio Code"
 	Write-Host ""
-	Write-Host "   Install-VSCode.ps1 uninstall  Uninstall VS Code"
+	Write-Host "   Install-VSCode.ps1 uninstall .. Uninstall VS Code"
 	Write-Host ""
 	Write-Host " Verifying VS Code Deployment"
 	Write-Host ""
@@ -78,11 +78,12 @@ function UninstallVSCode {
 	Write-Host ""
 	Write-Host "* Running Uninstall for VS Code"
 		
-	$gitInstDir = "$env:LOCALAPPDATA\Programs\Microsoft VS Code\"
+	$vscInstDir = "$env:LOCALAPPDATA\Programs\Microsoft VS Code\"
 	$filePrefix = "unins*.exe"
 
-	$proc = @(Get-ChildItem $gitInstDir -Recurse -Include $filePrefix | where {$_.length -gt 0})
-
+	if (Test-Path $vscInstDir) {
+		$proc = @(Get-ChildItem $vscInstDir -Recurse -Include $filePrefix | where {$_.length -gt 0})
+	}
 	if ($proc.count -gt 0) {
 		foreach ($item in $proc) {
 			$exitCode = Invoke-Command -ScriptBlock { cmd /c $proc *> $null; return $LASTEXITCODE }
@@ -155,6 +156,7 @@ for ( $i = 0; $i -lt $args.count; $i++ ) {
     if ($args[ $i ] -eq "install"){ InstallVSCode }
     if ($args[ $i ] -eq "uninstall"){ UnInstallVSCode}
     if ($args[ $i ] -eq "help"){ InstallHelp }
+	if ($args[ $i ] -eq "-h"){ InstallHelp }
 }
 
 Write-Host ""

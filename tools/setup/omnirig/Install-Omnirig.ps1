@@ -29,15 +29,15 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host " Help"
 	Write-Host ""
-	Write-Host "   Install-Omnirig.ps1 help     Shows this help screen"
+	Write-Host "   Install-Omnirig.ps1 help ..... Shows this help screen"
 	Write-Host ""
 	Write-Host " Install Omnirig"
 	Write-Host ""
-	Write-Host "   Install-Omnirig.ps1 install  Install Git"
+	Write-Host "   Install-Omnirig.ps1 install .. Install OmniRig"
 	Write-Host ""
 	Write-Host " Uninstall OmniRig"
 	Write-Host ""
-	Write-Host "   Install-Omnirig.ps1 uninstall Uninstall Git"
+	Write-Host "   Install-Omnirig.ps1 uninstall . Uninstall OmniRig"
 	Write-Host ""
 	Write-Host " Verifying Omnirig Deployment"
 	Write-Host ""
@@ -66,7 +66,7 @@ function InstallSummary {
 
 # UNINSTALL -------------------------------------------------------------------
 
-function UninstallGit {
+function UnInstallOmnirig {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
 	Write-Host " OmniRig Rig Control Uninstall"
@@ -74,11 +74,11 @@ function UninstallGit {
 	Write-Host ""
 	Write-Host "* Running Uninstall for Git-SCM"
 	
-	$gitInstDir = "$env:PROGRAMFILES (x86)\Afreet\Omnirig"
+	$omniInstDir = "$env:PROGRAMFILES (x86)\Afreet\Omnirig"
 	$filePrefix = "unins*.exe"
-
-	$proc = @(Get-ChildItem $gitInstDir -Recurse -Include $filePrefix | where {$_.length -gt 0})
-
+	if (Test-Path $omniInstDir) {
+		$proc = @(Get-ChildItem $omniInstDir -Recurse -Include $filePrefix | where {$_.length -gt 0})
+	}
 	if ($proc.count -gt 0) {
 		foreach ($item in $proc) {
 			$exitCode = Invoke-Command -ScriptBlock { cmd /c $proc *> $null; return $LASTEXITCODE }
@@ -110,11 +110,11 @@ function InstallError {
 	exit(-1)
 }
 
-# INSTALL Git ----------------------------------------------------------------
+# INSTALL OMNIRIG --------------------------------------------------------------
 function InstallOmnirig {
 	# Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " OmniRig Rig Control Windows"
+	Write-Host " OmniRig Rig Control Installation"
 	Write-Host "-----------------------------------------------------"
 
     Invoke-Expression -Command $PSScriptRoot\Download-Omnirig.ps1

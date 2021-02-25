@@ -21,7 +21,7 @@ Set-Location -Path $PSScriptRoot
 # INSTALL ERROR ---------------------------------------------------------------
 
 function InstallError($msg) {
-	Write-Host ""
+	#Write-Host ""
 	Write-Host "-----------------------------------------------------"
 	Write-Host " JTSDK64 Qt Error In Installation"
 	Write-Host "-----------------------------------------------------"
@@ -38,10 +38,25 @@ function InstallError($msg) {
 
 function InstallQt($script) {
 	
+	Write-Host "-----------------------------------------------------"
+	Write-Host " Qt Installation"
+	Write-Host "-----------------------------------------------------"
+
+	Invoke-Expression -Command $PSScriptRoot\Download-QtInstaller.ps1
+
+	#Deal with 	Online Installer unable to be downloaded
+	$exe = "$PSScriptRoot\qt-unified-windows-x86-online.exe"
+	if (Test-Path $exe) {
+		Write-Host "  --> Validated Installation `[$exe`]"
+	} else {
+		$msg="*** *** Cannot find Qt Installer *** ***"
+		InstallError($msg)
+	}
+	
 	Write-Host "  --> Check if Qt already installed"
 	# Check to see that Qt is not already installed
 	$exe = "$env:JTSDK_TOOLS"+"\Qt\MaintenanceTool.exe"
-	if ((Test-Path $exe) -ne 0) { PreviousInstall }
+	if ((Test-Path $exe) -ne 0) { PreviousQtInstall }
 	
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
@@ -61,7 +76,7 @@ function InstallQt($script) {
 	Write-Host ""
 	Write-Host "  --> Deploying via script `[$script`]"
 	
-	# qt-unified-windows-x86-online.exe --script .\qt-%script%-install.qs
+	# This version specifies the closest pool mirror as source
 	#$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs"
 	# This version specifies the funet.fi mirror as source
 	$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
@@ -77,7 +92,7 @@ function InstallQt($script) {
 	InstallSummary
 }
 
-function UpdateComponents {
+function UpdateQt {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
 	Write-Host " JTSDK64 Qt Maintainence Tool Update Components"
@@ -85,7 +100,13 @@ function UpdateComponents {
 	Write-Host ""
 	Write-Host "* Starting Qt Maintainence Tool to Update Components."
 	Write-Host ""
-	
+	$exe = "$JTSDK_TOOLS\Qt\MaintenanceTool.exe"
+	if (Test-Path $exe) {
+		Write-Host "  --> Validated Installation `[$exe`]"
+	} else {
+		$msg="*** *** Cannot find Qt Installer *** ***"
+		InstallError($msg)
+	}
 	cmd = "$JTSDK_TOOLS\Qt\MaintenanceTool.exe --updater"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	
@@ -94,7 +115,7 @@ function UpdateComponents {
 
 # MANAGE_PACKAGES ----------------------------------------------------------------
 
-function ManageComponents {
+function ManageQt {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
 	Write-Host " JTSDK64 Qt Maintainence Tool Manage Components"
@@ -102,7 +123,13 @@ function ManageComponents {
 	Write-Host ""
 	Write-Host "* Starting Qt Maintainence Tool to Manage Components."
 	Write-Host ""
-	
+	$exe = "$JTSDK_TOOLS\Qt\MaintenanceTool.exe"
+	if (Test-Path $exe) {
+		Write-Host "  --> Validated Installation `[$exe`]"
+	} else {
+		$msg="*** *** Cannot find Qt Installer *** ***"
+		InstallError($msg)
+	}
 	cmd = "$JTSDK_TOOLS\Qt\MaintenanceTool.exe --manage-packages"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	
@@ -111,7 +138,7 @@ function ManageComponents {
 
 # PREVIOUS INSTALL -----------------------------------------------------------#
 
-function PreviousInstall {
+function PreviousQtInstall {
 	Clear-Host
 	Write-Host "-----------------------------------------------------"
 	Write-Host " JTSDK64 Qt Setup Previous Install Found"
@@ -233,36 +260,21 @@ function InstallSummary {
 	exit(0)
 }
 
-
 # -----------------------------------------------------------------------------
 # Main Logic ------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 
-# Set-Location -Path "$PSScriptRoot\qt\"
-
-Write-Host "-----------------------------------------------------"
-Write-Host " Installing Qt"
-Write-Host "-----------------------------------------------------"
+Set-Location -Path "$PSScriptRoot"
 
 # Process input commands
-
-Invoke-Expression -Command $PSScriptRoot\Download-QtInstaller.ps1
-
-#Deal with 	Online Installer unable to be downloaded
-$exe = "$PSScriptRoot\qt-unified-windows-x86-online.exe"
-if (Test-Path $exe) {
-    Write-Host "  --> Validated Installation `[$exe`]"
-} else {
-	$msg="*** *** Cannot find Qt Installer *** ***"
-	InstallError($msg)
-}
 
 for ( $i = 0; $i -lt $args.count; $i++ ) {
     if ($args[ $i ] -eq "min"){ InstallQt("min") }
 	if ($args[ $i ] -eq "full"){ InstallQt("full") }
     if ($args[ $i ] -eq "update"){ UpdateQt }
-	if ($args[ $i ] -eq "update"){ ManageQt }
+	if ($args[ $i ] -eq "manage"){ ManageQt }
     if ($args[ $i ] -eq "help"){ InstallHelp }
+	if ($args[ $i ] -eq "-h"){ InstallHelp }
 }
 
 Write-Host ""

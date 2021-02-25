@@ -284,7 +284,7 @@ if ($countMinGW -eq 1)
 {
 	Write-Host "  --> MinGW Version: $verMinGW" # - contains MinGW Release
 } else {
-	GenerateError("MULTIPLE Qt MARKERS SET IN $env:JTSDK_CONFIG. PLEASE CORRECT")
+	GenerateError("NO Qt DEPLOYMENT or MULTIPLE Qt MARKERS SET IN $env:JTSDK_CONFIG. PLEASE CORRECT")
 }
 
 # --- Boost -------------------------------------------------------------------
@@ -298,7 +298,7 @@ if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) {
 	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
 	Write-Host "* Boost version $env:boostv is deployed"
 	$calcMinGWV = CheckBoostCorrectMinGWVersion($env:boost_dir)
-	# Write-Host "  --> Calculated: $calcMinGWV Version:$verMinGW"
+	Write-Host "  --> Calculated: $calcMinGWV Version:$verMinGW"
 	if ($calcMinGWV -like $verMinGW) {
 		$env:BOOST_FUNCTIONAL="Functional"
 		Write-Host "  --> Functional `[ for Qt $verMinGW `]"
