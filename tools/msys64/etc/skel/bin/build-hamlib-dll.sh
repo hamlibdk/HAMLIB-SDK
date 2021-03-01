@@ -93,7 +93,7 @@ Package-Data () {
 	echo " Date .................. $TODAY"
 	echo " Package ............... $PKG_NAME"
 	echo " User .................. $BUILDER"
-	echo " CPU Count ............. $CPUS"
+	echo " CPU Count ............. 4 [Fixed]"
 	echo " QT Version ............ $QTV"
 	echo " QT Tools/Toolchain .... $GCCD_F"
 	echo " QT Directory .......... $QTD_F"

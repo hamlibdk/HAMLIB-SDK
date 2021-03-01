@@ -306,9 +306,7 @@ function greeting_message (){
     echo ''
     echo "Copyright (C) 2013-2021, GPLv3, $AUTHOR and Contributors."
     echo 'This is free software; There is NO warranty; not even'
-    echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'
-	echo ''
-	echo '[ Note: Use Menu Option 3 only if pacman update issues observed ]'   
+    echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''
 
 }
