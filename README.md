@@ -74,7 +74,7 @@ Copyright (C) 2013-2021, GPLv3, Greg Beam, KI7MT and Contributors.
 This is free software; There is NO warranty; not even
 for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-hamlibdk@LAPTOP-I7 ~
+hamlibdk@jtsdk ~
 $ menu
 ```
 - Type: **menu**
