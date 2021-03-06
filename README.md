@@ -10,12 +10,12 @@ Once final structures are in place to house and support all this work - and to p
 
 ** Note that this assumes a fresh Windows 10 Virtual Machine **
 
-- Deploy the installer JTSDK64-Base-3.2.0.exe inside a FRESH VM.
+- Deploy the installer **JTSDK64-Base-3.2.0.exe** inside a FRESH VM.
 
 ### Step 2: Launch the Installation Environment
 
-- Execute the JTSDK64-Setup environment from the link on your desktop
-- In this environment type: ** postinstall **
+- Launch the **JTSDK64-Setup** environment from the link on your desktop
+- In this environment type: **postinstall**
 
 ```
 ------------------------------------------------------
@@ -55,15 +55,15 @@ Once final structures are in place to house and support all this work - and to p
   --> MSYS2 .......: Y
   --> VS Code .....: Y
   ```
-inside postinstall It is best at this stage just to select "y" for everything - especially the (required) components !
+inside **postinstall** It is best at this stage just to select "y" for everything - especially the (required) components !
 
-During this phase some tools will require some interaction at the keyboard (especially the Qt deployment as one MUST now have their own account and agree to their licensing terms).
+During this phase some tools will require some interaction at the keyboard or via the mouse (especially the Qt deployment as one MUST now have their own account and agree to their licensing terms).
 
 Follow on-screen prompts carefully.
 
 #### Step 2a: Prepare the MSYS2 Environment
 
-A MSYS2 environment window will open. 
+A MSYS2 environment window will open as part of the **postinstall** process. 
 ```
 JTSDK64 Tools MSYS2 using QT v
 
@@ -77,7 +77,7 @@ for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 stepheni@LAPTOP-I7 ~
 $ menu
 ```
-- Type: menu
+- Type: **menu**
 ```
 -------------------------------------
 JTSKD64 Tools Main Menu
@@ -100,57 +100,67 @@ Enter your selection, then hit <return>:
 
 #### Step 2b: Update the  MSYS2 Environment
 
-- Select Option 2 to (Update MSYS2) update the msys2 environment. 
+- Select **2. Update MSYS2** to update the MSYS2 environment. 
 
-Note that the window may close if there are updates. 
+Note that the window may close on completion if there are updates. 
+
+- Repeat this step until there are no more updates available.
 
 #### Step 2c: Update the  MSYS2 Environment
 
-If the MSYS2 Window closes reopen it within the JTSDK64-Setup environment with "msys2".
+- If the MSYS2 Window closes reopen it within the **JTSDK64-Setup** environment with **msys2**
 
-- Back at menu, select Option 3 to Deploy the Hamlib Dependencies.
+- Back at menu, **3. Install Hamlib Dependencies** to deploy the tools and libraries needed to build Hamlib.
 
 #### Step 2d: Basic Deployment Complete
 
-Once complete you can exit the "Deployment" environment (i.e. close the JTSDK64-Setup and any msys2 terminal shells) 
+Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **JTSDK64-Setup** and any MSYS2 terminal shells) 
 
 ### Step 3: Set Up The Main Tools Environment
 
-- Launch JTSDK64-Tools environment. 
+- Launch the **JTSDK64-Tools** environment from the icon on your desktop.
 
 #### Step 3a: (Optional) Upgrade your Qt Deployment
 
-The bare Qt installer script pegs at Qt at version 5.12.10. If you want to update Qt to the more contemporary 5.15.2 version you should do so now 
+The Minimal Qt installer script pegs at Qt at version 5.12.10. If you want to update Qt to the more contemporary 5.15.2 version you should do so now.
 
 i.e. 
 
 - Navigate to the Qt Deployment directory
-- Run the Qt Maintenance Tool from your Qt deployment directory (i.e. C:\JTASK64-Tools\tools\Qt)
-- To add Qt 5.15.2
+- Run the Qt Maintenance Tool from your Qt deployment directory (i.e. **C:\JTASK64-Tools\tools\Qt**)
+
+To add Qt 5.15.2:
+
 - Add Qt 5.15.2 MinGW.
 - Add Developer and Designer Tools / MinGW 8.1.0 64-bit
 - Optional: Add the OpenSSL 1.1.1j toolkit (it helps with a WSJTX download).
-- Adjust the C:\JTSDK64-Tools\config marker file to match the Qt version that you want to use (i.e. rename qt5.12.10 to qt5.15.2)
+
+On Completion:
+
+- Adjust the maker file in **C:\JTSDK64-Tools\config** marker file to match the Qt version that you want to use 
+- i.e. rename qt5.12.10 to qt5.15.2
+
+There  ust only be ONE marker file for QT in **C:\JTSDK64-Tools\config**
 
 #### Step 3b: Deploy Hamlib for our selected Qt Version.
 
-In JTSDK64-Tools:
+In **JTSDK64-Tools**:
 
-- Launch msys2
-- Type menu
-- Select 5. Build Hamlib - Static Libraries
+- Launch the MSYS2 environment with: **msys2**
+- Type: **menu**
+- Select **5. Build Hamlib - Static Libraries**
 
-This will take time as it pulls from the master repository for Hamlib. Repositories can be changed. by changing the marker files in C:\JTSDK64-Tools\config (i.e. from .. hlmaster to hlw4mdb or hlg4wjs or hlnone for no default pull and update).
+This will take time as it pulls from the master repository for Hamlib. Repositories can be changed. by changing the marker files in **C:\JTSDK64-Tools\config** (i.e. from .. **hlmaster** to **hlw4mdb**, **hlg4wjs** or **hlnone** for no default pull and update).
 
 #### Step 3c: Deploy Boost for our selected Qt/MinGW Version.
 
-THIS IS SLOW. There are "dropins" available on the Sourceforge and GitHub sites if you are lazy. Yet the best procedure is to build your own.
+***THIS IS SLOW***. There are "dropins" available on the Sourceforge and GitHub sites if you are lazy. Yet the best procedure is to build your own.
 
 In JTSDK64-Tools:
 
-- Type: Deploy-Boost
+- Type: **Deploy-Boost**
 
-Around 90 minutes later you should now have a deployment of Boost (based at v 1.74.0 but also configurable in C:\JTSDK64-Tools\config\Versions.ini) that is suitable to build JT-software under your selected Qt version on your machine.
+Around 90 minutes later you should now have a deployment of Boost (based at v 1.74.0 but also configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 #### Step 3d: Environments should now be complete for building JT- software
 
@@ -160,12 +170,12 @@ Now that seemed a lot of work. Please dissect these scripts to see what actually
 
 Now we are ready to BUILD a JT-release. 
 
-The default-source pulled is for the latest WSJT-X release. The JT-source that you pull is configurable from C:\JTSDK64-Tools\config. Rename the file src-wsjtx from a default pull of WSJT-X to either src-jtdx or src-js8call. 
+The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from **C:\JTSDK64-Tools\config**. Rename the file **src-wsjtx** from a default pull of WSJT-X to either **src-jtdx** or **src-js8call** if desired. 
 
 The "major" used distros are supported without discrimination or political comment.
 
 In JTSDK64-Tools:
 
-- Type: jtbuild <option>     i.e. jtbuild package
+- Type: **jtbuild <option>**     i.e. **jtbuild package**
  
 Options preferred are package (a Windows Installer package - the preferred "clean" way) and rinstall (just a static directory full of "runnable" files).
