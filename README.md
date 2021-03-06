@@ -176,6 +176,6 @@ The "major" used distros are supported without discrimination or political comme
 
 In JTSDK64-Tools:
 
-- Type: **jtbuild <option>**     i.e. **jtbuild package**
+- Type: **jtbuild** <option>     i.e. **jtbuild package**
  
 Options preferred are package (a Windows Installer package - the preferred "clean" way) and rinstall (just a static directory full of "runnable" files).
