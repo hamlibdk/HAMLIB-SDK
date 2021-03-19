@@ -532,12 +532,19 @@ Write-Host "* Setting essential PowerShell/MSYS2 cross-environment variables"
 $env:UNIXTOOLS = "Disabled"
 $env:HLREPO = "NONE"
 $env:JTSDK_HOME = $PSScriptRoot 
+$env:JTSDK_HOME_F = ConvertForward($env:JTSDK_HOME) 
 $env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
+$env:JTSDK_CONFIG_F = ConvertForward($env:JTSDK_CONFIG)
 $env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
+$env:JTSDK_DATA_F = ConvertForward($env:JTSDK_DATA)
 $env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
+$env:JTSDK_SRC_F = ConvertForward($env:JTSDK_SRC) 
 $env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"
+$env:JTSDK_TMP_F = ConvertForward($env:JTSDK_TMP)
 $env:JTSDK_TOOLS = $env:JTSDK_HOME + "\tools"
-$env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts" 
+$env:JTSDK_TOOLS_F = ConvertForward($env:JTSDK_TOOLS)
+$env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
+$env:JTSDK_SCRIPTS_F = ConvertForward($env:JTSDK_SCRIPTS) 
 
 CreateFolders							# --- Create Folders ------------------
 

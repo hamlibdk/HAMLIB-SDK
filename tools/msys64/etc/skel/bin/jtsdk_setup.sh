@@ -1,9 +1,24 @@
+#!/usr/bin/bash
+################################################################################
+#
+# Title ........: jtsdk_setup.sh
+# Version ......: 3.2.0 
+# Description ..: Setup the MSYS2 Environ for the JTSDK64
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
+#
+# Based on script in Hamlib ./scripts/build_x64-jtsdk.sh
+#                  20-2-2021 - 19-3-2021 Steve VK3VM / VK3SIR 
+#
+# Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
+# Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
+#				  Enhancements (c) 2021 JTSDK & Hamlib Development Contributors
+#
+################################################################################
+
 # script version
 AUTHOR="Greg Beam, KI7MT"
 JTSDK64_VER="$JTSDK64_VERSION" # interoperability variable from JTSDK64 env
 JTSDK64_NAME="JTSDK64 Tools MSYS2"
-# Adjustments: Steve VK3VM 16-4-2020 - 16-2-2021 and other JTSDK Contributors
-#              16-2-2021 - Incorporated groff, dos2unix and zip for DLL build
 
 # foreground colors ------------------------------------------------------------
 C_R='\033[01;31m'	# red
@@ -158,8 +173,6 @@ function clear-hamlib () {
 
 function change-repo () {
 
-	# set JTSDK_CONFIG_F = "${JTSDK_CONFIG//\\//}"
-	set $JTSDK_CONFIG_F = $JTSDK_CONFIG
     trap '' 2  # ignore control + c
     while true
     do
@@ -185,31 +198,31 @@ function change-repo () {
         read selection
         case "$selection" in
             1)
-                rm ${JTSDK_CONFIG//\\//}/hl* 
-				touch $JTSDK_CONFIG/hlmaster
+                rm ${JTSDK_CONFIG_F}/hl* 
+				touch $JTSDK_CONFIG_F/hlmaster
 				echo 'Repository set to $JTSDK_CONFIG/hlmaster (preferred)'
 				clear-hamlib
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
             2)
-                rm ${JTSDK_CONFIG//\\//}/hl* 
-				touch $JTSDK_CONFIG/hlg4wjs
+                rm ${JTSDK_CONFIG_F}/hl* 
+				touch $JTSDK_CONFIG_F/hlg4wjs
 				clear-hamlib
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
             3)
-                rm ${JTSDK_CONFIG//\\//}/hl* 
-				touch $JTSDK_CONFIG/hlw9mdb
+                rm ${JTSDK_CONFIG_F}/hl* 
+				touch $JTSDK_CONFIG_F/hlw9mdb
 				clear-hamlib
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
             4)
-                rm ${JTSDK_CONFIG//\\//}/hl*
+                rm ${JTSDK_CONFIG_F}/hl*
 				clear	
-				touch $JTSDK_CONFIG/hlnone
+				touch $JTSDK_CONFIG_F/hlnone
 				echo ''
 				echo '---------------------------------------------------------------------'
 				echo -e ${C_Y}"REPOSITORY SET"${C_NC}

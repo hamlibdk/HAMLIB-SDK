@@ -1,13 +1,13 @@
 #!/usr/bin/bash
+################################################################################
 #
 # Title ........: build-hamlib-dll.sh
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.0 
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
-# Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
-# Hamlib Repo ..: https://github.com/Hamlib/Hamlib.git
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
 #
 # Based on script in Hamlib ./scripts/build_x64-jtsdk.sh
-#                  Work commenced 20-2-2020 once build_x64-jtsdk.sh available
+#                  20-2-2021 - 18-3-2021 
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -44,12 +44,12 @@ BUILDER=$(whoami)
 DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
 SRCD="$HOME/builds"
 BUILDD="$SRCD/$PACKVER"
-PREFIX="/$DRIVE/JTSDK64-Tools/tools/hamlib/qt/$QTV"
+PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
 LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
-CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "/$DRIVE/JTSDK64-Tools/config/Versions.ini")
+CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "${JTSDK_CONFIG_F}/Versions.ini")
 if [ "$CPUREC" = "All" ]; 
 then 
 	CPUS=$((`nproc --all`))
@@ -87,9 +87,9 @@ Script-Header () {
 
 # Function: package data ------------------------------------------------------
 Package-Data () {
-	JTSDK_TOOLS_F=${JTSDK_TOOLS//'\'/'/'}
-	PACKVER_F=${JTSDK_TOOLS_F}/msys64${HOME}/builds/$PACKVER/${PACKVER}.zip
-	PACKVER_B=${PACKVER_F//'/'/'\'}
+	PACKVER_TMP="/msys64${HOME}/builds/$PACKVER/${PACKVER}.zip"
+	PACKVER_F=${JTSDK_TOOLS_F}${PACKVER_TMP}
+	PACKVER_B=${JTSDK_TOOLS}${PACKVER_TMP//'/'/'\'}
 	echo " Date .................. $TODAY"
 	echo " Package ............... $PKG_NAME"
 	echo " User .................. $BUILDER"
@@ -301,9 +301,9 @@ echo '* Note: This needs to be checked in a non-MSYS2 environment'
 echo ''
 echo '  --> rigctl.exe executed within a command CMD shell'
 echo ''
-JTSDK_TOOLS_F=${JTSDK_TOOLS//'\'/'/'}
-PACKVER_F=${JTSDK_TOOLS_F}/msys64/${HOME}/builds/$PACKVER/$PACKVER/bin/rigctl.exe
-PACKVER_B=${PACKVER_F//'/'/'\'}
+PACKVER_TMP="/msys64/${HOME}/builds/$PACKVER/$PACKVER/bin/rigctl.exe"
+PACKVER_F=${JTSDK_TOOLS_F}${PACKVER_TMP}
+PACKVER_B=${JTSDK_TOOLS}${PACKVER_TMP//'/'/'\'}
 export CMDSTRING=$PACKVER_F
 export PARAM=" --version"
 

@@ -1,14 +1,14 @@
 #!/usr/bin/bash
+################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.0 
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
-# Hamlib Repo ..: https://github.com/Hamlib/Hamlib.git 
 #
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
 #          Qt Version Adjustments 21-04 to 11-Feb-2021 
-#          Refactoring to use Environment variables better 13-Feb-2021
+#          Refactoring to use Environment variables better 13-2-2021 - 18-3-2021
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
@@ -46,12 +46,12 @@ BUILDER=$(whoami)
 DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
 SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
-PREFIX="/$DRIVE/JTSDK64-Tools/tools/hamlib/qt/$QTV"
+PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
 LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
-CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "/$DRIVE/JTSDK64-Tools/config/Versions.ini")
+CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "${JTSDK_CONFIG_F}/Versions.ini")
 if [ "$CPUREC" = "All" ]; 
 then 
 	CPUS=$((`nproc --all`))
@@ -170,7 +170,7 @@ fi
 # -- Start Git clone ----------------------------------------------------------
 # As long as HLREPO does not = NONE (added Steve I VK3VM 11-30/5/2020)
 #
-# Default (no valid entry of hlnone or hlg4wjs or in C:\JTSDK64-Tools\ )
+# Default (no valid entry of hlnone or hlg4wjs or in X:\JTSDK64-Tools\ )
 # is the master HAMLIB repository
 
 echo '---------------------------------------------------------------'
@@ -292,7 +292,7 @@ echo -e ${C_Y} " RUNNING MAKE CLEAN [ $PKG_NAME ]"${C_NC}
 echo '---------------------------------------------------------------'
 echo ''
 # Updated in v3.1.0.2 Release
-if [ -f "/$DRIVE/JTSDK64-Tools/config/hlclean" ]
+if [ -f "${JTSDK_CONFIG_F}/hlclean" ]
 then
 	make clean
 fi
