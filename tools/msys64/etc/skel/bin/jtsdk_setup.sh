@@ -6,8 +6,7 @@
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
 #
-# Based on script in Hamlib ./scripts/build_x64-jtsdk.sh
-#                  20-2-2021 - 19-3-2021 Steve VK3VM / VK3SIR 
+# Updates.......:  20-2-2021 - 10-4-2021 Steve VK3VM / VK3SIR 
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -16,7 +15,7 @@
 ################################################################################
 
 # script version
-AUTHOR="Greg Beam, KI7MT"
+AUTHOR="Greg Beam, KI7MT and JTSDK Contributors"
 JTSDK64_VER="$JTSDK64_VERSION" # interoperability variable from JTSDK64 env
 JTSDK64_NAME="JTSDK64 Tools MSYS2"
 
@@ -43,6 +42,7 @@ alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
 alias build-hamlib="bash /home/$USER/bin/build-hamlib.sh"
 alias build-hamlib-dll="bash /home/$USER/bin/build-hamlib-dll.sh"
+alias build-hamlib-static="bash /home/$USER/bin/build-hamlib-static.sh"
 
 # Function: Help Menu ---------------------------------------------------------
 function jthelp () {
@@ -107,7 +107,7 @@ function jtversion () {
     echo " JTSDK64 Version .. v$JTSDK64_VER"
     echo " Qt Environment ... $QTV"
     echo ''
-    echo " Copyright (C) 2013-2021, GPLv3, $AUTHOR & Contributors"
+    echo " Copyright (C) 2013-2021, GPLv3, $AUTHOR"
     echo ' This is free software; There is NO warranty; not even'
     echo ' for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'
     echo ''
@@ -283,10 +283,16 @@ function menu () {
                 msys-keyring
                 read -p "Press enter to continue..." ;;
             5)
-                build-hamlib
+                build-hamlib-static
+				echo ""
+				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD DYNAMIC LIBRARIES"${C_NC}
+				echo ""
                 read -p "Press enter to continue..." ;;
 			6)
                 build-hamlib-dll
+				echo ""
+				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD STATIC LIBRARIES"${C_NC}
+				echo ""
                 read -p "Press enter to continue..." ;;
 			7)
                 clear-hamlib
@@ -317,7 +323,7 @@ function greeting_message (){
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
     echo ''
-    echo "Copyright (C) 2013-2021, GPLv3, $AUTHOR and Contributors."
+    echo "Copyright (C) 2013-2021, GPLv3, $AUTHOR."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''

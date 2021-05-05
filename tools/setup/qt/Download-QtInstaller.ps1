@@ -7,8 +7,8 @@
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Hamlib SDK Contributors <hamlibdk@hotmail.com>
-# Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#               : (C) 2020-2021 Hamlib SDK Contributors
+# Copyright ....: Copyright (C) 2013-2019 Greg Beam, KI7MT
+#               : (C) 2020 Hamlib SDK Contributors
 # License ......: GPL-3
 #
 #-----------------------------------------------------------------------------#
@@ -20,8 +20,7 @@ Set-Location -Path $PSScriptRoot
 # dir$app = "curl"
 $appName="qt-unified-windows-x86-online.exe"
 $appURL="https://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe"
-$mirror="--mirror http://www.nic.funet.fi/pub/mirrors/download.qt-project.org"
-#$param = "-o $appName -J -L $appURL $mirror"
+#$param = "-o $appName -J -L $appURL"
 
 Write-Host " "
 Write-Host "* Downloading Qt Installer"

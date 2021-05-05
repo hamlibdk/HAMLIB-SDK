@@ -1,10 +1,11 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Description .......: Test Build script for WSJT-X, JTDX and JS8CALL
+# Version ...........: 3.2.0 
+# Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-# Author ............: JTSDK Contributors 20-01-2021 ->
+# Author ............: JTSDK Contributors 20-01-2021 -> 21-3-2021
 # Copyright .........: Copyright (C) 2018-2021 Greg Beam, KI7MT
-#                      Copyright (C) 2018-2021 JTSDK Contributors ->
+#                      Copyright (C) 2018-2021 JTSDK Contributors
 # License ...........: GPL-3
 #
 # jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 11-12-2020
@@ -32,9 +33,9 @@
 # ---------------------------------------------------------------- THIS IS THE END !!!
 function TheEnd($code) {
 
-	Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
-	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null
-	Pop-Location
+	#Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
+	#Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null
+	#Pop-Location
 
 	exit($code)
 }
@@ -729,9 +730,16 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			if ($line -like '*WSJTX_VERSION_PATCH*') {
 				$rpav.value = ($line) -replace "[^0-9]" , ''
 			}
-			if ($line -like '*WSJTX_RC*') {
+			if ($line -like '*#set (WSJTX_RC*') {
+				Write-Host "  --> Development Version: Disabled WSJTX_RC"
+			} else { if ($line -like '*WSJTX_RC*') {
+					$rrelx.value = ($line) -replace "[^0-9]" , ''
+				}
+			}
+			if ($line -like '*WSJTX_VERSION_SUB*') {
 				$rrelx.value = ($line) -replace "[^0-9]" , ''
 			}
+
 			if ($line -like '*WSJTX_VERSION_IS_RELEASE*') {
 				$rrcx.value = ($line) -replace "[^0-9]" , ''
 			}
@@ -753,13 +761,13 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 
 # Used to prevent CMake errors with MinGW Makefiles
 # This prevents a long-standing annoyance seen while developing...  !!!
-if (Test-Path("$env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe")) { 
-	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null 
-}
+#if (Test-Path("$env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe")) { 
+#	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null 
+#}
 
-Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
-Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe | Out-Null
-Pop-Location
+#Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
+#Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe | Out-Null
+#Pop-Location
 
 # Process Options ------------------------------------------------ PROCESS OPTIONS
 # This processes the options behind the command jtbuild

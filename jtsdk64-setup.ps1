@@ -1,12 +1,12 @@
 #-----------------------------------------------------------------------------::
-# Name .........: jtsdk64-tools-setup.ps1
+# Name .........: jtsdk64-setup.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.0
 # Description ..: JTSDK64 Postinstall Setup Environment
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line
 # 
-# Author .......: Hamlib SDK Contributors <hamlibdk@hotmail.com>
+# Author .......: Hamlib SDK Contributors <hamlibdk@outlook.com>
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
@@ -14,15 +14,26 @@
 #                 And (C) 2020 - 2021 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8 Dec 2020 - 8 Feb 2021
+# Adjustments...: Steve VK3VM 8 Dec 2020 - 25 Mar 2021
+#                 Uwe DG2YCB 25 Mar 2021
+
+# --- CONVERT FORWARD ---------------------------------------------------------
+# --> Converts to Unix/MinGW/MSYS2 Path format !
+
+function ConvertForward($inValue) {
+	$inValue = ($inValue).substring(0,1).tolower() + ($inValue).substring(1)
+	$inValue = ($inValue).replace("\","/")
+	$inValue = ($inValue).Insert(0,'/')
+	return $inValue.replace(":","")
+}
 
 $env:JTSDK64_VERSION = [IO.File]::ReadAllText($PSScriptRoot+"\ver.jtsdk")
 $host.ui.RawUI.WindowTitle = “JTSDK64 Tools Setup ” + $env:JTSDK64_VERSION
 
 Clear-Host
-Write-Host "-----------------------------------------------"
-Write-Host "       JTSDK64 Tools Setup $env:JTSDK64_VERSION"
-Write-Host "-----------------------------------------------"
+Write-Host "--------------------------------------------------------------"
+Write-Host "               JTSDK64 Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
+Write-Host "--------------------------------------------------------------"
 Write-Host " "
 
 #------------------------------------------------------------------------------
@@ -32,18 +43,30 @@ Write-Host " "
 # --- Main Paths --------------------------------------------------------------
 
 Write-Host "* Setting Environment Variables"
-$env:JTSDK_HOME = $PSScriptRoot
+$env:JTSDK_HOME = $PSScriptRoot 
+$env:JTSDK_HOME_F = ConvertForward($env:JTSDK_HOME) 
+$env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
+$env:JTSDK_CONFIG_F = ConvertForward($env:JTSDK_CONFIG)
+$env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
+$env:JTSDK_DATA_F = ConvertForward($env:JTSDK_DATA)
+$env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
+$env:JTSDK_SRC_F = ConvertForward($env:JTSDK_SRC) 
+$env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"
+$env:JTSDK_TMP_F = ConvertForward($env:JTSDK_TMP)
 $env:JTSDK_TOOLS = $env:JTSDK_HOME + "\tools"
+$env:JTSDK_TOOLS_F = ConvertForward($env:JTSDK_TOOLS)
+$env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
+$env:JTSDK_SCRIPTS_F = ConvertForward($env:JTSDK_SCRIPTS) 
+
 $env:JTSDK_SETUP = $env:JTSDK_HOME + "\tools\setup"
-$env:JTSDK_CURL_BIN = $env:JTSDK_HOME + "\curl\bin"
 
 # --- Global Environment Variables --------------------------------------------
 
 $env:JTSDK_GIT_INSTALL_DIR = $env:ProgramFiles+"\Git"		# $env:ProgramFiles : System : where x64 progs deployed
 $env:JTSDK_QT_INSTALL_DIR = $env:JTSDK_TOOLS + "\Qt"
-$JTSDK_MSYS2 = $env:JTSDK_TOOLS + "\MSYS64"
+$JTSDK_MSYS2 = $env:JTSDK_TOOLS + "\msys64"
 
-$env:PATH=$env:PATH+";"+$env:JTSDK_HOME+";"+$env:JTSDK_TOOLS+";"+$env:JTSDK_SETUP+";"+$env:JTSDK_CURL_BIN+";"+$JTSDK_MSYS2
+$env:PATH=$env:PATH+";"+$env:JTSDK_HOME+";"+$env:JTSDK_TOOLS+";"+$env:JTSDK_SETUP+";"+$JTSDK_MSYS2
 
 #------------------------------------------------------------------------------
 # TOOL INSTALL VALIDATION
@@ -55,12 +78,8 @@ $env:VCRUNTIME_STATUS="Not Installed"
 $env:GIT_STATUS="Not Installed"
 $env:QTMAINT_STATUS="Not Installed"
 $env:QTCREATOR_STATUS="Not Installed"
-$env:GCC73_STATUS="Not Installed"
-$env:GCC81_STATUS="Not Installed"
-$env:QT51210_STATUS="Not Installed"
-$env:QT5142_STATUS="Not Installed"
-$env:QT5152_STATUS="Not Installed"
-$env:QT601_STATUS="Not Installed"
+$env:MinGW73_STATUS="Not Installed"
+$env:MinGW81_STATUS="Not Installed"
 $env:VSCODE_STATUS="Not Installed"
 $env:BOOST_STATUS="Not Installed"
 $env:OMNIRIG_STATUS="Not Installed"
@@ -117,12 +136,14 @@ Write-Host "* Checking QT Deployment"
 
 if (Test-Path "$env:JTSDK_TOOLS\Qt\MaintenanceTool.exe") { $env:QTMAINT_STATUS="Installed" }
 if (Test-Path "$env:JTSDK_TOOLS\Qt\Tools\QtCreator\bin\qtcreator.exe") { $env:QTCREATOR_STATUS="Installed" }
-if (Test-Path "$env:JTSDK_TOOLS\Qt\5.12.10\mingw73_64\bin\Qt5Core.dll") { $env:QT51210_STATUS="Installed" }
-if (Test-Path "$env:JTSDK_TOOLS\Qt\5.14.2\mingw73_64\bin\Qt5Core.dll") { $env:QT5142_STATUS="Installed" }
-if (Test-Path "$env:JTSDK_TOOLS\Qt\5.15.2\mingw81_64\bin\Qt5Core.dll") { $env:QT5152_STATUS="Installed" }
-if (Test-Path "$env:JTSDK_TOOLS\Qt\6.0.1\mingw81_64\bin\Qt6Core.dll") { $env:QT601_STATUS="Installed" }
-if (Test-Path "$env:JTSDK_TOOLS\Qt\Tools\mingw730_64\bin\gcc.exe") { $env:GCC73_STATUS="Installed" }
-if (Test-Path "$env:JTSDK_TOOLS\Qt\Tools\mingw810_64\bin\gcc.exe") { $env:GCC81_STATUS="Installed" }
+
+if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw73_64\bin") { $env:MinGW73_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw73_64\bin\Qt?Core.dll }
+$env:MinGW73_STATUS = $env:MinGW73_STATUS -replace "64" -replace "73" -replace "81" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
+if ($env:MinGW73_STATUS -eq ", Qt ") { $env:MinGW73_STATUS="Not Installed" }
+
+if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_64\bin") { $env:MinGW81_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_64\bin\Qt?Core.dll }
+$env:MinGW81_STATUS = $env:MinGW81_STATUS -replace "64" -replace "73" -replace "81" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
+if ($env:MinGW81_STATUS -eq ", Qt ") { $env:MinGW81_STATUS="Not Installed" }
 
 # --- Complete ! --------------------------------------------------------------
 
@@ -139,9 +160,9 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
     $host.UI.RawUI.WindowTitle = "JTSDK64 Setup Powershell Window" 
     New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2_shell.cmd"
 	New-Alias postinstall "$env:JTSDK_TOOLS\setup\jtsdk64-postinstall.ps1"
-    Write-Host "-----------------------------------------------"
-	Write-Host "     JTSDK64 Tools Setup $env:JTSDK64_VERSION"
-	Write-Host "-----------------------------------------------"
+    Write-Host "---------------------------------------------------------"
+	Write-Host "            JTSDK64 Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Cyan
+	Write-Host "---------------------------------------------------------"
 	Write-Host " "
 	Write-Host "  Required Tool Status"
 	Write-Host " "
@@ -151,12 +172,8 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 	Write-Host " "
 	Write-Host "  Qt Script-Provisioned Tool Chain Status"
 	Write-Host " "
-	Write-Host "     5.12.10 ....... $env:QT51210_STATUS"
-	Write-Host "     5.14.2 ........ $env:QT5142_STATUS"
-	Write-Host "     5.15.2 ........ $env:QT5152_STATUS"
-	Write-Host "     6.0.1 ......... $env:QT601_STATUS"
-	Write-Host "     GCC 7.3 ....... $env:GCC73_STATUS"
-	Write-Host "     GCC 8.1 ....... $env:GCC81_STATUS"
+	Write-Host "     MinGW 7.3 ..... Qt $env:MinGW73_STATUS"
+	Write-Host "     MinGW 8.1 ..... Qt $env:MinGW81_STATUS"
 	Write-Host " "
 	Write-Host "  Optional Component Status"
 	Write-Host " "
