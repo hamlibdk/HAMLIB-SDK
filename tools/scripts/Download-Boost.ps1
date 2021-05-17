@@ -52,7 +52,8 @@ $dLoc = $dlFile.Replace(".zip","")			# Remove the .zip extenstion [ For decompre
 
 # Boost Distribution URL
 
-$dlPath = "https://dl.bintray.com/boostorg/release/$boostv/source/$dlFile"
+#$dlPath = "https://dl.bintray.com/boostorg/release/$boostv/source/$dlFile"
+$dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"
 
 Write-Host "  --> Requested Source: $dlPath"
 

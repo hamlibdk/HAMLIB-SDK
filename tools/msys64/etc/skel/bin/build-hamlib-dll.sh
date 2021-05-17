@@ -6,8 +6,9 @@
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
 #
-# Based on script in Hamlib ./scripts/build_x64-jtsdk.sh
-#                  20-2-2021 - 18-3-2021 
+# Based on script in Hamlib ./scripts/build_x64-jtsdk.sh - 
+#                 Adjustments Steve I VK3VM 20-2-2021 - 7-4-2021 
+#                 Ability to set nbr CPUs Steve I VK3VM 7-4-2021 
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -26,6 +27,8 @@ set -e
 
 SCRIPT_NAME="JTSDK64 Tools MSYS2 Hamlib Build Script"
 
+# -- Colour Variables ---------------------------------------------------------
+
 # Foreground colors
 C_R='\033[01;31m'		# red
 C_G='\033[01;32m'		# green
@@ -35,46 +38,50 @@ C_NC='\033[01;37m'		# no color
 
 # -- Process Variables --------------------------------------------------------
 
-export PACKVER='hamlib-w64-4.2~git'
+export HL_FILENAME='hamlib'
+export PACKVER='src'
+export BUILD_BASE_DIR='src/hamlib'
 PKG_NAME=Hamlib
 TODAY=$(date +"%d-%m-%Y")
 TIMESTAMP=$(date +"%d-%m-%Y at %R")
 BUILDER=$(whoami)
 # CPUS=$((`nproc --all`))
 DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
-SRCD="$HOME/builds"
-BUILDD="$SRCD/$PACKVER"
+SRCD="$HOME/${BUILD_BASE_DIR}"
+BUILDD="${SRCD}/${PACKVER}"
 PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
 LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
-CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "${JTSDK_CONFIG_F}/Versions.ini")
-if [ "$CPUREC" = "All" ]; 
-then 
-	CPUS=$((`nproc --all`))
-fi
-if [ "$CPUREC" = "Half" ]; 
-then 
-	echo "Half"
-	NONO=`nproc --all`
-	CPUS=$(($NONO / 2))
-	echo $CPUS
-fi
-if [ "$CPUREC" = "Solo" ]; 
-then 
-	CPUS=1
-fi
-
-# -- QT Tool Chain Paths ------------------------------------------------------
-# QTV="$QTV"
+# -- Paths --------------------------------------------------------------------
 
 export PATH=$PATH:$GCCD_F:.
-
 
 #-----------------------------------------------------------------------------#
 # FUNCTIONS                                                                   #
 #-----------------------------------------------------------------------------#
+
+# Function: Determine Nbr CPUs to allocate ------------------------------------
+Determine-CPUs () {
+	CPUREC=$(sed -n 's/.*cpuusage *= *\([^ ]*.*\)/\1/p' < "${JTSDK_CONFIG_F}/Versions.ini")
+	export CPUS=$((`nproc --all`))
+	if [ "$CPUREC" = "All" ]; 
+	then 
+		export CPUS=$((`nproc --all`))
+	fi
+	if [ "$CPUREC" = "Half" ]; 
+	then 
+		echo "Half"
+		NONO=`nproc --all`
+		export CPUS=$(($NONO / 2))
+		echo $CPUS
+	fi
+	if [ "$CPUREC" = "Solo" ]; 
+	then 
+		export CPUS=1
+	fi
+}
 
 # Function: main script header ------------------------------------------------
 Script-Header () {
@@ -83,31 +90,47 @@ Script-Header () {
 	echo -e ${C_C}" $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
 	echo '---------------------------------------------------------------'
 	echo ''
+	echo ' Commencing Build of Windows Dynamic Library Build (DLL)'
+	echo ''
+	echo -e " SRC Dir ....... ${C_G}$HOME/${BUILD_BASE_DIR}${C_NC}" 
+	echo -e " Build Dir ..... ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER${C_NC}" 
+	#echo ''
 }
 
 # Function: package data ------------------------------------------------------
 Package-Data () {
-	PACKVER_TMP="/msys64${HOME}/builds/$PACKVER/${PACKVER}.zip"
+	PACKVER_TMP="/msys64${HOME}/${BUILD_BASE_DIR}/$PACKVER/${HL_FILENAME}.zip"
 	PACKVER_F=${JTSDK_TOOLS_F}${PACKVER_TMP}
 	PACKVER_B=${JTSDK_TOOLS}${PACKVER_TMP//'/'/'\'}
-	echo " Date .................. $TODAY"
-	echo " Package ............... $PKG_NAME"
-	echo " User .................. $BUILDER"
-	echo " CPU Count ............. 4 [Fixed]"
-	echo " QT Version ............ $QTV"
-	echo " QT Tools/Toolchain .... $GCCD_F"
-	echo " QT Directory .......... $QTD_F"
-	echo " QT Platform ........... $QTP_F"
-	echo " SRC Dir ............... $HOME/builds"
-	echo " Build Dir ............. $HOME/builds/$PACKVER/$PACKVER"
-	echo " LibUSB DLL ............ $LIBUSBD"
+	echo ''
+	echo '----------------------------------------------------------------'
+	echo -e ${C_G} " FINISHED COMPILATION"${C_NC}
+	echo '----------------------------------------------------------------'
+	echo ''
+	echo -e ${C_Y}"Base Information:"${C_NC} 
+	echo "" 
+	echo -e " Release................ ${C_G}$RELEASE"${C_NC}
+	echo -e " Date .................. ${C_G}$TODAY"${C_NC}
+	echo -e " Package ............... ${C_G}$PKG_NAME"${C_NC}
+	echo -e " User .................. ${C_G}$BUILDER"${C_NC}
+	echo -e " CPU/Job Count ......... ${C_G}$CPUS"${C_NC}
+	echo -e " QT Version ............ ${C_G}$QTV"${C_NC}
+	echo -e " QT Tools/Toolchain .... ${C_G}$GCCD_F"${C_NC}
+	echo -e " QT Directory .......... ${C_G}$QTD_F"${C_NC}
+	echo -e " QT Platform ........... ${C_G}$QTP_F"${C_NC}
+	echo -e " SRC Dir ............... ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}
+	echo -e " Build Dir ............. ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER"${C_NC}
+	echo -e " LibUSB DLL ............ ${C_G}$LIBUSBD"${C_NC}
 	echo ""
-	echo " Hamlib Package MSYS2 .. $HOME/builds/$PACKVER/$PACKVER.zip"
+	echo -e ${C_Y}"Hamlib Package MSYS2:"${C_NC} 
+	echo "" 
+	echo " $HOME/${BUILD_BASE_DIR}/$PACKVER/${HL_FILENAME}.zip"
 	echo ""
-	echo " Windows Path (for copy-and-paste) "
+	echo -e ${C_Y}"Windows Path (for copy-and-paste):"${C_NC}
 	echo ""
-	echo -n "   "
+	echo -n " "
 	echo $PACKVER_B
+	echo ""
 }
 
 # Function: tool chain check ---------------------------------------------------
@@ -146,177 +169,194 @@ Tool-Check () {
 	echo -e ' Bin Utils ..... '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
 	echo -e ' Libtool ....... '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
 	echo -e ' Pkg-Config  ... '${C_G}"$(pkg-config --version)"${C_NC}
+	echo ''
+}
+# Function: Establish Environment ---------------------------------------------
+Establish-Environment () {
+	echo '---------------------------------------------------------------'
+	echo -e ${C_Y} " ESTABLISHING ENVIRONMENT "${C_NC}
+	echo '---------------------------------------------------------------'
+	echo ''
+	if [ -d "./${BUILD_BASE_DIR}" ]; then
+		echo -e '* Base build environment directory exists: '${C_G}${HOME}'/'${BUILD_BASE_DIR} ${C_NC}
+		echo ''
+	else
+		echo '* Establishing base build environment directory: '$HOME
+		echo -n '* Removing any pre-existing structures under '$HOME': ' 
+		cd ~
+		# rm -rf $SRCD
+		echo 'Done'
+		echo -n '* Creating required directory structure under '$HOME': '
+		mkdir ./${BUILD_BASE_DIR}
+		cd ./${BUILD_BASE_DIR}
+		echo 'Done'
+		echo ''
+	fi
 }
 
-#------------------------------------------------------------------------------#
-# START MAIN SCRIPT                                                            #
-#------------------------------------------------------------------------------#
-#: <<'END'
-#END
-# -- run tool check -----------------------------------------------------------
-cd
-clear
-Script-Header
-Package-Data
-Tool-Check
-
-if [ "$?" = "0" ];
-then
-echo -en " Tool-Chain .... "&& echo -e ${C_G}'OK'${C_NC}
+# Function: test rigctl.exe binary --------------------------------------------
+Test-RIGCTL () {
 	echo ''
-else
+	echo '---------------------------------------------------------------'
+	echo -e ${C_Y} " TESTING RIGCTL"${C_NC}
+	echo '---------------------------------------------------------------'
 	echo ''
-	echo -e ${C_R}"TOOL-CHAIN WARNING"${C_NC}
-	echo 'There was a problem with the Tool-Chain.'
-	echo "$0 Will now exit .."
-	exit ''
-	exit 1
-fi
+	echo '* Note: This needs to be checked in a non-MSYS2 environment'
+	echo ''
+	echo '  --> rigctl.exe executed within a command CMD shell'
+	# PACKVER_TMP="/msys64/${HOME}/${BUILD_BASE_DIR}/$PACKVER/$PACKVER/bin/rigctl.exe"
+	PACKVER_TMP="/msys64${HOME}/${BUILD_BASE_DIR}/$PACKVER/${HL_FILENAME}/bin/rigctl.exe"
+	PACKVER_F=${JTSDK_TOOLS_F}${PACKVER_TMP}
+	PACKVER_B=${JTSDK_TOOLS}${PACKVER_TMP//'/'/'\'}
+	echo "  --> ${PACKVER_B}"
+	echo ''
+	export CMDSTRING=$PACKVER_F
+	export PARAM=" --version"
 
-# -- Create Basic Environment -------------------------------------------------
-#
+	cmd //c $CMDSTRING $PARAM
+}
 
-echo '---------------------------------------------------------------'
-echo -e ${C_Y} " ESTABLISHING ENVIRONMENT "${C_NC}
-echo '---------------------------------------------------------------'
-echo ''
-echo '* Establishing base build environment directory: '$HOME
-echo -n '* Removing any pre-existing structures under '$HOME': ' 
-cd ~
-rm -rf $SRCD
-echo 'Done'
-echo -n '* Creating required directory structure under '$HOME': '
-mkdir ./builds
-cd ./builds
-echo 'Done'
-echo ''
+#Function: Perfporm Bootstrap Function ----------------------------------------
+function Perform-Bootstrap () {
+	# -- run hamlib bootstrap -----------------------------------------------------
+	cd "$SRCD/$PACKVER"
+	echo ''
+	echo '---------------------------------------------------------------'
+	echo -e ${C_Y} " RUN BOOTSTRAP [ $PKG_NAME ]"${C_NC}
+	echo '---------------------------------------------------------------'
+	echo ''
+	echo 'Running bootstrap'
+	./bootstrap
+}
 
-# -- Start Git clone ----------------------------------------------------------
+#Function: Clone Repository ---------------------------------------------------
 # As long as HLREPO does not = NONE (First added Steve I VK3VM 11-30/5/2020)
 #
 # Default (no valid entry of hlnone or hlg4wjs or in C:\JTSDK64-Tools\ )
 # is the master HAMLIB repository
 
-echo '---------------------------------------------------------------'
-echo -e ${C_Y} " CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
-echo '---------------------------------------------------------------'
-echo ''
-if [ "$HLREPO" = "NONE" ];
-then 
-	echo 'HAMLIB: Use existing: No GIT pull (hlnone} unless no source present'
+Clone-Repo () {
+	echo '---------------------------------------------------------------'
+	echo -e ${C_Y} " CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
+	echo '---------------------------------------------------------------'
 	echo ''
-	cd "$SRCD"
-	
-	if [[ -f $SRCD/$PACKVER/bootstrap ]];
-	then
-		echo 'HAMLIB: Static Source detected : GIT pull not attempted.'
+	if [ "$HLREPO" = "NONE" ];
+	then 
+		echo 'HAMLIB: Use existing: No GIT pull (hlnone} unless no source present'
 		echo ''
-	else	 	
-		echo 'HAMLIB: Static Source selected : No source detected so MASTER repo pull attempted.'
-		echo ''
-		# ensure the directory is removed first
-		if [[ -d $SRCD/src ]];
-		then
-			rm -rf "$SRCD/src"
-		fi
-
-		# clone the DEFAULT repository
-		git clone https://github.com/Hamlib/Hamlib.git $PACKVER
-		
-		cd "$SRCD/src"
-
-		# checkout the master branch
-		git checkout master
-	fi
-else
-	mkdir -p "$BUILDD"
-	if [[ -f $SRCD/$PACKVER/bootstrap ]];
-	then
-		cd "$SRCD/src"
-		# git config pull.rebase false   # Merge from Repos
-		# git config pull.rebase true	 # Rebase from Repos	
-		git config pull.ff only 		 # Base off "fast-forwards" 
-		git pull
-	else
 		cd "$SRCD"
-
-		# ensure the directory is removed first
-		if [[ -d $SRCD/$PACKVER ]];
-		then
-			rm -rf "$SRCD/$PACKVER"
-		fi
-
-		# clone the repository
-		if [ "$HLREPO" = "G4WJS" ];
-		then 
-			echo 'HAMLIB: Cloning from G4WJS Repository'
-			echo ''
-			git clone https://git.code.sf.net/u/bsomervi/hamlib $PACKVER
-		else 
-			if [ "$HLREPO" = "W9MDB" ];
-			then
-				echo 'HAMLIB: Cloning from W9MDB Repository'
-				echo ''
-				git clone https://github.com/mdblack98/Hamlib $PACKVER
-			else
-				echo 'HAMLIB: Cloning from MASTER Repository'
-				echo ''
-				git clone https://github.com/Hamlib/Hamlib.git $PACKVER
-			fi
-		fi 
 		
-		cd "$SRCD/$PACKVER"
+		if [[ -f $SRCD/$PACKVER/bootstrap ]];
+		then
+			echo 'HAMLIB: Static Source detected : GIT pull not attempted.'
+			# echo ''
+		else	 	
+			echo 'HAMLIB: Static Source selected : No source detected so MASTER repo pull attempted.'
+			echo ''
+			# ensure the directory is removed first
+			if [[ -d $SRCD/src ]];
+			then
+				rm -rf "$SRCD/src"
+			fi
 
-		# checkout the master branch
-		git checkout master
+			# clone the DEFAULT repository
+			git clone https://github.com/Hamlib/Hamlib.git $PACKVER
+			
+			cd "$SRCD/src"
+
+			# checkout the master branch
+			git checkout master
+		fi
+	else
+		# mkdir -p "${BUILDD}"
+		if [[ -f ${BUILDD}/bootstrap ]];
+		then
+			cd "${BUILDD}"
+			# git config pull.rebase false   # Merge from Repos
+			# git config pull.rebase true	 # Rebase from Repos	
+			git config pull.ff only 		 # Base off "fast-forwards" 
+			git pull
+		else
+			cd "$SRCD"
+
+			# ensure the directory is removed first
+			if [[ -d $SRCD/$PACKVER ]];
+			then
+				rm -rf "$SRCD/$PACKVER"
+			fi
+
+			# clone the repository
+			if [ "$HLREPO" = "G4WJS" ];
+			then 
+				echo 'HAMLIB: Cloning from G4WJS Repository'
+				echo ''
+				git clone https://git.code.sf.net/u/bsomervi/hamlib $PACKVER
+			else 
+				if [ "$HLREPO" = "W9MDB" ];
+				then
+					echo 'HAMLIB: Cloning from W9MDB Repository'
+					echo ''
+					git clone https://github.com/mdblack98/Hamlib $PACKVER
+				else
+					echo 'HAMLIB: Cloning from MASTER Repository'
+					echo ''
+					git clone https://github.com/Hamlib/Hamlib.git $PACKVER
+				fi
+			fi 
+			
+			cd "$SRCD/$PACKVER"
+
+			# checkout the master branch
+			git checkout master
+		fi
 	fi
-fi
+}
 
-# -- run hamlib bootstrap -----------------------------------------------------
-cd "$SRCD/$PACKVER"
-echo ''
-echo '---------------------------------------------------------------'
-echo -e ${C_Y} " RUN BOOTSTRAP [ $PKG_NAME ]"${C_NC}
-echo '---------------------------------------------------------------'
-echo ''
-echo 'Running bootstrap'
-./bootstrap
+
+# Function: Execute ./scripts/build-w64-jtsdk.sh ------------------------------
+function Execute-Hamlib-Supplied-Binary () {
+	echo ''
+	echo '---------------------------------------------------------------'
+	echo -e ${C_Y} " EXECUTING ./scripts/build-w64-jtsdk.sh "${C_NC}
+	echo '---------------------------------------------------------------'
+	echo ''
+	echo '.. This may take a several minutes to complete'
+	sh $HOME/${BUILD_BASE_DIR}/$PACKVER/scripts/build-w64-jtsdk.sh $PACKVER
+}
+
+#------------------------------------------------------------------------------#
+# START MAIN SCRIPT                                                            #
+#------------------------------------------------------------------------------#
+
+#cd
+clear
+Determine-CPUs
+Script-Header
+Tool-Check
+Establish-Environment 
+
+# -- Clone the Repositories (if needed) ---------------------------------------
+
+Clone-Repo
+
+# -- Set Release Info ---------------------------------------------------------
+# Note: This WILL ONLY WORK ONCE HAMLIB SOURCE IS DOWNLOADED
+RELEASE=$(/usr/bin/awk 'BEGIN{FS="["; RS="]"} /\[4\./ {print $2;exit}' $SRCD/$PACKVER/configure.ac)
+export HL_FILENAME=hamlib-w64-${RELEASE}
+
+Perform-Bootstrap
 
 # -- Execute ./scripts/build-w64-jtsdk.sh -------------------------------------
-echo ''
-echo '---------------------------------------------------------------'
-echo -e ${C_Y} " EXECUTING ./scripts/build-w64-jtsdk.sh "${C_NC}
-echo '---------------------------------------------------------------'
-echo ''
-echo '.. This may take a several minutes to complete'
-sh $HOME/builds/$PACKVER/scripts/build-w64-jtsdk.sh $PACKVER
 
-# -- test rigctl.exe binary ---------------------------------------------------
-echo ''
-echo '---------------------------------------------------------------'
-echo -e ${C_Y} " TESTING RIGCTL"${C_NC}
-echo '---------------------------------------------------------------'
-echo ''
-echo '* Note: This needs to be checked in a non-MSYS2 environment'
-echo ''
-echo '  --> rigctl.exe executed within a command CMD shell'
-echo ''
-PACKVER_TMP="/msys64/${HOME}/builds/$PACKVER/$PACKVER/bin/rigctl.exe"
-PACKVER_F=${JTSDK_TOOLS_F}${PACKVER_TMP}
-PACKVER_B=${JTSDK_TOOLS}${PACKVER_TMP//'/'/'\'}
-export CMDSTRING=$PACKVER_F
-export PARAM=" --version"
+Execute-Hamlib-Supplied-Binary
 
-cmd //c $CMDSTRING $PARAM
+# -- Test rigctl.exe binary ---------------------------------------------------
 
-# -- finished -----------------------------------------------------------------
-echo ''
-echo '----------------------------------------------------------------'
-echo -e ${C_G} " FINISHED COMPILATION"${C_NC}
-echo '----------------------------------------------------------------'
-echo ''
+Test-RIGCTL
+
+# -- Finished -----------------------------------------------------------------
+
 Package-Data
-echo ''
 
 # exit script
 exit 0
