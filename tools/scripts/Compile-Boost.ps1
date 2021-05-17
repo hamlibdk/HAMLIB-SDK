@@ -43,7 +43,7 @@ Get-Content $env:jtsdkVConf | foreach-object -begin {$configTable=@{}} -process 
 # Retrieve Boost Version
 
 $boostv = $configTable.Get_Item("boostv")
-$boostv_u=$dlFile = $boostv.replace(".","_")
+$boostv_u = $boostv.replace(".","_")
 Write-Host "  --> Boost version to be compiled: $boostv"
 Write-Host ""
 

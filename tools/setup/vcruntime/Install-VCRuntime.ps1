@@ -132,7 +132,7 @@ function InstallVCRuntime {
     } else {
         Write-Host "  --> Visual C/C++ x64 Runtime Installation Complete"
     }
-	#Write-Host ""
+	Write-Host ""
 	exit(0)
 }
 
