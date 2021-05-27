@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.0
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
@@ -172,7 +172,7 @@ function InstallHelp {
 	Write-Host "        qt.tools.qtcreator"
 	Write-Host "        qt.tools.maintenance"
 	Write-Host "        qt.tools.cmake.win64"
-	Write-Host "        qt.qt5.51210.win64_mingw73"
+	Write-Host "        qt.qt5.51211.win64_mingw73"
 	Write-Host "        qt.tools.win64_mingw730"
 	Write-Host "        qt.tools.vcredist_msvc2017_x64"
 	Write-Host "        qt.tools.vcredist_msvc2019_x64"
@@ -227,7 +227,7 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
-		Write-Host "    qt.qt5.51210.win64_mingw73"
+		Write-Host "    qt.qt5.51211.win64_mingw73"
 		Write-Host "    qt.tools.win64_mingw730"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
 		Write-Host "    qt.tools.vcredist_msvc2019_x64"
@@ -242,7 +242,7 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
-		Write-Host "    qt.qt5.51210.win64_mingw73"
+		Write-Host "    qt.qt5.51211.win64_mingw73"
 		Write-Host "    qt.qt5.5142.win64_mingw73"
 		Write-Host "    qt.qt5.5152.win64_mingw73"
 		Write-Host "    qt.qt6.603.win64_mingw81"
@@ -282,8 +282,8 @@ Write-Host "No command `switch or invalid switch entered."
 Write-Host ""
 Write-Host "Valid Switches`:"
 Write-Host ""
-Write-Host "  min    - Scripted installation Qt MinGW 5.12.10 only"
-Write-Host "  full   - Scripted installation Qt 5.12.10, 5.14.2, 5.15.2, 6.0.3"
+Write-Host "  min    - Scripted installation Qt MinGW 5.12.11 only"
+Write-Host "  full   - Scripted installation Qt 5.12.11, 5.14.2, 5.15.2, 6.0.3"
 Write-Host "  update - Update Qt Deployment"
 Write-Host "  manage - Manage Qt Deployment"
 Write-Host "  help   - Get Installation Help"

@@ -178,12 +178,12 @@ function CheckQtDeployment {
 		}
 	}
 
-	# Defaults to and sets for Qt 5.12.10 (base Qt version) if no default file found
+	# Defaults to and sets for Qt 5.12.11 (base Qt version) if no default file found
 	if ($subPathQtStore -eq "NULL") {
-		Write-Host "  --> No Qt configuration marker: Setting default `[Qt 5.12.10`]"
-		$tmpOut = $env:JTSDK_CONFIG + "\qt5.12.10"
+		Write-Host "  --> No Qt configuration marker: Setting default `[Qt 5.12.11`]"
+		$tmpOut = $env:JTSDK_CONFIG + "\qt5.12.11"
 		Out-File -FilePath $tmpOut
-		$env:QTV = "5.12.10"    
+		$env:QTV = "5.12.11"    
 	}
 
 	# Thanks to Mile Black W9MDB for the concept

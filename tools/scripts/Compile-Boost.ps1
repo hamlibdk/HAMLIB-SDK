@@ -68,8 +68,8 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 		New-Item -Force -Path "$env:JTSDK_SRC\boost_$boostv_u" -ItemType Directory | Out-Null
 	}
 
-	New-Item -Force -Path "$env:JTSDK_TMP\boost_$boostv_u\boost-build" -ItemType Directory | Out-Null
-	New-Item -Force -Path "$env:JTSDK_TMP\boost_$boostv_u\boost-build\build" -ItemType Directory | Out-Null # For Building
+	# ## New-Item -Force -Path "$env:JTSDK_TMP\boost_$boostv_u\boost-build" -ItemType Directory | Out-Null
+	# ## New-Item -Force -Path "$env:JTSDK_TMP\boost_$boostv_u\boost-build\build" -ItemType Directory | Out-Null # For Building
 	New-Item -Force -Path "$env:JTSDK_TOOLS\boost\$boostv" -ItemType Directory | Out-Null
 	Write-Host ""
 
@@ -100,7 +100,7 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 
 	$env:PATH=$env:PATH + ";" + "$env:JTSDK_TMP\boost_$boostv_u\boost-build\bin" + ";" + "$env:JTSDK_SRC\boost_$boostv_u\tools\build\src\engine"
 
-	Write-Host "  --> Added `"$env:JTSDK_TMP\boost_$boostv_u\boost-build`" to system path."
+	# ## Write-Host "  --> Added `"$env:JTSDK_TMP\boost_$boostv_u\boost-build`" to system path."
 	Write-Host "  --> Added `"$env:JTSDK_SRC\boost_$boostv_u\tools\build\src\engine`" to system path."
 
 	# ############################################################################################
