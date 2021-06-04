@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.0
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
@@ -15,9 +15,10 @@
 #                 (C) 2020-2021 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8-12-2020 to 26-02-2021
+# Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
 #				: Need for qt-gen-tc.cmd and some markers eliminated
 #               : Refactoring and modularisation 26-02-2021
+#               : Support for Tools Package supplied PortAudio 5-06-2021
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -389,8 +390,12 @@ function GenerateToolChain ($qtdff, $gccdff, $rubyff, $fftw3fff, $hamlibff, $svn
 	Add-Content $of "# Subversion"
 	Add-Content $of "SET (SVND $svnff)"
 	Add-Content $of " "
+	Add-Content $of "# PortAudio"
+	Add-Content $of "SET (PALIB C:/JTSDK64-Tools/tools/portaudio)"
+	Add-Content $of "SET (PALIB_LIBRARY C:/JTSDK64-Tools/tools/portaudio/lib/libportaudio.dll)"
+	Add-Content $of " "
 	Add-Content $of "# Cmake Consolidated Variables"
-	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND})"
+	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH `$`{JTSDK_TOOLS})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_PROGRAM NEVER)"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_LIBRARY BOTH)"
