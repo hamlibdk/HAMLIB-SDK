@@ -481,9 +481,9 @@ function InvokeInteractiveEnvironment {
 			Write-Host "CMake       $env:cmakev"
 		} else {
 			if ((Test-Path "$env:JTSDK_TOOLS\cmake\$env:cmakev")) { 
-				Write-Host "CMake         $env:cmakev"
+				Write-Host "CMake       $env:cmakev"
 			} else {
-				Write-Host "CMake         $env:cmakev  Not Deployed"
+				Write-Host "CMake       $env:cmakev  Not Deployed"
 			}
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\sqlite\$env:sqlitev")) { 

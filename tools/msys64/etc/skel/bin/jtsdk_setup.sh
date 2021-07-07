@@ -40,9 +40,9 @@ alias vdir='ls --color=auto --format=long'
 alias l='ls -CF'                              #
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
-alias build-hamlib="bash /home/$USER/bin/build-hamlib.sh"
-alias build-hamlib-dll="bash /home/$USER/bin/build-hamlib-dll.sh"
-alias build-hamlib-static="bash /home/$USER/bin/build-hamlib-static.sh"
+alias build-hamlib='bash "/home/$USER/bin/build-hamlib.sh"'
+alias build-hamlib-dll='bash "/home/$USER/bin/build-hamlib-dll.sh"'
+alias build-hamlib-static='bash "/home/$USER/bin/build-hamlib-static.sh"'
 
 # Function: Help Menu ---------------------------------------------------------
 function jthelp () {
