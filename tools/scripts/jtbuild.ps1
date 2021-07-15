@@ -83,55 +83,43 @@ function RestartEnvironMessage {
 }
 
 # ---------------------------------------------------------------- PROCESS OPTIONS
+# - Refactor for use of a switch construct - Al AB2ZY 
 function ProcessOptions {
 	Param ($aarg, [ref]$rcopt, [ref]$rtopt)
-
-	if ($aarg -eq "Zero") { HelpOptions } 
-	if ($aarg -eq "-h") { HelpOptions } 
-	if ($aarg -eq "help") { HelpOptions }
-	if ($aarg -eq $null) { HelpOptions } 	
-
-	# if ($args[0] -eq "-o") { OptionStatus }
-
-	#Case Independence of arguments conversion
-	#very grotty error overcome error method
-	#try {
-		if (!($aarg -like "*System.Management*")) {
-			if ($aarg -ne $null) { $aarg=($aarg).ToLower() }
+	
+	if ($args[0] -eq "-o") { OptionStatus }
+	switch($aarg)
+	{
+		"rconfig" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Config"
+		}
+		"dconfig" { 
+			$rcopt.Value="Debug"
+			$rtopt.Value="Config"
+		}
+		"rinstall" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Install"
+		}
+		"dinstall" { 
+			$rcopt.Value="Debug"
+			$rtopt.Value="Install"
+		}
+		"package" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Package"
+		}
+		"docs" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Docs"
+		}
+		"zero" { HelpOptions } 
+		"-h" { HelpOptions } 
+		"help" { HelpOptions }
+		$null { HelpOptions } 
+		default { HelpOptions }
 	}
-	#catch { }
-
-	if ($aarg -like "rconfig") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Config"
-	}
-
-	if ($aarg -like "dconfig") { 
-		$rcopt.Value="Debug"
-		$rtopt.Value="Config"
-	}
-
-	if ($aarg -like "rinstall") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Install"
-	}
-
-	if ($aarg -like "dinstall") { 
-		$rcopt.Value="Debug"
-		$rtopt.Value="Install"
-	}
-
-	if ($aarg -like "package") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Package"
-	}
-
-	if ($aarg -like "docs") { 
-		$rcopt.Value="Release"
-		$rtopt.Value="Docs"
-	}
-
-	if (($rcopt.Value -eq $null) -or ($rtopt.Value -eq $null)) { HelpOptions }
 }
 
 # ---------------------------------------------------------------- DOWNLOAD SOURCE
