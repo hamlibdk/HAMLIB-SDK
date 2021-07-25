@@ -83,7 +83,7 @@ function jtsetup () {
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "dos2unix" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "unzip" "dos2unix" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
