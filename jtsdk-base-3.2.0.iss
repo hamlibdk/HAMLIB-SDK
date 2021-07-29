@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JTSDK Base 3.2.0"
-#define MyAppVersion "3.2.0"
+#define MyAppVersion "3.2.0-r1.5"
 #define MyAppPublisher "(c)2020 - 2021 JTSDK Contributors based on concepts and code 2013-2021 (c) Greg Beam KI7MT"
 #define MyAppURL "https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream/"
 
