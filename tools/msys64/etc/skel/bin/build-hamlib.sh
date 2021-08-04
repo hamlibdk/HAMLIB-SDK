@@ -64,7 +64,7 @@ export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
 Script-Header () {
 	echo ''
 	echo '---------------------------------------------------------------'
-	echo -e ${C_C}" $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
+	echo -e ${C_C}"       $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
 	echo '---------------------------------------------------------------'
 	echo ''
 	echo '* This script compiles static Hamlib Libraries for the JTSDK'

@@ -87,7 +87,7 @@ Determine-CPUs () {
 Script-Header () {
 	echo ''
 	echo '---------------------------------------------------------------'
-	echo -e ${C_C}" $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
+	echo -e ${C_C}"       $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
 	echo '---------------------------------------------------------------'
 	echo ''
 	echo ' Commencing Build of Windows Dynamic Library Build (DLL)'
