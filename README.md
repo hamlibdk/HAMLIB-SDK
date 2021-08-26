@@ -21,7 +21,13 @@ completely removes needs for capable third-party environments such as [Python][]
 
 The **Version 3.2** stream is a learning, discovery and technique refinement experiment.
 This README.md file will transition towards deployment instructions. 
+************************************************************************************
+###**Urgent Note**
 
+The **Build-Boost.ps1** script will not download the selected Boost package from the 
+Boost maintainer's ISP due to an addware layer being added at their ISP's end. Either use 
+the Boost "drop-in" packages provided OR place the downloaded source ZIP package from 
+the Boost website in **C:\JTSDK64-Tools\src** and then run **Build-Boost.ps1** .
 ************************************************************************************
 **The Project now needs contributors - Especially to write Cross-Language Documentation !**
 ************************************************************************************
@@ -37,13 +43,11 @@ build libraries (i.e. Boost [1.76](Boost-1.76.0)] ) as part of the learning proc
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.75.0][] and [Boost-1.76.0][] 
-built under Qt's [MinGW][] 7.3 and [MinGW][] 8.1 environs are available (saving 3+ hours). 
+Precompiled drop-in packages for [Boost-1.74.0][] and [Boost-1.77.0][] built under Qt's 
+[MinGW][] 7.3 and [MinGW][] 8.1 environs are available (saving 3+ hours). 
 ************************************************************************************
 The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.74.0][] working with [MinGW][] 8.1.
 ************************************************************************************ 
-
-** Note that [WSJT-X 2.4.0][] and [WSJT-X 2.5.0 rc5][] will compile but not package to [Boost-1.75.0][] **
 
 ### The Next Steps
 
@@ -499,6 +503,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.74.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z
 [Boost-1.75.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.75.0-MinGW-v7.3-v8.1.7z
 [Boost-1.76.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.76.0-MinGW-v7.3-v8.1.7z
+[Boost-1.77.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z
 [JTSDK64-Apps-3.1.1-Boost-1.74-MinGW-8.1x64]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1.1-x64-Stream/JTSDK64-Apps-3.1.1-Boost-1.74-MinGW-8.1x64.exe
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
