@@ -21,13 +21,7 @@ completely removes needs for capable third-party environments such as [Python][]
 
 The **Version 3.2** stream is a learning, discovery and technique refinement experiment.
 This README.md file will transition towards deployment instructions. 
-************************************************************************************
-###**Urgent Note**
 
-The **Build-Boost.ps1** script will not download the selected Boost package from the 
-Boost maintainer's ISP due to an addware layer being added at their ISP's end. Either use 
-the Boost "drop-in" packages provided OR place the downloaded source ZIP package from 
-the Boost website in **C:\JTSDK64-Tools\src** and then run **Build-Boost.ps1** .
 ************************************************************************************
 **The Project now needs contributors - Especially to write Cross-Language Documentation !**
 ************************************************************************************
@@ -135,7 +129,7 @@ will remain a cornerstone concept.
 The [JTSDK64-Base-3.2.0][] has been reported to work satisfactorily when deployed 
 over the top of earlier kits. 
 
-**It is recommended that this kit is deployed into Virtual machines (see "Deployment" section).** 
+**It is recommended that this kit is deployed into Virtual Machines (see "Deployment" section).** 
 
 **It is recommended that new kits be new, fresh installations.** 
 
@@ -153,7 +147,7 @@ are designed to be deployed to existing "Base" packages.
 *These steps assume that you have a deployed base environment*
 
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
-i.e. Current version: [JTSDK64-Tools-3.2.0.5][]
+i.e. Current version: [JTSDK64-Tools-3.2.0.6][]
 - Deploy the tools package to your JTSDK install directory.
 
 Updates may apply to the MSYS2 environment. Therefore the "profile" directory for 
@@ -199,7 +193,7 @@ These Virtual machines should have a lifetime of at least 30 days.
 ** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
 
 - Deploy the installer [JTSDK64-Base-3.2.0][] inside a FRESH VM.
-- Deploy any "Tools" Packages ( currently [JTSDK64-Tools-3.2.0.5][] ) to your Base Deployment.
+- Deploy any "Tools" Packages ( currently [JTSDK64-Tools-3.2.0.6][] ) to your Base Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -458,7 +452,7 @@ from main contributors there of late if you do not have post access - are essent
 ************************************************************************************
 
 The aim of **JTSDK64-Tools** is to use an Agile delivery approach to create a
-high-quality, yet flexible build system. 
+high-quality and flexible build system. 
 
 Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 
@@ -494,7 +488,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.1.1.4]:https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Tools-3.1.1.4.exe
 [JTSDK64-Apps-3.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Apps-3.1.1.exe
 [JTSDK64-Base-3.2.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.0.exe
-[JTSDK64-Tools-3.2.0.5]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.0.5.exe
+[JTSDK64-Tools-3.2.0.6]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.0.6.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
@@ -510,7 +504,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [WSJT-X 2.2.2]:https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.2.tgz
 [WSJT-X 2.3.0]: http://physics.princeton.edu/pulsar/K1JT/wsjtx-2.3.0.tgz 
 [WSJT-X 2.4.0]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.4.0.tgz
-[WSJT-X 2.5.0 rc5][]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc5.tgz
+[WSJT-X 2.5.0 rc5]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc5.tgz
 [Archive]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/
 [Fl-Apps]: https://sourceforge.net/projects/fldigi/files/
 [DotNET SDK]: https://dotnet.microsoft.com/download
