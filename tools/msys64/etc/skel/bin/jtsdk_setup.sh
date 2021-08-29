@@ -6,7 +6,7 @@
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
 #
-# Updates.......:  20-2-2021 - 10-4-2021 Steve VK3VM / VK3SIR 
+# Updates.......:  20-2-2021 - 28-8-2021 Steve VK3VM / VK3SIR 
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -83,7 +83,7 @@ function jtsetup () {
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "unzip" "dos2unix" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "dos2unix" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -254,7 +254,8 @@ function menu () {
         echo -e ${C_C}"JTSKD64 Tools Main Menu"${C_NC}
         echo  "------------------------------------"
 		echo ''
-        echo " 1. List help commands"
+        echo " 0. List help commands"
+		echo " 1. Set MSYS2 path to find Qt compilers"
 		echo " 2. Update MSYS2"
         echo " 3. Install Hamlib dependencies"
         echo " 4. Update MSYS2 Keyring"
@@ -269,8 +270,14 @@ function menu () {
         echo -n "Enter your selection, then hit <return>: "
         read answer
         case "$answer" in
-            1)
+            0)
                 jthelp
+                read -p "Press enter to continue..." ;;
+			1)
+				export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
+				echo ""
+				echo -e ${C_Y}"Added and exported Qt Compilers to Path"${C_NC}
+				echo ""
                 read -p "Press enter to continue..." ;;
             2)
 			    msys-update
