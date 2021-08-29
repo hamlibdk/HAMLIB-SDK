@@ -32,6 +32,9 @@ This project is now at the **Release** phase of its life cycle. Primary objectiv
 been met (i.e. [PowerShell][] conversion, Ability to compile latest source code to 
 bleeding-edge Hamlib code). 
 
+This project is now moving to support the construction and deployment of latest
+libraries (i.e. PortAudio, FFTW). Most of this will occur under the MSYS2 environment.
+
 Future kits will be much smaller in distribution size. You will be required to 
 build libraries (i.e. Boost [1.76](Boost-1.76.0)] ) as part of the learning process.
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
@@ -411,7 +414,10 @@ Now that seemed a lot of work. Please dissect these scripts to see what actually
  
 Now we are ready to BUILD a JT-release. 
 
-The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from **C:\JTSDK64-Tools\config**. Rename the file **src-wsjtx** from a default pull of WSJT-X to either **src-jtdx** or **src-js8call** if desired. 
+The release-source-code pulled is for the latest JT-software release. The JT-source 
+that you pull is configurable from **C:\JTSDK64-Tools\config**. Rename the file 
+**src-wsjtx** from a default pull of WSJT-X to either **src-jtdx** or **src-js8call** 
+if desired. 
 
 The "major" used distros are supported without discrimination or political comment.
 
@@ -419,7 +425,125 @@ In JTSDK64-Tools:
 
 - Type: **jtbuild** <option>     i.e. **jtbuild package**
  
-Options preferred are package (a Windows Installer package - the preferred "clean" way) and rinstall (just a static directory full of "runnable" files).
+Options preferred are package (a Windows Installer package - the preferred "clean" way) 
+and rinstall (just a static directory full of "runnable" files).
+
+************************************************************************************
+## Building Latest Libraries and Other Software in the MSYS2 Environment
+************************************************************************************
+
+### Overview
+
+The MSYS2 64-bit environment is just like a Linux/Unix build environment - so many
+Linux/Unix packages can be built unde rthis environment and used with Windows.
+
+The key is finding the Qt-supplied compiler sets.
+
+Execute the following command in the MSYS2 environment:
+
+```
+export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
+```
+
+While your MSYS2 environment is open this will make the Qt-suplied compilers available. 
+
+Tools packages post [JTSDK64-Tools-3.2.0.6][] will contain MSYS2 menu options for this.
+
+************************************************************************************
+**Note:** Often other tools will need to be added to MSYS2. Ensure that whatever tool is added **does not download and deploy the native MINGW compiler sets **.
+************************************************************************************
+
+### Example - Building FFTW 3.3.9
+
+Note that all this is based around FFTW 3.3.9. See http://www.fftw.org/install/windows.html .
+
+- Open a MSYS2 shell from the JTSDK64-Tools environment.
+- Ensure that the Qt Compiler set is in the search path (see the start of this section)
+- Add the following package:
+
+```
+$ pacman -S mingw-w64-cross-binutils
+```
+
+- Download the source; save it to somewhere like ~/tmp. Extract it in that directory.
+
+```
+$ cd ~/tmp
+$ wget https://www.fftw.org/fftw-3.3.9.tar.gz
+$ tar xvfz fftw-3.3.9.tar.gz
+```
+
+An additional build file from the FFTW site is needed to build it juist like the FFTW Windows DLLs. 
+This file needs to be extracted into the FFTW source directory.
+
+This should not interfere with building other tools (i.e. Hamlib). Refer to the note at the start of 
+this section if adding additional packages and tools.
+
+```
+$ cd ~/tmp/fftw-3.3.9
+$ wget https://fftw.org/pub/fftw/BUILD-MINGW64.sh
+$ chmod 777 BUILD-MINGW64.sh
+```
+
+- Execute this script. This should build a package that contains the latest FFTW usable by the JTSDK
+
+```
+$ ./BUILD-MINGW64.sh
+```
+
+This produces a library package **fftw-3.3.8-dll64.zip** in ** ~/tmp/fftw-3.3.9 ** `[ Windows C:\JTSDK64-Tools\tools\msys64\home\stepheni\tmp\fftw-3.3.9 ]`
+
+- Open the created library package
+- Extract the contents into **X:\JTSDK64-Tools\tools\fftw\3.3.9**
+
+**Note:** There is a note to uncomment '#define FFTW_DLL' around line 73 in **fftw3.h** . I believe that this has already been completed or is not relevant to building JT-ware.
+
+The final stage is to make the appropriate adjustments so that the compiler suite can find your new FFTW.
+
+- Edit **X:\JTSDK64-Tools\config\Versions.ini**
+
+```
+# Versions.ini
+# Set versions of packages that jtsdk64.ps1 will use
+# This data is no longer set in jtsdk64.ps1 directly
+fftwv=3.3.9          <== EDIT THIS LINE TO 3.3.9
+libusbv=1.0.24
+nsisv=3.06.1
+...
+```
+
+- Close all MSYS2 and JTSDK64-Tools Windows.
+
+This should enable you to use your freshly built FFTW 3.3.9 with the JT-ware !
+
+### Example - Building PortAudio
+
+This is provided as an example of a library that CANNOT be properly built at this stage 
+under the integrated [Qt][]-[MSYS2][] compiler environment provided by the JTSDK. 
+
+Some tools and libraries are just not implemented by the Qt maintainers i.e. <sys/ioctl.h> .
+
+You can download the latest [MSYS2][] installer at https://www.msys2.org/ 
+
+************************************************************************************
+The only way that this and some other tools can be built is with a seperate [MSYS2][] deployment including base compilers outside of this kit !
+
+Install the MinGW 32bit and/or MinGW 64bit toolchains with:
+
+```
+$ pacman -S mingw-w64-x86_64-toolchain		<== For 64-bit/x64 support
+$ pacman -S mingw-w64-i686-toolchain		<== For 32-bit/x86 support
+```
+************************************************************************************
+
+[PortAudio][] can be build with ALSA toolkits. There are legalities associated with this. 
+Refer to Joe K1JT's instructions packaged inside the [WSJT-X][] source for embedding ALSA 
+support and using the ALSA toolkit.
+
+The [PortAudio][] version supplied with the JTSDK has NOT been knowingly compiled with ALSA support.
+
+At the time of writing this document the current version of [PortAudio] was v19.7.0. 
+See http://files.portaudio.com/download.html .
 
 ************************************************************************************
 ## Contributions
@@ -515,3 +639,4 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [VMware Player]: https://kb.vmware.com/s/article/2053973
 [Virtual Box]: https://www.virtualbox.org/wiki/Downloads
 [QEmu]: https://www.qemu.org/download/
+[PortAudio]: http://www.portaudio.com/
