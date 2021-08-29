@@ -723,8 +723,9 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 				$rpav.value = ($line) -replace "[^0-9]" , ''
 			}
 			if ($line -like '*#set (WSJTX_RC*') {
-				Write-Host "  --> Development Version: `(Disabled WSJTX_RC`)"
-			} else { if ($line -like '*WSJTX_RC*') {
+				Write-Host "  --> Development Version: `[WSJTX_RC Disabled`]"
+			} else {   # This logic handles possible line with bad structure or changed data
+				if ($line -like '*WSJTX_RC*') {
 					$rrelx.value = ($line) -replace "[^0-9]" , ''
 				}
 			}
@@ -733,10 +734,13 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			}
 
 			if ($line -like '*WSJTX_VERSION_IS_RELEASE*') {
-					
+				# Problem: Can have Two 1's in output string so need stop at match first nbrSrcMarkers
+				# Limitation: This technique works number 0 - 9 only !
 				if ($line -match "(?<number>\d)")
 				{
 					[Int]$val = $line.substring($line.indexof($Matches.number),1)
+				} else {  # No match HOPEFULLY sets $count to -1, becoming 0, so trips error handler
+					$count = -1
 				}
 				
 				$rrcx.value = $val
@@ -745,7 +749,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 		}
 	}
 	if ($count -ne 0) { 
-		Write-Host "  --> Version ...: $mav.$miv.$pav RC: $relx"
+		Write-Host "  --> Version ...: $mav.$miv.$pav rc $relx"
 		Write-Host "  --> Release ...: $rcx"
 		# Write-Host ""
 	} else {    # Excessive - Only needs Version.cmake but extra logic to be double-sure !!!!
