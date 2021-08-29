@@ -749,8 +749,14 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 		}
 	}
 	if ($count -ne 0) { 
-		Write-Host "  --> Version ...: $mav.$miv.$pav rc $relx"
-		Write-Host "  --> Release ...: $rcx"
+		if ((Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) { # JTDX Detected ---------------
+			Write-Host "  --> Version ...: $mav.$miv.$pav rc $relx"
+			Write-Host "  --> RC.........: $rcx"
+		} else { #WSJTX Detected ---------------------------------------------------------------
+			Write-Host "  --> Version ...: $mav.$miv.$pav rc $rcx"
+			Write-Host "  --> Release ...: $relx"
+
+		}
 		# Write-Host ""
 	} else {    # Excessive - Only needs Version.cmake but extra logic to be double-sure !!!!
 		if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {
@@ -759,6 +765,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			GenerateError("Unable to read version data from $env:JTSDK_TMP\wsjtx\CMakeList.txt")
 		}	
 	}
+	pause
 }
 
 ####################################################################
