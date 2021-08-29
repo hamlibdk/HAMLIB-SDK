@@ -675,26 +675,30 @@ function DocsTargetTwo {
 function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$rrelx) {
 	Write-Host "* Obtaining Source Version Data"
 	Write-Host ""
-	if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {
+	if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {  # From CMakeList.txt ---------------
 		$mlConfig = Get-Content $env:JTSDK_TMP\wsjtx\CMakeLists.txt
 		Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
 		[Int]$count = 0
 		foreach ($line in $mlConfig) {
+			[Bool] $incCont = 0
 			if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value) {
 				$temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
-				Write-Host -NoNewLine "  --> Version data: $temp "
+				# Write-Host -NoNewLine "  --> Version data: $temp "
 				$verArr = @($temp.split('.'))
 				$rmav.value = $verArr[0]
 				$rmiv.value = $verArr[1]
 				$rpav.value = $verArr[2]
 				$rrelx.value = $verArr[3]
+				$incCount = 1
 			}
 			if ($line -like 'set_build_type*') {
 				$rrcx.value = ($line) -replace "[^0-9]" , ''
-				Write-Host "rc $rcx"
-				$count++
+				$incCount = 1
 			}
+			if ($incCount -eq 1) { $count++ }
 		}
+		
+		#Write-Host 	$rmav.value $rmiv.value $rpav.value $rrelx.value
 
 		if ($count -eq 0) { Write-Host "" }
 
@@ -702,9 +706,9 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			if ($verArr[0] -eq 0) { GenerateError("Data not read from CMakeLists.txt" ) } 
 		}
 		catch { 
-			GenerateError("Unable to read data from CMakeLists.txt") 
+			GenerateError("Unable to read data from $env:JTSDK_TMP\wsjtx\CMakeList.txt") 
 		}
-	} else {	# From Versions.cmake -----------------
+	} else {	# From Versions.cmake -------------------------------------------------------------
 		$vcConfig = Get-Content $env:JTSDK_TMP\wsjtx\Versions.cmake
 		Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\Versions.cmake"
 		[Int]$count = 0
@@ -719,7 +723,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 				$rpav.value = ($line) -replace "[^0-9]" , ''
 			}
 			if ($line -like '*#set (WSJTX_RC*') {
-				Write-Host "  --> Development Version: Disabled WSJTX_RC"
+				Write-Host "  --> Development Version: `(Disabled WSJTX_RC`)"
 			} else { if ($line -like '*WSJTX_RC*') {
 					$rrelx.value = ($line) -replace "[^0-9]" , ''
 				}
@@ -729,17 +733,27 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			}
 
 			if ($line -like '*WSJTX_VERSION_IS_RELEASE*') {
-				$rrcx.value = ($line) -replace "[^0-9]" , ''
+					
+				if ($line -match "(?<number>\d)")
+				{
+					[Int]$val = $line.substring($line.indexof($Matches.number),1)
+				}
+				
+				$rrcx.value = $val
 			}
-
 			$count++
 		}
-		
-		if ($count -ne 0) { 
-			Write-Host "  --> Version data: $mav.$miv.$pav RC: $relx Release: $rcx "
+	}
+	if ($count -ne 0) { 
+		Write-Host "  --> Version ...: $mav.$miv.$pav RC: $relx"
+		Write-Host "  --> Release ...: $rcx"
+		# Write-Host ""
+	} else {    # Excessive - Only needs Version.cmake but extra logic to be double-sure !!!!
+		if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {
+			GenerateError("Unable to read version data from $env:JTSDK_TMP\wsjtx\Versions.cmake")
 		} else {
-			GenerateError("Unable to read data from CMakeList.txt")
-		}
+			GenerateError("Unable to read version data from $env:JTSDK_TMP\wsjtx\CMakeList.txt")
+		}	
 	}
 }
 
