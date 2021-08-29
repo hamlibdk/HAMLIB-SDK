@@ -765,7 +765,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			GenerateError("Unable to read version data from $env:JTSDK_TMP\wsjtx\CMakeList.txt")
 		}	
 	}
-	pause
+	# pause
 }
 
 ####################################################################
