@@ -15,7 +15,7 @@
 #                 (C) 2020-2021 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
+# Adjustments...: Steve VK3VM 8-12-2020 to 31-08-2021
 #				: Need for qt-gen-tc.cmd and some markers eliminated
 #               : Refactoring and modularisation 26-02-2021
 #               : Support for Tools Package supplied PortAudio 5-06-2021
@@ -438,72 +438,72 @@ function InvokeInteractiveEnvironment {
 		Write-Host ""
 		Write-Host "Config: $env:jtsdk64VersionConfig"
 		Write-Host ""
-		Write-Host "Package     Version/Status"
-		Write-Host "..............................................."
-		Write-Host "Unix Tools  $env:UNIXTOOLS"
-		Write-Host "Source      $env:JT_SRC" 
+		Write-Host "Package         Version/Status"
+		Write-Host "-----------------------------------------------"
+		Write-Host "Unix Tools .... $env:UNIXTOOLS"
+		Write-Host "Source ........ $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
-			Write-Host "Qt          $env:QTV `[$env:VER_MINGW`]"
+			Write-Host "Qt ...........: $env:QTV `[$env:VER_MINGW`]"
 		} else {
-			Write-Host "Qt          $env:QTV  Missing"
+			Write-Host "Qt ...........: $env:QTV Missing"
+		}
+		if ((Test-Path "$env:JTSDK_TOOLS\hamlib\qt")) { 
+			Write-Host "Hamlib Qt ....: Deployed"
+		} else {
+			Write-Host "Hamlib Qt ....: Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\fftw\$env:fftwv")) { 
-			Write-Host "FFTW        $env:fftwv"
+			Write-Host "FFTW .........: $env:fftwv"
 		} else {
-			Write-Host "FFTW        $env:fftwv  Missing"
+			Write-Host "FFTW .........: $env:fftwv  Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\libusb\$env:libusbv")) { 
-			Write-Host "LibUSB      $env:libusbv"
+			Write-Host "LibUSB .......: $env:libusbv"
 		} else {
-			Write-Host "LibUSB      $env:libusbv  Missing"
+			Write-Host "LibUSB .......: $env:libusbv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\nsis\$env:nsisv")) { 
-			Write-Host "NSIS        $env:nsisv"
+			Write-Host "NSIS .........: $env:nsisv"
 		} else {
-			Write-Host "NSIS        $env:nsisv  Missing"
+			Write-Host "NSIS .........: $env:nsisv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\pkgconfig\$env:pkgconfigv")) { 
-			Write-Host "PkgConfig   $env:pkgconfigv"
+			Write-Host "PkgConfig ....: $env:pkgconfigv"
 		} else {
-			Write-Host "PkgConfig   $env:pkgconfigv  Missing"
+			Write-Host "PkgConfig ....: $env:pkgconfigv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\ruby\$env:rubyv")) { 
-			Write-Host "Ruby        $env:rubyv"
+			Write-Host "Ruby .........: $env:rubyv"
 		} else {
-			Write-Host "Ruby        $env:rubyv  Missing"
+			Write-Host "Ruby .........: $env:rubyv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\subversion\$env:svnv")) { 
-			Write-Host "Subversion  $env:svnv"
+			Write-Host "Subversion ...: $env:svnv"
 		} else {
-			Write-Host "Subversion  $env:svnv  Missing"
+			Write-Host "Subversion ...: $env:svnv Missing"
 		}
 		if ($env:cmakev -eq "qtcmake") {
-			Write-Host "CMake       $env:cmakev"
+			Write-Host "CMake ........: $env:cmakev"
 		} else {
 			if ((Test-Path "$env:JTSDK_TOOLS\cmake\$env:cmakev")) { 
-				Write-Host "CMake       $env:cmakev"
+				Write-Host "CMake ........: $env:cmakev"
 			} else {
-				Write-Host "CMake       $env:cmakev  Not Deployed"
+				Write-Host "CMake ........: $env:cmakev Missing"
 			}
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\sqlite\$env:sqlitev")) { 
-			Write-Host "SQLite      $env:sqlitev"
-		} else {
-			Write-Host "SQLite      $env:sqlitev  Missing"
-		}
 		if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
-			Write-Host "Boost       $env:boostv $env:BOOST_STATUS `[$env:BOOST_V_MINGW`]"
+			Write-Host "Boost ........: $env:boostv $env:BOOST_STATUS `[$env:BOOST_V_MINGW`]"
 		} else {
-			Write-Host "Boost       $env:boostv ** Not Deployed ** "
+			Write-Host "Boost ........: $env:boostv Missing"
 		}
 
-		Write-Host "..............................................."
+		Write-Host "-----------------------------------------------"
 		Write-Host ""
 		Write-Host "Commands:"
 		Write-Host ""
-		Write-Host "  Deploy Boost .......... Deploy-Boost"
-		Write-Host "  MSYS2 Environment ..... msys2"
-		Write-Host "  Build JT-ware ......... jtbuild `[option`]"
+		Write-Host "  Deploy Boost ... Deploy-Boost"
+		Write-Host "  MSYS2 .......... msys2"
+		Write-Host "  Build JT-ware .. jtbuild `[option`]"
 		Write-Host ""
 	}'
 }
@@ -550,6 +550,8 @@ $env:JTSDK_TOOLS = $env:JTSDK_HOME + "\tools"
 $env:JTSDK_TOOLS_F = ConvertForward($env:JTSDK_TOOLS)
 $env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
 $env:JTSDK_SCRIPTS_F = ConvertForward($env:JTSDK_SCRIPTS) 
+$env:JTSDK_MSYS2 = $env:JTSDK_TOOLS + "\msys64"
+$env:JTSDK_MSYS2_F = ConvertForward($env:JTSDK_SCRIPTS) 
 
 CreateFolders							# --- Create Folders ------------------
 

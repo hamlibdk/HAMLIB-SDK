@@ -39,6 +39,11 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 source: "C:\JTSDK64-Tools\*"; DestDir: "{app}"; Flags: recursesubdirs
 
+[InstallDelete]
+Type: files; Name: "{app}\config\qt*"
+Type: files; Name: "{app}\config\src*"
+Type: files; Name: "{app}\tmp\src*" 
+
 [Icons]
 Name: "{group}\Help Resources"; Filename: "https://groups.io/g/JTSDK/topics"; WorkingDir: "{app}"
 Name: "{group}\Base Web References"; Filename: "https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream/"; WorkingDir: "{app}"
