@@ -6,7 +6,7 @@
 
 ### Direction
 
-The **JTSDK 3.2.0** evolves the kits from Windows Batch Files towards Windows 
+The **JTSDK 3.2.1** evolves the kits from Windows Batch Files towards Windows 
 [POWERSHELL][PowerShell]-based scripts. [PowerShell][] is also supported in Mac and 
 Linux environs, so common-adaptation for these purposes may occur as the kits evolve. 
 
@@ -17,11 +17,17 @@ base package support. Once an environment is set up maintenance tasks are simpli
 [PowerShell][] eclipses the capabilities of Windows Batch files. [PowerShell][] 
 completely removes needs for capable third-party environments such as [Python][].
 
-### The Version 3.2.0 Base Stream
+### The Version 3.2.1 Base Stream
 
 The **Version 3.2** stream is a learning, discovery and technique refinement experiment.
 This README.md file will transition towards deployment instructions. 
+************************************************************************************
+### **Urgent Note**
 
+The **Build-Boost.ps1** script will not download the selected Boost package from the 
+Boost maintainer's ISP due to an addware layer being added at their ISP's end. Either use 
+the Boost "drop-in" packages provided OR place the downloaded source ZIP package from 
+the Boost website in **C:\JTSDK64-Tools\src** and then run **Build-Boost.ps1** .
 ************************************************************************************
 **The Project now needs contributors - Especially to write Cross-Language Documentation !**
 ************************************************************************************
@@ -32,18 +38,15 @@ This project is now at the **Release** phase of its life cycle. Primary objectiv
 been met (i.e. [PowerShell][] conversion, Ability to compile latest source code to 
 bleeding-edge Hamlib code). 
 
-This project is now moving to support the construction and deployment of latest
-libraries (i.e. PortAudio, FFTW). Most of this will occur under the MSYS2 environment.
-
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. Boost [1.76](Boost-1.76.0)] ) as part of the learning process.
+build libraries (i.e. Boost [1.77](Boost-1.77.0)] ) as part of the learning process.
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
 Precompiled drop-in packages for [Boost-1.74.0][] and [Boost-1.77.0][] built under Qt's 
 [MinGW][] 7.3 and [MinGW][] 8.1 environs are available (saving 3+ hours). 
 ************************************************************************************
-The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.74.0][] working with [MinGW][] 8.1.
+The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.77.0][] working with [MinGW][] 8.1.
 ************************************************************************************ 
 
 ### The Next Steps
@@ -129,10 +132,9 @@ will remain a cornerstone concept.
 ## Upgrades
 ************************************************************************************
 
-The [JTSDK64-Base-3.2.0][] has been reported to work satisfactorily when deployed 
-over the top of earlier kits. 
+The [JTSDK64-Base-3.2.1][] should be reinstalled from scratch. 
 
-**It is recommended that this kit is deployed into Virtual Machines (see "Deployment" section).** 
+**It is recommended that this kit is deployed into Virtual machines (see "Deployment" section).** 
 
 **It is recommended that new kits be new, fresh installations.** 
 
@@ -150,7 +152,7 @@ are designed to be deployed to existing "Base" packages.
 *These steps assume that you have a deployed base environment*
 
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
-i.e. Current version: [JTSDK64-Tools-3.2.0.7][]
+i.e. Current version: [JTSDK64-Tools-3.2.1.0][]
 - Deploy the tools package to your JTSDK install directory.
 
 Updates may apply to the MSYS2 environment. Therefore the "profile" directory for 
@@ -191,12 +193,12 @@ Trial Virtual Machine images for Windows 10 (with Microsoft's Compiler Suite) ca
 be downloaded from https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/ . 
 These Virtual machines should have a lifetime of at least 30 days.
  
-### Step 1: Deploy the JTSDK64-Base-3.2.0.exe Installer and any "Tools" packages if they exist
+### Step 1: Deploy the JTSDK64-Base-3.2.1.exe Installer and any "Tools" packages if they exist
  
 ** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
 
-- Deploy the installer [JTSDK64-Base-3.2.0][] inside a FRESH VM.
-- Deploy any "Tools" Packages ( currently [JTSDK64-Tools-3.2.0.7][] ) to your Base Deployment.
+- Deploy the installer [JTSDK64-Base-3.2.1][] inside a FRESH VM.
+- Deploy any "Tools" Packages ( currently [JTSDK64-Tools-3.2.1.0][] ) to your Base Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -229,20 +231,20 @@ The following information will be displayed:
 
  Enter Your Install/Redeployment Selection(s):
 
-(required) VC/C++ Runtimes (Y|N) : 
+(required) VC/C++ Runtimes (Y|N) ..: 
 ```
 - The VC Runtimes are required. Select 'Y'
 
 ```
-(required) OmniRig (Y|N)         :
+(required) OmniRig (Y|N) ..........:
 ```
 - The OmniRig is required. Select 'Y'
 ```
-(required) Git-SCM (Y|N)         : 
+(required) Git-SCM (Y|N) ..........: 
 ```
 - The Git-SCM is required. Select 'Y'
 ```
-(required) Default Qt (D/Y|F|N)  :
+(required) Default Qt (D/Y|F|N) ...:
 ```
 Qt Presents a number of options. 'D' or 'Y' Selects a scripted "Default" 
 deployment being Qt 5.12.10 as the base. 'F' Deployes Qt 5.10.12, 5.14.2 
@@ -250,11 +252,11 @@ and 5.15.2.
 
 - Qt is required. Select 'Y'/'D' or 'F' (note:'Y' or 'D' is recommended)
 ```
-(required) MSYS2 Setup (Y|N)     :
+(required) MSYS2 Setup (Y|N) ......:
 ```
 - You are required to set up the MSYS2 environment. Select 'Y'
 ```
-(optional) VS Code (Y|N)         :
+(optional) VS Code (Y|N) ..........:
 ```
 This is the only optional component. VS Code is an excellent tool for working with 
 PowerShell scripts (if you need to customise these yourself).
@@ -303,15 +305,17 @@ $ menu
 JTSKD64 Tools Main Menu
 ------------------------------------
 
- 1. List help commands
+ 1. Set MSYS2 path to find Qt compilers
  2. Update MSYS2
  3. Install Hamlib dependencies
- 4. Update MSYS2 Keyring
- 5. Build Hamlib - Static Libraries
- 6. Build Hamlib - Dynamic Package
- 7. Clear Hamlib Source
- 8. Select HAMLIB Repository
- 9. Print version information
+ 4. Install msys64 GNU Compilers
+ 5. Update MSYS2 Keyring
+ 6. Build Hamlib - Static Libraries
+ 7. Build Hamlib - Dynamic Package
+ 8. Clear Hamlib Source
+ 9. Select HAMLIB Repository
+ h. List help commands
+ v. List version information
 
  e. Enter 'e' or 'q' to exit
 
@@ -332,7 +336,9 @@ Note that the window may close on completion if there are updates.
  
 - If the MSYS2 Window closes reopen it within the **JTSDK64-Setup** environment with **msys2**
 
-- Back at menu, **3. Install Hamlib Dependencies** to deploy the tools and libraries needed to build Hamlib.
+- Back at menu, select **3. Install Hamlib Dependencies** to deploy the tools and libraries needed to build Hamlib.
+
+- (Optional) Select ** 4. Install msys64 GNU Compilers ** so that a msys64 POSIX-compliant build environment can be launched.
  
 #### Step 2d: Basic Deployment Complete
 
@@ -414,10 +420,7 @@ Now that seemed a lot of work. Please dissect these scripts to see what actually
  
 Now we are ready to BUILD a JT-release. 
 
-The release-source-code pulled is for the latest JT-software release. The JT-source 
-that you pull is configurable from **C:\JTSDK64-Tools\config**. Rename the file 
-**src-wsjtx** from a default pull of WSJT-X to either **src-jtdx** or **src-js8call** 
-if desired. 
+The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from **C:\JTSDK64-Tools\config**. Rename the file **src-wsjtx** from a default pull of WSJT-X to either **src-jtdx** or **src-js8call** if desired. 
 
 The "major" used distros are supported without discrimination or political comment.
 
@@ -425,120 +428,7 @@ In JTSDK64-Tools:
 
 - Type: **jtbuild** <option>     i.e. **jtbuild package**
  
-Options preferred are package (a Windows Installer package - the preferred "clean" way) 
-and rinstall (just a static directory full of "runnable" files).
-
-************************************************************************************
-## Building Latest Libraries and Other Software in the MSYS2 Environment
-************************************************************************************
-
-### Overview
-
-The MSYS2 64-bit environment is just like a Linux/Unix build environment - so many
-Linux/Unix packages can be built unde rthis environment and used with Windows.
-
-The key is finding the Qt-supplied compiler sets.
-
-Execute the following command in the MSYS2 environment:
-
-```
-export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
-```
-
-While your MSYS2 environment is open this will make the Qt-suplied compilers available. 
-
-Tools packages post [JTSDK64-Tools-3.2.0.7][] will contain MSYS2 menu options for this.
-
-************************************************************************************
-**Note:** Often other tools will need to be added to MSYS2. Ensure that whatever tool is added **does not download and deploy the native MINGW compiler sets **.
-************************************************************************************
-
-### Example - Building FFTW 3.3.9
-
-Note that all this is based around FFTW 3.3.9. See http://www.fftw.org/install/windows.html .
-
-- Open a MSYS2 shell from the JTSDK64-Tools environment.
-- Ensure that the Qt Compiler set is in the search path (see the start of this section)
-- Add the following package:
-
-```
-$ pacman -S mingw-w64-cross-binutils
-```
-
-- Download the source; save it to somewhere like ~/tmp. Extract it in that directory.
-
-```
-$ cd ~/tmp
-$ wget https://www.fftw.org/fftw-3.3.9.tar.gz
-$ tar xvfz fftw-3.3.9.tar.gz
-```
-
-An additional build file from the FFTW site is needed to build it juist like the FFTW Windows DLLs. 
-This file needs to be extracted into the FFTW source directory.
-
-This should not interfere with building other tools (i.e. Hamlib). Refer to the note at the start of 
-this section if adding additional packages and tools.
-
-```
-$ cd ~/tmp/fftw-3.3.9
-$ wget https://fftw.org/pub/fftw/BUILD-MINGW64.sh
-$ chmod 777 BUILD-MINGW64.sh
-```
-
-- Execute this script. This should build a package that contains the latest FFTW usable by the JTSDK
-
-```
-$ ./BUILD-MINGW64.sh
-```
-
-This produces a library package **fftw-3.3.8-dll64.zip** in ** ~/tmp/fftw-3.3.9 ** `[ Windows C:\JTSDK64-Tools\tools\msys64\home\stepheni\tmp\fftw-3.3.9 ]`
-
-- Open the created library package
-- Extract the contents into **X:\JTSDK64-Tools\tools\fftw\3.3.9**
-
-**Note:** There is a note to uncomment '#define FFTW_DLL' around line 73 in **fftw3.h** . I believe that this has already been completed or is not relevant to building JT-ware.
-
-The final stage is to make the appropriate adjustments so that the compiler suite can find your new FFTW.
-
-- Edit **X:\JTSDK64-Tools\config\Versions.ini**
-
-```
-# Versions.ini
-# Set versions of packages that jtsdk64.ps1 will use
-# This data is no longer set in jtsdk64.ps1 directly
-fftwv=3.3.9          <== EDIT THIS LINE TO 3.3.9
-libusbv=1.0.24
-nsisv=3.06.1
-...
-```
-
-- Close all MSYS2 and JTSDK64-Tools Windows.
-
-This should enable you to use your freshly built FFTW 3.3.9 with the JT-ware !
-
-### Example - Building PortAudio
-
-This is provided as an example of a library that CANNOT be properly built at this stage 
-under the integrated [Qt][]-[MSYS2][] compiler environment provided by the JTSDK. 
-
-Some tools and libraries are just not implemented by the Qt maintainers i.e. <sys/ioctl.h> .
-
-You can download the latest [MSYS2][] installer at https://www.msys2.org/ 
-
-************************************************************************************
-The only way that this and some other tools can be built at this time is with a seperate [MSYS2][] deployment including base compilers outside of this kit !
-
-A guide for building PortAudio can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Guide%20for%20building%20PortAudio.pdf
-************************************************************************************
-
-[PortAudio][] can be build with ALSA toolkits. There are legalities associated with this. 
-Refer to Joe K1JT's instructions packaged inside the [WSJT-X][] source for embedding ALSA 
-support and using the ALSA toolkit.
-
-The [PortAudio][] version supplied with the JTSDK has NOT been knowingly compiled with ALSA support.
-
-At the time of writing this document the current version of [PortAudio] was v19.7.0. 
-See http://files.portaudio.com/download.html .
+Options preferred are package (a Windows Installer package - the preferred "clean" way) and rinstall (just a static directory full of "runnable" files).
 
 ************************************************************************************
 ## Contributions
@@ -555,7 +445,7 @@ there is too valuable for the general IT community.
 If you are a PowerShell Guru PLEASE PLEASE PLEASE jump in and comment to assist. Send 
 back BETTER SCRIPT. **Teach us all**. 
 
-We especially require people to make these README.MD scripts better !
+We especially require people to make these README.md scripts better !
 
 ** ALL CONTRIBUTIONS AND COMMENTS ARE GRATEFULLY WELCOMED ** !
 
@@ -571,7 +461,7 @@ from main contributors there of late if you do not have post access - are essent
 ************************************************************************************
 
 The aim of **JTSDK64-Tools** is to use an Agile delivery approach to create a
-high-quality and flexible build system. 
+high-quality, yet flexible build system. 
 
 Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 
@@ -606,8 +496,8 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Apps-3.1.0.2]: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/jtsdk64-apps-3.1.0.2.exe
 [JTSDK64-Tools-3.1.1.4]:https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Tools-3.1.1.4.exe
 [JTSDK64-Apps-3.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Apps-3.1.1.exe
-[JTSDK64-Base-3.2.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.0.exe
-[JTSDK64-Tools-3.2.0.7]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.0.7.exe
+[JTSDK64-Base-3.2.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe
+[JTSDK64-Tools-3.2.1.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
@@ -623,7 +513,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [WSJT-X 2.2.2]:https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.2.tgz
 [WSJT-X 2.3.0]: http://physics.princeton.edu/pulsar/K1JT/wsjtx-2.3.0.tgz 
 [WSJT-X 2.4.0]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.4.0.tgz
-[WSJT-X 2.5.0 rc5]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc5.tgz
+[WSJT-X 2.5.0 rc5][]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc5.tgz
 [Archive]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/
 [Fl-Apps]: https://sourceforge.net/projects/fldigi/files/
 [DotNET SDK]: https://dotnet.microsoft.com/download
@@ -634,4 +524,3 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [VMware Player]: https://kb.vmware.com/s/article/2053973
 [Virtual Box]: https://www.virtualbox.org/wiki/Downloads
 [QEmu]: https://www.qemu.org/download/
-[PortAudio]: http://www.portaudio.com/

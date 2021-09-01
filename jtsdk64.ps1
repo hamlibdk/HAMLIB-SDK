@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0
+# Version ......: 3.2.1
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
@@ -15,7 +15,7 @@
 #                 (C) 2020-2021 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8-12-2020 to 31-08-2021
+# Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
 #				: Need for qt-gen-tc.cmd and some markers eliminated
 #               : Refactoring and modularisation 26-02-2021
 #               : Support for Tools Package supplied PortAudio 5-06-2021
@@ -440,8 +440,13 @@ function InvokeInteractiveEnvironment {
 		Write-Host ""
 		Write-Host "Package         Version/Status"
 		Write-Host "-----------------------------------------------"
-		Write-Host "Unix Tools .... $env:UNIXTOOLS"
-		Write-Host "Source ........ $env:JT_SRC" 
+		Write-Host "Unix Tools ...: $env:UNIXTOOLS"
+		Write-Host "Source .......: $env:JT_SRC" 
+		if ((Test-Path "$env:JTSDK_MSYS2\usr\bin")) { 
+			Write-Host "MSYS2/mingw64 : Deployed"
+		} else {
+			Write-Host "MSYS2/mingw64 : Not Deployed"
+		}
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
 			Write-Host "Qt ...........: $env:QTV `[$env:VER_MINGW`]"
 		} else {
@@ -503,6 +508,7 @@ function InvokeInteractiveEnvironment {
 		Write-Host ""
 		Write-Host "  Deploy Boost ... Deploy-Boost"
 		Write-Host "  MSYS2 .......... msys2"
+		Write-Host "  MinGW64-MSYS2 .. mingw64"
 		Write-Host "  Build JT-ware .. jtbuild `[option`]"
 		Write-Host ""
 	}'
