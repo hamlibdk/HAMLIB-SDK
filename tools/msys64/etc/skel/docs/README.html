@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<h1 id="jtsdk64-msys2-installation">JTSDK64 MSYS2 Installation</h1>
+<p>The JTSDK MSYS2 Scripts are pre-installed in the MSYS2 environment when using
+the published InnoSetup Windows Installer from Sourceforge.</p>
+<h2 id="provides">Provides</h2>
+<ol>
+<li>Bash function for installing Hamlib build dependencies.</li>
+<li>Bash script for building Hamlib from source code and other useful functions.</li>
+<li>Pacman function for upgrading all MSYS2 packages.</li>
+</ol>
+<h2 id="installation-and-setup">Installation and Setup</h2>
+<p>The following steps should be performed in order assuming a new installation
+of <code>JTSDK64 Tools</code>. Subsequent runs of each command can be run anytime you
+wish to upgrade packages or re-build Hamlib.</p>
+<ol>
+<li><a href="#update-msys2-packages">Update MSYS2 Packages</a></li>
+<li><a href="#install-hamlib-dependencies">Install Hamlib Dependencies</a></li>
+<li><a href="#build-hamlib">Build Hamlib</a></li>
+</ol>
+<h2 id="command-list-help-screens-and-upgrades">Command List, Help Screens, and Upgrades</h2>
+<p>The <code>JTSDK64-Tools-MSYS2</code> package provides a number of useful commandsand help
+screens. Additional instructions are provided to upgrade <code>JTSDK63-Tools-MSYS2</code>.</p>
+<ol>
+<li><a href="#command-summary">Command Summary</a></li>
+<li><a href="#command-helpers">Command Helpers</a></li>
+<li><a href="#upgrade-jtsdk64-tools-msys2-scripts">Upgrade JTSDK64 Tools MSYS2 Scripts</a></li>
+</ol>
+<p>These lists will be updates as the <code>JTSDK64-ToolsMSYS2</code> package is updated.</p>
+<h2 id="update-msys2-packages">Update MSYS2 Packages</h2>
+<p>After initial installation, often there are several packages that need to be
+upgraded. This is particularly true for the main MSYS2 runtime binaries. This
+function can be run any time you wish to upgrade your MSYS2.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Open MSYS2 Console, and type the following</span>
+msys-update
+</div></code></pre>
+<p>If any of the msys2 runtime dlls are updated (you will see a message at
+the bottom of the screen) close the terminal using the &quot;<strong>X</strong>&quot; in the top-right
+corner of the window, then re-open the MSYS2 Console and run the update again.
+Repeat this step until there are no further updates installed.</p>
+<h2 id="install-hamlib-dependencies">Install Hamlib Dependencies</h2>
+<p>To install the required Hamlib build dependencies, run the following command.
+This command can be run at any time you whish to update just the Hamlib build
+dependencies.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Open MSYS2 Console, then run the following, type:</span>
+jtsdk-setup
+</div></code></pre>
+<h2 id="build-hamlib">Build Hamlib</h2>
+<p>At the time of this writing, the build script is hard coded to use <strong>Qt version
+5.12.2 and Mingw64 Tools GCC version 7.3.0</strong>. As additional versions of Qt are
+validated, they will be added as options.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># To build Hamlib, use the following command, type:</span>
+build-hamlib
+</div></code></pre>
+<p>If the build finished successfully, the Hamlib libraries and associated binaries
+will be installed to the following Locations:</p>
+<blockquote>
+<p>NOTE: (C|D) denotes the diver letter of your <code>JTSDK64-Tools</code> installation. The
+following example shows a <code>D-Drive Installation</code>.</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-comment"># Final report from build script</span>
+-----------------------------------------------------
+  TESTING RIGCTL
+-----------------------------------------------------
+
+rigctl(d), Hamlib 4.0~git
+
+Copyright (C) 2000-2012 Stephane Fillod
+Copyright (C) 2000-2003 Frank Singleton
+This is free software; see the <span class="hljs-built_in">source</span> <span class="hljs-keyword">for</span> copying conditions.
+There is NO warranty; not even <span class="hljs-keyword">for</span> MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.
+
+-----------------------------------------------------
+  FINISHED INSTALLING [ Hamlib ]
+-----------------------------------------------------
+
+  Tool-Chain........: QT 5.12.2
+  Source Location...: /home/ki7mt/src/hamlib/src
+  Build Location....: /home/ki7mt/src/hamlib/build
+  Install Location..: /d/JTSDK64-Tools/tools/hamlib/qt/5.12.2
+  Package Config....: /d/JTSDK64-Tools/tools/hamlib/qt/5.12.2/lib/pkgconfig/hamlib.pc
+</div></code></pre>
+<h2 id="upgrade-jtsdk64-tools-msys2-scripts">Upgrade JTSDK64 Tools MSYS2 Scripts</h2>
+<p>To upgrade the <code>JTSDK64-Tools-MSYS2</code> scripts, use the following steps.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Open MSYS2 Console, the perform the following</span>
+jtsdk-update
+
+<span class="hljs-comment"># To list the help screen, type</span>
+jtsdk-help
+</div></code></pre>
+<p>If you have removed the package from the src directory, perform a new checkout
+then install.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Open MSYS2 Console, and perform the following</span>
+mkdir -p ~/src
+<span class="hljs-built_in">cd</span> ~/src
+git <span class="hljs-built_in">clone</span> https://github.com/KI7MT/jtsdk64-tools-msys2.git
+<span class="hljs-built_in">cd</span> ./jtsdk64-tools-msys2
+make install
+<span class="hljs-built_in">source</span> ~/bin/jtsdk_setup.sh
+
+<span class="hljs-comment"># To list the help screen, type</span>
+jtsdk-help
+</div></code></pre>
+<h2 id="command-summary">Command Summary</h2>
+<p>The following alias commands are available to users after installation.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">jtsdk-help</td>
+<td style="text-align:left">Show this help menu</td>
+</tr>
+<tr>
+<td style="text-align:left">jtsdk-setup</td>
+<td style="text-align:left">Install Hamlib Build Dependencies</td>
+</tr>
+<tr>
+<td style="text-align:left">jtsdk-update</td>
+<td style="text-align:left">Upgrade JTSDK64 Tools MSYS2 Scripts</td>
+</tr>
+<tr>
+<td style="text-align:left">jtsdk-version</td>
+<td style="text-align:left">Show JTSDK64 MSYS2 Version Information</td>
+</tr>
+<tr>
+<td style="text-align:left">build-hamlib</td>
+<td style="text-align:left">Build Hamlib Libraries and Binaries</td>
+</tr>
+<tr>
+<td style="text-align:left">msys-update</td>
+<td style="text-align:left">Upgrade all MSYS2 packages</td>
+</tr>
+</tbody>
+</table>
+<h2 id="command-helpers">Command Helpers</h2>
+<p>There many ways to improve the usability of virtually any Bash shell. The following
+commands have been enabled when using the <code>JTSDK64 MSYS2 Scripts</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:left">Switch</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">df</td>
+<td style="text-align:left">df -h</td>
+<td style="text-align:left">Human readable system information</td>
+</tr>
+<tr>
+<td style="text-align:left">du</td>
+<td style="text-align:left">du -h</td>
+<td style="text-align:left">Human readable disk usage</td>
+</tr>
+<tr>
+<td style="text-align:left">less</td>
+<td style="text-align:left">less -r</td>
+<td style="text-align:left">Raw control characters</td>
+</tr>
+<tr>
+<td style="text-align:left">whence</td>
+<td style="text-align:left">type -a</td>
+<td style="text-align:left">Where, of a sort</td>
+</tr>
+<tr>
+<td style="text-align:left">grep</td>
+<td style="text-align:left">grep --color</td>
+<td style="text-align:left">Show differences in color</td>
+</tr>
+<tr>
+<td style="text-align:left">egrep</td>
+<td style="text-align:left">egrep --color=auto</td>
+<td style="text-align:left">Show differences in color</td>
+</tr>
+<tr>
+<td style="text-align:left">fgrep</td>
+<td style="text-align:left">fgrep --color=auto</td>
+<td style="text-align:left">Show differences in color</td>
+</tr>
+<tr>
+<td style="text-align:left">ls</td>
+<td style="text-align:left">ls -hF --color=tty</td>
+<td style="text-align:left">Fancy show files in color</td>
+</tr>
+<tr>
+<td style="text-align:left">dir</td>
+<td style="text-align:left">ls --color=auto --format=vertical</td>
+<td style="text-align:left">Show files vertical in color</td>
+</tr>
+<tr>
+<td style="text-align:left">vdir</td>
+<td style="text-align:left">ls --color=auto --format=long</td>
+<td style="text-align:left">Long format file listing</td>
+</tr>
+<tr>
+<td style="text-align:left">l</td>
+<td style="text-align:left">ls -CF</td>
+<td style="text-align:left">Shortcut to using ls</td>
+</tr>
+<tr>
+<td style="text-align:left">ll</td>
+<td style="text-align:left">ls -l</td>
+<td style="text-align:left">Shortcut to using vidr, or long list</td>
+</tr>
+<tr>
+<td style="text-align:left">la</td>
+<td style="text-align:left">ls -A</td>
+<td style="text-align:left">All files long version</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
