@@ -34,7 +34,7 @@ LicenseFile=C:\JTSDK64-Tools\gpl-3.0.rtf
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-source: "C:\JTSDK64-Tools\*"; DestDir: "{app}"; Flags: recursesubdirs
+source: "C:\JTSDK64-Tools\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 
 [InstallDelete]
 Type: files; Name: "{app}\config\qt*"

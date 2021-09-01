@@ -37,7 +37,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-source: "C:\JTSDK64-Tools\*"; DestDir: "{app}"; Flags: recursesubdirs
+source: "C:\JTSDK64-Tools\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 
 [InstallDelete]
 Type: files; Name: "{app}\config\qt*"
