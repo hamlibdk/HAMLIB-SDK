@@ -52,9 +52,13 @@ LIBUSBINC="${libusb_dir_f/:}/include"
 # LIBUSBD="${libusb_dir_f/:}/MinGW64/dll" # MinGW Package possibly broken
 LIBUSBD="${libusb_dir_f/:}/VS2019/MS64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
+
+# -- Variables for Command Line Switches --------------------------------------
+
 PROCESSBOOTSTRAP="Yes"
 PROCESSCONFIGURE="Yes"
 PERFORMGITPULL="Yes"
+PROCESSLIBUSB="Yes"
 
 # -- QT Tool Chain Paths ------------------------------------------------------
 # QTV="$QTV"
@@ -115,8 +119,13 @@ Package-Data () {
 	echo -e " SRC Dir ............: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}	
 	echo -e " Build Dir ..........: ${C_G}$BUILDD"${C_NC}
 	echo -e " Install Prefix .....: ${C_G}$PREFIX"${C_NC}
-	echo -e " Libusb Include .....: ${C_G}$LIBUSBINC"${C_NC}
-	echo -e " Libusb DLL .........: ${C_G}$LIBUSBD"${C_NC}
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo -e " LibUSB Include .....: ${C_G}$LIBUSBINC"${C_NC}
+		echo -e " LibUSB DLL .........: ${C_G}$LIBUSBD"${C_NC}
+	else
+		echo -e " LibUSB DLL .........: ${C_R}Not Used"${C_NC}
+	fi
 	echo -e " Package Config......: ${C_G}$PREFIX/lib/pkgconfig/hamlib.pc"${C_NC}
 	echo -e " Tool Chain .........: ${C_G}$GCCD_F"${C_NC}
 	echo ''
@@ -289,8 +298,13 @@ function Perform-Bootstrap () {
 }
 
 # Function: Run configure -----------------------------------------------------
+#  --without-libusb added by VK3VM 12-Apr-2020 to to solve wsjtx 2.1.2 Linker error at final stage
+#  --without-libusb removed by VK3VM 7-Sept-2021 as Linker error at final stage issue resolved
+#  Handler for -nlibusb added VK3VM 8-Sept-2021
+
 function Run-Config () {
 	cd "$BUILDD"
+	LUSBVAR=' '
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo -e ${C_Y}" CONFIGURING [ $PKG_NAME ]"${C_NC}
@@ -300,18 +314,27 @@ function Run-Config () {
 	then
 		echo '* Running configure script: This may take a several minutes to complete'
 		echo ''
+		
+		# configure: Remove "--without-libusb" is requested command line
+		if [ $PROCESSLIBUSB = "No" ];
+		then
+			LUSBVAR='--without-libusb'
+			LUSBMSG='without LibUSB'
+		else
+			LUSBVAR=' '
+			LUSBMSG='with LibUSB'
+		fi
 
-		# configure for static only with LibSB, without readline
-		# Note 1: --without-libusb added by VK3VM 12-Apr-2020 to to solve wsjtx 2.1.2 Linker error at final stage
-		# Note 2: --without-libusb removed by VK3VM 7-Sept-2021 as Linker error at final stage issue resolved
-		echo -en "* Build Type: " && echo -e ${C_G}'Static'${C_NC}
+		echo -en "* Build Type: " && echo -en ${C_G}'Static'${C_NC}' built ' && echo -e ${C_G}$LUSBMSG${C_NC} 
 		echo ''
+		
 		../src/configure --prefix="$PREFIX" \
 		--disable-shared \
 		--enable-static \
 		--disable-winradio \
 		--without-cxx-binding \
 		--without-readline \
+		$LUSBVAR \
 		CC="$GCCD_F/gcc.exe" \
 		CXX="$GCCD_F/g++.exe" \
 		CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
@@ -449,15 +472,18 @@ function Test-Binaries {
 	PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
 	cmd /C "$PREFIXB/bin/rigctl.exe --version"
 		# $PREFIX/bin/rigctl.exe --version
-		
-	echo ''
-	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" TESTING HAMLIB LIBUSB FUNCTIONALITY"${C_NC}
-	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo ''
-	# Overcomes a bug encountered when LibUSB support is enabled
-	PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
-	cmd /C "$PREFIXB/bin/testlibusb.exe"
+	
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo ''
+		echo -e ${C_NC}'---------------------------------------------------------------'
+		echo -e ${C_Y}" TESTING HAMLIB LIBUSB FUNCTIONALITY"${C_NC}
+		echo -e ${C_NC}'---------------------------------------------------------------'
+		echo ''
+		# Overcomes a bug encountered when LibUSB support is enabled
+		PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
+		cmd /C "$PREFIXB/bin/testlibusb.exe"
+	fi
 }
 
 # Function: Help --------------------------------------------------------------
@@ -469,10 +495,11 @@ function Help-Command () {
 	echo ''
 	echo '* Command Line Options:'
 	echo ''
-	echo '  --> -h ......: Help'
-	echo '  --> -nb .....: Do Not Process Bootstrap'
-	echo '  --> -nc .....: Do Not Process Configure'
-	echo '  --> -ng .....: Do Not Pull/Check Source from GIT Repositories'
+	echo '  --> -h ........: Help'
+	echo '  --> -nb .......: Do not process bootstrap'
+	echo '  --> -nc .......: Do not process configure'
+	echo '  --> -ng .......: Do not pull/check source from GIT repository'
+	echo '  --> -nlibusb ..: Do not configure with LibUSB support'
 	echo ''
 	exit 1
 }
@@ -501,6 +528,10 @@ while [ $# -gt 0 ]; do
         ;;	
 	-ng)
 		PERFORMGITPULL="No"
+        shift
+        ;;
+	-nlibusb)
+		PROCESSLIBUSB="No"
         shift
         ;;
     *)
