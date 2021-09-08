@@ -21,13 +21,29 @@ completely removes needs for capable third-party environments such as [Python][]
 
 The **Version 3.2** stream is a learning, discovery and technique refinement experiment.
 This README.md file will transition towards deployment instructions. 
-************************************************************************************
-### **Urgent Note**
 
-The **Build-Boost.ps1** script will not download the selected Boost package from the 
-Boost maintainer's ISP due to an addware layer being added at their ISP's end. Either use 
-the Boost "drop-in" packages provided OR place the downloaded source ZIP package from 
-the Boost website in **C:\JTSDK64-Tools\src** and then run **Build-Boost.ps1** .
+### Version 3.2.1 Post/Including Alpha 4 Previews
+
+Previews **Alpha 4** and later introduce changes to the **build-hamlib**-line of scripts.
+
+Alpha 4 solves a long standing issue with LibUSB support - that up until now has been 
+disabled. Most changes in this preview incorporate enhancements to the MSYS2 environment 
+to better support the LibUSB with Hamlib.
+
+** These [MSYS2][] shell scripts should be [JTSDK64-Tools-3.2.0.7][] Compatible. **
+
+Note that the **--without-libusb** switch with the Hamlib **configure** tool has now been removed.
+
+The **Alpha 5** Preview introduces changes to the build-hamlib.sh line of scripts where commands 
+to better support developers are introduced. The following optional switches have been added:
+
+- **`-nb**  for no bootstrap 
+- **`-nc**  for no configure (not available build-hamlib-dll.sh)
+- **`-ng** for external disabling of GIT pulls 
+- **`-h** for help 
+
+In the view of the maintainers these Alphas are already ** BETTER than the entire v3.2.0 stream **.
+
 ************************************************************************************
 **The Project now needs contributors - Especially to write Cross-Language Documentation !**
 ************************************************************************************
@@ -494,7 +510,8 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK Forum]: https://groups.io/g/JTSDK/messages
 [JTSDK64-Tools-3.1.0]: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/jtsdk64-tools-3.1.0.exe
 [JTSDK64-Apps-3.1.0.2]: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/jtsdk64-apps-3.1.0.2.exe
-[JTSDK64-Tools-3.1.1.4]:https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Tools-3.1.1.4.exe
+[JTSDK64-Tools-3.1.1.4]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Tools-3.1.1.4.exe
+[JTSDK64-Tools-3.2.0.7]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.0.7.exe
 [JTSDK64-Apps-3.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Apps-3.1.1.exe
 [JTSDK64-Base-3.2.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe
 [JTSDK64-Tools-3.2.1.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe
