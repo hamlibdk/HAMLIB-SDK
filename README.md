@@ -34,13 +34,25 @@ to better support the LibUSB with Hamlib.
 
 Note that the **--without-libusb** switch with the Hamlib **configure** tool has now been removed.
 
-The **Alpha 5** Preview introduces changes to the build-hamlib.sh line of scripts where commands 
-to better support developers are introduced. The following optional switches have been added:
+The **[JTSDK64-Base-3.2.0a6][]** preview introduces significant changes to the **build-hamlib.sh** 
+script where commands to better support developers are introduced. It also uses the "configure" 
+syntax as provided in the Hamlib source (undur src/scripts). 
 
-- **`-nb**  for no bootstrap 
-- **`-nc**  for no configure (not available build-hamlib-dll.sh)
-- **`-ng** for external disabling of GIT pulls 
+The following optional switches have been added:
+
 - **`-h** for help 
+- **`-nb** for no bootstrap 
+- **`-nc** for no configure (not available build-hamlib-dll.sh)
+- **`-ng** for external disabling of GIT pulls 
+- **`-nlibusb** Do not configure with LibUSB support
+- **`-static** Statically Linked Libraries built
+- **`-dynamic** Shared/Dynamically Linked Libraries built
+
+Note: You cannot select -static with -dynamic (Static = Default).
+
+The scripts **build-hamlib-static.sh** and **build-hamlib-dll.sh** are designed to be executed from the [MSYS2][] menu.
+
+The script **build-hamlib.sh** is now designed for expert configurations for direct use at the CLI.
 
 In the view of the maintainers these Alphas are already ** BETTER than the entire v3.2.0 stream **.
 
@@ -513,7 +525,8 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.1.1.4]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Tools-3.1.1.4.exe
 [JTSDK64-Tools-3.2.0.7]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.0.7.exe
 [JTSDK64-Apps-3.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1-Stream/JTSDK64-Apps-3.1.1.exe
-[JTSDK64-Base-3.2.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe
+[JTSDK64-Base-3.2.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.0.exe
+[JTSDK64-Base-3.2.0a6]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests-3.2.1/JTSDK64-Base-3.2.0a6.exe
 [JTSDK64-Tools-3.2.1.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
