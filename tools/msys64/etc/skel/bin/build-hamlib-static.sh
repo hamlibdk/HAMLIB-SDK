@@ -329,21 +329,40 @@ function Run-Config () {
 		echo ''
 		
 		../src/configure --prefix="$PREFIX" \
+		--without-cxx-binding \
 		--disable-shared \
 		--enable-static \
-		--disable-winradio \
-		--without-cxx-binding \
-		--without-readline \
 		$LUSBVAR \
-		CC="$GCCD_F/gcc.exe" \
-		CXX="$GCCD_F/g++.exe" \
-		CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
-		LDFLAGS="-Wl,--gc-sections" \
-		LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
+		CPPFLAGS="-I${libusb_dir_f}/include" \
+		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 	else
 		echo '* Option -nc set to disable executing configure script'
 	fi
 }
+
+# ORIGINAL:  
+#
+#		../src/configure --prefix="$PREFIX" \
+#		--disable-shared \
+#		--enable-static \
+#		--disable-winradio \
+#		--without-cxx-binding \
+#		--without-readline \
+#		$LUSBVAR \
+#		CC="$GCCD_F/gcc.exe" \
+#		CXX="$GCCD_F/g++.exe" \
+#		CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
+#		LDFLAGS="-Wl,--gc-sections" \
+#		LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
+#
+# FROM (src)/scripts/build-w64.sh
+#
+# 		./configure --host=${HOST_ARCH} \
+#		--prefix=${INST_DIR} \
+#		--without-cxx-binding \
+#		--disable-static \
+#		CPPFLAGS="-I${libusb_dir_f}/include" \
+#		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 
 # Function: Clean Build -------------------------------------------------------
 function Clean-Build {
@@ -355,7 +374,10 @@ function Clean-Build {
 	# Updated in v3.1.0.2 Release
 	if [ -f "${JTSDK_CONFIG_F}/hlclean" ]
 	then
+		echo '* Performing Clean'
 		make clean
+	else
+		echo "* ${JTSDK_CONFIG_F}/hlclean flag not set"
 	fi
 }
 

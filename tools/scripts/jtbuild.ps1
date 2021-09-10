@@ -3,7 +3,7 @@
 # Version ...........: 3.2.0 
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-# Author ............: JTSDK Contributors 20-01-2021 -> 21-3-2021
+# Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
 # Copyright .........: Copyright (C) 2018-2021 Greg Beam, KI7MT
 #                      Copyright (C) 2018-2021 JTSDK Contributors
 # License ...........: GPL-3
@@ -15,6 +15,9 @@
 # 
 # Stage 1 objectives (PowerShell conversion; refactoring; prime functionality; 
 # Qt-independence) commenced 20-1-2020. Objectives met 29-01-2021 (Steve VK3VM)
+#
+# State 2 Objectives (Command Line switches to disable GIT and Configure steps)
+# commenced 10/09/2021 with objectives met 10/09/2021 (Steve VK3VM)
 #
 # jtbuild-test.ps1 is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -83,43 +86,68 @@ function RestartEnvironMessage {
 }
 
 # ---------------------------------------------------------------- PROCESS OPTIONS
-# - Refactor for use of a switch construct - Al AB2ZY 
-function ProcessOptions {
-	Param ($aarg, [ref]$rcopt, [ref]$rtopt)
+# - Refactor for use of a switch construct - Al AB2ZY
+# - Improved 10/9/2021 to handle -nc (no config) and -ng (no git pull) options
 	
-	if ($args[0] -eq "-o") { OptionStatus }
-	switch($aarg)
-	{
-		"rconfig" { 
-			$rcopt.Value="Release"
-			$rtopt.Value="Config"
+# Call: ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt) -rcgopt ([ref]$ncg) -rgopt ([ref]$ngp)	
+	
+function ProcessOptions {
+	Param ($aarg, [ref]$rcopt, [ref]$rtopt, [ref]$rcgopt, [ref]$rgopt)
+	$mainOptionFlag=0
+	$count=0
+	if ( -not ([string]::IsNullOrEmpty($aarg))) { 
+		$charArray =$aarg.Split(" ")
+
+		while ($count -lt $charArray.count) {
+			
+			switch($charArray[$count])
+			{
+				"rconfig" { 
+					$rcopt.Value="Release"
+					$rtopt.Value="Config"
+					$mainOptionFlag=1
+				}
+				"dconfig" { 
+					$rcopt.Value="Debug"
+					$rtopt.Value="Config"
+					$mainOptionFlag=1
+				}
+				"rinstall" { 
+					$rcopt.Value="Release"
+					$rtopt.Value="Install"
+					$mainOptionFlag=1
+				}
+				"dinstall" { 
+					$rcopt.Value="Debug"
+					$rtopt.Value="Install"
+					$mainOptionFlag=1
+				}
+				"package" { 
+					$rcopt.Value="Release"
+					$rtopt.Value="Package"
+					$mainOptionFlag=1
+				}
+				"docs" { 
+					$rcopt.Value="Release"
+					$rtopt.Value="Docs"
+					$mainOptionFlag=1
+				}
+				"-nc" { $rcgopt.Value = "T" }
+				"-ng" { $rgopt.Value = "T" }
+				"zero" { HelpOptions } 
+				"-h" { HelpOptions } 
+				"help" { HelpOptions }
+				$null { HelpOptions } 
+				default { HelpOptions }
+			}
+			
+			$count++
 		}
-		"dconfig" { 
-			$rcopt.Value="Debug"
-			$rtopt.Value="Config"
-		}
-		"rinstall" { 
-			$rcopt.Value="Release"
-			$rtopt.Value="Install"
-		}
-		"dinstall" { 
-			$rcopt.Value="Debug"
-			$rtopt.Value="Install"
-		}
-		"package" { 
-			$rcopt.Value="Release"
-			$rtopt.Value="Package"
-		}
-		"docs" { 
-			$rcopt.Value="Release"
-			$rtopt.Value="Docs"
-		}
-		"zero" { HelpOptions } 
-		"-h" { HelpOptions } 
-		"help" { HelpOptions }
-		$null { HelpOptions } 
-		default { HelpOptions }
+	} else {
+		HelpOptions
 	}
+	
+	if ( $mainOptionFlag -eq 0) { HelpOptions }
 }
 
 # ---------------------------------------------------------------- DOWNLOAD SOURCE
@@ -307,8 +335,10 @@ function HelpOptions {
 	Write-Host " Default Build Commands"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host " Usage .....`: jtbuild `[ OPTION `]"
-	Write-Host " Example....`: jtbuild rinstall"
+	Write-Host " Usage .....`: jtbuild `[ OPTION `] `[`[ SWITCH `]`]"
+	Write-Host ""
+	Write-Host " Examples...`: jtbuild rinstall"
+	Write-Host "            `: jtbuild rinstall -ng"
 	Write-Host ""
 	Write-Host " Options:"
 	Write-Host ""
@@ -318,6 +348,13 @@ function HelpOptions {
 	Write-Host "    dinstall   Debug, Non-packaged Install"
 	Write-Host "    package    Release, Windows Package"
 	Write-Host "    docs       Release, User Guide"
+	Write-Host ""
+	Write-Host " Switches:" 
+	Write-Host ""
+	Write-Host "    Switches only work if an `[ OPTION `] is supplied."
+	Write-Host ""
+	Write-Host "    -nc        Do not run configure"
+	Write-Host "    -ng        Do not check`/pull source"
 	Write-Host ""
 	Write-Host " * To Display this message, type .....`: jtbuild `-h"
 	Write-Host ""
@@ -497,10 +534,13 @@ function PackageTarget {
 }
 
 function PackageTargetOne {
-	cmake -G "MinGW Makefiles" -Wno-dev -D CMAKE_TOOLCHAIN_FILE=$tchain `
-		-D CMAKE_BUILD_TYPE=$copt `
-		-D CMAKE_INSTALL_PREFIX=$pkgd $srcd
-	if ($LastExitCode -ne 0) { ErrorCMake }
+	if ( $ncg -eq "F")
+	{
+		cmake -G "MinGW Makefiles" -Wno-dev -D CMAKE_TOOLCHAIN_FILE=$tchain `
+			-D CMAKE_BUILD_TYPE=$copt `
+			-D CMAKE_INSTALL_PREFIX=$pkgd $srcd
+		if ($LastExitCode -ne 0) { ErrorCMake }
+	}
 	PackageTargetTwo
 }
 
@@ -788,7 +828,9 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 if ($args -ne $null) { $aarg = [string]$args } else { $aarg=$null }
 $copt="Release"
 $topt="Config"
-ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt)	
+$ncg="F"											# No Configuration Flag (note negative logic)				
+$ngp="F"											# No GIT-Pull Flag (note negative logic)
+ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt) -rcgopt ([ref]$ncg) -rgopt ([ref]$ngp)	
 
 # Reads in configuration data from Versions.ini ------------------ PROCESS key data from Versions.ini
 
@@ -826,7 +868,7 @@ AlignJT_SRCWithMarker
 # Download source based on switch in $cfgd ----------------------- DOWNLOAD SOURCE
 # Switch is src-wsjtx, src-jtdx or src-js8call
 
-DownloadSource -srcd $srcd -pullupd $pullUpd
+if ( $ngp -eq "F" ) { DownloadSource -srcd $srcd -pullupd $pullUpd }
 
 # QT CMake Tool Chain File Selection # --------------------------- QT TOOLCHAIN
 

@@ -406,7 +406,10 @@ function Clean-Build {
 	# Updated in v3.1.0.2 Release
 	if [ -f "${JTSDK_CONFIG_F}/hlclean" ]
 	then
+		echo '* Performing Clean'
 		make clean
+	else
+		echo "* ${JTSDK_CONFIG_F}/hlclean flag not set"
 	fi
 }
 
