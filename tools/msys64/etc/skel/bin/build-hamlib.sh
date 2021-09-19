@@ -366,6 +366,8 @@ function Run-Config () {
 		$LIBUSBVAR \
 		CPPFLAGS="-I${libusb_dir_f}/include" \
 		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll" 
+		# CPPFLAGS="-I${libusb_dir_f}/include -I/usr/include" \
+		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib" 
 				
 	else
 		echo '* Option -nc set to disable executing configure script'
@@ -525,7 +527,7 @@ function Test-Binaries {
 	echo ''
 	# Overcomes a bug encountered when LibUSB support is enabled
 	PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
-	cmd /C "$PREFIXB/bin/rigctl.exe --version"
+	cmd /C "$PREFIXB\bin\rigctl.exe --version"
 		# $PREFIX/bin/rigctl.exe --version
 	
 	if [ $PROCESSLIBUSB = "Yes" ];
@@ -537,7 +539,7 @@ function Test-Binaries {
 		echo ''
 		# Overcomes a bug encountered when LibUSB support is enabled
 		PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
-		cmd /C "$PREFIXB/bin/testlibusb.exe"
+		cmd /C "$PREFIXB\bin\rigtestlibusb.exe"
 	fi
 }
 
