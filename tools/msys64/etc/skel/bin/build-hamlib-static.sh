@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 ################################################################################
 #
-# Title ........: build-hamlib.sh
+# Title ........: build-hamlib-static.sh
 # Version ......: 3.2.1 
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
@@ -9,7 +9,7 @@
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
 #          Qt Version Adjustments 21-04 to 11-Feb-2021
 #          Refactoring to use Environment variables better 13-2-2021 - 21-3-2021
-#          Fix for LibUSB Non Inclusion 6 - 7/9/2021 Steve VK3VM
+#          Fix for LibUSB Non Inclusion 6 - 20/9/2021 Steve VK3VM
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
@@ -319,13 +319,13 @@ function Run-Config () {
 		if [ $PROCESSLIBUSB = "No" ];
 		then
 			LUSBVAR='--without-libusb'
-			LUSBMSG='without LibUSB'
+			LIBUSBMSG='without'
 		else
 			LUSBVAR=' '
-			LUSBMSG='with LibUSB'
+			LIBUSBMSG='with'
 		fi
 
-		echo -en "* Build Type: " && echo -en ${C_G}'Static'${C_NC}' built ' && echo -e ${C_G}$LUSBMSG${C_NC} 
+		echo -e "  --> Build Type: "${C_G}"Static"${C_NC}" built "${C_G}$LIBUSBMSG${C_NC}${C_NC}" LibUSB"${C_NC}	
 		echo ''
 		
 		../src/configure --prefix="$PREFIX" \
@@ -415,7 +415,7 @@ function Generate-BuildInfo {
 		echo -e ${C_Y}" ADDING BUILD INFO [ $PKG_NAME.build.info ] "${C_NC}
 		echo -e ${C_NC}'---------------------------------------------------------------'
 		echo ''
-		echo '  Creating Hamlib3 Build Info File'
+		echo '* Creating Hamlib3 Build Info File'
 
 	(
 	cat <<EOF
@@ -451,7 +451,7 @@ make install-strip
 
 EOF
 	) > "$PREFIX/$PKG_NAME.build.info"
-		echo '  Finished'
+		echo '  --> Complete'
 	fi
 }
 
@@ -459,15 +459,18 @@ EOF
 function Copy-DLLs {
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" COPY DLLs TO HAMLIB DESINATION"${C_NC}
+	echo -e ${C_Y}" COPY SUPPORT DLLs TO HAMLIB DESINATION"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo "* Destination: $PREFIX/BIN"
+	echo "* Destination: $PREFIX/bin"
 	echo ''
-	echo "* DLL Sources:"
+	echo "* DLL Source(s):"
 	echo ''
-	echo "  --> $LIBUSBD/libusb-1.0.dll"
-	cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo "  --> $LIBUSBD/libusb-1.0.dll"
+		cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
+	fi
 	echo "  --> $GCCD_F/libwinpthread-1.dll"
 	cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
 }
@@ -479,7 +482,7 @@ function Fixup-PkgConfig {
 	echo -e ${C_Y}" FIXUP PKGCONFIG "${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo '  Updating hamlib.pc'
+	echo '* Updating hamlib.pc'
 	sed -i 's/Requires.private\: libusb-1.0/Requires.private\:/g' "$PREFIX/lib/pkgconfig/hamlib.pc" >/dev/null 2>&1
 }
 

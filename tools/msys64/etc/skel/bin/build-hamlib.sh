@@ -367,8 +367,7 @@ function Run-Config () {
 		CPPFLAGS="-I${libusb_dir_f}/include" \
 		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll" 
 		# CPPFLAGS="-I${libusb_dir_f}/include -I/usr/include" \
-		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib" 
-				
+		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib"
 	else
 		echo '* Option -nc set to disable executing configure script'
 	fi
@@ -497,12 +496,15 @@ function Copy-DLLs {
 	echo -e ${C_Y}" COPY SUPPORT DLLs TO HAMLIB DESINATION"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo "* Destination: $PREFIX/BIN"
+	echo "* Destination: $PREFIX/bin"
 	echo ''
-	echo "* DLL Sources:"
+	echo "* DLL Source(s):"
 	echo ''
-	echo "  --> $LIBUSBD/libusb-1.0.dll"
-	cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo "  --> $LIBUSBD/libusb-1.0.dll"
+		cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
+	fi
 	echo "  --> $GCCD_F/libwinpthread-1.dll"
 	cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
 }
