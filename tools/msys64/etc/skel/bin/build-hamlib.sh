@@ -575,9 +575,10 @@ function Help-Messages () {
 	echo '* Available Command Line Options:'
 	echo ''
 	echo '  --> -h ........: Help'
-	echo '  --> -nb .......: Do not process bootstrap'
-	echo '  --> -nc .......: Do not process configure'
-	echo '  --> -ng .......: Do not pull/check source from GIT repository'
+	echo '  --> -b / -nb ..: Process / Do not process bootstrap'
+	echo '  --> -c / -nc ..: Process / Do not process configure'
+	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
+	echo '  --> -libusb ...: Configure with LibUSB support'
 	echo '  --> -nlibusb ..: Do not configure with LibUSB support'
 	echo '  --> -static ...: Statically Linked Libraries built'
 	echo '       or ..' 
@@ -605,14 +606,26 @@ while [ $# -gt 0 ]; do
 		Help-Command
 		shift
 		;;
+	-b|--b)
+		PROCESSBOOTSTRAP="Yes"
+		shift
+		;;
 	-nb|--nb)
 		PROCESSBOOTSTRAP="No"
+		shift
+		;;
+	-c|--c)
+		PROCESSCONFIGURE="Yes"
 		shift
 		;;
 	-nc|--nc)
 		PROCESSCONFIGURE="No"
 		shift
-		;;	
+		;;
+	-g|--g)
+		PERFORMGITPULL="Yes"
+		shift
+		;;		
 	-ng|--ng)
 		PERFORMGITPULL="No"
 		shift

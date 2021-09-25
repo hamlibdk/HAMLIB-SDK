@@ -373,10 +373,10 @@ function Help-Command () {
 	echo ''
 	echo '* Command Line Options:'
 	echo ''
-	echo '  --> -h ......: Help'
-	echo '  --> -nb .....: Do Not Process Bootstrap'
-	# echo '  --> -nc .....: Do Not Process Configure'
-	echo '  --> -ng .....: Do Not Pull/Check Source from GIT Repositories'
+	echo '  --> -h ........: Help'
+	echo '  --> -b / -nb ..: Process / Do Not Process Bootstrap'
+	# echo '  --> -nc ......: Do Not Process Configure'
+	echo '  --> -g / -ng ..: Do Not Pull/Check Source from GIT Repositories'
 	echo ''
 	exit 1
 }
@@ -395,14 +395,26 @@ while [ $# -gt 0 ]; do
         Help-Command
         shift
         ;;
+	-b)
+		PROCESSBOOTSTRAP="Yes"
+        shift
+        ;;
 	-nb)
 		PROCESSBOOTSTRAP="No"
         shift
         ;;
+#	-c)
+#		PROCESSCONFIGURE="Yes"
+#        shift
+#        ;;
 #	-nc)
 #		PROCESSCONFIGURE="No"
 #        shift
-#        ;;	
+#        ;;
+	-g)
+		PERFORMGITPULL="Yes"
+        shift
+        ;;	
 	-ng)
 		PERFORMGITPULL="No"
         shift

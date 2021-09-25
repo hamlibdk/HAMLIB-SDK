@@ -22,46 +22,19 @@ completely removes needs for capable third-party environments such as [Python][]
 The **Version 3.2** stream is a learning, discovery and technique refinement experiment.
 This README.md file will transition towards deployment instructions. 
 
-### Version 3.2.1 Post/Including Alpha 4 Previews
+### Version 3.2.1 
 
-Previews **Alpha 4** and later introduce changes to the **build-hamlib**-line of scripts.
+The **JTSDK 3.2.1** outwardly will appear similar to the **JTSDK 3.2.1**-stream. Yet the 
+**JTSDK 3.2.1** has significant enhancements in that many of the key commands now accept 
+switches that can make the process of developing code quicker and simpler.
 
-Alpha 4 solves a long standing issue with LibUSB support - that up until now has been 
+In addition the "mirroring" of **build-hamlib.sh** and **build-hamlib.sh-static** has been 
+broken - with **build-hamlib.sh** offering a number of additional command-line switches to 
+aid developers.
+
+The **JTSDK 3.2.1** solves a long standing issue with [LibUSB][]  support - that up until now has been 
 disabled. Most changes in this preview incorporate enhancements to the MSYS2 environment 
-to better support the LibUSB with Hamlib.
-
-** These [MSYS2][] shell scripts should be [JTSDK64-Tools-3.2.0.7][] Compatible. **
-
-Note that the **--without-libusb** switch with the Hamlib **configure** tool has now been removed.
-
-The **JTSDK64-Base-3.2.1a6** preview introduces significant changes to the **build-hamlib.sh** 
-script where commands to better support developers are introduced. It also uses the "configure" 
-syntax as provided in the Hamlib source (undur src/scripts). 
-
-The following optional switches have been added:
-
-- **`-h** for help 
-- **`-nb** for no bootstrap 
-- **`-nc** for no configure (not available build-hamlib-dll.sh)
-- **`-ng** for external disabling of GIT pulls 
-- **`-nlibusb** Do not configure with LibUSB support
-- **`-static** Statically Linked Libraries built
-- **`-dynamic** Shared/Dynamically Linked Libraries built
-
-Note: You cannot select -static with -dynamic (Static = Default).
-
-The scripts **build-hamlib-static.sh** and **build-hamlib-dll.sh** are designed to be 
-executed from the [MSYS2][] menu.
-
-The script **build-hamlib.sh** is now designed for expert configurations for direct use 
-at the CLI.
-
-The **[JTSDK64-Base-3.2.1a7][]** preview completes objectives for the v3.2.1 stream by 
-providing a **jtbuild.ps1** script that takes additional command line parameters that 
-can be used to disable git pulls and disable cmake configure steps. Invoke 
-**jtbuild -h** to se ethe changes.
-
-In the view of the maintainers these Alphas are already ** BETTER than the entire v3.2.0 stream **.
+to better support the [LibUSB][]  with Hamlib.
 
 ************************************************************************************
 **The Project now needs contributors - Especially to write Cross-Language Documentation !**
@@ -119,22 +92,12 @@ Support for following technologies are **added/enhanced** in these streams:
 The versions of packages supported are now able to be edited into the kit in one 
 place - the **Versions.ini** file. This makes maintenance tasks easier.
 
-### Removed Support 
-
-Support for following technologies are **removed** in these streams:
-
-- [Java][Java Open JDK] (no longer needed)
-- Legacies from previous kits such as [Ant][], [Gradle][] and [Maven][].
-- [Python][] - hence [Anaconda][], [Miniconda][] and [PyPy][] dependence
-
 ### Limitations 
 
-[PowerShell][] has VERY LIMITED support for 'doskeys' deployed in earlier kits. The 
-focus will be around [PowerShell][] **commandlets**.
+[PowerShell][] scripts are managed to tight security rules. See the next section.
 
-[PowerShell][] scripts are managed to tight security rules. See the section [PowerShell][].
-
-The kits may never be able to move away from CMD Batch files to compile JT- software.
+The kits may never be able to move away from the Windows CMD processor and its "Batch 
+files" in order to compile JT- software.
 
 Operational techniques have already evolved  i.e. the need for **qt-gen-tc** has been 
 eliminated. Some needed techniques to support 'familiarity' also have limits. Ways that 
@@ -168,11 +131,16 @@ will remain a cornerstone concept.
 ## Upgrades
 ************************************************************************************
 
-The [JTSDK64-Base-3.2.1a7][] should be reinstalled from scratch. 
+The [JTSDK64-Base-3.2.1][] can be installed over the top of previous kits - yet it is 
+highly recommended that one start from scratch. 
 
-**It is recommended that this kit is deployed into Virtual machines (see "Deployment" section).** 
+** `It is recommended that kits are deployed into Virtual machines (see "Deployment" section).` ** 
 
-**It is recommended that new kits be new, fresh installations.** 
+It is highly recommended that a new, fresh deployment be considered with each new base package release.
+
+You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. **C:\JTSDK64-Tools** to **C:\JTSDK64-Tools-Old**) 
+
+If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. **C:\JTSDK64-Tools-Old** back to **C:\JTSDK64-Tools**) 
 
 ************************************************************************************
 ## Maintenance Updates: "Tools" Packages
@@ -188,18 +156,25 @@ are designed to be deployed to existing "Base" packages.
 *These steps assume that you have a deployed base environment*
 
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
-i.e. There is no current version: [JTSDK64-Tools-3.2.1.0][] woudl be the first expected package.
+
+**Note:** There is no current "Tools" package. The first anticipated version would be [JTSDK64-Tools-3.2.1.0][].exe.
+
 - Deploy the tools package to your JTSDK install directory.
 
 Updates may apply to the MSYS2 environment. Therefore the "profile" directory for 
 MSYS2 should be deleted and re-created.
 
-- (Optional) Back-up any files and folders stored under **C:\JTSDK64-Tools\tools\msys64\home**
+- (Optional) Copy any folders stored under **C:\JTSDK64-Tools\tools\msys64\home** to a backup location. This should enable you to access previous work.
 - Close any open MSYS2 environment terminal(s).
-- Delete folders that exist under **C:\JTSDK64-Tools\tools\msys64\home**
-- Re-open MSYS2 with the **msys2** command inside the PowerShell terminal
+- Perform the system upgrade.
+- Delete folders that exist under **C:\JTSDK64-Tools\tools\msys64\home**.
 
 i.e: PowerShell: ** Remove-Item "C:\JTSDK64-Tools\tools\msys64\home\*" -Recurse -Force **
+
+- Re-open MSYS2 with the **msys2** command inside the PowerShell terminal
+
+**Note:** The **src** directory in your backup shoudl contain your previous work. It 
+is safe to copy this enture foler across to your new MSYS2 Profile.
 
 You will need to pull down your Hamlib repository again and/or restore any custom work 
 to folders created within the MSYS2 environment. See Step 3b below.
@@ -319,7 +294,7 @@ to their licensing terms).
 ************************************************************************************
 Follow on-screen prompts carefully.
 ************************************************************************************ 
-#### Step 2a: Prepare the MSYS2 Environment
+**Step 2a: Prepare the MSYS2 Environment**
  
 A MSYS2 environment window will open as part of the **postinstall** process. 
 ```
@@ -358,17 +333,19 @@ JTSKD64 Tools Main Menu
 Enter your selection, then hit <return>:
 ```
  
-#### Step 2b: Update the  MSYS2 Environment
+**Step 2b: Update the  MSYS2 Environment**
  
 - Select **2. Update MSYS2** to update the MSYS2 environment. 
 
 Note that the window may close on completion if there are updates. 
 
-- If the MSYS2 Window closes reopen it within the **JTSDK64-Setup** environment with **msys2**
+- If the MSYS2 Window closes reopen it within the **JTSDK64-Setup** environment by typing **msys2** at the PowerShell environment prompt.
 
-- Repeat this step until there are no more updates available.
+- If the update process requests that you close the open **msys2** terminal then close the window. Re-open the environment by typing **msys2** at the PowerShell environment prompt.
+
+- Repeat these steps if neceessary until there are no more updates available.
  
-#### Step 2c: Update the  MSYS2 Environment
+**Step 2c: Update the  MSYS2 Environment**
  
 - If the MSYS2 Window closes reopen it within the **JTSDK64-Setup** environment with **msys2**
 
@@ -376,7 +353,7 @@ Note that the window may close on completion if there are updates.
 
 - (Optional) Select ** 4. Install msys64 GNU Compilers ** so that a msys64 POSIX-compliant build environment can be launched.
  
-#### Step 2d: Basic Deployment Complete
+**Step 2d: Basic Deployment Complete**
 
 Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **JTSDK64-Setup** and any MSYS2 terminal shells) 
  
@@ -384,9 +361,9 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
  
 - Launch the **JTSDK64-Tools** environment from the icon on your desktop.
  
-#### Step 3a: (Optional) Upgrade your Qt Deployment
+**Step 3a: (Optional) Upgrade your Qt Deployment**
  
-The Minimal Qt installer script pegs at Qt at version 5.12.10. If you did not use the "F" Full option for QT deployment or you 
+A Minimum Qt installation pegs at [Qt][] at version 5.12.11. If you did not use the "F" Full option for [Qt][] deployment or you 
 want to update Qt to the more contemporary 5.15.2 version you should do so now. Note that using Qt 5.15.2 is highly recommended.
 
 i.e. 
@@ -406,12 +383,12 @@ On Completion:
 - i.e. rename **qt5.12.10** to **qt5.15.2**
 
 ************************************************************************************
-There must only be ONE marker file for QT in **C:\JTSDK64-Tools\config**
+There must only be ONE marker file for Qt in **C:\JTSDK64-Tools\config**
 
 If the system abends with a warning check the **C:\JTSDK64-Tools\config** directory and remove the unwanted item with the prefix 'qt'
 ************************************************************************************
 
-#### Step 3b: Deploy Hamlib for our selected Qt Version.
+**Step 3b: Deploy Hamlib for our selected Qt Version.**
  
 In **JTSDK64-Tools**:
 
@@ -419,15 +396,19 @@ In **JTSDK64-Tools**:
 - Type: **menu**
 - Select **5. Build Hamlib - Static Libraries**
 
-**Note 1:** The **build-hamlib.sh** and **build-hamlib-static.sh** scripts now perform different functions.
-
-**Note 2:** If you have difficulties packaging [Hamlib][] with [JTDX][] you may need to us ethe The **build-hamlib.sh** script as follows:
+************************************************************************************
+**Note:** If you have difficulties packaging [Hamlib][] with [JTDX][] and/or [JS8CALL][] you may need to use the The **build-hamlib.sh** script from the MSYS2 terminal as follows:
 
 - **build-hamlib.sh -nlibusb**
+************************************************************************************
 
-This will take time as it pulls from the master repository for Hamlib. Repositories can be changed. by changing the marker files in **C:\JTSDK64-Tools\config** (i.e. from .. **hlmaster** to **hlw4mdb**, **hlg4wjs** or **hlnone** for no default pull and update).
+This will take time as it pulls from the master repository for Hamlib. 
 
-#### Step 3c: Deploy Boost for our selected Qt/MinGW Version.
+Source distribution repositories can be changed by changing the marker file in **C:\JTSDK64-Tools\config** 
+
+- Valid options are: **hlmaster** (default and recommended), **hlw4mdb**, **hlg4wjs** or **hlnone** for no default pull and update.
+
+**Step 3c: Deploy Boost for our selected Qt/MinGW Version.**
  
 ***THIS IS SLOW***. There are "dropins" available on the Sourceforge and GitHub sites if you are lazy. Yet the best procedure is to build your own.
 
@@ -453,9 +434,9 @@ The preference is to build your own Boost package and NOT use these ! ** Warning
 ************************************************************************************
 A script **Reset-Boost.ps1** is available to reset any failed attempts at building Boost.
 ************************************************************************************
+**Environments should now be complete for building JT-ware**
+************************************************************************************
 
-#### Step 3d: Environments should now be complete for building JT- software
- 
 Now that seemed a lot of work. Please dissect these scripts to see what actually took place !
  
 ### Step 4: Build your JT- Software
@@ -473,6 +454,75 @@ In JTSDK64-Tools:
 Options preferred are package (a Windows Installer package - the preferred "clean" way) and rinstall (just a static directory full of "runnable" files).
 
 ************************************************************************************
+## Additional Options for Developers
+************************************************************************************
+
+Both the **jtbuild** and **build-hamlib-** scripts now contain a number of switches that can be used to disable default features of the scripts.
+
+Use the embedded **help** facilities to discover the currently available set of switches:
+
+i.e. 1:  In The **PowerShell** Environment:
+
+```
+PS C:\JTSDK64-Tools> jtbuild -h
+
+--------------------------------------------
+ Default Build Commands
+--------------------------------------------
+
+ Usage .....: jtbuild [ OPTION ] [[ SWITCH ]]
+
+ Examples...: jtbuild rinstall
+            : jtbuild rinstall -ng
+
+ Options:
+
+    rconfig    Release, Config Only
+    dconfig    Debug, Config Only
+    rinstall   Release, Non-packaged Install
+    dinstall   Debug, Non-packaged Install
+    package    Release, Windows Package
+    docs       Release, User Guide
+
+ Switches:
+
+    Switches only work if an [ OPTION ] is supplied.
+
+    -nc        Do not run configure
+    -ng        Do not check/pull source
+
+ * To Display this message, type .....: jtbuild -h
+
+PS C:\JTSDK64-Tools>
+```
+
+i.e. 2:  In The **MSYS2** Environment:
+
+```
+$ build-hamlib.sh -h
+
+---------------------------------------------------------------
+ BUILD-HAMLIB - HELP
+---------------------------------------------------------------
+
+* Available Command Line Options:
+
+  --> -h ........: Help
+  --> -nb .......: Do not process bootstrap
+  --> -nc .......: Do not process configure
+  --> -ng .......: Do not pull/check source from GIT repository
+  --> -nlibusb ..: Do not configure with LibUSB support
+  --> -static ...: Statically Linked Libraries built
+       or ..
+  --> -dynamic ..: Shared/Dynamically Linked Libraries built
+
+  Note: You cannot select -static with -dynamic (Static = Default).
+
+radio@jtsdk ~
+$
+```
+
+************************************************************************************
 ## Contributions
 ************************************************************************************
 
@@ -484,7 +534,7 @@ you cannot post). The [JTSDK Forum][] is used somewhat as as 'blog' as informati
 there is too valuable for the general IT community.
 
 ***The 'core team' behind this are not PowerShell gurus.*** This is a learning effort. 
-If you are a PowerShell Guru PLEASE PLEASE PLEASE jump in and comment to assist. Send 
+If you are a PowerShell guru PLEASE PLEASE PLEASE jump in and comment to assist. Send 
 back BETTER SCRIPT. **Teach us all**. 
 
 We especially require people to make these README.md scripts better !
@@ -532,6 +582,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Java Open JDK]: https://adoptopenjdk.net/
 [InnoSetup]: http://www.jrsoftware.org/isinfo.php
 [Hamlib]: https://hamlib.github.io/
+[LibUSB]: https://libusb.info/
 [JTSDK Sourceforge]: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/
 [JTSDK Forum]: https://groups.io/g/JTSDK/messages
 [JTSDK64-Tools-3.1.0]: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/jtsdk64-tools-3.1.0.exe
@@ -558,7 +609,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [WSJT-X 2.2.2]:https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.2.tgz
 [WSJT-X 2.3.0]: http://physics.princeton.edu/pulsar/K1JT/wsjtx-2.3.0.tgz 
 [WSJT-X 2.4.0]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.4.0.tgz
-[WSJT-X 2.5.0 rc5][]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc5.tgz
+[WSJT-X 2.5.0 rc6]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc6.tgz
 [Archive]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/
 [Fl-Apps]: https://sourceforge.net/projects/fldigi/files/
 [DotNET SDK]: https://dotnet.microsoft.com/download

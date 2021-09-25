@@ -521,9 +521,10 @@ function Help-Command () {
 	echo '* Command Line Options:'
 	echo ''
 	echo '  --> -h ........: Help'
-	echo '  --> -nb .......: Do not process bootstrap'
-	echo '  --> -nc .......: Do not process configure'
-	echo '  --> -ng .......: Do not pull/check source from GIT repository'
+	echo '  --> -b / -nb ..: Process / Do not process bootstrap'
+	echo '  --> -c / -nc ..: Process / Do not process configure'
+	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
+	echo '  --> -libusb ...: Configure with LibUSB support'
 	echo '  --> -nlibusb ..: Do not configure with LibUSB support'
 	echo ''
 	exit 1
@@ -544,15 +545,31 @@ while [ $# -gt 0 ]; do
         shift
         ;;
 	-nb)
+		PROCESSBOOTSTRAP="Yes"
+        shift
+        ;;
+	-nb)
 		PROCESSBOOTSTRAP="No"
         shift
         ;;
+	-c)
+		PROCESSCONFIGURE="Yes"
+        shift
+        ;;	
 	-nc)
 		PROCESSCONFIGURE="No"
         shift
         ;;	
+	-g)
+		PERFORMGITPULL="Yes"
+        shift
+        ;;
 	-ng)
 		PERFORMGITPULL="No"
+        shift
+        ;;
+	-libusb)
+		PROCESSLIBUSB="Yes"
         shift
         ;;
 	-nlibusb)
