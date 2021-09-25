@@ -508,9 +508,10 @@ $ build-hamlib.sh -h
 * Available Command Line Options:
 
   --> -h ........: Help
-  --> -nb .......: Do not process bootstrap
-  --> -nc .......: Do not process configure
-  --> -ng .......: Do not pull/check source from GIT repository
+  --> -b / -nb ..: Process / Do not process bootstrap
+  --> -c / -nc ..: Process / Do not process configure
+  --> -g / -ng...: Process / Do not pull/check source from GIT repository
+  --> -libusb ...: Configure with LibUSB support
   --> -nlibusb ..: Do not configure with LibUSB support
   --> -static ...: Statically Linked Libraries built
        or ..

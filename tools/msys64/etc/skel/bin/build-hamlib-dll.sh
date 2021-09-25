@@ -376,7 +376,7 @@ function Help-Command () {
 	echo '  --> -h ........: Help'
 	echo '  --> -b / -nb ..: Process / Do Not Process Bootstrap'
 	# echo '  --> -nc ......: Do Not Process Configure'
-	echo '  --> -g / -ng ..: Do Not Pull/Check Source from GIT Repositories'
+	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
 	echo ''
 	exit 1
 }
