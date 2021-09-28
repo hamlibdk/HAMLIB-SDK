@@ -24,7 +24,7 @@ This README.md file will transition towards deployment instructions.
 
 ### Version 3.2.1 
 
-The **JTSDK 3.2.1** outwardly will appear similar to the **JTSDK 3.2.1**-stream. Yet the 
+The **JTSDK 3.2.1** outwardly will appear similar to the **JTSDK 3.2.0**-stream. Yet the 
 **JTSDK 3.2.1** has significant enhancements in that many of the key commands now accept 
 switches that can make the process of developing code quicker and simpler.
 
