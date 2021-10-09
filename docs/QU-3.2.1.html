@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
+	<title>Hamlib SDK v3.2.1 User Guide</title>
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<script src="script.js"></script>
+</head>
+
+<body>
+	
+	<h1>JTSDK64 Applications and Tools</h1>
+    
+	<hr>
+	<h2>JTSDK 3.2.1 Common Questions</h2>
+	<hr>
+	<h3>What has happened to the original JTSDK creator?</h3>
+    <ul>
+		<p><a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is still around and with us on the JTSDK Forum at <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a>. People's interests change; you will see from Greg's posts that he has evolved past active JTSDK development.</a> 
+		<p>We cannot thank Greg more highly for his past and ongoing work - especially as a mentor at this point in time.</p>
+		<p>No politics here. This is not a push out or push aside. The 'hamlibdk' group as entities seek no glory nor recognition. Contributors just evolved work where Greg left off as the need was there for this to occur.</p>
+	</ul>
+	<h3>Where can I ask question ?</h3>
+    <ul>
+	  <p>The original JTSDK Forum <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a> as operated and moderated by <a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is used as the primary communication point for this project.</p>
+		<p>Have no hesitations posting questions to there. If you are unable to post then email main contributors in that forum directly.</p>
+	</ul>
+	<h3>What happens if I receive a PowerShell security warning? Is it safe to run the PowerShell Scripts?</h3>
+    <ul>
+	<p>You may receive the following <strong>security notification</strong>:</p>
+	</ul>
+<div class="container"> <pre>
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing 
+the execution policy might expose you to the security risks described in the 
+about_Execution_Policies help topic at https:/go.microsoft.com/fwlink/?LinkID=135170. 
+Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
+</pre>
+	</div>
+	<ul>
+	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
+	that developing these scripts is also a learning exercise for the Development Team.</p>
+	</ul>
+	
+	<h3>How does the SDK use PowerShell? Why does the SDK need to use PowerShell when previous kits used CMD scripts?</h3>
+	
+	<ul>
+		<p>The basic concept of supporting <strong>Windows Environment Variables</strong> through <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> 
+		<strong>$env:<env-var></strong> facilities ease access into <a href="https://cmake.org/">CMake</a>, <a href="https://doc.qt.io/qt-5/qmake-manual.html">QMake</a> and the <a href="http://gcc.gnu.org/">GCC compilers</a> - components that must always remain cornerstone to these efforts.</p>
+		<p><a href="https://docs.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.1">PowerShell</a> is a task automation and configuration management program that creates a HIGHLY EXTENSIBLE environment. Powershell is embedded into the WIndows OS as PowerShell Core. There are also more advanced evolved versions rfeleased. The discussion at <a href="https://www.techrepublic.com/article/a-tale-of-two-powershells-which-is-the-right-version-for-you/">https://www.techrepublic.com/article/a-tale-of-two-powershells-which-is-the-right-version-for-you</a> though a little dated provides some insights into different versions.</p>
+		<p>The PowerShell environment is much more powerful and offers facilities that vastly eclipse capabilities of the old CMD.EXE processor and its scripts. Many tasks became onerous and were pushing the boundaries of what CMD.EXE-capable scripts could perform. Some tasks (such as extracting version information from the <strong>cmake</strong> files) became near impossible with CMD.EXE scripts. Therefore the PowerShell 'universal' scripting environment - provided by Microsoft STANDARD with Windows - was selected as the investigation tool for this project.</p>
+    </ul>
+	
+<h3>How do I upgrade existing JTSDK deployments?</h3>
+	<ul>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe">JTSDK64-Base-3.2.1</a> can be installed over the top of previous kits - yet it is 
+	highly recommended that one start from scratch. </p>
+	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see <a href="DG-3.2.1.html">Installation</a> section).</strong> </p>
+	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
+	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
+	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </p>
+	</ul>
+	
+<h3>How do I update the JTSDK?</h3>
+	
+	<ul>
+	<p>Maintenance updates will be applied in the form of &quot;Tools&quot; packages. These packages 
+	are designed to be deployed to existing &quot;Base&quot; packages.</p>
+	</ul>
+	
+<h4>Where do I get 'Tools' packages?</h4>
+
+	<ul>
+	  <p><strong></strong>&quot;Tools&quot;</strong> packages are updates to the <strong></strong>&quot;Base&quot; environments. They will be supplied on the Sourceforge and GitHUB mirrors alongside the "base" packages.</p>
+
+	</ul>
+<h4>How do I apply 'Tools' packages?</h4>
+	<ul>
+	<p><em>These steps assume that you have a deployed base environment</em></p>
+	<ul>
+	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
+	</ul>
+	<p><strong>Note:</strong> There is no current &quot;Tools&quot; package. The first anticipated version would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe">JTSDK64-Tools-3.2.1.0</a>.exe.</p>
+	<ul>
+	<li>Deploy the tools package to your JTSDK install directory.</li>
+	</ul>
+	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
+	MSYS2 should be deleted and re-created.</p>
+	<ul>
+		<li>(Optional) Copy any folders stored under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
+		
+		<li>Close any open MSYS2 environment terminal(s).</li>
+		
+		<li>Perform the system upgrade.</li>
+		
+		<li>Delete folders that exist under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong>.</li>
+	  
+		<ul>
+			<li>i.e: PowerShell: <strong> Remove-Item &quot;C:\JTSDK64-Tools\tools\msys64\home*&quot; -Recurse -Force </strong></li>
+		</ul>
+		
+		<li>Re-open MSYS2 with the <strong>msys2</strong> command inside the PowerShell terminal</li>
+	</ul>
+	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It 
+	is safe to copy this enture foler across to your new MSYS2 Profile.</p>
+	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
+	to folders created within the MSYS2 environment. See <a href="DG-3.2.1.html">Step 3b in the Deployment Guide</a>.</p>
+	</ul>
+	
+<hr>
+	<h2>Conclusion and Further References</h2>
+	<hr>
+	<ul>
+	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
+	high-quality, yet flexible build system. </p>
+	<p>Base ref: <a href="https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md">https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md</a></p>
+	</ul>
+<hr>
+	<table width="100%" border="0">
+	  <tbody>
+		<tr>
+		  <td>Author: Steve VK3VM/VK3SIR</td>
+		  <td align="right"><a href="hamlibdk [at] outlook.com"
+			rel="nofollow"
+			onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+		</tr>
+	  </tbody>
+	</table>	
+</body>
+</html>
