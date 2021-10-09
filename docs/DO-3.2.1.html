@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
+	<title>Hamlib SDK v3.2.1 User Guide</title>
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<script src="script.js"></script>
+</head>
+
+<body>
+	
+<h1>JTSDK64 Applications and Tools</h1>
+<hr>
+
+<h2>Developer Options</h2>
+
+<hr>
+<h3> Introduction</h3>
+<ul>
+<p>Both the <strong>jtbuild</strong> and <strong>build-hamlib-</strong> scripts now contain a number of switches that can be used to disable default features of the scripts.</p>
+<p>Use the embedded <strong>help</strong> facilities to discover the currently available set of switches:</p>
+</ul>
+<h3>The <strong>PowerShell</strong> Environment:</h3>
+<ul>
+	<p>The <strong>PowerShell</strong> environment offers a highly extensible environment basically for working with Qt and the JT-ware under the <strong>PowerShell</strong> environment.</p> 
+	<p>There are extensive environment variables made available so that scripts like <strong>jtbuild</strong> can be created to build software.</p>
+</ul>	
+<h4>Using <strong>jtbuild</strong> to build JT-Ware</h4>
+<div class="reducewidth"> <pre>
+PS C:\JTSDK64-Tools> jtbuild -h
+
+--------------------------------------------
+ Default Build Commands
+--------------------------------------------
+
+ Usage .....: jtbuild [ OPTION ] [[ SWITCH ]]
+
+ Examples...: jtbuild rinstall
+            : jtbuild rinstall -ng
+
+ Options:
+
+    rconfig    Release, Config Only
+    dconfig    Debug, Config Only
+    rinstall   Release, Non-packaged Install
+    dinstall   Debug, Non-packaged Install
+    package    Release, Windows Package
+    docs       Release, User Guide
+
+ Switches:
+
+    Switches only work if an [ OPTION ] is supplied.
+
+    -nc        Do not run configure
+    -ng        Do not check/pull source
+
+ * To Display this message, type .....: jtbuild -h
+
+PS C:\JTSDK64-Tools>
+</pre> </div>
+<h3>The <strong>MSYS2</strong> Environment:</h3>
+<ul>
+	<p>The <strong>MSYS2</strong> environment offers a full MinGW/MSYS2 environment centred on building <a href="https://sourceforge.net/projects/hamlib/">Hamlib</a>.</p> 
+	<p>Hamlib is not the only software that can be built here. Full MinGW32, MinGW64, CLang and UCRT64 environments can be launched that offer the GNU compiler suites and/or a deployed Qt-GNU compiler suite to develop software.</p>
+</ul>	
+<h4>Using <strong>build-hamlib*</strong> to build Hamlib</h4>
+<div class="reducewidth"><pre>
+---------------------------------------------------------------
+ BUILD-HAMLIB - HELP
+---------------------------------------------------------------
+
+* Available Command Line Options:
+
+  --> -h ........: Help
+  --> -b / -nb ..: Process / Do not process bootstrap
+  --> -c / -nc ..: Process / Do not process configure
+  --> -g / -ng...: Process / Do not pull/check source from GIT repository
+  --> -libusb ...: Configure with LibUSB support
+  --> -nlibusb ..: Do not configure with LibUSB support
+  --> -static ...: Statically Linked Libraries built
+       or ..
+  --> -dynamic ..: Shared/Dynamically Linked Libraries built
+
+  Note: You cannot select -static with -dynamic (Static = Default).
+
+radio@radio ~
+$
+</pre></div>
+<hr>
+<h2>Building Libraries and Tools</h2>
+<hr>
+	<ul>
+	<p>Refer to the links below to see how some of the key JTSDK Libraries were constructed:</p>
+	<ul>
+	
+		<li><a href="DG-Build-Boost.html">Build Boost</a></li> 
+		<li><a href="DG-Build-Portaudio.html">Build Portaudio</a></li>
+		<li><a href="DG-Build-FFTW.html">Build FFTW</a></li>
+	</ul>
+	<p>A very generalised development guide for software is available at:</p>
+	<ul>
+		<li><a href="DG-Build-General.html">General Software Development Guide</a></li> 
+	</ul>
+
+</ul>
+<hr>
+<h2>Conclusion and Further References</h2>
+<hr>
+<ul>
+    <p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
+    high-quality, yet flexible build system. </p>
+    <p>Base ref: <a href="https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md">https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md</a></p>
+    </ul>
+<hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td align="right"><a href="hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

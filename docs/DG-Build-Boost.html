@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Boost, boost.org">
+	<title>JTSDK Guide for Building Boost</title>
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<script src="script.js"></script>
+</head>
+
+<body>
+	<h1>JTSDK64 Applications and Tools</h1>
+	<hr>
+	<h2>Guide for Building Boost</h2>
+	<hr>
+	<h3>Introduction</h3>
+    <ul>
+	<p>As of  version 3.2.1 JTSDK as provided at this point can build the Boost required to  build WSJT-X with the mingw64 environment.</p> 
+	<p>Note that this is NOT the technique  that the JTSDK64-Tools command &ldquo;Deploy-Boost&rdquo; uses.</p>
+	<p>These steps  will demonstrate how to deploy a Windows MME-Interface-based driver.</p> 
+	<p>If you  want ALSA support – which requires a licensed SDK - refer to notes in the WSJT-X source.</p>
+    </ul>
+	<h3>Step 1: Download and fully  deploy the JTSDK 3.2.1</h3>
+	<ul>
+	  <li>At  the time of writing the JTSDK Version 3.2.1 is in Beta/Test status and can be found at: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ </a></li>
+	</ul>
+    
+<h3>Step 2: Deploy the Build Tools</h3>
+    
+    <ul>
+    <p>The first stage involves deploying tools as if  one were building Hamlib. Many required MSYS2 tools are deployed as part of this process. </p>
+
+        <ul>
+            <li>Execute  the following command inside the JTSDK-Tools environment:</li>
+            
+            <ul>
+            <li><strong>msys2</strong></li>
+            </ul>
+            
+            <li>Execute  the following commands inside the MSYS2 environment:</li>
+            
+            <ul>
+            <li><strong>menu</strong></li>
+            </ul>
+            
+            <li>Select the following menu options:</li>
+            
+            <ul>
+                <li>Select <strong>Option 2</strong>. to update the MSYS2 environment. If the environment requests  that you close the window after completion then do so. Restart this section  again.</li>
+                
+                <li>Select <strong>Option 3</strong>. Install Hamlib dependencies.</li>
+                
+                <li>Select <strong>Option 4</strong>. Install msys64 GNU Compilers.</li>
+            </ul>
+        </ul>
+    <p>This should have now downloaded the build  environment for mingw64 – providing a POSIX-compliant environment in which Boost code should be built.</p>
+        <ul>
+          <li>Close all MSYS2 and JTSDK-Tools  environment Windows</li>
+        </ul>
+    </ul>
+<h3>Step 3: Deploy the <strong>mingw64</strong> Build Environment</h3>
+    
+    <ul>
+    <p>Launch an environment with the  native GNU compilers.</p>
+	<ul>
+	  <li>Launch  the JTSDK64-Tools environment</li>
+	  
+	  <li>Inside  the JTSDK64-Tools environment type:</li>
+	  
+	  <ul> 
+		<li><strong>mingw64</strong></li>
+	  </ul>
+	</ul>
+    </ul>
+	
+	<h3>Step 4: Download the Source</h3>
+	
+    <ul>
+    	<p>You need to determine the download URL of the latest stable Boost release by clicking on the &ldquo;Current Release&rdquo; link at <a href="https://www.boost.org/">https://www.boost.org/</a> . At the time of writing the  current version was 1.77.0.</p>
+	<ul>
+	  <li>Type  the following commands:</li>
+		
+		<ul>
+			<li><strong>cd ~/src</strong></li>
+		</ul>
+        
+	</ul>
+
+	<ul>
+	  	<li>Right-click  on the URL of the download file that you want – preferably the Unix .tar.gz  file at <a href="https://www.boost.org/">https://www.boost.org</a>and select “Copy Link”</li>
+		
+	  	<li>In  the msys64 shell, type <strong>wget</strong>, paste the URL, and then press enter. i.e.</li>
+		
+	  	<ul>
+			<li><strong>wget </strong><a href="https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.gz">https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.gz</a></li>
+		</ul>
+	</ul>
+	<p>This downloads the source package</p>
+	<ul>
+	  	<li>Extract  the source package with:</li>
+		
+		<ul>
+			<li><strong>tar xvfz boost_1_77_0.tar.gz</strong></li>
+		</ul>
+	</ul>
+    </ul>
+	
+	<h3>Step 5: Configure and build the Boost libraries</h3>
+
+    <ul>
+	<p>The following is based off <a href="https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html">https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html</a></p>
+	<ul>
+	  	<li>Execute  the following commands at the MSYS2 command prompt:</li>
+		
+		<ul>
+			<li><strong>cd boost_1_77_0</strong></li>
+			
+	  		<li><strong>./bootstrap.sh</strong></li>
+			
+	  		<li><strong>b2 install&nbsp;--prefix=/tmp/boost</strong></li>
+		</ul>
+	</ul>
+	<p>The above command places all that is built into the subdirectory <strong>/tmp/boost</strong>. This way the built libraries are easy to  find.</p>
+    </ul>
+	
+	<h3>Complete</h3>
+	
+    <ul>
+        <p>You will find a structure inside <em>/tmp</em> (windows path <em>C:\msys64\tools\msys64\tmp\boost</em>) that contains your built Boost library set that can be put into the JTSDK.</p>
+
+        <p>You will need to rename that folder to match the current version (i.e. rename <em>boost</em> to <em>1.77.0</em>) before it can be used with the JTSDK. Deliver that folder structure to <em>X:\JTSDK64-Tools\tools\boost\</em> .</p> 
+
+        <p>Make the appropriate adjustment in <em>C:\JTSDK64-Tools\config\Versions.ini</em> so that it can be used by the JTSDK.</p>
+    </ul>
+    
+<h3>Reference</h3>
+	
+	<ul>
+	  <li><a href="https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html">https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html</a>  </li>
+	</ul>
+<hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td align="right"><a href="hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

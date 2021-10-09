@@ -1,20 +1,21 @@
 #!/usr/bin/bash
 ################################################################################
 #
-# Title ........: build-hamlib.sh
-# Version ......: 3.2.0 
+# Title ........: build-hamlib-static.sh
+# Version ......: 3.2.1 
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 #
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
 #          Qt Version Adjustments 21-04 to 11-Feb-2021
 #          Refactoring to use Environment variables better 13-2-2021 - 21-3-2021
+#          Fix for LibUSB Non Inclusion 6 - 20/9/2021 Steve VK3VM
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
 #                 Copyright (c) 2020-2021 Subsequent JTSDK Contributors
 #
-# Support for Qt 5.12.10, 5.14.2, 5.15.2, 6.0.1 by Steve VK3VM
+# Support for Qt 5.12.11, 5.15.2, 6.1.0 by Steve VK3VM
 #
 ################################################################################
 
@@ -48,13 +49,22 @@ SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
 PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
-LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
+# LIBUSBD="${libusb_dir_f/:}/MinGW64/dll" # MinGW Package possibly broken
+LIBUSBD="${libusb_dir_f/:}/VS2019/MS64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
+
+# -- Variables for Command Line Switches --------------------------------------
+
+PROCESSBOOTSTRAP="Yes"
+PROCESSCONFIGURE="Yes"
+PERFORMGITPULL="Yes"
+PROCESSLIBUSB="Yes"
 
 # -- QT Tool Chain Paths ------------------------------------------------------
 # QTV="$QTV"
 
 export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
+
 
 #-----------------------------------------------------------------------------#
 # FUNCTIONS                                                                   #
@@ -63,11 +73,11 @@ export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
 # Function: main script header ------------------------------------------------
 Script-Header () {
 	echo ''
-	echo '---------------------------------------------------------------'
+	echo -e ${C_Y}'---------------------------------------------------------------'
 	echo -e ${C_C}"       $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_Y}'---------------------------------------------------------------'
 	echo ''
-	echo '* This script compiles static Hamlib Libraries for the JTSDK'
+	echo -e ${C_C}'* This script compiles static Hamlib Libraries for the JTSDK'${C_NC}
 	#echo ''
 }
 
@@ -94,34 +104,39 @@ function Determine-CPUs () {
 # Function: package data ------------------------------------------------------
 Package-Data () {
 	echo ''
-	echo '----------------------------------------------------------------'
-	echo -e ${C_G} " COMPILE INFORMATION [ $PKG_NAME ]"${C_NC}
-	echo '----------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_G}" COMPILE INFORMATION [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo -e " Date ................ ${C_G}$TODAY"${C_NC}
-	echo -e " Package ............. ${C_G}$PKG_NAME"${C_NC}
-	echo -e " User ................ ${C_G}$BUILDER"${C_NC}
-	echo -e " CPU/Job Count ....... ${C_G}$CPUS"${C_NC}
-	echo -e " QT Version .......... ${C_G}$QTV"${C_NC}
-	echo -e " QT Tools/Toolchain .. ${C_G}$GCCD_F"${C_NC}
-	echo -e " QT Directory ........ ${C_G}$QTD_F"${C_NC}
-	echo -e " QT Platform ......... ${C_G}$QTP_F"${C_NC}
-	echo -e " SRC Dir ............. ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}	
-	echo -e " Build Dir ........... ${C_G}$BUILDD"${C_NC}
-	echo -e " Install Prefix ...... ${C_G}$PREFIX"${C_NC}
-	echo -e " Libusb Include ...... ${C_G}$LIBUSBINC"${C_NC}
-	echo -e " Libusb DLL .......... ${C_G}$LIBUSBD"${C_NC}
-	echo -e " Package Config....... ${C_G}$PREFIX/lib/pkgconfig/hamlib.pc"${C_NC}
-	echo -e " Tool Chain .......... ${C_G}$GCCD_F"${C_NC}
+	echo -e " Date ...............: ${C_G}$TODAY"${C_NC}
+	echo -e " Package ............: ${C_G}$PKG_NAME"${C_NC}
+	echo -e " User ...............: ${C_G}$BUILDER"${C_NC}
+	echo -e " CPU/Job Count ......: ${C_G}$CPUS"${C_NC}
+	echo -e " QT Version .........: ${C_G}$QTV"${C_NC}
+	echo -e " QT Tools/Toolchain .: ${C_G}$GCCD_F"${C_NC}
+	echo -e " QT Directory .......: ${C_G}$QTD_F"${C_NC}
+	echo -e " QT Platform ........: ${C_G}$QTP_F"${C_NC}
+	echo -e " SRC Dir ............: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}	
+	echo -e " Build Dir ..........: ${C_G}$BUILDD"${C_NC}
+	echo -e " Install Prefix .....: ${C_G}$PREFIX"${C_NC}
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo -e " LibUSB Include .....: ${C_G}$LIBUSBINC"${C_NC}
+		echo -e " LibUSB DLL .........: ${C_G}$LIBUSBD"${C_NC}
+	else
+		echo -e " LibUSB DLL .........: ${C_R}Not Used"${C_NC}
+	fi
+	echo -e " Package Config......: ${C_G}$PREFIX/lib/pkgconfig/hamlib.pc"${C_NC}
+	echo -e " Tool Chain .........: ${C_G}$GCCD_F"${C_NC}
 	echo ''
 }
 
 # Function: tool chain check ---------------------------------------------------
 Tool-Check () {
 	#echo ''
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo -e ${C_Y}" CHECKING TOOL-CHAIN [ QT $QTV ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
 
 	# setup array and perform simple version checks
 	echo ''
@@ -143,19 +158,26 @@ Tool-Check () {
 			echo ''
 			exit 1
 		else
-			echo -en " $i .." && echo -e ${C_G}' OK'${C_NC}
+			echo -en " $i "
+			size=${#i}
+			while [ $size -le 10 ] 
+			do
+					echo -en "."
+					size=$(( size + 1 ))
+			done	 
+			echo -en "........:" && echo -e ${C_G}' OK'${C_NC}
 		fi
 	done
 
 	# List tools versions
-	echo -e ' Compiler ........... '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Bin Utils .......... '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Libtool ............ '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Pkg-Config ......... '${C_G}"$(pkg-config --version)"${C_NC}
+	echo -e ' Compiler ...........: '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Bin Utils ..........: '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Libtool ............: '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Pkg-Config .........: '${C_G}"$(pkg-config --version)"${C_NC}
 	
 	if [ "$?" = "0" ];
 	then
-	echo -en " Tool-Chain ......... "&& echo -e ${C_G}'OK'${C_NC}
+	echo -en " Tool-Chain .........: "&& echo -e ${C_G}'OK'${C_NC}
 		echo ''
 	else
 		echo ''
@@ -175,144 +197,196 @@ Tool-Check () {
 # is the master HAMLIB repository
 
 function Clone-Repo () {
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	if [ "$HLREPO" = "NONE" ];
-	then 
-		echo 'HAMLIB: Use existing: No GIT pull (hlnone} unless no source present'
-		echo ''
-		cd "$SRCD"
-		
-		if [[ -f $SRCD/src/bootstrap ]];
-		then
-			echo 'HAMLIB: Static Source detected : GIT pull not attempted.'
-			# echo ''
-		else	 	
-			echo 'HAMLIB: Static Source selected : No source detected so MASTER repo pull attempted.'
+	if [ $PERFORMGITPULL = "Yes" ];
+	then
+		if [ "$HLREPO" = "NONE" ];
+		then 
+			echo 'HAMLIB: Use existing: No GIT pull (hlnone} unless no source present'
 			echo ''
-			# ensure the directory is removed first
-			if [[ -d $SRCD/src ]];
-			then
-				rm -rf "$SRCD/src"
-			fi
-
-			# clone the DEFAULT repository
-			git clone https://github.com/Hamlib/Hamlib.git src
+			cd "$SRCD"
 			
-			cd "$SRCD/src"
+			if [[ -f $SRCD/src/bootstrap ]];
+			then
+				echo 'HAMLIB: Static Source detected : GIT pull not attempted.'
+				# echo ''
+			else	 	
+				echo 'HAMLIB: Static Source selected : No source detected so MASTER repo pull attempted.'
+				echo ''
+				# ensure the directory is removed first
+				if [[ -d $SRCD/src ]];
+				then
+					rm -rf "$SRCD/src"
+				fi
 
-			# checkout the master branch
-			git checkout master
+				# clone the DEFAULT repository
+				git clone https://github.com/Hamlib/Hamlib.git src
+				
+				cd "$SRCD/src"
+
+				# checkout the master branch
+				git checkout master
+			fi
+		else
+			mkdir -p "$BUILDD"
+			if [[ -f $SRCD/src/bootstrap ]];
+			then
+				cd "$SRCD/src"
+				# git config pull.rebase false   # Merge from Repos
+				# git config pull.rebase true	 # Rebase from Repos	
+				git config pull.ff only 		 # Base off "fast-forwards" 
+				git pull
+			else
+				cd "$SRCD"
+
+				# ensure the directory is removed first
+				if [[ -d $SRCD/src ]];
+				then
+					rm -rf "$SRCD/src"
+				fi
+
+				# clone the repository
+				if [ "$HLREPO" = "G4WJS" ];
+				then 
+					echo 'HAMLIB: Cloning from G4WJS Repository'
+					echo ''
+					git clone https://git.code.sf.net/u/bsomervi/hamlib src
+				else 
+					if [ "$HLREPO" = "W9MDB" ];
+					then
+						echo 'HAMLIB: Cloning from W9MDB Repository'
+						echo ''
+						git clone https://github.com/mdblack98/Hamlib src
+					else
+						echo 'HAMLIB: Cloning from MASTER Repository'
+						echo ''
+						git clone https://github.com/Hamlib/Hamlib.git src
+					fi
+				fi 
+				
+				cd "$SRCD/src"
+
+				# checkout the master branch
+				git checkout master
+			fi
 		fi
 	else
-		mkdir -p "$BUILDD"
-		if [[ -f $SRCD/src/bootstrap ]];
-		then
-			cd "$SRCD/src"
-			# git config pull.rebase false   # Merge from Repos
-			# git config pull.rebase true	 # Rebase from Repos	
-			git config pull.ff only 		 # Base off "fast-forwards" 
-			git pull
-		else
-			cd "$SRCD"
-
-			# ensure the directory is removed first
-			if [[ -d $SRCD/src ]];
-			then
-				rm -rf "$SRCD/src"
-			fi
-
-			# clone the repository
-			if [ "$HLREPO" = "G4WJS" ];
-			then 
-				echo 'HAMLIB: Cloning from G4WJS Repository'
-				echo ''
-				git clone https://git.code.sf.net/u/bsomervi/hamlib src
-			else 
-				if [ "$HLREPO" = "W9MDB" ];
-				then
-					echo 'HAMLIB: Cloning from W9MDB Repository'
-					echo ''
-					git clone https://github.com/mdblack98/Hamlib src
-				else
-					echo 'HAMLIB: Cloning from MASTER Repository'
-					echo ''
-					git clone https://github.com/Hamlib/Hamlib.git src
-				fi
-			fi 
-			
-			cd "$SRCD/src"
-
-			# checkout the master branch
-			git checkout master
-		fi
+		echo '* Option -ng set to disable GIT pulls from repositories'
 	fi
 }
 
 # Function: Perfporm Bootstrap Function ---------------------------------------
 function Perform-Bootstrap () {
-	# -- run hamlib bootstrap -------------------------------------------------
 	cd "$SRCD/src"
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " RUN BOOTSTRAP [ $PKG_NAME ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" PERFORM BOOTSTRAP [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo 'Running bootstrap'
-	./bootstrap
+	if [ $PROCESSBOOTSTRAP = "Yes" ];
+	then
+		echo '* Performing bootstrap'
+		echo ''
+		./bootstrap
+	else
+		echo '* Option -nb set to disable executing bootstrap script'
+	fi
+
 }
 
 # Function: Run configure -----------------------------------------------------
+#  --without-libusb added by VK3VM 12-Apr-2020 to to solve wsjtx 2.1.2 Linker error at final stage
+#  --without-libusb removed by VK3VM 7-Sept-2021 as Linker error at final stage issue resolved
+#  Handler for -nlibusb added VK3VM 8-Sept-2021
+
 function Run-Config () {
 	cd "$BUILDD"
+	LUSBVAR=' '
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " CONFIGURING [ $PKG_NAME ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" CONFIGURING [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo '.. This may take a several minutes to complete'
+	if [ $PROCESSCONFIGURE = "Yes" ];
+	then
+		echo '* Running configure script: This may take a several minutes to complete'
+		echo ''
+		
+		# configure: Remove "--without-libusb" is requested command line
+		if [ $PROCESSLIBUSB = "No" ];
+		then
+			LUSBVAR='--without-libusb'
+			LIBUSBMSG='without'
+		else
+			LUSBVAR=' '
+			LIBUSBMSG='with'
+		fi
 
-	# configure for static only with Libusb, without readline
-	# Note: --without-libusb added by VK3VM 12-Apr-2020 to to solve
-	# wsjtx 2.1.2 Linker error at final stage
-	echo -en ".. Build Type: " && echo -e ${C_G}'Static'${C_NC}
-	echo ''
-	../src/configure --prefix="$PREFIX" \
-	--disable-shared \
-	--enable-static \
-	--disable-winradio \
-	--without-cxx-binding \
-	--without-readline \
-	--without-libusb \
-	CC="$GCCD_F/gcc.exe" \
-	CXX="$GCCD_F/g++.exe" \
-	CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
-	LDFLAGS="-Wl,--gc-sections" \
-	LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
+		echo -e "  --> Build Type: "${C_G}"Static"${C_NC}" built "${C_G}$LIBUSBMSG${C_NC}${C_NC}" LibUSB"${C_NC}	
+		echo ''
+		
+		../src/configure --prefix="$PREFIX" \
+		--without-cxx-binding \
+		--disable-shared \
+		--enable-static \
+		$LUSBVAR \
+		CPPFLAGS="-I${libusb_dir_f}/include" \
+		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
+	else
+		echo '* Option -nc set to disable executing configure script'
+	fi
 }
+
+# ORIGINAL:  
+#
+#		../src/configure --prefix="$PREFIX" \
+#		--disable-shared \
+#		--enable-static \
+#		--disable-winradio \
+#		--without-cxx-binding \
+#		--without-readline \
+#		$LUSBVAR \
+#		CC="$GCCD_F/gcc.exe" \
+#		CXX="$GCCD_F/g++.exe" \
+#		CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
+#		LDFLAGS="-Wl,--gc-sections" \
+#		LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
+#
+# FROM (src)/scripts/build-w64.sh
+#
+# 		./configure --host=${HOST_ARCH} \
+#		--prefix=${INST_DIR} \
+#		--without-cxx-binding \
+#		--disable-static \
+#		CPPFLAGS="-I${libusb_dir_f}/include" \
+#		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 
 # Function: Clean Build -------------------------------------------------------
 function Clean-Build {
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " RUNNING MAKE CLEAN [ $PKG_NAME ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" RUNNING MAKE CLEAN [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	# Updated in v3.1.0.2 Release
 	if [ -f "${JTSDK_CONFIG_F}/hlclean" ]
 	then
+		echo '* Performing Clean'
 		make clean
+	else
+		echo "* ${JTSDK_CONFIG_F}/hlclean flag not set"
 	fi
 }
 
 # Function: Run Make ----------------------------------------------------------
 function Run-Make {
 	echo ''
-	echo '----------------------------------------------------------------'
-	echo -e ${C_Y} " RUNNING MAKE ALL [ $PKG_NAME ]"${C_NC}
-	echo '----------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" RUNNING MAKE ALL [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	make -j $CPUS
 }
@@ -320,9 +394,9 @@ function Run-Make {
 # Function: Make InstallStrip -------------------------------------------------
 function Make-InstallStrip {
 	echo ''
-	echo '----------------------------------------------------------------'
-	echo -e ${C_Y} " INSTALLING [ $PKG_NAME ]"${C_NC}
-	echo '----------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" INSTALLING [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	make install-strip
 }
@@ -337,11 +411,11 @@ function Generate-BuildInfo {
 		fi
 
 		echo ''
-		echo '---------------------------------------------------------------'
-		echo -e ${C_Y} " ADDING BUILD INFO [ $PKG_NAME.build.info ] "${C_NC}
-		echo '---------------------------------------------------------------'
+		echo -e ${C_NC}'---------------------------------------------------------------'
+		echo -e ${C_Y}" ADDING BUILD INFO [ $PKG_NAME.build.info ] "${C_NC}
+		echo -e ${C_NC}'---------------------------------------------------------------'
 		echo ''
-		echo '  Creating Hamlib3 Build Info File'
+		echo '* Creating Hamlib3 Build Info File'
 
 	(
 	cat <<EOF
@@ -377,51 +451,141 @@ make install-strip
 
 EOF
 	) > "$PREFIX/$PKG_NAME.build.info"
-		echo '  Finished'
+		echo '  --> Complete'
 	fi
 }
 
 # Function: Copy DLL ----------------------------------------------------------
 function Copy-DLLs {
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " COPY DLL's TO [ $PREFIX/BIN ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" COPY SUPPORT DLLs TO HAMLIB DESINATION"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo "* $LIBUSBD/libusb-1.0.dll"
-	cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
-	echo "* $GCCD_F/libwinpthread-1.dll"
+	echo "* Destination: $PREFIX/bin"
+	echo ''
+	echo "* DLL Source(s):"
+	echo ''
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo "  --> $LIBUSBD/libusb-1.0.dll"
+		cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
+	fi
+	echo "  --> $GCCD_F/libwinpthread-1.dll"
 	cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
 }
 
 # Function: Fixup Pkgconfig ---------------------------------------------------
 function Fixup-PkgConfig {
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " FIXUP PKGCONFIG "${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" FIXUP PKGCONFIG "${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo '  Updating hamlib.pc'
+	echo '* Updating hamlib.pc'
 	sed -i 's/Requires.private\: libusb-1.0/Requires.private\:/g' "$PREFIX/lib/pkgconfig/hamlib.pc" >/dev/null 2>&1
 }
 
-# Function: Test-RigctlBinary -------------------------------------------------
-function Test-RigCtlBinary {
+# Function: Test-Binaries -----------------------------------------------------
+function Test-Binaries {
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " TESTING RIGCTL"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" TESTING HAMLIB RIGCTL"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	$PREFIX/bin/rigctl.exe --version
+	# Overcomes a bug encountered when LibUSB support is enabled
+	PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
+	cmd /C "$PREFIXB\bin\rigctl.exe --version"
+		# $PREFIX/bin/rigctl.exe --version
+	
+	if [ $PROCESSLIBUSB = "Yes" ];
+	then
+		echo ''
+		echo -e ${C_NC}'---------------------------------------------------------------'
+		echo -e ${C_Y}" TESTING HAMLIB LIBUSB FUNCTIONALITY"${C_NC}
+		echo -e ${C_NC}'---------------------------------------------------------------'
+		echo ''
+		# Overcomes a bug encountered when LibUSB support is enabled
+		PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
+		cmd /C "$PREFIXB\bin\rigtestlibusb.exe"
+	fi
+}
+
+# Function: Help --------------------------------------------------------------
+function Help-Command () {
+	echo ''
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" BUILD-HAMLIB - HELP"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo ''
+	echo '* Command Line Options:'
+	echo ''
+	echo '  --> -h ........: Help'
+	echo '  --> -b / -nb ..: Process / Do not process bootstrap'
+	echo '  --> -c / -nc ..: Process / Do not process configure'
+	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
+	echo '  --> -libusb ...: Configure with LibUSB support'
+	echo '  --> -nlibusb ..: Do not configure with LibUSB support'
+	echo ''
+	exit 1
 }
 
 #------------------------------------------------------------------------------#
 # START MAIN SCRIPT                                                            #
 #------------------------------------------------------------------------------#
 
-# -- run tool check -----------------------------------------------------------
 cd
+
+# -- Process Command Line Options ---------------------------------------------
+
+while [ $# -gt 0 ]; do
+    case $1 in
+    -h)
+        Help-Command
+        shift
+        ;;
+	-nb)
+		PROCESSBOOTSTRAP="Yes"
+        shift
+        ;;
+	-nb)
+		PROCESSBOOTSTRAP="No"
+        shift
+        ;;
+	-c)
+		PROCESSCONFIGURE="Yes"
+        shift
+        ;;	
+	-nc)
+		PROCESSCONFIGURE="No"
+        shift
+        ;;	
+	-g)
+		PERFORMGITPULL="Yes"
+        shift
+        ;;
+	-ng)
+		PERFORMGITPULL="No"
+        shift
+        ;;
+	-libusb)
+		PROCESSLIBUSB="Yes"
+        shift
+        ;;
+	-nlibusb)
+		PROCESSLIBUSB="No"
+        shift
+        ;;
+    *)
+        shift
+        ;;
+    esac
+done
+
 clear
+
+# -- run tool check -----------------------------------------------------------
+
 Determine-CPUs
 Script-Header
 Package-Data
@@ -465,9 +629,9 @@ Copy-DLLs
 
 Fixup-PkgConfig
 
-# -- test rigctl.exe binary ---------------------------------------------------
+# -- test rigctl.exe and libusb.exe binaries ----------------------------------
 
-Test-RigCtlBinary
+Test-Binaries
 
 # -- Finished -----------------------------------------------------------------
 

@@ -1,0 +1,89 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	/* background-image: url("BlackBrickSeamless.jpg"); */
+	background-image: url("Dark-Red-Wallpaper.jpg");
+	background-size: cover;
+ 	background-repeat: no-repeat;
+	background-color: #222220;
+	color: #e5e4e2;
+	display: block;
+	
+}
+h1 {
+	color: #d4660a;
+	text-align: left;
+}
+h2 {
+	color: #df8c10;
+	text-align: left;
+}
+h3 {
+	color: #e8b31a;
+	text-align: left;
+}
+h4 {
+	/* color: #8f8f8f; */
+	color: #e8b31a;
+	text-align: left;
+	text-decoration: underline;
+}
+a {
+	color: #FFFFFF;
+	text-align: left;
+	font-weight: bold;
+}
+p {
+ 	/* background-color: #222220; */
+ 	color: #e5e4e2;
+ 	text-align: left;
+	display:block;
+}
+pre {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	font-size: 18px;
+	background-color: black;
+	max-width: 900px;
+}
+ul li { 
+    padding: 5px 0px; 
+}
+td.custd {
+	border: double;
+  	padding: 0.5rem;
+}
+
+table.hpc table {
+	width: *;
+	border: 0;
+}
+
+table { 
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	border-collapse: collapse;
+
+}   /* cellspacing="0" */
+
+.reducewidth {
+    text-align: center;
+}
+
+.reducewidth pre {
+    max-width: 700x;
+    display: inline-block;
+    text-align: left;
+}
+.container {
+    text-align: center;
+ }
+
+.container pre {
+    display: inline-block;
+    text-align: left;
+ }

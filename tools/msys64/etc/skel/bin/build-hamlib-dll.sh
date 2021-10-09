@@ -2,13 +2,14 @@
 ################################################################################
 #
 # Title ........: build-hamlib-dll.sh
-# Version ......: 3.2.0 
+# Version ......: 3.2.1 
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
 #
 # Based on script in Hamlib ./scripts/build_x64-jtsdk.sh - 
-#                 Adjustments Steve I VK3VM 20-2-2021 - 7-4-2021 
+#                 Adjustments Steve I VK3VM 20-2-2021 - 6-9-2021 
 #                 Ability to set nbr CPUs Steve I VK3VM 7-4-2021 
+#                 Additrion of runtime switches Steve I 8-9-2021
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -53,6 +54,9 @@ PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
 LIBUSBD="${libusb_dir_f/:}/MinGW64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
+PROCESSBOOTSTRAP="Yes"
+# PROCESSCONFIGURE="Yes"
+PERFORMGITPULL="Yes"
 
 # -- Paths --------------------------------------------------------------------
 
@@ -86,14 +90,17 @@ Determine-CPUs () {
 # Function: main script header ------------------------------------------------
 Script-Header () {
 	echo ''
-	echo '---------------------------------------------------------------'
+	echo -e ${C_Y}'---------------------------------------------------------------'
 	echo -e ${C_C}"       $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_Y}'---------------------------------------------------------------'
 	echo ''
-	echo ' Commencing Build of Windows Dynamic Library Build (DLL)'
+	echo -e ${C_C}'* This script compiles Dynamic Hamlib Libraries (DLL) for the JTSDK'${C_NC}
 	echo ''
-	echo -e " SRC Dir ....... ${C_G}$HOME/${BUILD_BASE_DIR}${C_NC}" 
-	echo -e " Build Dir ..... ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER${C_NC}" 
+	echo -e ${C_R}'* Note:'${C_C}' This script does not deliver DLLs for the JTSDK'${C_NC}
+	echo -e ${C_C}'        This script creates a package of usable dyamically linked tools'${C_NC}
+	echo ''
+	echo -e " SRC Dir ............: ${C_G}$HOME/${BUILD_BASE_DIR}${C_NC}" 
+	echo -e " Build Dir ..........: ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER${C_NC}" 
 	#echo ''
 }
 
@@ -103,24 +110,24 @@ Package-Data () {
 	PACKVER_F=${JTSDK_TOOLS_F}${PACKVER_TMP}
 	PACKVER_B=${JTSDK_TOOLS}${PACKVER_TMP//'/'/'\'}
 	echo ''
-	echo '----------------------------------------------------------------'
-	echo -e ${C_G} " FINISHED COMPILATION"${C_NC}
-	echo '----------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_G}" FINISHED COMPILATION"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	echo -e ${C_Y}"Base Information:"${C_NC} 
 	echo "" 
-	echo -e " Release................ ${C_G}$RELEASE"${C_NC}
-	echo -e " Date .................. ${C_G}$TODAY"${C_NC}
-	echo -e " Package ............... ${C_G}$PKG_NAME"${C_NC}
-	echo -e " User .................. ${C_G}$BUILDER"${C_NC}
-	echo -e " CPU/Job Count ......... ${C_G}$CPUS"${C_NC}
-	echo -e " QT Version ............ ${C_G}$QTV"${C_NC}
-	echo -e " QT Tools/Toolchain .... ${C_G}$GCCD_F"${C_NC}
-	echo -e " QT Directory .......... ${C_G}$QTD_F"${C_NC}
-	echo -e " QT Platform ........... ${C_G}$QTP_F"${C_NC}
-	echo -e " SRC Dir ............... ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}
-	echo -e " Build Dir ............. ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER"${C_NC}
-	echo -e " LibUSB DLL ............ ${C_G}$LIBUSBD"${C_NC}
+	echo -e " Release...............: ${C_G}$RELEASE"${C_NC}
+	echo -e " Date .................: ${C_G}$TODAY"${C_NC}
+	echo -e " Package ..............: ${C_G}$PKG_NAME"${C_NC}
+	echo -e " User .................: ${C_G}$BUILDER"${C_NC}
+	echo -e " CPU/Job Count ........: ${C_G}$CPUS"${C_NC}
+	echo -e " QT Version ...........: ${C_G}$QTV"${C_NC}
+	echo -e " QT Tools/Toolchain ...: ${C_G}$GCCD_F"${C_NC}
+	echo -e " QT Directory .........: ${C_G}$QTD_F"${C_NC}
+	echo -e " QT Platform ..........: ${C_G}$QTP_F"${C_NC}
+	echo -e " SRC Dir ..............: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}
+	echo -e " Build Dir ............: ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER"${C_NC}
+	echo -e " LibUSB DLL ...........: ${C_G}$LIBUSBD"${C_NC}
 	echo ""
 	echo -e ${C_Y}"Hamlib Package MSYS2:"${C_NC} 
 	echo "" 
@@ -136,9 +143,9 @@ Package-Data () {
 # Function: tool chain check ---------------------------------------------------
 Tool-Check () {
 	echo ''
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo -e ${C_Y}" CHECKING TOOL-CHAIN [ QT $QTV ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
 
 	# setup array and perform simple version checks
 	echo ''
@@ -160,22 +167,43 @@ Tool-Check () {
 			echo ''
 			exit 1
 		else
-			echo -en " $i .." && echo -e ${C_G}' OK'${C_NC}
+			echo -en " $i "
+			size=${#i}
+			while [ $size -le 10 ] 
+			do
+					echo -en "."
+					size=$(( size + 1 ))
+			done	 
+			echo -en "........:" && echo -e ${C_G}' OK'${C_NC}
 		fi
 	done
 
 	# List tools versions
-	echo -e ' Compiler ...... '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Bin Utils ..... '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Libtool ....... '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Pkg-Config  ... '${C_G}"$(pkg-config --version)"${C_NC}
-	echo ''
+	echo -e ' Compiler ...........: '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Bin Utils ..........: '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Libtool ............: '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Pkg-Config .........: '${C_G}"$(pkg-config --version)"${C_NC}
+	
+	if [ "$?" = "0" ];
+	then
+	echo -en " Tool-Chain .........: "&& echo -e ${C_G}'OK'${C_NC}
+		echo ''
+	else
+		echo ''
+		echo -e ${C_R}"TOOL-CHAIN WARNING"${C_NC}
+		echo 'There was a problem with the Tool-Chain.'
+		echo "$0 Will now exit .."
+		exit ''
+		exit 1
+	fi
+
 }
+
 # Function: Establish Environment ---------------------------------------------
 Establish-Environment () {
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " ESTABLISHING ENVIRONMENT "${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" ESTABLISHING ENVIRONMENT "${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	if [ -d "./${BUILD_BASE_DIR}" ]; then
 		echo -e '* Base build environment directory exists: '${C_G}${HOME}'/'${BUILD_BASE_DIR} ${C_NC}
@@ -197,9 +225,9 @@ Establish-Environment () {
 # Function: test rigctl.exe binary --------------------------------------------
 Test-RIGCTL () {
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " TESTING RIGCTL"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" TESTING RIGCTL"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	echo '* Note: This needs to be checked in a non-MSYS2 environment'
 	echo ''
@@ -221,12 +249,18 @@ function Perform-Bootstrap () {
 	# -- run hamlib bootstrap -----------------------------------------------------
 	cd "$SRCD/$PACKVER"
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " RUN BOOTSTRAP [ $PKG_NAME ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" RUN BOOTSTRAP [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo 'Running bootstrap'
-	./bootstrap
+	if [ $PROCESSBOOTSTRAP = "Yes" ];
+	then
+		echo '* Performing bootstrap'
+		echo ''
+		./bootstrap
+	else
+		echo '* Option -nb set to disable executing bootstrap script'
+	fi
 }
 
 #Function: Clone Repository ---------------------------------------------------
@@ -236,79 +270,84 @@ function Perform-Bootstrap () {
 # is the master HAMLIB repository
 
 Clone-Repo () {
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	if [ "$HLREPO" = "NONE" ];
-	then 
-		echo 'HAMLIB: Use existing: No GIT pull (hlnone} unless no source present'
-		echo ''
-		cd "$SRCD"
-		
-		if [[ -f $SRCD/$PACKVER/bootstrap ]];
-		then
-			echo 'HAMLIB: Static Source detected : GIT pull not attempted.'
-			# echo ''
-		else	 	
-			echo 'HAMLIB: Static Source selected : No source detected so MASTER repo pull attempted.'
+	if [ $PERFORMGITPULL = "Yes" ];
+	then
+		if [ "$HLREPO" = "NONE" ];
+		then 
+			echo 'HAMLIB: Use existing: No GIT pull (hlnone} unless no source present'
 			echo ''
-			# ensure the directory is removed first
-			if [[ -d $SRCD/src ]];
-			then
-				rm -rf "$SRCD/src"
-			fi
-
-			# clone the DEFAULT repository
-			git clone https://github.com/Hamlib/Hamlib.git $PACKVER
+			cd "$SRCD"
 			
-			cd "$SRCD/src"
+			if [[ -f $SRCD/$PACKVER/bootstrap ]];
+			then
+				echo 'HAMLIB: Static Source detected : GIT pull not attempted.'
+				# echo ''
+			else	 	
+				echo 'HAMLIB: Static Source selected : No source detected so MASTER repo pull attempted.'
+				echo ''
+				# ensure the directory is removed first
+				if [[ -d $SRCD/src ]];
+				then
+					rm -rf "$SRCD/src"
+				fi
 
-			# checkout the master branch
-			git checkout master
+				# clone the DEFAULT repository
+				git clone https://github.com/Hamlib/Hamlib.git $PACKVER
+				
+				cd "$SRCD/src"
+
+				# checkout the master branch
+				git checkout master
+			fi
+		else
+			# mkdir -p "${BUILDD}"
+			if [[ -f ${BUILDD}/bootstrap ]];
+			then
+				cd "${BUILDD}"
+				# git config pull.rebase false   # Merge from Repos
+				# git config pull.rebase true	 # Rebase from Repos	
+				git config pull.ff only 		 # Base off "fast-forwards" 
+				git pull
+			else
+				cd "$SRCD"
+
+				# ensure the directory is removed first
+				if [[ -d $SRCD/$PACKVER ]];
+				then
+					rm -rf "$SRCD/$PACKVER"
+				fi
+
+				# clone the repository
+				if [ "$HLREPO" = "G4WJS" ];
+				then 
+					echo 'HAMLIB: Cloning from G4WJS Repository'
+					echo ''
+					git clone https://git.code.sf.net/u/bsomervi/hamlib $PACKVER
+				else 
+					if [ "$HLREPO" = "W9MDB" ];
+					then
+						echo 'HAMLIB: Cloning from W9MDB Repository'
+						echo ''
+						git clone https://github.com/mdblack98/Hamlib $PACKVER
+					else
+						echo 'HAMLIB: Cloning from MASTER Repository'
+						echo ''
+						git clone https://github.com/Hamlib/Hamlib.git $PACKVER
+					fi
+				fi 
+				
+				cd "$SRCD/$PACKVER"
+
+				# checkout the master branch
+				git checkout master
+			fi
 		fi
 	else
-		# mkdir -p "${BUILDD}"
-		if [[ -f ${BUILDD}/bootstrap ]];
-		then
-			cd "${BUILDD}"
-			# git config pull.rebase false   # Merge from Repos
-			# git config pull.rebase true	 # Rebase from Repos	
-			git config pull.ff only 		 # Base off "fast-forwards" 
-			git pull
-		else
-			cd "$SRCD"
-
-			# ensure the directory is removed first
-			if [[ -d $SRCD/$PACKVER ]];
-			then
-				rm -rf "$SRCD/$PACKVER"
-			fi
-
-			# clone the repository
-			if [ "$HLREPO" = "G4WJS" ];
-			then 
-				echo 'HAMLIB: Cloning from G4WJS Repository'
-				echo ''
-				git clone https://git.code.sf.net/u/bsomervi/hamlib $PACKVER
-			else 
-				if [ "$HLREPO" = "W9MDB" ];
-				then
-					echo 'HAMLIB: Cloning from W9MDB Repository'
-					echo ''
-					git clone https://github.com/mdblack98/Hamlib $PACKVER
-				else
-					echo 'HAMLIB: Cloning from MASTER Repository'
-					echo ''
-					git clone https://github.com/Hamlib/Hamlib.git $PACKVER
-				fi
-			fi 
-			
-			cd "$SRCD/$PACKVER"
-
-			# checkout the master branch
-			git checkout master
-		fi
+		echo '* Option -ng set to disable GIT pulls from repositories'
 	fi
 }
 
@@ -316,12 +355,30 @@ Clone-Repo () {
 # Function: Execute ./scripts/build-w64-jtsdk.sh ------------------------------
 function Execute-Hamlib-Supplied-Binary () {
 	echo ''
-	echo '---------------------------------------------------------------'
-	echo -e ${C_Y} " EXECUTING ./scripts/build-w64-jtsdk.sh "${C_NC}
-	echo '---------------------------------------------------------------'
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" TESTING HAMLIB RIGCTL$"{C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	echo '.. This may take a several minutes to complete'
+	echo '* This may take a several minutes to complete'
 	sh $HOME/${BUILD_BASE_DIR}/$PACKVER/scripts/build-w64-jtsdk.sh $PACKVER
+}
+
+
+# Function: Help --------------------------------------------------------------
+function Help-Command () {
+	echo ''
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo -e ${C_Y}" BUILD-HAMLIB - HELP"${C_NC}
+	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo ''
+	echo '* Command Line Options:'
+	echo ''
+	echo '  --> -h ........: Help'
+	echo '  --> -b / -nb ..: Process / Do Not Process Bootstrap'
+	# echo '  --> -nc ......: Do Not Process Configure'
+	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
+	echo ''
+	exit 1
 }
 
 #------------------------------------------------------------------------------#
@@ -329,6 +386,45 @@ function Execute-Hamlib-Supplied-Binary () {
 #------------------------------------------------------------------------------#
 
 #cd
+
+# -- Process Command Line Options ---------------------------------------------
+
+while [ $# -gt 0 ]; do
+    case $1 in
+    -h)
+        Help-Command
+        shift
+        ;;
+	-b)
+		PROCESSBOOTSTRAP="Yes"
+        shift
+        ;;
+	-nb)
+		PROCESSBOOTSTRAP="No"
+        shift
+        ;;
+#	-c)
+#		PROCESSCONFIGURE="Yes"
+#        shift
+#        ;;
+#	-nc)
+#		PROCESSCONFIGURE="No"
+#        shift
+#        ;;
+	-g)
+		PERFORMGITPULL="Yes"
+        shift
+        ;;	
+	-ng)
+		PERFORMGITPULL="No"
+        shift
+        ;;
+    *)
+        shift
+        ;;
+    esac
+done
+
 clear
 Determine-CPUs
 Script-Header

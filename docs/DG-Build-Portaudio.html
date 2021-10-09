@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Portaudio, audio, portaudio.com">
+	<title>JTSDK Guide for Building PortAudio</title>
+	<link href="style-new.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>JTSDK64 Applications and Tools</h1>
+<hr/>
+<h2>Guide for Building PortAudio</h2>
+<hr/>
+<ul>
+<p>As of  version 3.2.1 JTSDK as provided at this point can build the PortAudio required  to build WSJT-X.</p>
+<p>These steps  will demonstrate how to deploy a Windows MME-Interface-based driver. If you  want ALSA support – which requires a licensed SDK - refer to notes in the  WSJT-X source at <em>(source)/doc</em>.</p>
+</ul>
+	
+<h3>Step 1: Download and fully  deploy the JTSDK 3.2.1</h3>
+
+<ul>
+  <li>Version 3.2.1 can be found at:</li>
+		
+	<ul>
+	<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
+	</ul>
+</ul>
+
+<h3>Step 2: Deploy build tools</h3>
+<ul>
+  <p>The first stage involves deploying tools as if  one were building Hamlib. Many required MSYS2 tools are deployed as part of this process.</p>
+	<ul>
+		<li>Execute  the following command inside the JTSDK-Tools environment:</li>
+		
+		<ul>
+		<li><strong>msys2</strong></li>
+		</ul>
+		
+	</ul>
+	<ul>
+		<li>Execute  the following commands inside the MSYS2 environment:</li>
+		
+		<ul>
+			<li><strong>menu</strong></li>
+		</ul>
+		
+	</ul>
+	<ul>
+		<li>Select <strong>Option 2</strong> to update the MSYS2 environment. If the environment requests  that you close the window after completion then do so. Restart this section  again.</li>
+		
+		<li>Select <strong>Option 3</strong>. Install Hamlib dependencies.</li>
+		
+		<li>Select <strong>Option 4</strong>. Install msys64 GNU Compilers.</li>
+	</ul>
+  <p>This should have now downloaded the build  environment for mingw64 – providing a POSIX-compliant environment in which  PortAudio code should be built.</p>
+	<ul>
+		<li>Close all MSYS2 and JTSDK-Tools  environment Windows</li>
+	</ul>
+</ul>
+<h3>Step 3: Deploy the mingw64 Build Environment</h3>
+<ul>
+	<p>Launch an environment that provides the native GNU compilers.</p>
+	<ul>
+	  <li>Launch  the JTSDK64-Tools environment</li>
+		
+	  <li>Inside  the JTSDK64-Tools environment type:</li>
+	  
+		<ul>
+			<li><strong>mingw64</strong></li>
+		</ul>
+	</ul>
+</ul>
+
+<h3>Step 4: Download the  Source</h3>
+	
+<ul>
+<p>Determine the download URL of the latest stable  PortAudio release by browsing to <a href="http://files.portaudio.com/download.html">http://files.portaudio.com/download.html</a> .</p>
+<ul>
+  	<li>Right-click  on the URL of the download file that you want and select &ldquo;Copy Link&rdquo;</li>
+	
+	<ul>
+
+		<li> i.e.: the URL is <a href="http://files.portaudio.com/archives/pa_stable_v190700_20210406.tgz">http://files.portaudio.com/archives/pa_stable_v190700_20210406.tgz</a></li>
+	</ul>
+	
+</ul>
+<ul>
+  	<li>Type  the following command:</li>
+	
+	<ul>
+		<li><strong>cd ~/src</strong></li>
+	</ul>
+	
+</ul>
+<ul>
+  	<li>In  the msys64 shell, type <strong>wget</strong>, paste the URL, and then press enter. i.e.</li>
+	
+	<ul>
+		<li><strong>wget </strong><a href="http://files.portaudio.com/archives/pa_stable_v190700_20210406.tgz"><strong>http://files.portaudio.com/archives/pa_stable_v190700_20210406.tgz</strong></a><strong><u> </u></strong></li>
+	</ul>
+</ul>
+<p>This downloads the source package</p>
+<ul>
+  	<li>Extract  the source package with:</li>
+	
+	<ul>
+		<li><strong>tar xvfz  pa_stable_v190700_20210406.tgz</strong></li>
+	</ul>
+</ul>
+</ul>
+	
+<h3>Step 5: Configure and build the PortAudio libraries</h3>
+<ul>
+	<p>The following set of steps actually configures and builds the library.</p>
+	<ul>
+  	<li>Execute  the following commands at the MSYS2 command prompt:</li>
+
+	<ul>
+		<li><strong>cd portaudio</strong></li>
+
+		<li><strong>mkdir /tmp/portaudio</strong></li>
+
+		<li><strong>cd build</strong></li>
+
+		<li><strong>../configure -–prefix=/tmp/portaudio</strong></li>
+	</ul>
+	
+	<p>The above command places all that is built into the subdirectory <strong>/tmp/portaudio</strong> . This way the built libraries are easy to  find.</p>
+
+  	<li>Start  the actual build and deployment with the following commands:</li>
+	
+	<ul>
+		<li><strong>make</strong></li>
+		
+		<li><strong>make</strong><strong> </strong><strong>install</strong><strong> </strong></li>
+	</ul>
+</ul>
+</ul>
+	
+<h3>Complete</h3>
+	
+	<ul>
+
+    <p>You will find a structure inside <em>/tmp</em> (windows path <em>C:\msys64\tmp\portaudio</em>) that contains the same PortAudio  library structure as delivered into the JTSDK i.e. <em>X:\JTSDK64-Tools\tools\portaudio</em> .</p>
+
+    <p>Deliver that folder structure to <em>X:\JTSDK64-Tools\tools\</em> .</p> 
+
+    <p>Make the appropriate adjustment in <em>C:\JTSDK64-Tools\config\Versions.ini</em> so that it can be used by the JTSDK.</p>
+	</ul>
+    <hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td align="right"><a href="hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

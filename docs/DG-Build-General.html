@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
+	<title>JTSDK General Guide for Building Libraries and Software</title>
+	<link href="style-new.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>JTSDK64 Applications and Tools</h1>
+<hr/>
+<h2>General Guide for Building Software</h2>
+<hr/>
+
+<h3>Introduction</h3>
+
+	<ul>
+	<p>This kit maintains two environments:</p>	
+		<ul>
+			<li>A <strong>PowerShell</strong> based environment that supports a powerful and flexible scripting language that can script the build of software. This environment also sets up a powerful set of environment variables that makes accessing tools (such as Hamlib) simpler.</li>
+			
+			<li>A <strong>MSYS2</strong> based environment that basically mimics Linux environments with GNU compilers and tools. WIthin this environment there are anumber of sub-environments:</li>
+			
+			<ul>
+				<li>A plain MSYS2 environment, designed to be used with the Qt-supplied compilers - launched with <strong>msys2</strong> from within the <strong>PowerShell</strong> environment.</li>
+				
+				<li>GNU-Compiler-accessible environments, lauched under the <strong>PowerShell</strong> environment with one of the following commands:</li>
+				
+				<ul>
+					<li><strong>mingw64</strong> - an environment designed for 64-bit software compilation with the GCC compiler suite.</li>
+					
+					<li><strong>mingw32</strong> - an environment designed for 32-bit software compilation with the GCC compiler suite.</li>
+					
+					<li><strong>ucrtw64</strong> - an environment designed for 64-bit software compilation under the Universal C Runtime. It should ideally work and behave as if the code was compiled with MS Visual Studio 2019.</li>
+					
+					<li><strong>clang64</strong> - an environment designed for 64-bit software compilation The <strong>clang</strong> executable is actually a small driver which controls the overall execution of other tools such as the compiler, assembler and linker. It must at the moment be used with with the GCC compiler suite.</li>
+				</ul>
+			</ul>
+		</ul>
+	
+	  	<p>Only the <strong>mingw64</strong> will be actively discussed on this site (although techniques for 32-bit builds within a 64-bit environment are provided under the JTSDK-3.2.0-stream)</p>
+	  <p>Note that this document provides many generalisations to simplify discussion. Please research each tool fully beofer use.&nbsp;</p>
+		<p>The following site may be a good place to start your learning exercise  add <em>C:\JTSDK64-Tools\tools</em> to any paths shown in this video):</p>
+		<ul>
+				<li><a href="https://www.youtube.com/watch?v=jfVqzNU3gPg">Install MSYS2 and MinGW-w64 (2021) and build C/C++ files on Windows</a></li>
+		<ul/>
+    </ul>
+	</ul>
+	</ul>
+<h3>Using the PowerShell Environment</h3>
+
+	<ul>
+	<p> As stated above this highly scriptable environment basically provides a raft of environment variables that aid in accessing many of the libraries needed to build Hamlib and JT-ware.</p>
+	<p> The environment is quite complex and is far too complex in reality to dicuss here. It should be dissected as follows:</p>
+		<ul>	
+			<li>Examine the environment with the following <strong>PowerShell</strong> command:</li	
+			<ul>
+			<li><strong>dir env:</strong></li>
+			
+			</ul>
+			<li>Examine the <strong>PowerShell</strong> commandlets found in:</li>
+				
+			<ul>
+			<li><strong>c:\JTSDK64-Tools\tools\scripts</strong></li>
+			</ul>
+		</ul>
+	  <p>The most important script to examine is <strong>jtbuild.ps1</strong> should you feel that you have a need to use this environment to automate build processes.</p>
+</ul>
+
+<h3>Using the MSYS2 Environment</h3>
+	<ul>
+		<p>MSYS2 is software distribution and a building platform for Windows. It provides a Unix-like environment, a command-line interface and a software repository making it easier to install, use, build and port software on Windows. That means Bash, Autotools, Make, Git, GCC, GDB..., all easily installable through <strong>pacman</strong>, a fully-featured package manager (ref: <a href="https://www.msys2.org/wiki/MSYS2-introduction/">https://www.msys2.org/wiki/MSYS2-introduction/</a>).</p>
+		
+		<p>Red the descriptions at <a href="https://www.msys2.org/wiki/MSYS2-introduction/">https://www.msys2.org/wiki/MSYS2-introduction/</a> carefully before proceding further.
+	  
+	</ul>
+		
+<h4>The <strong>pacman</strong> package manager</h4>
+	<ul>
+		<p>Libraries and tools are added via the <strong>pacman</strong> package manager.</p>
+		<p>The example below demonstrates how to add packages within the MSYS2 environment:</p>
+		<ul>
+			<li>Execute  the following command inside the <strong>JTSDK-Tools</strong> environment:</li>
+		  
+			<ul>
+				<li><strong>msys2</strong></li>
+				
+			</ul>
+			<li>Execute  the following commands (as an example) inside the MSYS2 environment:</li>
+			
+			<ul>
+				<li><strong>pacman -S msys2-runtime-devel mingw-w64-cross-binutils </strong> (see <a href="https://groups.io/g/JTSDK/topic/knowledgebase_ioctl_h/85578130">https://groups.io/g/JTSDK/topic/knowledgebase_ioctl_h/85578130</a> )</li>
+			</ul>
+		</ul>
+</ul>
+<h4>The <strong>MSYS2</strong> environment with the Qt-supplied Compilers</h4>
+	<ul>
+	  <p>The JTSDK requires that the <a href="https://www.qt.io/download-qt-installer">Qt-SDK</a> and its <strong>mingw73</strong> or <strong>mingw81</strong> support be deployed.</p> 
+	This <strong>mingwXX</strong> support tools provide the GNU compilers and access to the rich Qt-compiler library sets</p>
+	<p>To access this environment perform the following steps inside the <strong>JTSDK64-Tools</strong> environment:</p>
+	<ul>
+		<li>Type: <strong>menu</strong></li>
+		
+		<li>Select the following options from the <strong>menu</strong>:</li>
+		
+			<ul>
+				<li>Select <strong>Option 1</strong> Set MSYS2 path to find Qt compilers</li>
+			</ul>
+		</ul>
+		<p>This should now provide access to an environment (with <strong>cmake</strong> provided) where software can be built.
+</ul>
+<h4>The <strong>mingw64</strong> environment</h4>
+	<ul>
+	<p>This provides a stand-alone set of GNU compilers. All relies on the libraries and tools delivered to the MSYS2 base environment.</p>
+	<p>This in itself can be somewhat tricky; some tools are delivered ONLY for the mingw64 environment; others are for the base MSYS2 environment.</p>
+	<p>Sometimes we need to "break rules" and set software configuration and build options so that they search both the <strong>mingw64</strong> and <strong>MSYS2</strong> directory source paths. </p>
+	<p>To access this environment:</p>
+	<ul>
+		<li>from the <strong>JTSDK64-Tools</strong> environment type: <strong>mingw64</strong></li>
+		
+		<li>Add any necessary libraries using the <strong>pacman -S</strong> command.</li>
+	</ul>	
+	<p>This should now provide access to an environment where software can be built according to the Linux build instructions.</p>
+</ul>
+		
+<h4>Other environments: mingw32, clang64 and ucrt64</h3>
+	<ul>
+		<p>These will not be covered further in this document. See:</p>
+		<ul>
+			<li><a href="https://www.msys2.org/wiki/MSYS2-introduction/">https://www.msys2.org/wiki/MSYS2-introduction/</a>
+		</ul>
+	</ul>
+
+<h3> References</h3>
+	<ul>
+	<li><a href="https://www.msys2.org/docs/environments/">https://www.msys2.org/docs/environments/</li>
+	
+	<li><a href="https://clang.llvm.org/docs/CommandGuide/clang.html">https://clang.llvm.org/docs/CommandGuide/clang.html</a></li>
+    </ul>
+<hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td align="right"><a href="hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

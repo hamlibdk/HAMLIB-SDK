@@ -76,19 +76,50 @@ function jtsetup () {
     clear ||:
     echo ''
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"INSTALL $JTSDK64_NAME PACKAGE LIST"${C_NC}
+    echo -e ${C_Y}"INSTALL MSYS2 HAMLIB PACKAGES"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "dos2unix" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" "tar" "dos2unix" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
     do
         pacman -S --needed --noconfirm --disable-download-timeout "$i"
+    done
+
+    echo ''
+    echo -e ${C_Y}"Finished Package Installation"${C_NC}
+    echo ''
+
+}
+
+# Function: install GNU Compiler build dependencies ---------------------------
+function gnusetup () {
+
+    # make directories
+    mkdir -p $HOME/src > /dev/null 2>&1
+
+    # start installation
+    clear ||:
+    echo ''
+    echo '---------------------------------------------------------------------'
+    echo -e ${C_Y}"INSTALL mingw64 GNU COMPILERS AND COMMON TOOLS"${C_NC}
+    echo '---------------------------------------------------------------------'
+    echo ''
+
+    # declare the package array
+	
+	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" \
+	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" )
+
+    # loop through the pkg_list array and install as needed
+    for i in "${pkg_list[@]}"
+    do
+        pacman -S --overwrite "*" --needed --noconfirm --disable-download-timeout "$i"
     done
 
     echo ''
@@ -254,23 +285,24 @@ function menu () {
         echo -e ${C_C}"JTSKD64 Tools Main Menu"${C_NC}
         echo  "------------------------------------"
 		echo ''
-        echo " 0. List help commands"
 		echo " 1. Set MSYS2 path to find Qt compilers"
 		echo " 2. Update MSYS2"
         echo " 3. Install Hamlib dependencies"
-        echo " 4. Update MSYS2 Keyring"
-		echo " 5. Build Hamlib - Static Libraries"
-        echo " 6. Build Hamlib - Dynamic Package"
-		echo " 7. Clear Hamlib Source"
-		echo " 8. Select HAMLIB Repository"
-		echo " 9. Print version information"
+		echo " 4. Install msys64 GNU Compilers"
+        echo " 5. Update MSYS2 Keyring"
+		echo " 6. Build Hamlib - Static Libraries"
+        echo " 7. Build Hamlib - Dynamic Package"
+		echo " 8. Clear Hamlib Source"
+		echo " 9. Select HAMLIB Repository"
+		echo " h. List help commands"
+		echo " v. List version information"
 		echo ''
         echo " e. Enter 'e' or 'q' to exit"
 		echo ''
         echo -n "Enter your selection, then hit <return>: "
         read answer
         case "$answer" in
-            0)
+            h|H)
                 jthelp
                 read -p "Press enter to continue..." ;;
 			1)
@@ -286,30 +318,33 @@ function menu () {
             3)
                 jtsetup
                 read -p "Press enter to continue..." ;;
-            4)
-                msys-keyring
+			4)
+                gnusetup
                 read -p "Press enter to continue..." ;;
             5)
+                msys-keyring
+                read -p "Press enter to continue..." ;;
+            6)
                 build-hamlib-static
 				echo ""
 				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD DYNAMIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
-			6)
+			7)
                 build-hamlib-dll
 				echo ""
 				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD STATIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
-			7)
+			8)
                 clear-hamlib
                 echo ''
                 read -p "Press enter to continue..." ;;
-			8)
+			9)
                 change-repo
                 echo ''
                 read -p "Press enter to continue..." ;;
-			9)
+			v|V)
                 jtversion
                 read -p "Press enter to continue..." ;;
             e|E|q|Q)
