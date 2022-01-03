@@ -101,6 +101,7 @@ Script-Header () {
 	echo ''
 	echo -e " SRC Dir ............: ${C_G}$HOME/${BUILD_BASE_DIR}${C_NC}" 
 	echo -e " Build Dir ..........: ${C_G}$HOME/${BUILD_BASE_DIR}/$PACKVER/$PACKVER${C_NC}" 
+	echo -e " Script to execute...: "${C_G}"$HOME/$BUILD_BASE_DIR/$PACKVER/scripts/build-w64-jtsdk.sh" ${C_NC}
 	#echo ''
 }
 
@@ -356,11 +357,13 @@ Clone-Repo () {
 function Execute-Hamlib-Supplied-Binary () {
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" TESTING HAMLIB RIGCTL$"{C_NC}
+	echo -e ${C_Y}" EXECUTING HAMLIB-SUPPLIED BUILD SCRIPT" ${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
+	echo -e '* Executing:'${C_G} "$HOME/$BUILD_BASE_DIR/$PACKVER/scripts/build-w64-jtsdk.sh" ${C_NC}
+	echo ''
 	echo '* This may take a several minutes to complete'
-	sh $HOME/${BUILD_BASE_DIR}/$PACKVER/scripts/build-w64-jtsdk.sh $PACKVER
+	sh ${HOME}/${BUILD_BASE_DIR}/${PACKVER}/scripts/build-w64-jtsdk.sh ${PACKVER}
 }
 
 

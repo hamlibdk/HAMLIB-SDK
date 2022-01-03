@@ -1,14 +1,14 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 3.2.1 b1 
+# Version ...........: 3.2.0 
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-# Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
+# Author ............: JTSDK Contributors 20-01-2021 -> 21-3-2021
 # Copyright .........: Copyright (C) 2018-2021 Greg Beam, KI7MT
-#                      Copyright (C) 2018-2022 JTSDK Contributors
+#                      Copyright (C) 2018-2021 JTSDK Contributors
 # License ...........: GPL-3
 #
-# jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 03-01-2021
+# jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 11-12-2020
 #
 # # Code is capable of auto-downloading from a WSJTX, JTDX or JS8CALL repository
 # based on flag [ src-wsjtx | src-jtdx | src-js8call ] in C:\JTSDK64-Tools\config
@@ -16,10 +16,7 @@
 # Stage 1 objectives (PowerShell conversion; refactoring; prime functionality; 
 # Qt-independence) commenced 20-1-2020. Objectives met 29-01-2021 (Steve VK3VM)
 #
-# Stage 2 Objectives (Command Line switches to disable GIT and Configure steps)
-# commenced 10/09/2021 with main objectives met 10/09/2021 (Steve VK3VM)
-#
-# jtbuild.ps1 is free software: you can redistribute it and/or modify it
+# jtbuild-test.ps1 is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
 # Software Foundation either version 3 of the License, or (at your option) any
 # later version. 
@@ -86,68 +83,43 @@ function RestartEnvironMessage {
 }
 
 # ---------------------------------------------------------------- PROCESS OPTIONS
-# - Refactor for use of a switch construct - Al AB2ZY
-# - Improved 10/9/2021 to handle -nc (no config) and -ng (no git pull) options
-	
-# Call: ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt) -rcgopt ([ref]$ncg) -rgopt ([ref]$ngp)	
-	
+# - Refactor for use of a switch construct - Al AB2ZY 
 function ProcessOptions {
-	Param ($aarg, [ref]$rcopt, [ref]$rtopt, [ref]$rcgopt, [ref]$rgopt)
-	$mainOptionFlag=0
-	$count=0
-	if ( -not ([string]::IsNullOrEmpty($aarg))) { 
-		$charArray =$aarg.Split(" ")
-
-		while ($count -lt $charArray.count) {
-			
-			switch($charArray[$count])
-			{
-				"rconfig" { 
-					$rcopt.Value="Release"
-					$rtopt.Value="Config"
-					$mainOptionFlag=1
-				}
-				"dconfig" { 
-					$rcopt.Value="Debug"
-					$rtopt.Value="Config"
-					$mainOptionFlag=1
-				}
-				"rinstall" { 
-					$rcopt.Value="Release"
-					$rtopt.Value="Install"
-					$mainOptionFlag=1
-				}
-				"dinstall" { 
-					$rcopt.Value="Debug"
-					$rtopt.Value="Install"
-					$mainOptionFlag=1
-				}
-				"package" { 
-					$rcopt.Value="Release"
-					$rtopt.Value="Package"
-					$mainOptionFlag=1
-				}
-				"docs" { 
-					$rcopt.Value="Release"
-					$rtopt.Value="Docs"
-					$mainOptionFlag=1
-				}
-				"-nc" { $rcgopt.Value = "T" }
-				"-ng" { $rgopt.Value = "T" }
-				"zero" { HelpOptions } 
-				"-h" { HelpOptions } 
-				"help" { HelpOptions }
-				$null { HelpOptions } 
-				default { HelpOptions }
-			}
-			
-			$count++
-		}
-	} else {
-		HelpOptions
-	}
+	Param ($aarg, [ref]$rcopt, [ref]$rtopt)
 	
-	if ( $mainOptionFlag -eq 0) { HelpOptions }
+	if ($args[0] -eq "-o") { OptionStatus }
+	switch($aarg)
+	{
+		"rconfig" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Config"
+		}
+		"dconfig" { 
+			$rcopt.Value="Debug"
+			$rtopt.Value="Config"
+		}
+		"rinstall" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Install"
+		}
+		"dinstall" { 
+			$rcopt.Value="Debug"
+			$rtopt.Value="Install"
+		}
+		"package" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Package"
+		}
+		"docs" { 
+			$rcopt.Value="Release"
+			$rtopt.Value="Docs"
+		}
+		"zero" { HelpOptions } 
+		"-h" { HelpOptions } 
+		"help" { HelpOptions }
+		$null { HelpOptions } 
+		default { HelpOptions }
+	}
 }
 
 # ---------------------------------------------------------------- DOWNLOAD SOURCE
@@ -335,10 +307,8 @@ function HelpOptions {
 	Write-Host " Default Build Commands"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host " Usage .....`: jtbuild `[ OPTION `] `[`[ SWITCH `]`]"
-	Write-Host ""
-	Write-Host " Examples...`: jtbuild rinstall"
-	Write-Host "            `: jtbuild rinstall -ng"
+	Write-Host " Usage .....`: jtbuild `[ OPTION `]"
+	Write-Host " Example....`: jtbuild rinstall"
 	Write-Host ""
 	Write-Host " Options:"
 	Write-Host ""
@@ -348,13 +318,6 @@ function HelpOptions {
 	Write-Host "    dinstall   Debug, Non-packaged Install"
 	Write-Host "    package    Release, Windows Package"
 	Write-Host "    docs       Release, User Guide"
-	Write-Host ""
-	Write-Host " Switches:" 
-	Write-Host ""
-	Write-Host "    Switches only work if an `[ OPTION `] is supplied."
-	Write-Host ""
-	Write-Host "    -nc        Do not run configure"
-	Write-Host "    -ng        Do not check`/pull source"
 	Write-Host ""
 	Write-Host " * To Display this message, type .....`: jtbuild `-h"
 	Write-Host ""
@@ -406,23 +369,23 @@ function FinishConfig {
 	Write-Host " Configure Summary"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "  Description .`: $desc"
-	Write-Host "  Version .....`: $aver"
-	Write-Host "  Type ........`: $copt"
-	Write-Host "  Target ......`: $topt"
-	Write-Host "  Tool Chain ..`: $qtv"
-	Write-Host "  Clean .......`: $cleanFirst"
-	Write-Host "  Reconfigure .`: $reconfigure"
-	Write-Host "  SRC .........`: $srcd"
-	Write-Host "  Build .......`: $buildd"
-	Write-Host "  Install .....`: $installd"
+	Write-Host "   Description .`: $desc"
+	Write-Host "   Version .....`: $aver"
+	Write-Host "   Type ........`: $copt"
+	Write-Host "   Target ......`: $topt"
+	Write-Host "   Tool Chain ..`: $qtv"
+	Write-Host "   Clean .......`: $cleanFirst"
+	Write-Host "   Reconfigure .`: $reconfigure"
+	Write-Host "   SRC .........`: $srcd"
+	Write-Host "   Build .......`: $buildd"
+	Write-Host "   Install .....`: $installd"
 	Write-Host ""
 	Write-Host " Config Only builds simply configure the build tree with"
 	Write-Host " default options. To further configure or re-configure this build,"
 	Write-Host " run the following commands:"
 	Write-Host ""
-	Write-Host " cd $buildd"
-	Write-Host " cmake-gui ."
+	Write-Host "  cd $buildd"
+	Write-Host "  cmake-gui ."
 	Write-Host ""
 	Write-Host " Once the CMake-GUI opens, click on Generate, then Configure"
 	Write-Host ""
@@ -438,14 +401,14 @@ function FinishUserGuide {
 	Write-Host " User Guide Summary"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "  Name ........`: $dn"
-	Write-Host "  Version .....`: $aver"
-	Write-Host "  Type ........`: $copt"
-	Write-Host "  Target ......`: $topt"
-	Write-Host "  Tool Chain ..`: $qtv"
-	Write-Host "  SRC .........`: $srcd"
-	Write-Host "  Build .......`: $buildd"
-	Write-Host "  Location ....`: $buildd\doc\$dn"
+	Write-Host "   Name ........`: $dn"
+	Write-Host "   Version .....`: $aver"
+	Write-Host "   Type ........`: $copt"
+	Write-Host "   Target ......`: $topt"
+	Write-Host "   Tool Chain ..`: $qtv"
+	Write-Host "   SRC .........`: $srcd"
+	Write-Host "   Build .......`: $buildd"
+	Write-Host "   Location ....`: $buildd\doc\$dn"
 	Write-Host ""
 	Write-Host " The user guide does *not* get installed like normal install"
 	Write-Host " builds, it remains in the build folder to aid in browser"
@@ -464,16 +427,16 @@ function FinishPackage {
 	Write-Host " Windows Installer Summary"
 	Write-Host "--------------------------------------------"
 	Write-Host ""
-	Write-Host "  Name ........`: $wsjtxpkg"
-	Write-Host "  Version .....`: $aver"
-	Write-Host "  Type ........`: $copt"
-	Write-Host "  Target ......`: $topt"
-	Write-Host "  Tool Chain ..`: $qtv"
-	Write-Host "  Clean .......`: $cleanFirst"
-	Write-Host "  Reconfigure .`: $reconfigure"
-	Write-Host "  SRC .........`: $srcd"
-	Write-Host "  Build .......`: $buildd"
-	Write-Host "  Location ....`: $pkgd\$wsjtxpkg"
+	Write-Host "   Name ........`: $wsjtxpkg"
+	Write-Host "   Version .....`: $aver"
+	Write-Host "   Type ........`: $copt"
+	Write-Host "   Target ......`: $topt"
+	Write-Host "   Tool Chain ..`: $qtv"
+	Write-Host "   Clean .......`: $cleanFirst"
+	Write-Host "   Reconfigure .`: $reconfigure"
+	Write-Host "   SRC .........`: $srcd"
+	Write-Host "   Build .......`: $buildd"
+	Write-Host "   Location ....`: $pkgd\$wsjtxpkg"
 	Write-Host ""
 	Write-Host " To Install the package, browse to Location and"
 	Write-Host " run as you normally do to install Windows applications."
@@ -534,13 +497,10 @@ function PackageTarget {
 }
 
 function PackageTargetOne {
-	if ( $ncg -eq "F")
-	{
-		cmake -G "MinGW Makefiles" -Wno-dev -D CMAKE_TOOLCHAIN_FILE=$tchain `
-			-D CMAKE_BUILD_TYPE=$copt `
-			-D CMAKE_INSTALL_PREFIX=$pkgd $srcd
-		if ($LastExitCode -ne 0) { ErrorCMake }
-	}
+	cmake -G "MinGW Makefiles" -Wno-dev -D CMAKE_TOOLCHAIN_FILE=$tchain `
+		-D CMAKE_BUILD_TYPE=$copt `
+		-D CMAKE_INSTALL_PREFIX=$pkgd $srcd
+	if ($LastExitCode -ne 0) { ErrorCMake }
 	PackageTargetTwo
 }
 
@@ -568,9 +528,9 @@ function SetupDirectories {
 	if (!(Test-Path "$buildd")) {  New-Item -Path "$buildd" -ItemType directory | Out-Null }
 	if (!(Test-Path "$installd")) { New-Item -Path "$installd" -ItemType directory | Out-Null }
 	if (!(Test-Path "$pkgd")) { New-Item -Path "$pkgd" -ItemType directory | Out-Null }
-	Write-Host "  Build .........`: $buildd"
-	Write-Host "  Install .......`: $installd"
-	Write-Host "  Package .......`: $pkgd"
+	Write-Host " Build .......`: $buildd"
+	Write-Host " Install .....`: $installd"
+	Write-Host " Package .....`: $pkgd"
 	Write-Host ""
 }
 
@@ -717,13 +677,13 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 	Write-Host ""
 	if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {  # From CMakeList.txt ---------------
 		$mlConfig = Get-Content $env:JTSDK_TMP\wsjtx\CMakeLists.txt
-		Write-Host "  --> Source ....: $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
+		Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
 		[Int]$count = 0
 		foreach ($line in $mlConfig) {
 			[Bool] $incCont = 0
 			if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value) {
 				$temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
-				#Write-Host "  --> Raw Version data: $temp"
+				# Write-Host -NoNewLine "  --> Version data: $temp "
 				$verArr = @($temp.split('.'))
 				$rmav.value = $verArr[0]
 				$rmiv.value = $verArr[1]
@@ -731,7 +691,6 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 				$rrelx.value = $verArr[3]
 				$incCount = 1
 			}
-			
 			if ($line -like 'set_build_type*') {
 				$rrcx.value = ($line) -replace "[^0-9]" , ''
 				$incCount = 1
@@ -739,7 +698,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 			if ($incCount -eq 1) { $count++ }
 		}
 		
-		# Write-Host 	$rmav.value $rmiv.value $rpav.value $rrelx.value
+		#Write-Host 	$rmav.value $rmiv.value $rpav.value $rrelx.value
 
 		if ($count -eq 0) { Write-Host "" }
 
@@ -751,7 +710,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 		}
 	} else {	# From Versions.cmake -------------------------------------------------------------
 		$vcConfig = Get-Content $env:JTSDK_TMP\wsjtx\Versions.cmake
-		Write-Host "  --> Source ....: $env:JTSDK_TMP\wsjtx\Versions.cmake"
+		Write-Host "  --> Retrieving from $env:JTSDK_TMP\wsjtx\Versions.cmake"
 		[Int]$count = 0
 		foreach ($line in $vcConfig) {
 			if ($line -like '*WSJTX_VERSION_MAJOR*') {
@@ -771,7 +730,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 				}
 			}
 			if ($line -like '*WSJTX_VERSION_SUB*') {
-				$relx = $rrelx.value = ($line) -replace "[^0-9]" , ''				
+				$rrelx.value = ($line) -replace "[^0-9]" , ''
 			}
 
 			if ($line -like '*WSJTX_VERSION_IS_RELEASE*') {
@@ -792,7 +751,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 	if ($count -ne 0) { 
 		if ((Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) { # JTDX Detected ---------------
 			Write-Host "  --> Version ...: $mav.$miv.$pav rc $relx"
-			Write-Host "  --> RC ........: $rcx"
+			Write-Host "  --> RC.........: $rcx"
 		} else { #WSJTX Detected ---------------------------------------------------------------
 			Write-Host "  --> Version ...: $mav.$miv.$pav rc $rcx"
 			Write-Host "  --> Release ...: $relx"
@@ -829,9 +788,7 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 if ($args -ne $null) { $aarg = [string]$args } else { $aarg=$null }
 $copt="Release"
 $topt="Config"
-$ncg="F"											# No Configuration Flag (note negative logic)				
-$ngp="F"											# No GIT-Pull Flag (note negative logic)
-ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt) -rcgopt ([ref]$ncg) -rgopt ([ref]$ngp)	
+ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt)	
 
 # Reads in configuration data from Versions.ini ------------------ PROCESS key data from Versions.ini
 
@@ -869,7 +826,7 @@ AlignJT_SRCWithMarker
 # Download source based on switch in $cfgd ----------------------- DOWNLOAD SOURCE
 # Switch is src-wsjtx, src-jtdx or src-js8call
 
-if ( $ngp -eq "F" ) { DownloadSource -srcd $srcd -pullupd $pullUpd }
+DownloadSource -srcd $srcd -pullupd $pullUpd
 
 # QT CMake Tool Chain File Selection # --------------------------- QT TOOLCHAIN
 
