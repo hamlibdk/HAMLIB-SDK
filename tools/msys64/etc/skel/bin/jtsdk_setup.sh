@@ -349,7 +349,7 @@ function greeting_message (){
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
     echo ''
-    echo "Copyright (C) 2013-2021, GPLv3, $AUTHOR."
+    echo "Copyright (C) 2013-2022, GPLv3, $AUTHOR."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''

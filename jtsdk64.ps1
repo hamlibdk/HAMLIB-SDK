@@ -4,7 +4,8 @@
 # Version ......: 3.2.1 u1
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
-# Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
+# Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk
 # Usage ........: Call this file directly from the command line
 # 
 # Author .......: Hamlib SDK Contributors <hamlibdk@outlook.com>
@@ -12,14 +13,15 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2021 subsequent JTSDK Contributors
+#                 (C) 2020-2022 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
-#				: Need for qt-gen-tc.cmd and some markers eliminated
-#               : Refactoring and modularisation 26-02-2021
-#               : Support for Tools Package supplied PortAudio 5-06-2021
-#               : Support for DLL Builds 2/3-01-2022
+#				: Need for qt-gen-tc.cmd and some markers eliminated 5-06-2021 Steve VK3VM
+#               : Refactoring and modularisation 26-02-2021 Steve VK3VM
+#               : Support for Tools Package supplied PortAudio 5-06-2021 Steve VK3VM
+#               : General maintenance and Support for DLL Builds 2/3-01-2022 Steve VK3VM
+#               : Read LibUSB DLL path from Versions.ini 6-1-2022 Steve VK3VM
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -97,6 +99,7 @@ function SetLibUSBEnviron ($configTable) {
 	$env:libusb_dir = $env:JTSDK_TOOLS + "\libusb\" + $env:libusbv
 	$env:libusb_dir_f = ConvertForward($env:libusb_dir)
 	$env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:libusb_dir
+	$env:libusb_dll = $configTable.Get_Item("libusbdll")	
 }
 
 # --- Nullsoft Installer System - NSIS ----------------------------------------

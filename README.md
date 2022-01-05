@@ -36,7 +36,7 @@ The **JTSDK 3.2.1** solves a long standing issue with [LibUSB][] support. Most c
 in this preview incorporate enhancements to the MSYS2 environment 
 to better support the [LibUSB][]  with Hamlib.
 
-As of [Tools 3.2.1.1][] Hamlib is built (by defaut) using **Dynamic (DLL) Libraries**.
+As of [JTSDK64-Tools-3.2.1.1][] Hamlib is built (by defaut) using **Dynamic (DLL) Libraries**.
 
 The preferred MSYS2 development environment for building Hamlib is now executed by typeing **mingw64** at the PowerShell prompt.
 

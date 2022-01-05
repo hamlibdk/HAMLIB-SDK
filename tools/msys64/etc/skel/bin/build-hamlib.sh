@@ -4,14 +4,16 @@
 # Title ........: build-hamlib.sh
 # Version ......: 3.2.1 r1
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
-# Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
+# Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
+# Project URL ..: https://sourceforge.net/p/hamlib-sdk/code/ci/master/tree/ 
 #
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
 #          Qt Version Adjustments 21-04 to 11-Feb-2021
 #          Refactoring to use Environment variables better 13-2-2021 - 21-3-2021
 #          Fix for LibUSB Non Inclusion 6 - 7/9/2021 Steve VK3VM
 #          Aligned configure otions to (src)/scripts/build-w64.sy 9/9/2021
-#          Dynamic libraries delivered properly to main library tree  04/05-01-2022 Steve VK3VM
+#          Dynamic libraries delivered properly to main library tree 4/5-01-2022 Steve VK3VM
+#          LibUSB DLL library path set from Versions.ini 6-1-2022 Steve VK3VM
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
@@ -27,13 +29,17 @@ set -e
 #-----------------------------------------------------------------------------#
 # SET UP VARIABLES THAT NEED GLOBAL SCOPE                                     #
 #-----------------------------------------------------------------------------#
+
 OPTIONS=$@
-
-# Script Info
-
 SCRIPT_NAME="JTSDK64 Tools MSYS2 Hamlib Build Script"
+#HOST_ARCH=x86_64-w64-mingw32
+HOST_ARCH=$MINGW_CHOST
+PKG_NAME=Hamlib
+BUILDER=$(whoami)
+GCCUSED="$(which gcc)"
 
-# Foreground colors
+# -- Colours ------------------------------------------------------------------
+
 C_R='\033[01;31m'		# red
 C_G='\033[01;32m'		# green
 C_Y='\033[01;33m'		# yellow
@@ -42,20 +48,24 @@ C_NC='\033[01;37m'		# no color
 
 # -- Process Variables --------------------------------------------------------
 
-PKG_NAME=Hamlib
-HOST_ARCH=x86_64-w64-mingw32
 TODAY=$(date +"%d-%m-%Y")
 TIMESTAMP=$(date +"%d-%m-%Y at %R")
-BUILDER=$(whoami)
 # CPUS=$((`nproc --all`))
 DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
+
+# -- Source and Destination Directories ---------------------------------------
+
 SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
 PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
+
+# -- LibUSB Variables ---------------------------------------------------------
+# Using the VS2019 Delivered DLL as issues with MinGW version delivered in LibUSB 1.0.24
+
 LIBUSBINC="${libusb_dir_f/:}/include"
-# LIBUSBD="${libusb_dir_f/:}/MinGW64/dll" # MinGW Package possibly broken SIR 6-7/9/2021
-LIBUSBD="${libusb_dir_f/:}/VS2019/MS64/dll"
-mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
+# LIBUSBDLL="${libusb_dir_f/:}/MinGW64/dll" # MinGW Package possibly broken SIR 6-7/9/2021
+# LIBUSBDLL="${libusb_dir_f/:}/VS2019/MS64/dll"
+LIBUSBDLL="${libusb_dir_f/:}${libusb_dll}"
 
 # -- Variables for Command Line Switches --------------------------------------
 
@@ -66,10 +76,13 @@ PROCESSLIBUSB="Yes"
 SHAREDBUILD="No"
 STATICBUILD="Yes"
 
-# -- QT Tool Chain Paths ------------------------------------------------------
-# QTV="$QTV"
+# -- Create Project Directories -----------------------------------------------
 
-export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
+mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
+
+# -- Tool Chain Paths ---------------------------------------------------------
+
+export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBDLL:$PATH"
 
 #-----------------------------------------------------------------------------#
 # FUNCTIONS                                                                   #
@@ -119,22 +132,31 @@ Package-Data () {
 	echo -e " Package ............: ${C_G}$PKG_NAME"${C_NC}
 	echo -e " User ...............: ${C_G}$BUILDER"${C_NC}
 	echo -e " CPU/Job Count ......: ${C_G}$CPUS"${C_NC}
-	echo -e " QT Version .........: ${C_G}$QTV"${C_NC}
-	echo -e " QT Tools/Toolchain .: ${C_G}$GCCD_F"${C_NC}
-	echo -e " QT Directory .......: ${C_G}$QTD_F"${C_NC}
-	echo -e " QT Platform ........: ${C_G}$QTP_F"${C_NC}
-	echo -e " SRC Dir ............: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}	
+	echo -e " Compiler ...........: ${C_G}$GCCUSED"${C_NC}
+	if [ $MSYSTEM == "MINGW32" ] || [ $MSYSTEM == "MINGW64" ];
+	then 
+		echo -e " Platform ...........: ${C_G}$MSYSTEM"${C_NC}
+	else
+		echo -e " Platform ...........: ${C_G}Qt MinGW"${C_NC}
+		echo -e " Qt Version .........: ${C_G}$QTV"${C_NC}
+		echo -e " Qt Tools/Toolchain .: ${C_G}$GCCD_F"${C_NC}
+		echo -e " Qt Directory .......: ${C_G}$QTD_F"${C_NC}
+		echo -e " Qt Platform ........: ${C_G}$QTP_F"${C_NC}
+	
+	fi
+	echo -e " Source Dir .........: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}	
 	echo -e " Build Dir ..........: ${C_G}$BUILDD"${C_NC}
-	echo -e " Install Prefix .....: ${C_G}$PREFIX"${C_NC}
 	if [ $PROCESSLIBUSB = "Yes" ];
 	then
 		echo -e " LibUSB Include .....: ${C_G}$LIBUSBINC"${C_NC}
-		echo -e " LibUSB DLL .........: ${C_G}$LIBUSBD"${C_NC}
+		echo -e " LibUSB DLL .........: ${C_G}$LIBUSBDLL"${C_NC}
 	else
 		echo -e " LibUSB DLL .........: ${C_R}Not Used"${C_NC}
 	fi
 	echo -e " Package Config......: ${C_G}$PREFIX/lib/pkgconfig/hamlib.pc"${C_NC}
-	echo -e " Tool Chain .........: ${C_G}$GCCD_F"${C_NC}
+	#echo -e " Tool Chain .........: ${C_G}$GCCD_F"${C_NC}
+	echo ''
+	echo -e " Install Prefix .....: ${C_G}$PREFIX"${C_NC}
 	echo ''
 }
 
@@ -496,8 +518,8 @@ function Copy-DLLs {
 	echo ''
 	if [ $PROCESSLIBUSB = "Yes" ];
 	then
-		echo "  --> $LIBUSBD/libusb-1.0.dll"
-		cp -u "$LIBUSBD/libusb-1.0.dll" "$PREFIX/bin"
+		echo "  --> $LIBUSBDLL/libusb-1.0.dll"
+		cp -u "$LIBUSBDLL/libusb-1.0.dll" "$PREFIX/bin"
 	fi
 	echo "  --> $GCCD_F/libwinpthread-1.dll"
 	cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
