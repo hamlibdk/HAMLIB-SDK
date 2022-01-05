@@ -142,29 +142,17 @@ PS C:\JTSDK64-Tools\config>
 <h2>Notes for building WSJT-X</h3>
 <hr/>
     <ul>
-    	<p>There are no special notes for building <strong>WSJT-X</strong> at this time.</p>
-		<p>Source for <strong>WSJT-X</strong> is development prioritied for any build process.</p>
+    	<p>There are no special notes for building <strong>JTDX</strong> at this time.</p>
+		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
 	</ul>
 		
 <hr/>
 <h2>Notes for building JTDX</h2>
 <hr/>
-
-<h3>Hamlib Requirements</h3>
-<ul>
-		<p>The current release version of <strong>JTDX</strong> will not package if the <strong>Hamlib</strong> is built with <strong>LibUSB</strong> support.</p>
-		<ul>
-			<li>Execute  the following commands at the MSYS2 command prompt:</li>		
-			<ul>
-				<li><strong>build-hamlib.sh -nlibusb</strong></li>
-			</ul>
-			<li>Once the Hamlib build is complete, close all MSYS2 and JTSDK64-Tools Terminals and Windows.</li>
-			<li>Ensure that the marker file inside <em>X:\JTSDK64-Tools\config</em> is named <em>src-jtdx</em> </li>
-			<li>Open a <strong>JTSDK64-Tools</strong> Console.</li>
-			<li>Build the JT-ware package with your specified option i.e. </strong>jtbuild package</li>
-		</ul>
-</ul>
-
+    <ul>
+    	<p>There are no special notes for building <strong>WSJT-X</strong> at this time.</p>
+		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
+	</ul>
 <hr/>
 <h2>Notes for building JS8CALL</h2>
 <hr/>
@@ -172,9 +160,9 @@ PS C:\JTSDK64-Tools\config>
     <ul>
 	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with <strong>LibUSB</strong> support.</p>
 	<ul>
-	  	<li>Execute  the following commands at the MSYS2 command prompt:</li>		
+	  	<li>Execute  the following commands at the <strong>mingw64</strong> command prompt:</li>		
 		<ul>
-			<li><strong>build-hamlib.sh -nlibusb</strong></li>
+			<li><strong>build-hamlib.sh -nlibusb -static</strong></li>
 		</ul>
 		<li>Once the Hamlib build is complete, close all MSYS2 and JTSDK64-Tools Terminals and Windows.</li>
 		<li>Ensure that the marker file inside <em>X:\JTSDK64-Tools\config</em> is named <em>src-js8call</em> </li>

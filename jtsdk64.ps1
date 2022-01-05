@@ -442,13 +442,7 @@ function InvokeInteractiveEnvironment {
 		Write-Host ""
 		Write-Host "Package       Version/Status"
 		Write-Host "---------------------------------------------"
-		Write-Host "Unix Tools .: $env:UNIXTOOLS"
 		Write-Host "Source .....: $env:JT_SRC" 
-		if ((Test-Path "$env:JTSDK_MSYS2\usr\bin")) { 
-			Write-Host "MSYS2 ......: Deployed"
-		} else {
-			Write-Host "MSYS2 ......: Missing"
-		}
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
 			Write-Host "Qt .........: $env:QTV `[$env:VER_MINGW`]"
 		} else {
@@ -456,7 +450,7 @@ function InvokeInteractiveEnvironment {
 		}
 		Write-Host -NoNewLine "Hamlib .....: "
 		if ((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV")) { 
-			if ((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\gcc\libhamlib.dll.a")) {
+			if (((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\gcc\libhamlib.dll.a") -Or (Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\libhamlib.dll.a"))) {
 				Write-Host "Dynamic"
 			} else {
 				Write-Host "Static"
@@ -514,9 +508,9 @@ function InvokeInteractiveEnvironment {
 		Write-Host ""
 		Write-Host "Commands:"
 		Write-Host ""
-		Write-Host "  Deploy Boost .. Deploy-Boost"
-		Write-Host "  MSYS2 ......... msys2"
-		Write-Host "  Build JT-ware . jtbuild `[option`]"
+		Write-Host " Build Boost .......: Deploy-Boost"
+		Write-Host " MSYS2 Environment .: mingw64"
+		Write-Host " Build JTware ......: jtbuild `[option`]"
 		Write-Host ""
 	}'
 }

@@ -1,21 +1,19 @@
 #!/usr/bin/bash
 ################################################################################
 #
-# Title ........: build-hamlib.sh
-# Version ......: 3.2.1 r1
+# Title ........: build-hamlib-static.sh
+# Version ......: 3.2.1 
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 #
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
 #          Qt Version Adjustments 21-04 to 11-Feb-2021
 #          Refactoring to use Environment variables better 13-2-2021 - 21-3-2021
-#          Fix for LibUSB Non Inclusion 6 - 7/9/2021 Steve VK3VM
-#          Aligned configure otions to (src)/scripts/build-w64.sy 9/9/2021
-#          Dynamic libraries delivered properly to main library tree  04/05-01-2022 Steve VK3VM
+#          Fix for LibUSB Non Inclusion 6 - 20/9/2021 Steve VK3VM
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#                 Copyright (c) 2020-2022 JTSDK Contributors
+#                 Copyright (c) 2020-2021 Subsequent JTSDK Contributors
 #
 # Support for Qt 5.12.11, 5.15.2, 6.1.0 by Steve VK3VM
 #
@@ -27,7 +25,6 @@ set -e
 #-----------------------------------------------------------------------------#
 # SET UP VARIABLES THAT NEED GLOBAL SCOPE                                     #
 #-----------------------------------------------------------------------------#
-OPTIONS=$@
 
 # Script Info
 
@@ -43,7 +40,6 @@ C_NC='\033[01;37m'		# no color
 # -- Process Variables --------------------------------------------------------
 
 PKG_NAME=Hamlib
-HOST_ARCH=x86_64-w64-mingw32
 TODAY=$(date +"%d-%m-%Y")
 TIMESTAMP=$(date +"%d-%m-%Y at %R")
 BUILDER=$(whoami)
@@ -53,7 +49,7 @@ SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
 PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
 LIBUSBINC="${libusb_dir_f/:}/include"
-# LIBUSBD="${libusb_dir_f/:}/MinGW64/dll" # MinGW Package possibly broken SIR 6-7/9/2021
+# LIBUSBD="${libusb_dir_f/:}/MinGW64/dll" # MinGW Package possibly broken
 LIBUSBD="${libusb_dir_f/:}/VS2019/MS64/dll"
 mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
@@ -63,13 +59,12 @@ PROCESSBOOTSTRAP="Yes"
 PROCESSCONFIGURE="Yes"
 PERFORMGITPULL="Yes"
 PROCESSLIBUSB="Yes"
-SHAREDBUILD="No"
-STATICBUILD="Yes"
 
 # -- QT Tool Chain Paths ------------------------------------------------------
 # QTV="$QTV"
 
 export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBD:$PATH"
+
 
 #-----------------------------------------------------------------------------#
 # FUNCTIONS                                                                   #
@@ -82,7 +77,7 @@ Script-Header () {
 	echo -e ${C_C}"       $SCRIPT_NAME $JTSDK64_VERSION"${C_NC}
 	echo -e ${C_Y}'---------------------------------------------------------------'
 	echo ''
-	echo -e ${C_C}'* This script compiles Hamlib Libraries for the JTSDK build system.'${C_NC}
+	echo -e ${C_C}'* This script compiles static Hamlib Libraries for the JTSDK'${C_NC}
 	#echo ''
 }
 
@@ -112,8 +107,6 @@ Package-Data () {
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo -e ${C_G}" COMPILE INFORMATION [ $PKG_NAME ]"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo ''
-	echo -e " Script Option(s) ...: ${C_G}${OPTIONS}"${C_NC}
 	echo ''
 	echo -e " Date ...............: ${C_G}$TODAY"${C_NC}
 	echo -e " Package ............: ${C_G}$PKG_NAME"${C_NC}
@@ -258,7 +251,7 @@ function Clone-Repo () {
 				# clone the repository
 				if [ "$HLREPO" = "G4WJS" ];
 				then 
-					echo 'HAMLIB: Cloning from G4WJS(sk) Repository'
+					echo 'HAMLIB: Cloning from G4WJS Repository'
 					echo ''
 					git clone https://git.code.sf.net/u/bsomervi/hamlib src
 				else 
@@ -281,7 +274,7 @@ function Clone-Repo () {
 			fi
 		fi
 	else
-		echo '* Option -ng set that disables GIT pulls from repositories'
+		echo '* Option -ng set to disable GIT pulls from repositories'
 	fi
 }
 
@@ -311,12 +304,7 @@ function Perform-Bootstrap () {
 
 function Run-Config () {
 	cd "$BUILDD"
-	
-	SHAREDVAR='--disable-shared'
-	STATICVAR='--enable-static'
-	LIBUSBVAR='--without-libusb'
-	STSHMSG='Static'
-		
+	LUSBVAR=' '
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo -e ${C_Y}" CONFIGURING [ $PKG_NAME ]"${C_NC}
@@ -327,56 +315,54 @@ function Run-Config () {
 		echo '* Running configure script: This may take a several minutes to complete'
 		echo ''
 		
+		# configure: Remove "--without-libusb" is requested command line
 		if [ $PROCESSLIBUSB = "No" ];
 		then
-			LIBUSBVAR='--without-libusb'
+			LUSBVAR='--without-libusb'
 			LIBUSBMSG='without'
 		else
-			LIBUSBVAR=''
+			LUSBVAR=' '
 			LIBUSBMSG='with'
 		fi
-		
-		if [ $SHAREDBUILD = "Yes" ]; 
-		then 
-				# Matches new default path (i.e. to build Hamlib DLL only) 4/1/2022 SIR
-				# SHAREDVAR='--enable-shared'
-				# STATICVAR='--disable-static'
-				SHAREDVAR=' '
-				STATICVAR=' '
-				STSHMSG='Shared/Dynamic'
-				STATICBUILD="No"
-		fi
-		
-		if [ $STATICBUILD = "Yes" ]; 
-		then 
-				SHAREDVAR='--disable-shared'
-				STATICVAR='--enable-static'
-				STSHMSG='Static'
-				SHAREDBUILD="No"
-		fi
-		
-		echo -e "  --> Build Type: "${C_G}$STSHMSG${C_NC}' built '${C_G}$LIBUSBMSG${C_NC}${C_NC}' LibUSB'${C_NC}
+
+		echo -e "  --> Build Type: "${C_G}"Static"${C_NC}" built "${C_G}$LIBUSBMSG${C_NC}${C_NC}" LibUSB"${C_NC}	
 		echo ''
 		
-		# New options to match that in (hamlib-src)/scripts/build-w64.sh - creates cleaner configuration results
-		# Implemented Steve VK3SIR 9-9-2021
-		# Setup so maybe can fully implement -shared / -static command line options	
-		
-		# ../src/configure --host=${HOST_ARCH} \
-		../src/configure  \
-		--prefix="$PREFIX" \
-		$SHAREDVAR \
-		$STATICVAR \
+		../src/configure --prefix="$PREFIX" \
 		--without-cxx-binding \
-		$LIBUSBVAR \
+		--disable-shared \
+		--enable-static \
+		$LUSBVAR \
 		CPPFLAGS="-I${libusb_dir_f}/include" \
-		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll" 
-		# CPPFLAGS="-I${libusb_dir_f}/include -I/usr/include" \
-		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib"
+		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 	else
 		echo '* Option -nc set to disable executing configure script'
 	fi
 }
+
+# ORIGINAL:  
+#
+#		../src/configure --prefix="$PREFIX" \
+#		--disable-shared \
+#		--enable-static \
+#		--disable-winradio \
+#		--without-cxx-binding \
+#		--without-readline \
+#		$LUSBVAR \
+#		CC="$GCCD_F/gcc.exe" \
+#		CXX="$GCCD_F/g++.exe" \
+#		CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
+#		LDFLAGS="-Wl,--gc-sections" \
+#		LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
+#
+# FROM (src)/scripts/build-w64.sh
+#
+# 		./configure --host=${HOST_ARCH} \
+#		--prefix=${INST_DIR} \
+#		--without-cxx-binding \
+#		--disable-static \
+#		CPPFLAGS="-I${libusb_dir_f}/include" \
+#		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 
 # Function: Clean Build -------------------------------------------------------
 function Clean-Build {
@@ -412,18 +398,6 @@ function Make-InstallStrip {
 	echo -e ${C_Y}" INSTALLING [ $PKG_NAME ]"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
-	if [ -f "${PREFIX}/bin/rigctl.exe" ]
-	then
-		echo -n "* Clearing out old ${PREFIX}: "
-		# Yes I know this is dangerous !
-		rm -rf $PREFIX/* > /dev/null
-		# rm -rf $PREFIX/*
-		echo "Complete"
-		echo ''
-	fi
-
-	echo "* Installing Hamlib Headers, Libraries and Utilities to ${PREFIX}"
-	echo ''
 	make install-strip
 }
 
@@ -441,8 +415,7 @@ function Generate-BuildInfo {
 		echo -e ${C_Y}" ADDING BUILD INFO [ $PKG_NAME.build.info ] "${C_NC}
 		echo -e ${C_NC}'---------------------------------------------------------------'
 		echo ''
-		echo '* Creating Hamlib Build Info File'
-		echo ''
+		echo '* Creating Hamlib3 Build Info File'
 
 	(
 	cat <<EOF
@@ -463,15 +436,14 @@ Git Extra....: git checkout integration
 --prefix="$PREFIX" \
 --disable-shared \
 --enable-static \
+--disable-winradio \
 --without-cxx-binding \
-CPPFLAGS="-I${libusb_dir_f}/include" \
-LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
-
-# Configure Options <for Shared>
---prefix="$PREFIX" \
---without-cxx-binding \
-CCPPFLAGS="-I${libusb_dir_f}/include" \
-LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
+--without-readline \
+CC="$GCCD_F/gcc.exe" \
+CXX="$GCCD_F/g++.exe" \
+CFLAGS="-g -O2 -fdata-sections -ffunction-sections -I$LIBUSBINC" \
+LDFLAGS="-Wl,--gc-sections" \
+LIBUSB_LIBS="-L$LIBUSBD -lusb-1.0"
 
 # Build Commands
 make -j$CPUS
@@ -501,54 +473,6 @@ function Copy-DLLs {
 	fi
 	echo "  --> $GCCD_F/libwinpthread-1.dll"
 	cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
-	
-	# -- Special Cleanup for Dynamic Builds ---------------------------------------
-	# Note: This may NOT be required in the future when configure option --disable-static works
-	
-	# echo "PREFIX: $PREFIX"
-	# read -p "Press any key to resume ..."
-	
-	if [ $STATICBUILD = "No" ];
-	then
-		if [ $SHAREDBUILD = "Yes" ];
-		then
-			echo "  --> Temporary: Removing Static Hamlib libraries that may cause issues with Dynamic Builds"
-			if [ -f "$PREFIX/lib/libhamlib.a" ];
-			then
-				rm -f "$PREFIX/lib/libhamlib.a" > /dev/null
-				echo "  --> --> libhamlib.a removed."
-			fi
-			if [ -f "$PREFIX/lib/libhamlib.la" ];
-			then
-				rm -f "$PREFIX/lib/libhamlib.la" > /dev/null
-				echo "  --> --> libhamlib.la removed."
-			fi
-		fi
-	fi
-	
-		# -- Special Cleanup for Static Builds -----------------------------------
-	# Note: This may NOT be required in the future when configure option --disable-dynamic works
-	
-	# echo "PREFIX: $PREFIX"
-	# read -p "Press any key to resume ..."
-	
-	if [ $SHAREDBUILD = "No" ];
-	then
-		if [ $STATICBUILD = "Yes" ];
-		then
-			echo "  --> Temporary: Removing Dynamic Hamlib libraries that may cause issues with Static Builds"
-			if [ -f "$PREFIX/lib/libhamlib.a" ];
-			then
-				rm -f "$PREFIX/lib/libhamlib.dll.a" > /dev/null
-				echo "  --> --> libhamlib.dll.a removed."
-			fi
-			if [ -f "$PREFIX/lib/libhamlib.la" ];
-			then
-				rm -f "$PREFIX/lib/libhamlib.la" > /dev/null
-				echo "  --> --> libhamlib.la removed."
-			fi
-		fi
-	fi
 }
 
 # Function: Fixup Pkgconfig ---------------------------------------------------
@@ -587,34 +511,14 @@ function Test-Binaries {
 	fi
 }
 
-#------------------------------------------------------------------------------#
-# HELP MESSAGING AND ERROR HANDLING SCRIPT                                     #
-#------------------------------------------------------------------------------#
-
 # Function: Help --------------------------------------------------------------
 function Help-Command () {
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo -e ${C_Y}" BUILD-HAMLIB - HELP"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	Help-Messages
-}
-
-# Function: Error -------------------------------------------------------------
-function Error-Message () {
 	echo ''
-	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" BUILD-HAMLIB - ERROR IN COMMAND "${C_NC}
-	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo ''
-	echo -e ${C_R}" *** ERROR: $1 ***"${C_NC}
-	Help-Messages
-}
-
-# Function: Help Messages -----------------------------------------------------
-function Help-Messages () {
-	echo ''
-	echo '* Available Command Line Options:'
+	echo '* Command Line Options:'
 	echo ''
 	echo '  --> -h ........: Help'
 	echo '  --> -b / -nb ..: Process / Do not process bootstrap'
@@ -622,11 +526,6 @@ function Help-Messages () {
 	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
 	echo '  --> -libusb ...: Configure with LibUSB support'
 	echo '  --> -nlibusb ..: Do not configure with LibUSB support'
-	echo '  --> -static ...: Statically Linked Libraries built'
-	echo '       or ..' 
-	echo '  --> -dynamic ..: Shared/Dynamically Linked Libraries built'
-	echo ''
-	echo '  Note: You cannot select -static with -dynamic (Static = Default).'
 	echo ''
 	exit 1
 }
@@ -639,80 +538,49 @@ cd
 
 # -- Process Command Line Options ---------------------------------------------
 
-SHAREASPARAM="No"
-STATICASPARAM="No"
-
 while [ $# -gt 0 ]; do
-	case $1 in
-	-h|-help|--h|--help)
-		Help-Command
-		shift
-		;;
-	-b|--b)
+    case $1 in
+    -h)
+        Help-Command
+        shift
+        ;;
+	-nb)
 		PROCESSBOOTSTRAP="Yes"
-		shift
-		;;
-	-nb|--nb)
+        shift
+        ;;
+	-nb)
 		PROCESSBOOTSTRAP="No"
-		shift
-		;;
-	-c|--c)
+        shift
+        ;;
+	-c)
 		PROCESSCONFIGURE="Yes"
-		shift
-		;;
-	-nc|--nc)
+        shift
+        ;;	
+	-nc)
 		PROCESSCONFIGURE="No"
-		shift
-		;;
-	-g|--g)
+        shift
+        ;;	
+	-g)
 		PERFORMGITPULL="Yes"
-		shift
-		;;		
-	-ng|--ng)
+        shift
+        ;;
+	-ng)
 		PERFORMGITPULL="No"
-		shift
-		;;
-	-libusb|--libusb)
+        shift
+        ;;
+	-libusb)
 		PROCESSLIBUSB="Yes"
-		shift
-		;;	
-	-nlibusb|--nlibusb)
+        shift
+        ;;
+	-nlibusb)
 		PROCESSLIBUSB="No"
-		shift
-		;;
-	-shared|-dynamic|--shared|--dynamic)
-		SHAREDBUILD="Yes"
-		SHAREASPARAM="Yes"
-		shift
-		;;
-	-nshared|-ndynamic|--nshared|--ndynamic)
-		SHAREDBUILD="No"
-		shift
-		;;
-	-static|--static)
-		STATICBUILD="Yes"
-		STATICASPARAM="Yes"
-		shift
-		;;	
-	-nstatic|--nstatic)
-		STATICBUILD="No"	
-		shift
-		;;
-	*)
-		shift
-		;;
-	esac
+        shift
+        ;;
+    *)
+        shift
+        ;;
+    esac
 done
-
-# -- handle situation where both static and dynamic parameters set ------------
-
-if [ $SHAREASPARAM = "Yes" ];  
-then 
-	if [ $STATICASPARAM = "Yes" ];
-	then
-		Error-Message "Cannot set for both Static and Dynamic build yet"
-	fi
-fi
 
 clear
 

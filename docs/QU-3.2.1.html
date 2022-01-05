@@ -20,14 +20,15 @@
     <ul>
 		<p><a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is still around and with us on the JTSDK Forum at <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a>. People's interests change; you will see from Greg's posts that he has evolved past active JTSDK development.</a> 
 		<p>We cannot thank Greg more highly for his past and ongoing work - especially as a mentor at this point in time.</p>
-		<p>No politics here. This is not a push out or push aside. The 'hamlibdk' group as entities seek no glory nor recognition. Contributors just evolved work where Greg left off as the need was there for this to occur.</p>
-	</ul>
+	<p>No politics here. This is not a push out or push aside. The 'hamlibdk' group as entities seek no glory nor recognition. Contributors just evolved work where Greg left off as the need was there for this to occur.</p>
+<p>Other developers have gone silent (but may still be around in the background) due to some of the nastiness in our environment.&nbsp;</p>
+</ul>
 	<h3>Where can I ask question ?</h3>
     <ul>
-	  <p>The original JTSDK Forum <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a> as operated and moderated by <a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is used as the primary communication point for this project.</p>
+	  <p>The original JTSDK Forum <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a> is used as the primary communication point for this project.</p>
 		<p>Have no hesitations posting questions to there. If you are unable to post then email main contributors in that forum directly.</p>
 	</ul>
-	<h3>What happens if I receive a PowerShell security warning? Is it safe to run the PowerShell Scripts?</h3>
+	<h3>What happens if I receive a PowerShell security warning? Is it safe torun the PowerShell Scripts?</h3>
     <ul>
 	<p>You may receive the following <strong>security notification</strong>:</p>
 	</ul>
@@ -48,11 +49,10 @@ Do you want to change the execution policy?
 	<h3>How does the SDK use PowerShell? Why does the SDK need to use PowerShell when previous kits used CMD scripts?</h3>
 	
 	<ul>
-		<p>The basic concept of supporting <strong>Windows Environment Variables</strong> through <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> 
-		<strong>$env:<env-var></strong> facilities ease access into <a href="https://cmake.org/">CMake</a>, <a href="https://doc.qt.io/qt-5/qmake-manual.html">QMake</a> and the <a href="http://gcc.gnu.org/">GCC compilers</a> - components that must always remain cornerstone to these efforts.</p>
-		<p><a href="https://docs.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.1">PowerShell</a> is a task automation and configuration management program that creates a HIGHLY EXTENSIBLE environment. Powershell is embedded into the WIndows OS as PowerShell Core. There are also more advanced evolved versions rfeleased. The discussion at <a href="https://www.techrepublic.com/article/a-tale-of-two-powershells-which-is-the-right-version-for-you/">https://www.techrepublic.com/article/a-tale-of-two-powershells-which-is-the-right-version-for-you</a> though a little dated provides some insights into different versions.</p>
-		<p>The PowerShell environment is much more powerful and offers facilities that vastly eclipse capabilities of the old CMD.EXE processor and its scripts. Many tasks became onerous and were pushing the boundaries of what CMD.EXE-capable scripts could perform. Some tasks (such as extracting version information from the <strong>cmake</strong> files) became near impossible with CMD.EXE scripts. Therefore the PowerShell 'universal' scripting environment - provided by Microsoft STANDARD with Windows - was selected as the investigation tool for this project.</p>
-    </ul>
+	<p>The second part first: PowerShell creates a HIGHLY EXTENSIBLE scripted environment. The PowerShell environment is much more powerful and offers facilities that vastly eclipse capabilities of the old CMD.EXE processor and its scripts. Many tasks became onerous and were pushing the boundaries of what CMD.EXE-capable scripts could perform. Some tasks (such as extracting version information from the <strong>cmake</strong> files) became near impossible with CMD.EXE scripts. Therefore the PowerShell 'universal' scripting environment - provided by Microsoft STANDARD with Windows - was selected as the investigation tool for this project.</p>
+	<p>The basic concept of supporting <strong>Windows Environment Variables</strong> through <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> 
+	<strong>$env:<env-var></strong> facilities ease access into CMake, QMake and the MinGW compilers - components that will always remain a cornerstone concepts.</p>
+	</ul>
 	
 <h3>How do I upgrade existing JTSDK deployments?</h3>
 	<ul>
@@ -71,43 +71,39 @@ Do you want to change the execution policy?
 	are designed to be deployed to existing &quot;Base&quot; packages.</p>
 	</ul>
 	
-<h4>Where do I get 'Tools' packages?</h4>
+<h4>Where do I get and how do I apply 'Tools' packages?</h4>
 
 	<ul>
-	  <p><strong></strong>&quot;Tools&quot;</strong> packages are updates to the <strong></strong>&quot;Base&quot; environments. They will be supplied on the Sourceforge and GitHUB mirrors alongside the "base" packages.</p>
-
-	</ul>
-<h4>How do I apply 'Tools' packages?</h4>
-	<ul>
+	  <p><strong></strong>&quot;Tools&quot;</strong> packages are updates to the <strong></strong>&quot;Base&quot;</strong> environments.</p>
 	<p><em>These steps assume that you have a deployed base environment</em></p>
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 	</ul>
-	<p><strong>Note:</strong> There is no current &quot;Tools&quot; package. The first anticipated version would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe">JTSDK64-Tools-3.2.1.0</a>.exe.</p>
+	<p><strong>Note:</strong> The current version is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.1.exe">JTSDK64-Tools-3.2.1.1.exe</a> .</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
 	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
 	MSYS2 should be deleted and re-created.</p>
 	<ul>
-		<li>(Optional) Copy any folders stored under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
+		<li>(Optional) Copy any folders stored under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
 		
 		<li>Close any open MSYS2 environment terminal(s).</li>
 		
 		<li>Perform the system upgrade.</li>
 		
-		<li>Delete folders that exist under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong>.</li>
+		<li>Delete folders that exist under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong>.</li>
 	  
 		<ul>
 			<li>i.e: PowerShell: <strong> Remove-Item &quot;C:\JTSDK64-Tools\tools\msys64\home*&quot; -Recurse -Force </strong></li>
 		</ul>
 		
-		<li>Re-open MSYS2 with the <strong>msys2</strong> command inside the PowerShell terminal</li>
+		<li>Re-open MSYS2 with the <strong>msys2</strong> command for maintenance or <strong>mingw64</strong> for development work inside the PowerShell terminal</li>
 	</ul>
 	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It 
 	is safe to copy this enture foler across to your new MSYS2 Profile.</p>
 	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
-	to folders created within the MSYS2 environment. See <a href="DG-3.2.1.html">Step 3b in the Deployment Guide</a>.</p>
+	to folders created within the MSYS2 environment. See Step 3b below.</p>
 	</ul>
 	
 <hr>

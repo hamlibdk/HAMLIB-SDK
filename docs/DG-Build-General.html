@@ -23,7 +23,7 @@
 			<li>A <strong>MSYS2</strong> based environment that basically mimics Linux environments with GNU compilers and tools. WIthin this environment there are anumber of sub-environments:</li>
 			
 			<ul>
-				<li>A plain MSYS2 environment, designed to be used with the Qt-supplied compilers - launched with <strong>msys2</strong> from within the <strong>PowerShell</strong> environment.</li>
+				<li>A plain MSYS2 environment, designed to be used with the Qt-supplied compilers - launched with <strong>mingw64</strong> from within the <strong>PowerShell</strong> environment. <strong>Note:&nbsp; </strong>the bare-bones <strong>msys2</strong> environment is no longer recommended for building software yet is recommended for kit maintenance.&nbsp;</li>
 				
 				<li>GNU-Compiler-accessible environments, lauched under the <strong>PowerShell</strong> environment with one of the following commands:</li>
 				
@@ -112,8 +112,9 @@
 </ul>
 <h4>The <strong>mingw64</strong> environment</h4>
 	<ul>
-	<p>This provides a stand-alone set of GNU compilers. All relies on the libraries and tools delivered to the MSYS2 base environment.</p>
-	<p>This in itself can be somewhat tricky; some tools are delivered ONLY for the mingw64 environment; others are for the base MSYS2 environment.</p>
+	<p><strong>This is now the recommended environment for developing any software within the JTSDK.</strong></p>
+<p>This provides a stand-alone set of GNU compilers. All relies on the libraries and tools delivered to the MSYS2 base environment.</p>
+<p>This in itself can be somewhat tricky; some tools are delivered ONLY for the <strong>mingw64</strong> environment; others are for the base MSYS2 environment.</p>
 	<p>Sometimes we need to "break rules" and set software configuration and build options so that they search both the <strong>mingw64</strong> and <strong>MSYS2</strong> directory source paths. </p>
 	<p>To access this environment:</p>
 	<ul>

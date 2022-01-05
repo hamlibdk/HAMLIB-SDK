@@ -17,7 +17,29 @@
 	<h2>JTSDK 3.2.1 Deployment Guide</h2>
 	<hr>
 
+	<h3>PowerShell Security Warnings</h3>
+    <ul>
+	<p>You may receive the following <strong>security notification</strong>:</p>
+	</ul>
+<div class="container"> <pre>
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing 
+the execution policy might expose you to the security risks described in the 
+about_Execution_Policies help topic at https:/go.microsoft.com/fwlink/?LinkID=135170. 
+Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
+</pre>
+	</div>
+	<ul>
+	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
+	that developing these scripts is also a learning exercise for the Development Team.</p>
+	</ul>
 	
+
+	<hr>
+<h2>Deployment</h2>
+<hr>
+
 	<h3>Preparation: Deploy a Virtualisation Environment</h3>
 
 	<ul>
@@ -43,7 +65,7 @@
 	<ul>
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
-		<li>Download and deploy the installer (i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe">JTSDK-Base-3.2.1</a>) inside a FRESH VM.</li>	
+		<li>Download and deploy the installer (i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests-3.2.1/JTSDK64-Base-3.2.1b1.exe">JTSDK-Base-3.2.1</a>) inside a FRESH VM.</li>	
 		<li>Deploy any &quot;Tools&quot; Packages if they exist ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe">JTSDK64-Tools-3.2.1.0</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
@@ -369,28 +391,28 @@ Enter your selection, then hit &#60;return&#62;:
 		</tr>
 	</table>
 
-<h3>Step 4: Build your JT- Software</h3>
+	<h3>Step 4: Build your JT- Software</h3>
 
+<ul>
+	<p>The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from <strong>C:\JTSDK64-Tools\config</strong>. Rename the file <strong>src-wsjtx</strong> from a default pull of WSJT-X to either <strong>src-jtdx</strong> or <strong>src-js8call</strong> if desired. </p>
+	<p>The &quot;major&quot; used JT-ware distributions are supported without discrimination or political comment.</p>
+	<p>In JTSDK64-Tools:</p>
 	<ul>
-	<p>Notes can be found in the <a href="DG-Build-JT-ware">Build JT-ware Guide</a>.</p>
-
+	<li>Type: <strong>jtbuild</strong>      i.e. <strong>jtbuild package</strong></li>
+	</ul>
+	<p>Options preferred are <strong>package</strong> (a Windows Installer package - the preferred &quot;clean&quot; way) and <strong>rinstall</strong> (just a static directory full of &quot;runnable&quot; files).</p>
 	</ul>
 	<hr/>
 <h2>Upgrades and Updates</h2>
 <hr/>
 	<h3>Upgrades</h3>
 	<ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe">JTSDK64-Base-3.2.1</a> should only be installed over the top of previous kits <strong>at your own risk </strong>. It is 
-	highly recommended that one start from scratch and copy customised elements back from  JTSDK backups (see later in this section) once the kit is fully deployed..	</p>
-	<p>Note that the MSYS2 packaged may not update after a <strong>pacman -Syuu</strong> is performed on the new deployment if the JTSDK is deployed over the top of updated MSYS2 versions.</p>
-	<p>Follow the steps below:</p>
-		<ul>
-		<li>You should backup old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>). If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </li>
-	<li><strong>YOU MUST BACK UP YOUR X:\JTSDK64-Tools\tools\msys64\home\&lt;userprofile&gt; DIRECTORY</strong></li>
-	<li>Deploy your JTSDK 3.2.1 over the top of an existing deployment using the new deployment procedures.</li>
-	<li>Delete the <strong>/bin</strong> directory from your backed up <strong>&lt;userprofile&gt;</strong> </li>
-	<li>Copy your backed-up <strong>&lt;userprofile&gt;</strong> to <strong>X:\JTSDK64-Tools\tools\msys64\home\</strong> over the top of the newly created profile - restoring your builds and customisations after the upgrade.</li>
-		</ul>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe">JTSDK64-Base-3.2.1</a> can be installed over the top of previous kits - yet it is 
+	highly recommended that one start from scratch. </p>
+	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
+	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
+	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
+	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </p>
 	</ul>
 	
 <h3>Maintenance Updates: &quot;Tools&quot; Packages</h3>

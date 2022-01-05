@@ -17,27 +17,31 @@ base package support. Once an environment is set up maintenance tasks are simpli
 [PowerShell][] eclipses the capabilities of Windows Batch files. [PowerShell][] 
 completely removes needs for capable third-party environments such as [Python][].
 
-### The Version 3.2.1 Base Stream
+### The 3.2.1 Base Stream
 
 The **Version 3.2** stream is a learning, discovery and technique refinement experiment.
 This README.md file will transition towards deployment instructions. 
-
-### Version 3.2.1 
 
 The **JTSDK 3.2.1** outwardly will appear similar to the **JTSDK 3.2.0**-stream. Yet the 
 **JTSDK 3.2.1** has significant enhancements in that many of the key commands now accept 
 switches that can make the process of developing code quicker and simpler.
 
-In addition the "mirroring" of **build-hamlib.sh** and **build-hamlib.sh-static** has been 
-broken - with **build-hamlib.sh** offering a number of additional command-line switches to 
-aid developers.
+### Tools 3.2.1.1
 
-The **JTSDK 3.2.1** solves a long standing issue with [LibUSB][]  support - that up until now has been 
-disabled. Most changes in this preview incorporate enhancements to the MSYS2 environment 
+The **build-hamlib.sh** now integrates functions formerly performed by **build-hamlib-static.sh** 
+and by **build-hamlib-dll.sh** . These scripts are still available in the package as **deprecated-build-hamlib-static.sh** 
+and **deprecated-build-hamlib-dll.sh** .
+
+The **JTSDK 3.2.1** solves a long standing issue with [LibUSB][] support. Most changes 
+in this preview incorporate enhancements to the MSYS2 environment 
 to better support the [LibUSB][]  with Hamlib.
 
+As of [Tools 3.2.1.1][] Hamlib is built (by defaut) using **Dynamic (DLL) Libraries**.
+
+The preferred MSYS2 development environment for building Hamlib is now executed by typeing **mingw64** at the PowerShell prompt.
+
 ************************************************************************************
-**The Project now needs contributors - Especially to write Cross-Language Documentation !**
+**The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
 ************************************************************************************
 
 ### Project Status
@@ -47,25 +51,25 @@ been met (i.e. [PowerShell][] conversion, Ability to compile latest source code 
 bleeding-edge Hamlib code). 
 
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. Boost [1.77](Boost-1.77.0)] ) as part of the learning process.
+build libraries (i.e. Boost [1.78](Boost-1.78.0)] ) as part of the learning process.
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][] and [Boost-1.77.0][] built under Qt's 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0 MinGW 8.1](Boost-1.78.0) built under Qt's 
 [MinGW][] 7.3 and [MinGW][] 8.1 environs are available (saving 3+ hours). 
 ************************************************************************************
-The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.77.0][] 
+The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.78.0][] 
 working with [MinGW][] 8.1.
 ************************************************************************************ 
 
 ### The Next Steps
 
-Version 4 of the JTSDK will involve strategic re-think. Watch the [JTSDK Forum][] for updates.
+Version 4 of the JTSDK will involve strategic re-think. Watch the [JTSDK Forum][] for updates and to contribute.
 
 ### Kit Construction
 
-Most configuration is now based on either marker files in **C:\JTSDK64-Tools\config** 
-or specified package versions listed in **C:\JTSDK64-Tools\config\Versions.ini** . 
+Most configuration is now based on either marker files in **x:\JTSDK64-Tools\config** 
+or specified package versions listed in **x:\JTSDK64-Tools\config\Versions.ini** . 
 See the [JTSDK Forum][] and post comments (or email main contributors found there).
 
 ### Support
@@ -85,7 +89,7 @@ Support for following technologies are **added/enhanced** in these streams:
 
 - Hamlib support for other non-JT- software packages (will occur silently???).
 - [Qt][]'s incorporated CMAKE
-- The version of [Boost][] can be selected in **Version.inf** and will be compiled to the selected version of Qt (including its MinGW release).
+- The version of [Boost][] can be selected in **Version.ini** and will be compiled to the selected version of Qt (including its MinGW release).
 - Greater package version self-configuration - hence **less maintenance required**.
 - Upgrades to "static" apps that have no generically named latest-version sources
 
@@ -157,17 +161,17 @@ are designed to be deployed to existing "Base" packages.
 
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
-**Note:** There is no current "Tools" package. The first anticipated version would be [JTSDK64-Tools-3.2.1.0][].exe.
+**Note** The current "Tools" package is [JTSDK64-Tools-3.2.1.1][].
 
 - Deploy the tools package to your JTSDK install directory.
 
 Updates may apply to the MSYS2 environment. Therefore the "profile" directory for 
 MSYS2 should be deleted and re-created.
 
-- (Optional) Copy any folders stored under **C:\JTSDK64-Tools\tools\msys64\home** to a backup location. This should enable you to access previous work.
+- (Recommended) Copy any folders stored under **x:\JTSDK64-Tools\tools\msys64\home** to a backup location. This should enable you to access previous work.
 - Close any open MSYS2 environment terminal(s).
 - Perform the system upgrade.
-- Delete folders that exist under **C:\JTSDK64-Tools\tools\msys64\home**.
+- Delete folders that exist under **x:\JTSDK64-Tools\tools\msys64\home**.
 
 i.e: PowerShell: ** Remove-Item "C:\JTSDK64-Tools\tools\msys64\home\*" -Recurse -Force **
 
@@ -209,7 +213,7 @@ These Virtual machines should have a lifetime of at least 30 days.
 ** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
 
 - Deploy the installer [JTSDK64-Base-3.2.1a7][] inside a FRESH VM.
-- Deploy any "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.1.0][] ) to your Base Deployment.
+- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.1.1][] ) to your Base Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -298,14 +302,16 @@ Follow on-screen prompts carefully.
  
 A MSYS2 environment window will open as part of the **postinstall** process. 
 ```
-JTSDK64 Tools MSYS2 using QT v
+JTSDK64 Tools MSYS2 (MSYS) using QT v
 
 For main menu, type ..: menu
 For Help Menu, type ..: jthelp
 
-Copyright (C) 2013-2021, GPLv3, Greg Beam, KI7MT and Contributors.
+Copyright (C) 2013-2022, GPLv3, Greg Beam, KI7MT and Contributors.
 This is free software; There is NO warranty; not even
 for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Note: Menu Option 4 must be selected before building Dynamic Hamlib Libraries.
 
 hamlibdk@jtsdk ~
 $ menu
@@ -351,7 +357,7 @@ Note that the window may close on completion if there are updates.
 
 - Back at menu, select **3. Install Hamlib Dependencies** to deploy the tools and libraries needed to build Hamlib.
 
-- (Optional) Select ** 4. Install msys64 GNU Compilers ** so that a msys64 POSIX-compliant build environment can be launched.
+- When Option 3 has completed, Select ** 4. Install msys64 GNU Compilers ** so that a msys64 POSIX-compliant build environment can be launched.
  
 **Step 2d: Basic Deployment Complete**
 
@@ -361,7 +367,7 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
  
 - Launch the **JTSDK64-Tools** environment from the icon on your desktop.
  
-**Step 3a: (Optional) Upgrade your Qt Deployment**
+**Step 3a: Upgrade your Qt Deployment**
  
 A Minimum Qt installation pegs at [Qt][] at version 5.12.11. If you did not use the "F" Full option for [Qt][] deployment or you 
 want to update Qt to the more contemporary 5.15.2 version you should do so now. Note that using Qt 5.15.2 is highly recommended.
@@ -392,14 +398,14 @@ If the system abends with a warning check the **C:\JTSDK64-Tools\config** direct
  
 In **JTSDK64-Tools**:
 
-- Launch the MSYS2 environment with: **msys2**
+- Launch the MSYS2 environment with: **mingw64**
 - Type: **menu**
-- Select **5. Build Hamlib - Static Libraries**
+- Select **6. Build Hamlib - Dynamic Libraries**
 
 ************************************************************************************
-**Note:** If you have difficulties packaging [Hamlib][] with [JTDX][] and/or [JS8CALL][] you may need to use the The **build-hamlib.sh** script from the MSYS2 terminal as follows:
+**Note:** If you have difficulties packaging [Hamlib][] with [JTDX][] and/or [JS8CALL][] you may need to use the The **build-hamlib.sh** script from the MSYS2 mingw64 terminal as follows:
 
-- **build-hamlib.sh -nlibusb**
+- **build-hamlib.sh -nlibusb -static**
 ************************************************************************************
 
 This will take time as it pulls from the master repository for Hamlib. 
@@ -419,11 +425,13 @@ In JTSDK64-Tools:
 Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][] and [Boost-1.77.0] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW][] 7.3 (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
-- Extract the folder for the Boost version-package that you want to use into **C:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
+The drop-in package for  [Boost-1.78.0][] only supports [MinGW][] 8.1 .
+  
+- Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
 
 A Windows symbolic link will work too: i.e.: Assume that both the 1.74.0-7.3 and 1.74.0-8.1 distributions have been unpacked from **Boost-1.74.0-MinGW-v7.3-v8.1.7z** to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or powershell windows are positioned at **C:\JTSDK64-Tools\tools\boost**
  
@@ -496,7 +504,7 @@ PS C:\JTSDK64-Tools> jtbuild -h
 PS C:\JTSDK64-Tools>
 ```
 
-i.e. 2:  In The **MSYS2** Environment:
+i.e. 2:  In The **MSYS2** Environment (i.e. **mingw64** at the PowerShell prompt):
 
 ```
 $ build-hamlib.sh -h
@@ -594,7 +602,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Base-3.2.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.0.exe
 [JTSDK64-Base-3.2.0a7]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests-3.2.1/JTSDK64-Base-3.2.0a7.exe
 [JTSDK64-Base-3.2.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe
-[JTSDK64-Tools-3.2.1.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe
+[JTSDK64-Tools-3.2.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.1.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
@@ -604,6 +612,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.75.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.75.0-MinGW-v7.3-v8.1.7z
 [Boost-1.76.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.76.0-MinGW-v7.3-v8.1.7z
 [Boost-1.77.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z
+[Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v8.1.7z
 [JTSDK64-Apps-3.1.1-Boost-1.74-MinGW-8.1x64]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.1.1-x64-Stream/JTSDK64-Apps-3.1.1-Boost-1.74-MinGW-8.1x64.exe
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/

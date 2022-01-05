@@ -2,15 +2,15 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.0 
+# Version ......: 3.2.1 r1
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
 #
-# Updates.......:  20-2-2021 - 28-8-2021 Steve VK3VM / VK3SIR 
+# Updates.......:  20-2-2021 - 5-1-2022 Steve VK3VM / VK3SIR 
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-#				  Enhancements (c) 2021 JTSDK & Hamlib Development Contributors
+#				  Enhancements (c) 2021 - 2022 JTSDK & Hamlib Development Contributors
 #
 ################################################################################
 
@@ -40,16 +40,16 @@ alias vdir='ls --color=auto --format=long'
 alias l='ls -CF'                              #
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
-alias build-hamlib='bash "/home/$USER/bin/build-hamlib.sh"'
-alias build-hamlib-dll='bash "/home/$USER/bin/build-hamlib-dll.sh"'
-alias build-hamlib-static='bash "/home/$USER/bin/build-hamlib-static.sh"'
+alias build-hamlib='bash "/home/$USER/bin/build-hamlib.sh" -dynamic'
+alias build-hamlib-dll='bash "/home/$USER/bin/build-hamlib.sh" -dynamic'
+alias build-hamlib-static='bash "/home/$USER/bin/build-hamlib.sh" -static'
 
 # Function: Help Menu ---------------------------------------------------------
 function jthelp () {
 
     clear ||:
     echo ''
-    echo -e ${C_C}"$JTSDK64_NAME Help Menu"${C_NC}
+	echo -e ${C_C}"$JTSDK64_NAME ($MSYSTEM) Help Menu"${C_NC}
     echo ''
     echo 'The following alias commands are available for direct entry'
     echo 'via the MSYS2 Console:'
@@ -128,23 +128,6 @@ function gnusetup () {
 
 }
 
-# Function: version information ------------------------------------------------
-function jtversion () {
-
-    clear ||:
-    echo ''
-    echo -e ${C_C}"$JTSDK64_NAME "${C_NC}
-    echo ''
-    echo " JTSDK64 Version .. v$JTSDK64_VER"
-    echo " Qt Environment ... $QTV"
-    echo ''
-    echo " Copyright (C) 2013-2021, GPLv3, $AUTHOR"
-    echo ' This is free software; There is NO warranty; not even'
-    echo ' for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'
-    echo ''
-
-}
-
 # Function: Update JTSDK64 Tools MSYS2 Scripts ---------------------------------
 function msys-keyring () {
 
@@ -219,8 +202,8 @@ function change-repo () {
 		echo " Available Repositories:"
 		echo ''
 		echo ' 1 ... Master (preferred)'
-		echo ' 2 ... G4WJS'
-		echo ' 3 ... M9WDB'
+		echo ' 2 ... G4WJS (Now SK so may not be maintained)'
+		echo ' 3 ... M9WDB (Bleeding edge - contact Mike W9MDB before use)'
 		echo ' 4 ... Custom/Your Own (No Pull)'
 		echo ''
         echo " e. Enter 'e' or 'q' to exit"
@@ -345,7 +328,8 @@ function menu () {
                 echo ''
                 read -p "Press enter to continue..." ;;
 			v|V)
-                jtversion
+                #jtversion
+				greeting_message
                 read -p "Press enter to continue..." ;;
             e|E|q|Q)
                 greeting_message
@@ -360,7 +344,7 @@ function greeting_message (){
     printf '\033[8;40;100t'
     clear ||:
     echo ''
-    echo -e ${C_C}"$JTSDK64_NAME using QT v$QTV"${C_NC}
+    echo -e ${C_C}"$JTSDK64_NAME ($MSYSTEM) using QT v$QTV"${C_NC}
     echo ''
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
@@ -368,6 +352,8 @@ function greeting_message (){
     echo "Copyright (C) 2013-2021, GPLv3, $AUTHOR."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
+    echo ''
+	echo -e ${C_R}"Note:"${C_C}" Menu Option 4 must be selected before building Dynamic Hamlib Libraries."${C_NC}
     echo ''
 
 }
