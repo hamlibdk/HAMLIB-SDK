@@ -369,8 +369,8 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
  
 **Step 3a: Upgrade your Qt Deployment**
  
-A Minimum Qt installation pegs at [Qt][] at version 5.12.11. If you did not use the "F" Full option for [Qt][] deployment or you 
-want to update Qt to the more contemporary 5.15.2 version you should do so now. Note that using Qt 5.15.2 is highly recommended.
+A Minimum Qt installation pegs at [Qt][] at version 5.12.12. If you did not use the "F" Full option for [Qt][] deployment or you 
+want to update Qt to the recommended 5.15.2 version you should do so now. Note that using Qt 5.15.2 is highly recommended.
 
 i.e. 
 

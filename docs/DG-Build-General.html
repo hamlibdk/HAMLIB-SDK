@@ -32,9 +32,9 @@
 					
 					<li><strong>mingw32</strong> - an environment designed for 32-bit software compilation with the GCC compiler suite.</li>
 					
-					<li><strong>ucrtw64</strong> - an environment designed for 64-bit software compilation under the Universal C Runtime. It should ideally work and behave as if the code was compiled with MS Visual Studio 2019.</li>
+					<li><strong>ucrtw64</strong> - an environment designed for 64-bit software compilation under the Universal C Runtime. It should ideally work and behave as if the code was compiled with MS Visual Studio 2019. This environ is not supported.</li>
 					
-					<li><strong>clang64</strong> - an environment designed for 64-bit software compilation The <strong>clang</strong> executable is actually a small driver which controls the overall execution of other tools such as the compiler, assembler and linker. It must at the moment be used with with the GCC compiler suite.</li>
+					<li><strong>clang64</strong> - an environment designed for 64-bit software compilation The <strong>clang</strong> executable is actually a small driver which controls the overall execution of other tools such as the compiler, assembler and linker. It must at the moment be used with with the GCC compiler suite. This environ is not supported.</li>
 				</ul>
 			</ul>
 		</ul>
@@ -127,10 +127,12 @@
 		
 <h4>Other environments: mingw32, clang64 and ucrt64</h3>
 	<ul>
-		<p>These will not be covered further in this document. See:</p>
-		<ul>
-			<li><a href="https://www.msys2.org/wiki/MSYS2-introduction/">https://www.msys2.org/wiki/MSYS2-introduction/</a>
-		</ul>
+	<p>The aim is to make as many scripts and utilities as possible compatible with a <strong>mingw32</strong> environment or for scripts to require minimal adjustmen/patches to compile x86 software,&nbsp;&nbsp;</p>
+<p>Work on this task will be ongoing.&nbsp; &nbsp;&nbsp;</p>
+<p>The <strong>clang64</strong> and <strong>ucrt64</strong> environments will not be covered or supported by the JTSDK. See:</p>
+<ul>
+	<li><a href="https://www.msys2.org/wiki/MSYS2-introduction/">https://www.msys2.org/wiki/MSYS2-introduction/</a>
+</ul>
 	</ul>
 
 <h3> References</h3>
