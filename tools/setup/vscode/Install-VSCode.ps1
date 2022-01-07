@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-VSCode.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.2
 # Description ..: Installs VS Code for Windows
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-VSCode [action]
@@ -9,7 +9,7 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: HAMLIB SDK Contributors <hamlibdk@hotmail.com>
 # Copyright ....: Copyright (C) 2013 - 2021 Greg Beam, KI7MT
-#               : Copyright (C) 2020 - 2021 HAMLIB SDK Contributors
+#               : Copyright (C) 2020 - 2022 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
 # Release Candidate 17-01-2021 - 25-2-2021 by Steve VK3SIR/VK3VM

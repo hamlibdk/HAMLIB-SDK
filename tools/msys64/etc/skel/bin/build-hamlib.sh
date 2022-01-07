@@ -2,10 +2,10 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.2.1 r1
+# Version ......: 3.2.2
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
-# Project URL ..: https://sourceforge.net/p/hamlib-sdk/code/ci/master/tree/ 
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 #
 # Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
 #          Qt Version Adjustments 21-04 to 11-Feb-2021
@@ -19,7 +19,7 @@
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
 #                 Copyright (c) 2020-2022 JTSDK Contributors
 #
-# Support for Qt 5.12.11, 5.15.2, 6.1.0 by Steve VK3VM
+# Support for Qt 5.12.12, 5.15.2, 6.2.2 by Steve VK3VM
 #
 ################################################################################
 

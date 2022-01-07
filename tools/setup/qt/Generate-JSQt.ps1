@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-JSQt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1 r1
+# Version ......: 3.2.2
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -201,7 +201,7 @@ Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw730`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt5.51212.win64_mingw73`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.622.win64_mingw81`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.622.win64_mingw`"`)`;"
 Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
 Add-Content $of  "`}"
 Add-Content $of  " "

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-VCRuntime.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.2
 # Description ..: Installs VC/C++ Runtimes for Windows
 #
 # Usage ........: Call this from jtsdk64-tools ==> postinstall => Install-VCRuntime [action]
@@ -9,7 +9,7 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: HAMLIB SDK Contributors <hamlibdk@outlook.com>
 # Copyright ....: Copyright (C) 2013 - 2021 Greg Beam, KI7MT
-#               : Copyright (C) 2020 - 2021 HAMLIB SDK Contributors
+#               : Copyright (C) 2020 - 2022 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
 # Release Candidate 25-02-2021 by Steve VK3SIR/VK3VM

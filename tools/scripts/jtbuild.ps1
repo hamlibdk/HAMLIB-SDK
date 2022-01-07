@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 3.2.1 b1 
+# Version ...........: 3.2.2 
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64-setup.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1 r1
+# Version ......: 3.2.2
 # Description ..: JTSDK64 Postinstall Setup Environment
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line

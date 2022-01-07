@@ -2,9 +2,9 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.1 r1
+# Version ......: 3.2.2
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
-# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2.0-x64-Stream
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 #
 # Updates.......:  20-2-2021 - 5-1-2022 Steve VK3VM / VK3SIR 
 #

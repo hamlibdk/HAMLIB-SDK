@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1 r1
+# Version ......: 3.2.2
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
@@ -183,7 +183,7 @@ function InstallHelp {
 	Write-Host "      Installs Minimal, plus additional versions:"
 	Write-Host ""
 	Write-Host "        qt.qt5.5152.win64_mingw73"
-	Write-Host "        qt.qt6.622.win64_mingw81"
+	Write-Host "        qt.qt6.622.win64_mingw"
 	Write-Host "        qt.tools.win64_mingw810"
 	Write-Host ""
 	Write-Host " Usage:"
@@ -244,7 +244,7 @@ function InstallSummary {
 		Write-Host "    qt.tools.cmake.win64"
 		Write-Host "    qt.qt5.51212.win64_mingw73"
 		Write-Host "    qt.qt5.5152.win64_mingw81"
-		Write-Host "    qt.qt6.622.win64_mingw81"
+		Write-Host "    qt.qt6.622.win64_mingw"
 		Write-Host "    qt.tools.win64_mingw730"
 		Write-Host "    qt.tools.win64_mingw810"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
