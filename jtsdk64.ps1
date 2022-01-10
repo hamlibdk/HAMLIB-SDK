@@ -318,7 +318,8 @@ function SetUnixTools {
 	if (($tmpUnixToolsValue -eq "enabled") -or ($tmpUnixToolsValue -eq "yes")) {	
 		$unixDir1 = $env:JTSDK_TOOLS + "\msys64"
 		$unixDir2 = $env:JTSDK_TOOLS + "\msys64\usr\bin"
-		$env:JTSDK_PATH = $unixDir1 + ";" + $unixDir2 + ";" + $env:JTSDK_PATH 
+		# Trial: $env:JTSDK_PATH = $unixDir1 + ";" + $unixDir2 + ";" + $env:JTSDK_PATH 
+		$env:JTSDK_PATH = $env:JTSDK_PATH + ";" + $unixDir1 + ";" + $unixDir2
 		$env:UNIXTOOLS = "Enabled"
 		Write-Host "enabled"
 	} else {
