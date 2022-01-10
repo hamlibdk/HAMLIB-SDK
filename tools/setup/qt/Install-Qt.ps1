@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1
+# Version ......: 3.2.2
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
@@ -9,11 +9,11 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: HAMLIB SDK COntributors <hamlibdk@hotmail.com>
 # Copyright ....: Copyright (C) 2013 - 2021 Greg Beam, KI7MT
-#               : Copyright (C) 2020 - 2021 HAMLIB SDK Contributors
+#               : Copyright (C) 2020 - 2022 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
 # Conversion and logic refactoring Steve VK3SIR 25-12-2020 - 18-1-2021
-# Updates for Qt 5.12.11 and 6.1.3 27-05-2021 - 29-9-2021
+# Updates for Qt 5.12.12 and 6.2.2 27-05-2021 - 6-1-2022
 #
 #-----------------------------------------------------------------------------#
 
@@ -173,7 +173,7 @@ function InstallHelp {
 	Write-Host "        qt.tools.qtcreator"
 	Write-Host "        qt.tools.maintenance"
 	Write-Host "        qt.tools.cmake.win64"
-	Write-Host "        qt.qt5.51211.win64_mingw73"
+	Write-Host "        qt.qt5.51212.win64_mingw73"
 	Write-Host "        qt.tools.win64_mingw730"
 	Write-Host "        qt.tools.vcredist_msvc2017_x64"
 	Write-Host "        qt.tools.vcredist_msvc2019_x64"
@@ -183,7 +183,7 @@ function InstallHelp {
 	Write-Host "      Installs Minimal, plus additional versions:"
 	Write-Host ""
 	Write-Host "        qt.qt5.5152.win64_mingw73"
-	Write-Host "        qt.qt6.613.win64_mingw81"
+	Write-Host "        qt.qt6.622.win64_mingw"
 	Write-Host "        qt.tools.win64_mingw810"
 	Write-Host ""
 	Write-Host " Usage:"
@@ -227,7 +227,7 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
-		Write-Host "    qt.qt5.51211.win64_mingw73"
+		Write-Host "    qt.qt5.51212.win64_mingw73"
 		Write-Host "    qt.tools.win64_mingw730"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
 		Write-Host "    qt.tools.vcredist_msvc2019_x64"
@@ -242,9 +242,9 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
-		Write-Host "    qt.qt5.51211.win64_mingw73"
+		Write-Host "    qt.qt5.51212.win64_mingw73"
 		Write-Host "    qt.qt5.5152.win64_mingw81"
-		Write-Host "    qt.qt6.613.win64_mingw81"
+		Write-Host "    qt.qt6.622.win64_mingw"
 		Write-Host "    qt.tools.win64_mingw730"
 		Write-Host "    qt.tools.win64_mingw810"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
@@ -281,8 +281,8 @@ Write-Host "No command `switch or invalid switch entered."
 Write-Host ""
 Write-Host "Valid Switches`:"
 Write-Host ""
-Write-Host "  min    - Scripted installation Qt MinGW 5.12.11 only"
-Write-Host "  full   - Scripted installation Qt 5.12.11, 5.15.2, 6.1.3"
+Write-Host "  min    - Scripted installation Qt MinGW 5.12.12 only"
+Write-Host "  full   - Scripted installation Qt 5.12.12, 5.15.2, 6.2.2"
 Write-Host "  update - Update Qt Deployment"
 Write-Host "  manage - Manage Qt Deployment"
 Write-Host "  help   - Get Installation Help"

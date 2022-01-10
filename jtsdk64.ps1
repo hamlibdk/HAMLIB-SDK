@@ -1,10 +1,11 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1
+# Version ......: 3.2.2
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
-# Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
+# Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk
 # Usage ........: Call this file directly from the command line
 # 
 # Author .......: Hamlib SDK Contributors <hamlibdk@outlook.com>
@@ -12,13 +13,15 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2021 subsequent JTSDK Contributors
+#                 (C) 2020-2022 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
-#				: Need for qt-gen-tc.cmd and some markers eliminated
-#               : Refactoring and modularisation 26-02-2021
-#               : Support for Tools Package supplied PortAudio 5-06-2021
+#				: Need for qt-gen-tc.cmd and some markers eliminated 5-06-2021 Steve VK3VM
+#               : Refactoring and modularisation 26-02-2021 Steve VK3VM
+#               : Support for Tools Package supplied PortAudio 5-06-2021 Steve VK3VM
+#               : General maintenance and Support for DLL Builds 2/3-01-2022 Steve VK3VM
+#               : Read LibUSB DLL path from Versions.ini 6-1-2022 Steve VK3VM
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -41,10 +44,11 @@ function CreateFolders {
 		New-Item -Path $env:JTSDK_HOME -Name  "config" -ItemType "directory" | Out-Null
 		Write-Host "  --> Created $env:JTSDK_CONFIG"	
 	}
-	if (!(Test-Path $env:JTSDK_DATA)) { 
-		New-Item -Path $env:JTSDK_HOME -Name "data" -ItemType "directory"  | Out-Null  
-			Write-Host "  --> Created $env:JTSDK_DATA"
-	}
+	# Deprecated
+	#if (!(Test-Path $env:JTSDK_DATA)) { 
+	#	New-Item -Path $env:JTSDK_HOME -Name "data" -ItemType "directory"  | Out-Null  
+	#		Write-Host "  --> Created $env:JTSDK_DATA"
+	#}
 	if (!(Test-Path $env:JTSDK_SRC)) { 
 		New-Item -Path $env:JTSDK_HOME -Name "src" -ItemType "directory"  | Out-Null 
 		Write-Host "  --> Created $env:JTSDK_SRC"
@@ -95,6 +99,7 @@ function SetLibUSBEnviron ($configTable) {
 	$env:libusb_dir = $env:JTSDK_TOOLS + "\libusb\" + $env:libusbv
 	$env:libusb_dir_f = ConvertForward($env:libusb_dir)
 	$env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:libusb_dir
+	$env:libusb_dll = $configTable.Get_Item("libusbdll")	
 }
 
 # --- Nullsoft Installer System - NSIS ----------------------------------------
@@ -313,7 +318,8 @@ function SetUnixTools {
 	if (($tmpUnixToolsValue -eq "enabled") -or ($tmpUnixToolsValue -eq "yes")) {	
 		$unixDir1 = $env:JTSDK_TOOLS + "\msys64"
 		$unixDir2 = $env:JTSDK_TOOLS + "\msys64\usr\bin"
-		$env:JTSDK_PATH = $unixDir1 + ";" + $unixDir2 + ";" + $env:JTSDK_PATH 
+		# Trial: $env:JTSDK_PATH = $unixDir1 + ";" + $unixDir2 + ";" + $env:JTSDK_PATH 
+		$env:JTSDK_PATH = $env:JTSDK_PATH + ";" + $unixDir1 + ";" + $unixDir2
 		$env:UNIXTOOLS = "Enabled"
 		Write-Host "enabled"
 	} else {
@@ -395,7 +401,7 @@ function GenerateToolChain ($qtdff, $gccdff, $rubyff, $fftw3fff, $hamlibff, $svn
 	Add-Content $of "SET (PALIB_LIBRARY C:/JTSDK64-Tools/tools/portaudio/lib/libportaudio.dll)"
 	Add-Content $of " "
 	Add-Content $of "# Cmake Consolidated Variables"
-	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
+	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{HLIB}/lib/gcc `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH `$`{JTSDK_TOOLS})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_PROGRAM NEVER)"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_LIBRARY BOTH)"
@@ -430,86 +436,85 @@ function CheckJTSourceSelection {
 
 function InvokeInteractiveEnvironment {
 	invoke-expression 'cmd /c start powershell -NoExit -Command {                           `                `
-		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools Powershell Window"
-		New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2_shell.cmd"	
-		Write-Host "-----------------------------------------------"
-		Write-Host "            JTSDK64 Tools $env:JTSDK64_VERSION"
-		Write-Host "-----------------------------------------------"
+		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools Powershell"
+		New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2.exe"	
+		Write-Host "---------------------------------------------"
+		Write-Host "           JTSDK64 Tools $env:JTSDK64_VERSION"
+		Write-Host "---------------------------------------------"
 		Write-Host ""
 		Write-Host "Config: $env:jtsdk64VersionConfig"
 		Write-Host ""
-		Write-Host "Package         Version/Status"
-		Write-Host "-----------------------------------------------"
-		Write-Host "Unix Tools ...: $env:UNIXTOOLS"
-		Write-Host "Source .......: $env:JT_SRC" 
-		if ((Test-Path "$env:JTSDK_MSYS2\usr\bin")) { 
-			Write-Host "MSYS2/mingw64 : Deployed"
-		} else {
-			Write-Host "MSYS2/mingw64 : Not Deployed"
-		}
+		Write-Host "Package       Version/Status"
+		Write-Host "---------------------------------------------"
+		Write-Host "Source .....: $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
-			Write-Host "Qt ...........: $env:QTV `[$env:VER_MINGW`]"
+			Write-Host "Qt .........: $env:QTV `[$env:VER_MINGW`]"
 		} else {
-			Write-Host "Qt ...........: $env:QTV Missing"
+			Write-Host "Qt .........: $env:QTV Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\hamlib\qt")) { 
-			Write-Host "Hamlib Qt ....: Deployed"
+		Write-Host -NoNewLine "Hamlib .....: "
+		if ((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV")) { 
+			if (((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\gcc\libhamlib.dll.a") -Or (Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\libhamlib.dll.a"))) {
+				Write-Host "Dynamic"
+			} else {
+				Write-Host "Static"
+			}
 		} else {
-			Write-Host "Hamlib Qt ....: Missing"
+			Write-Host "Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\fftw\$env:fftwv")) { 
-			Write-Host "FFTW .........: $env:fftwv"
+			Write-Host "FFTW .......: $env:fftwv"
 		} else {
-			Write-Host "FFTW .........: $env:fftwv  Missing"
+			Write-Host "FFTW .......: $env:fftwv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\libusb\$env:libusbv")) { 
-			Write-Host "LibUSB .......: $env:libusbv"
+			Write-Host "LibUSB .....: $env:libusbv"
 		} else {
-			Write-Host "LibUSB .......: $env:libusbv Missing"
+			Write-Host "LibUSB .....: $env:libusbv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\nsis\$env:nsisv")) { 
-			Write-Host "NSIS .........: $env:nsisv"
+			Write-Host "NSIS .......: $env:nsisv"
 		} else {
-			Write-Host "NSIS .........: $env:nsisv Missing"
+			Write-Host "NSIS .......: $env:nsisv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\pkgconfig\$env:pkgconfigv")) { 
-			Write-Host "PkgConfig ....: $env:pkgconfigv"
+			Write-Host "PkgConfig ..: $env:pkgconfigv"
 		} else {
-			Write-Host "PkgConfig ....: $env:pkgconfigv Missing"
+			Write-Host "PkgConfig ..: $env:pkgconfigv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\ruby\$env:rubyv")) { 
-			Write-Host "Ruby .........: $env:rubyv"
+			Write-Host "Ruby .......: $env:rubyv"
 		} else {
-			Write-Host "Ruby .........: $env:rubyv Missing"
+			Write-Host "Ruby .......: $env:rubyv Missing"
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\subversion\$env:svnv")) { 
-			Write-Host "Subversion ...: $env:svnv"
+			Write-Host "Subversion .: $env:svnv"
 		} else {
-			Write-Host "Subversion ...: $env:svnv Missing"
+			Write-Host "Subversion .: $env:svnv Missing"
 		}
+		Write-Host -NoNewLine "CMake ......: $env:cmakev "
 		if ($env:cmakev -eq "qtcmake") {
-			Write-Host "CMake ........: $env:cmakev"
+			Write-Host ""
 		} else {
 			if ((Test-Path "$env:JTSDK_TOOLS\cmake\$env:cmakev")) { 
-				Write-Host "CMake ........: $env:cmakev"
+				Write-Host ""
 			} else {
-				Write-Host "CMake ........: $env:cmakev Missing"
+				Write-Host "Missing"
 			}
 		}
 		if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
-			Write-Host "Boost ........: $env:boostv $env:BOOST_STATUS `[$env:BOOST_V_MINGW`]"
+			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS `[$env:BOOST_V_MINGW`]"
 		} else {
-			Write-Host "Boost ........: $env:boostv Missing"
+			Write-Host "Boost ......: $env:boostv Missing"
 		}
 
-		Write-Host "-----------------------------------------------"
+		Write-Host "---------------------------------------------"
 		Write-Host ""
 		Write-Host "Commands:"
 		Write-Host ""
-		Write-Host "  Deploy Boost ... Deploy-Boost"
-		Write-Host "  MSYS2 .......... msys2"
-		Write-Host "  MinGW64-MSYS2 .. mingw64"
-		Write-Host "  Build JT-ware .. jtbuild `[option`]"
+		Write-Host " Build Boost .......: Deploy-Boost"
+		Write-Host " MSYS2 Environment .: mingw64"
+		Write-Host " Build JTware ......: jtbuild `[option`]"
 		Write-Host ""
 	}'
 }
@@ -546,8 +551,8 @@ $env:JTSDK_HOME = $PSScriptRoot
 $env:JTSDK_HOME_F = ConvertForward($env:JTSDK_HOME) 
 $env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
 $env:JTSDK_CONFIG_F = ConvertForward($env:JTSDK_CONFIG)
-$env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
-$env:JTSDK_DATA_F = ConvertForward($env:JTSDK_DATA)
+#$env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
+#$env:JTSDK_DATA_F = ConvertForward($env:JTSDK_DATA)
 $env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
 $env:JTSDK_SRC_F = ConvertForward($env:JTSDK_SRC) 
 $env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"

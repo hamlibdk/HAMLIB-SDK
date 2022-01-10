@@ -16,14 +16,14 @@
 <table width="*" border="1" align="center">
   <tbody>
     <tr>
-		<td class="custd"><p><b>Note:</b> To create a usable <strong>FFTW 3.3.10</strong> that will compile&nbsp; <strong>WSJTX 2.5.0</strong> you must use the script at <a href="https://fftw.org/pub/fftw/BUILD-MINGW64.sh">https://fftw.org/pub/fftw/BUILD-MINGW64.sh</a>.</p></td>
+		<td class="custd"><p><b>Note:</b> To create a usable <strong>FFTW 3.3.10</strong> that will compile&nbsp; <strong>WSJTX 2.5.x</strong> you must use the script at <a href="https://fftw.org/pub/fftw/BUILD-MINGW64.sh">https://fftw.org/pub/fftw/BUILD-MINGW64.sh</a>.</p></td>
     </tr>
   </tbody>
 </table>
-<h3>Step 1: Download and fully  deploy the JTSDK 3.2.1</h3>
+<h3>Step 1: Download and fully  deploy the JTSDK 3.2.2</h3>
 
 	<ul>
-	  <li>Version 3.2.1 can be found at:</li>	
+	  <li>Version 3.2.2 can be found at:</li>	
 		<ul>
 		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
 		</ul>
@@ -84,11 +84,11 @@
 			<ul>
 				<li><strong>menu</strong></li>
 				
-				<li><strong>Select 1.</strong> Set MSYS2 path to find Qt compilers.</li>
+				<li>Select<strong> 1.</strong><strong> Set MSYS2 path to find Qt compilers.</strong></li>
 			</ul>
 		</ul>
 
-		<p>The build environment should now be configured for building FFTW.</p>
+		<p>The build environment should now be configured for building FFTW but using the Qt-supplied GCC compilers. This ensures that Qt-specific facilities are picked up as part of the FFTW library compilation process.</p>
 	</ul>
 <h3>Step 4: Download the  Source</h3>
 	

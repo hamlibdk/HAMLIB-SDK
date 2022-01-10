@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
+	<title>Hamlib SDK v3.2.2 User Guide</title>
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<script src="script.js"></script>
+</head>
+
+<body>
+	
+	<h1>JTSDK64 Applications and Tools</h1>
+    
+	<hr>
+	<h2>JTSDK 3.2.2 Common Questions and Quick Fixes</h2>
+	<hr>
+	<h3>What has happened to the original JTSDK creator?</h3>
+    <ul>
+		<p><a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is still around and with us on the JTSDK Forum at <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a>. People's interests change; you will see from Greg's posts that he has evolved past active JTSDK development.</a> 
+		<p>We cannot thank Greg more highly for his past and ongoing work - especially as a mentor at this point in time.</p>
+	<p>No politics here. This is not a push out or push aside. The 'hamlibdk' group as entities seek no glory nor recognition. Contributors just evolved work where Greg left off as the need was there for this to occur.</p>
+<p>Other developers have gone silent (but may still be around in the background) due to some of the nastiness in our environment.&nbsp;</p>
+</ul>
+	<h3>Where can I ask question ?</h3>
+    <ul>
+	  <p>The original JTSDK Forum <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a> is used as the primary communication point for this project.</p>
+		<p>Have no hesitations posting questions to there. If you are unable to post then email main contributors in that forum directly.</p>
+	</ul>
+	<h3>What happens if I receive a PowerShell security warning? Is it safe to run the PowerShell Scripts?</h3>
+    <ul>
+	<p>You may receive the following <strong>security notification</strong>:</p>
+	</ul>
+<div class="container"> <pre>
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing 
+the execution policy might expose you to the security risks described in the 
+about_Execution_Policies help topic at https:/go.microsoft.com/fwlink/?LinkID=135170. 
+Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
+</pre>
+	</div>
+	<ul>
+	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
+	that developing these scripts is also a learning exercise for the Development Team.</p>
+	</ul>
+	
+	<h3>How does the SDK use PowerShell? Why does the SDK need to use PowerShell when previous kits used CMD scripts?</h3>
+	
+	<ul>
+	<p>The second part first: PowerShell creates a HIGHLY EXTENSIBLE scripted environment. The PowerShell environment is much more powerful and offers facilities that vastly eclipse capabilities of the old CMD.EXE processor and its scripts. Many tasks became onerous and were pushing the boundaries of what CMD.EXE-capable scripts could perform. Some tasks (such as extracting version information from the <strong>cmake</strong> files) became near impossible with CMD.EXE scripts. Therefore the PowerShell 'universal' scripting environment - provided by Microsoft STANDARD with Windows - was selected as the investigation tool for this project.</p>
+	<p>The basic concept of supporting <strong>Windows Environment Variables</strong> through <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> 
+	<strong>$env:<env-var></strong> facilities ease access into CMake, QMake and the MinGW compilers - components that will always remain a cornerstone concepts.</p>
+	</ul>
+	
+<h3>How do I upgrade existing JTSDK deployments?</h3>
+	<ul>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK64-Base-3.2.2</a> can be installed over the top of previous kits - yet it is 
+	highly recommended that one start from scratch. </p>
+	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see <a href="DG.html">Installation</a> section).</strong> </p>
+	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
+	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
+	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </p>
+	</ul>
+	
+<h3>How do I update the JTSDK?</h3>
+	
+	<ul>
+	<p>Maintenance updates will be applied in the form of &quot;Tools&quot; packages. These packages 
+	are designed to be deployed to existing &quot;Base&quot; packages.</p>
+	</ul>
+	
+<h4>Where do I get and how do I apply 'Tools' packages?</h4>
+
+	<ul>
+	  <p><strong></strong>&quot;Tools&quot;</strong> packages are updates to the <strong></strong>&quot;Base&quot;</strong> environments.</p>
+	<p><em>These steps assume that you have a deployed base environment</em></p>
+	<ul>
+	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
+	</ul>
+	<p><strong>Note:</strong> The current version is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1.exe</a> .</p>
+	<ul>
+	<li>Deploy the tools package to your JTSDK install directory.</li>
+	</ul>
+	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
+	MSYS2 should be deleted and re-created.</p>
+	<ul>
+		<li>(Optional) Copy any folders stored under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
+		
+		<li>Close any open MSYS2 environment terminal(s).</li>
+		
+		<li>Perform the system upgrade.</li>
+		
+		<li>Delete folders that exist under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong>.</li>
+	  
+		<ul>
+			<li>i.e: PowerShell: <strong> Remove-Item &quot;C:\JTSDK64-Tools\tools\msys64\home*&quot; -Recurse -Force </strong></li>
+		</ul>
+		
+		<li>Re-open MSYS2 with the <strong>msys2</strong> command for maintenance or <strong>mingw64</strong> for development work inside the PowerShell terminal</li>
+	</ul>
+	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It 
+	is safe to copy this enture foler across to your new MSYS2 Profile.</p>
+	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
+	to folders created within the MSYS2 environment. See Step 3b below.</p>
+	</ul>
+
+<hr>
+<h2>Issues and Potential Work Arounds</h2>
+<hr>
+<h3>JT-ware Compile Error around code that uses the Resource Compilers</h3>
+<ul> 
+<p>Those using the <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe" target="_blank" rel="nofollow noopener">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe</a></strong> image wil probably receive a resource compilation error at around the 60% mark.</p>
+<p>Example (but most often found at around 60% compilation mark):</p>
+</ul>
+	<div class="container">
+<pre>
+[ 14%] gcc.exe:Building Fortran object CMakeFiles/wsjt_fort_omp.dir/lib/chkmsg.f90.obj
+error: C:JTSDK64-Toolstmpwsjtx-outputqt5.15.22.5.4ReleasebuildVersionResource_wsprd.rc: 
+No such file or directory
+gcc.exe: warning: '[ 14%] Building Fortran object CMakeFiles/wsjt_fort.dir/lib/chkmsg.f90.obj
+-x c' after last input file has no effect
+gcc.exe: fatal error: no input files
+compilation terminated.
+/usr/bin/windres: preprocessing failed.
+</pre></div>
+	<ul>
+	<p>This is  a conflict caused by the complexity of resources i.e. Mixing of Qt-supplied MinGW and MSYS2-supplied tools/compilers.</p>
+	<p><strong>Resolution: Rename MSYS2 windres.exe</strong></p>
+	<ul>
+	<li>Delete the source and build folders in <strong>C:\JTSDK64-Tools\tmp</strong> (use the Windows File Manager as its easier than PowerShell Commands)
+	<ul>
+	<br/>
+	<li>For the brave, enter the following commands at a <em>JTSDK64-Tools</em> Command Prompt:</li>
+	</ul>
+	<br/>
+	</li>
+	</ul>
+	<div style="padding-left: 120px;"><strong>Set-Location -Path</strong> &#34;C:\JTSDK64-Tools\tmp&#34;<br/><br/><strong>Get-ChildItem -Recurse -Filter</strong> &#34;wsjtx*&#34;<strong> | Remove-Item -Force -Recurse</strong>   <span style="color: yellow"><strong>&nbsp; &nbsp; &lt;== BE CAREFUL</strong>: This can be as dangerous as a Unix <strong>rm -rf *</strong> if executed in the wrong path.</span><br/><br/></div>
+	<ul>
+	<li>Execute the following command at the PowerShell prompt:</li>
+	</ul><br/>
+	<div style="padding-left: 60px;"><strong>Rename-Item -Path </strong>&#34;C:\JTSDK64-Tools\tools\msys64\usr\bin\windres.exe&#34;<strong> -NewName </strong>&#34;windres.exe.disabled&#34;<br/><br/></div>
+	<ul>
+	<li>- Re-start the JT-ware build process.</li>
+	</ul>
+	<p><a href="https://groups.io/g/JTSDK/message/1780">Thanks for the reminder Tom (and Mike)</a> :-)</p>
+</ul>
+</ul>
+<h3>Minor packaging issue observed when building JTDX</h3>
+<ul>
+	<p></p>As the notes said environments have become EXTREMELY COMPLEX. What can work on one machone may not work on another.</p><p>With regards to JTDX, a CPACK issue may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
+	<p><strong>Resolution</strong>: Issue the following command BEFORE performing a <strong>jtbuild package</strong> command:</p>
+	<div style="padding-left: 25px;"><strong>Set-Location -Path</strong> &#34;C:\JTSDK64-Tools\tmp&#34;<br/><br/><strong>$env:Path += </strong>&#34;;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin&#34;
+	</div>
+
+	<p>These paths could also possibly be added to the main Windows system paths.</p>
+	<ul>
+		<li>Control Panel / About / Advanced System Settings / Advanced / Environment Variables.</li>
+		<li>Append the lines <span style="font-weight: bold;">;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin </span>onto the local user&#39;s path.</li>
+	</ul>
+	<p><span style="text-decoration: underline;">The issue will NOT be coded into a fix at this stage for the JTSDK as it may upset something else</span>.</p>
+
+	<p>WSJT-X does NOT demonstrate the issue. JTDX does. Therefore in all probability the issue is with JTDX and its CMAKE scripts. Further reports to the JTDX forum if it is observed may assist in resolution. A direct report of this issue has already been made to JTDX Developers.</p>
+<p>Ref: <a href="https://groups.io/g/JTSDK/message/1779">https://groups.io/g/JTSDK/message/1779</a></p>
+</div>
+</ul>
+
+<hr>
+<h2>Conclusion and Further References</h2>
+<hr>
+	<ul>
+	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
+	high-quality, yet flexible build system. </p>
+	<p>Base ref: <a href="https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md">https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md</a></p>
+	</ul>
+<hr>
+	<table width="100%" border="0">
+	  <tbody>
+		<tr>
+		  <td>Author: Steve VK3VM/VK3SIR</td>
+		  <td align="right"><a href="hamlibdk [at] outlook.com"
+			rel="nofollow"
+			onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+		</tr>
+	  </tbody>
+	</table>	
+</body>
+</html>

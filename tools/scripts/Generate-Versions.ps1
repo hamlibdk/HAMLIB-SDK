@@ -1,13 +1,13 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-Versions.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.2
 # Description ..: Downloads the latest Git Installer
 # Usage ........: Call this file directly from the command line
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Hamlib SDK Contributors <hamlibdk@hotmail.com>
-# Copyright ....: Copyright (C) 2021 Hamlib SDK Contributors
+# Copyright ....: Copyright (C) 2021 - 2022 Hamlib SDK Contributors
 # License ......: GPL-3
 #
 # This script generates the Versions.cmake file in C:\JTSDK64-Tools\tmp\wsjtx

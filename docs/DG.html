@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
-	<title>Hamlib SDK v3.2.1 User Guide</title>
+	<title>Hamlib SDK v3.2.2 User Guide</title>
 	<link rel="stylesheet" href="style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 	<script src="script.js"></script>
@@ -14,10 +14,32 @@
 	<h1>JTSDK64 Applications and Tools</h1>
     
 	<hr>
-	<h2>JTSDK 3.2.1 Deployment Guide</h2>
+	<h2>JTSDK 3.2.2 Deployment Guide</h2>
 	<hr>
 
+	<h3>PowerShell Security Warnings</h3>
+    <ul>
+	<p>You may receive the following <strong>security notification</strong>:</p>
+	</ul>
+<div class="container"> <pre>
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing 
+the execution policy might expose you to the security risks described in the 
+about_Execution_Policies help topic at https:/go.microsoft.com/fwlink/?LinkID=135170. 
+Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
+</pre>
+	</div>
+	<ul>
+	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
+	that developing these scripts is also a learning exercise for the Development Team.</p>
+	</ul>
 	
+
+	<hr>
+<h2>Deployment</h2>
+<hr>
+
 	<h3>Preparation: Deploy a Virtualisation Environment</h3>
 
 	<ul>
@@ -38,13 +60,13 @@
 	<p>These Virtual machines should have a lifetime of at least 30 days.</p>
 	</ul>
 
-	<h3>Step 1: Deploy the JTSDK64-Base-3.2.1.exe Installer and any &quot;Tools&quot; packages if they exist</h3>
+	<h3>Step 1: Deploy the JTSDK64-Base-3.2.2.exe Installer and any &quot;Tools&quot; packages if they exist</h3>
 
 	<ul>
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
-		<li>Download and deploy the installer (i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe">JTSDK-Base-3.2.1</a>) inside a FRESH VM.</li>	
-		<li>Deploy any &quot;Tools&quot; Packages if they exist ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe">JTSDK64-Tools-3.2.1.0</a> ) to your Base Deployment.</li>
+		<li>Download and deploy the installer (i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests-3.2.2/JTSDK64-Base-3.2.2b1.exe">JTSDK-Base-3.2.2</a>) inside a FRESH VM.</li>	
+		<li>Deploy the latest &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 	</ul>
@@ -110,7 +132,7 @@
 	</div>
 	<ul>
 	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.12.11 as the base. &#39;F&#39; Deploys Qt 5.12.11, 5.15.2 and 6.1.0. Qt is required. </p>
+	deployment being Qt 5.12.12 as the base. &#39;F&#39; Deploys Qt 5.12.12, 5.15.2 and 6.2.2. Qt is required. </p>
 	<ul>
 	<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (note:&#39;Y&#39; or &#39;D&#39; is recommended)</li>
 	</ul>
@@ -165,7 +187,7 @@
 	</ul>	
 <div class="reducewidth">
 <pre>
-JTSDK64 Tools MSYS2 using QT v
+JTSDK64 Tools MSYS2 (MSYS) using QT v
 
 For main menu, type ..: menu
 For Help Menu, type ..: jthelp
@@ -173,6 +195,8 @@ For Help Menu, type ..: jthelp
 Copyright (C) 2013-2021, GPLv3, Greg Beam, KI7MT and JTSDK Contributors.
 This is free software; There is NO warranty; not even
 for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Note: Menu Option 4 must be selected before building Dynamic Hamlib Libraries.
 
 sdk@radio ~
 $
@@ -227,7 +251,7 @@ Enter your selection, then hit &#60;return&#62;:
 		<ul>
 			<li>If the MSYS2 Window closes reopen it within the <strong>JTSDK64-Setup</strong> environment with <strong>msys2</strong></li>
 			<li>Back at menu, select <strong>3. Install Hamlib Dependencies</strong> to deploy the tools and libraries needed to build Hamlib.</li>
-			<li>(Optional) Select <strong> 4. Install msys64 GNU Compilers </strong> so that a msys64 POSIX-compliant build environment can be launched.</li>
+			<li>Select <strong> 4. Install msys64 GNU Compilers </strong> so that a msys64 POSIX-compliant build environment can be launched.</li>
 		</ul>
         <br/>
 		<table width="*" align="center" border="1">
@@ -254,9 +278,9 @@ Enter your selection, then hit &#60;return&#62;:
 		</ul>
 </ul>
 	
-	<h4>Step 3a: (Optional) Upgrade your Qt Deployment</h4>
+	<h4>Step 3a: Upgrade your Qt Deployment</h4>
 	<ul>
-	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.12.11. If you did not use the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
+	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.12.12. If you did not use the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
 	  want to update Qt to the more contemporary 5.15.2 version you should do so now. Note that using Qt 5.15.2 is highly recommended.</p>
 	  <p>Perform the following steps:</p>
 		<ul>
@@ -274,42 +298,42 @@ Enter your selection, then hit &#60;return&#62;:
 		</ul>
 	  <p>On Completion:</p>
 		<ul>
-			<li>Adjust the maker file in <strong>C:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
+			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
 			
 			<ul>
-			<li>i.e. rename <strong>qt5.12.11</strong> to <strong>qt5.15.2</strong></li>
+			<li>i.e. rename <strong>qt5.12.12</strong> to <strong>qt5.15.2</strong></li>
 			</ul>
 		</ul>
 	</ul>
 	
 	<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd"><p align="center">There must only be ONE marker file indicating the Qt version selected in <strong>C:\JTSDK64-Tools\config</strong></p>
+			<td class="custd"><p align="center">There must only be ONE marker file indicating the Qt version selected in <strong>x:\JTSDK64-Tools\config</strong></p>
 				
-			<p align="center">If the system abends with a warning check the <strong>C:\JTSDK64-Tools\config</strong> directory and remove the unwanted item with the prefix <strong>&#39;qt&#39;</strong></p>
+			<p align="center">If the system abends with a warning check the <strong>x:\JTSDK64-Tools\config</strong> directory and remove the unwanted item with the prefix <strong>&#39;qt&#39;</strong></p>
 			</td>
 		</tr>
 	</table>
 	
-	<h4>Step 3b: Deploy Hamlib for our selected Qt Version.</h4>
+	<h4>Step 3b: Deploy Hamlib</h4>
 	
 	<ul>
 		<p>In <strong>JTSDK64-Tools</strong>:</p>
 		<ul>
-			<li>Launch the MSYS2 environment with: <strong>msys2</strong></li>
+			<li>Launch the MSYS2 environment with: <strong>mingw64</strong></li>
 			
 			<li>Type: <strong>menu</strong></li>
 			
-			<li>Select <strong>5. Build Hamlib - Static Libraries</strong></li>
+			<li>Select <strong>7. Build Hamlib - Dynamic Libraries</strong></li>
 		</ul>
 
 		<p><strong>Note:</strong> If you have difficulties packaging <a href="https://hamlib.github.io/">Hamlib</a> with <a href="https://jtdx.tech/en/">JTDX</a> and/or <a href="http://js8call.com/">JS8CALL</a> you may need to use the The <strong>build-hamlib.sh</strong> script from the MSYS2 terminal as follows:</p>
 		<ul>
-			<li><strong>build-hamlib.sh -nlibusb</strong></li>
+			<li><strong>build-hamlib.sh -nlibusb -dynamic</strong></li>
 		</ul>
 		<p>This will take time as it pulls from the master repository for Hamlib. </p>
 
-		<p>Source distribution repositories can be changed by changing the marker file in <strong>C:\JTSDK64-Tools\config</strong> </p>
+		<p>Source distribution repositories can be changed by changing the marker file in <strong>x:\JTSDK64-Tools\config</strong> </p>
 		<ul>
 			<li>Valid options are: <strong>hlmaster</strong> (default and recommended), <strong>hlw4mdb</strong>, <strong>hlg4wjs</strong> or <strong>hlnone</strong> for no default pull and update.</li>
 		</ul>
@@ -331,22 +355,22 @@ Enter your selection, then hit &#60;return&#62;:
 	
 		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
 	
-	<p>Pre-compiled drop-in Packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> are available at the time of writing. Each “drop-in” package has folders i.e. 1.74.0-7.3 for <a href="http://www.mingw.org/">MinGW</a> 7.3 (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). </p>
+	<p>Pre-compiled drop-in Packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v8.1.7z">Boost-1.78.0 (MinGW 8.1 only)</a> are available at the time of writing. Each “drop-in” package has folders i.e. 1.74.0-7.3 for <a href="http://www.mingw.org/">MinGW</a> 7.3 (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). </p>
 	<ul>
-	<li>Extract the folder for the Boost version-package that you want to use into <strong>C:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! </li>
+	<li>Extract the folder for the Boost version-package that you want to use into <strong>x:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! </li>
 	</ul>
 		<p>A Windows symbolic link will also work with a drop-in package:</p> 
 		<ul>
 		
 		<li>Assume that both the 1.74.0-7.3 and 1.74.0-8.1 distributions have been unpacked from <strong>Boost-1.74.0-MinGW-v7.3-v8.1.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> .</li> 
 		
-			<li>The <strong>Command Shell</strong> or <strong>PowerShell</strong> terminals must be positioned at <strong>C:\JTSDK64-Tools\tools\boost</strong></li>
+			<li>The <strong>Command Shell</strong> or <strong>PowerShell</strong> terminals must be positioned at <strong>x:\JTSDK64-Tools\tools\boost</strong></li>
 			
 			<ul>
-				<li><strong>cd C:\JTSDK64-Tools\tools\boost</strong></li>
+				<li><strong>cd x:\JTSDK64-Tools\tools\boost</strong></li>
 				
 			</ul>
-			<li>Execute the command that is most appropriate for your terminal environment:</li>
+			<li>Execute the command that is most appropriate for your terminal environment. Examples are shown below:</li>
 			
 			<ul>
 				<li>Command Shell (CMD):<strong> mklink /D 1.74.0 1.74.0-8.1 </strong></li>
@@ -369,18 +393,23 @@ Enter your selection, then hit &#60;return&#62;:
 		</tr>
 	</table>
 
-<h3>Step 4: Build your JT- Software</h3>
+	<h3>Step 4: Build your JT- Software</h3>
 
+<ul>
+	<p>The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from <strong>C:\JTSDK64-Tools\config</strong>. Rename the file <strong>src-wsjtx</strong> from a default pull of WSJT-X to either <strong>src-jtdx</strong> or <strong>src-js8call</strong> if desired. </p>
+	<p>The &quot;major&quot; used JT-ware distributions are supported without discrimination or political comment.</p>
+	<p>In JTSDK64-Tools:</p>
 	<ul>
-	<p>Notes can be found in the <a href="DG-Build-JT-ware">Build JT-ware Guide</a>.</p>
-
+	<li>Type: <strong>jtbuild</strong>      i.e. <strong>jtbuild package</strong></li>
+	</ul>
+	<p>Options preferred are <strong>package</strong> (a Windows Installer package - the preferred &quot;clean&quot; way) and <strong>rinstall</strong> (just a static directory full of &quot;runnable&quot; files).</p>
 	</ul>
 	<hr/>
 <h2>Upgrades and Updates</h2>
 <hr/>
 	<h3>Upgrades</h3>
 	<ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.1.exe">JTSDK64-Base-3.2.1</a> can be installed over the top of previous kits - yet it is 
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK64-Base-3.2.2</a> can be installed over the top of previous kits - yet it is 
 	highly recommended that one start from scratch. </p>
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
@@ -403,14 +432,14 @@ Enter your selection, then hit &#60;return&#62;:
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 	</ul>
-	<p><strong>Note:</strong> There is no current &quot;Tools&quot; package. The first anticipated version would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.0.exe">JTSDK64-Tools-3.2.1.0</a>.exe.</p>
+	<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1.exe</a>.</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
 	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
 	MSYS2 should be deleted and re-created.</p>
 	<ul>
-		<li>(Optional) Copy any folders stored under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
+		<li>(Optional) Copy any folders stored under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
 		
 		<li>Close any open MSYS2 environment terminal(s).</li>
 		
@@ -422,12 +451,12 @@ Enter your selection, then hit &#60;return&#62;:
 			<li>i.e: PowerShell: <strong> Remove-Item &quot;C:\JTSDK64-Tools\tools\msys64\home*&quot; -Recurse -Force </strong></li>
 		</ul>
 		
-		<li>Re-open MSYS2 with the <strong>msys2</strong> command inside the PowerShell terminal</li>
+		<li>Re-open MSYS2 with the appropriate <strong>msys2</strong> environment initiator (i.e. <strong>mingw64</strong>) inside the PowerShell terminal</li>
 	</ul>
 	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It 
 	is safe to copy this enture foler across to your new MSYS2 Profile.</p>
 	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
-	to folders created within the MSYS2 environment. See Step 3b below.</p>
+	to folders created within the MSYS2 environment.</p>
 	</ul>
 	
 <hr>

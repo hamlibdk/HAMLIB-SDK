@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64-setup.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1
+# Version ......: 3.2.2
 # Description ..: JTSDK64 Postinstall Setup Environment
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line
@@ -11,10 +11,10 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#                 And (C) 2020 - 2021 subsequent JTSDK Contributors
+#                 And (C) 2020 - 2022 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8 Dec 2020 - 25 Mar 2021
+# Adjustments...: Steve VK3VM 8 Dec 2020 - 6 Jan 2022
 #                 Uwe DG2YCB 25 Mar 2021
 
 # --- CONVERT FORWARD ---------------------------------------------------------

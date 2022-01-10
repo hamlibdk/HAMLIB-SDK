@@ -1,14 +1,14 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-QtInstaller.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.1 
+# Version ......: 3.2.2 
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Hamlib SDK Contributors <hamlibdk@hotmail.com>
 # Copyright ....: Copyright (C) 2013-2019 Greg Beam, KI7MT
-#               : (C) 2020 - 2021 Hamlib SDK Contributors
+#               : (C) 2020 - 2022 Hamlib SDK Contributors
 # License ......: GPL-3
 #
 #-----------------------------------------------------------------------------#

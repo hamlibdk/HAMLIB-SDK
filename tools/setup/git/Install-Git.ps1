@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Git.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.0 Beta
+# Version ......: 3.2.2
 # Description ..: Installs Git SCM System for Windows
 #
 # Usage ........: Call this from jtsdk64-tools-setup => git-install $*
@@ -9,7 +9,7 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: HAMLIB SDK COntributors <hamlibdk@hotmail.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#               : Copyright (C) 2020-2021 HAMLIB SDK Contributors
+#               : Copyright (C) 2020-2022 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
 # Release Candidate published 18-01-2021 by Steve, VK3VM/VK3SIR
