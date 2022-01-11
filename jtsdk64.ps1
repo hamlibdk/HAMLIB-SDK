@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2
+# Version ......: 3.2.2.1
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -13,7 +13,7 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2022 subsequent JTSDK Contributors
+#                 (C) 2020-2022 JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
@@ -22,6 +22,8 @@
 #               : Support for Tools Package supplied PortAudio 5-06-2021 Steve VK3VM
 #               : General maintenance and Support for DLL Builds 2/3-01-2022 Steve VK3VM
 #               : Read LibUSB DLL path from Versions.ini 6-1-2022 Steve VK3VM
+#               : Reorganisation for MSYS2 Paths Not added to Environment Path by preference
+#                 mitigating an evolving JTSDK architectural flaw 11/1/2022 Steve VK3VM
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -79,7 +81,7 @@ function SetSQLiteEnviron ($configTable) {
 	$env:sqlitev = $configTable.Get_Item("sqlitev")
 	$env:sqlite_dir = $env:JTSDK_TOOLS + "\sqlite\" + $env:sqlitev
 	$env:sqlite_dir_f = ConvertForward($env:sqlite_dir)
-	$env:JTSDK_PATH = $env:sqlite_dir   # Nothing to accumulate yet so start the ball rolling !
+	$env:JTSDK_PATH = $env:JTSDK_PATH+";"+$env:sqlite_dir   
 }
 
 # --- FFTW --------------------------------------------------------------------
@@ -186,10 +188,10 @@ function CheckQtDeployment {
 
 	# Defaults to and sets for Qt 5.12.11 (base Qt version) if no default file found
 	if ($subPathQtStore -eq "NULL") {
-		Write-Host "  --> No Qt configuration marker: Setting default `[Qt 5.12.11`]"
-		$tmpOut = $env:JTSDK_CONFIG + "\qt5.12.11"
+		Write-Host "  --> No Qt configuration marker: Setting default `[Qt 5.12.12`]"
+		$tmpOut = $env:JTSDK_CONFIG + "\qt5.12.12"
 		Out-File -FilePath $tmpOut
-		$env:QTV = "5.12.11"    
+		$env:QTV = "5.12.12"    
 	}
 
 	# Thanks to Mile Black W9MDB for the concept
@@ -246,9 +248,11 @@ function SetQtEnvVariables ([ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
 	$env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$env:VER_MINGW+"\plugins\platforms"
 	$env:QTP_F = ConvertForward($env:QTP)
 	$QTP_ff.Value = ($env:QTP).replace("\","/")
+	
+	# Note: This is the NEW First occurence of JTSDK_PATH
 
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP
-
+	#$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
+	$env:JTSDK_PATH=$env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
 	Write-Host "* Qt Environment Variables"
 	Write-Host "  --> QTD ----> $env:QTD"
 	Write-Host "  --> QTD_F --> $env:QTD_F"
@@ -288,10 +292,11 @@ function SetCheckBoost {
 
 	$env:boostv = $configTable.Get_Item("boostv")
 	$env:BOOST_STATUS  = "Non Functional"
-
+	$env:boost_dir = $env:JTSDK_TOOLS + "\boost\" + $env:boostv
+	$env:boost_dir_f = ConvertForward($env:boost_dir)
+	
 	if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
-		$env:boost_dir = $env:JTSDK_TOOLS + "\boost\" + $env:boostv
-		$env:boost_dir_f = ConvertForward($env:boost_dir)
+
 		$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
 		Write-Host -NoNewLine "* Boost version $env:boostv is deployed under "
 		$env:BOOST_V_MINGW = CheckBoostCorrectMinGWVersion($env:boost_dir)
@@ -310,27 +315,26 @@ function SetCheckBoost {
 
 # --- UNIX TOOLS --------------------------------------------------------------
 # --> Unix marker files deprecated where practical to settings in Versions.ini
-# --> Unix Tools be enabled otherwise JTBUILD may not work
+# --> Unix Tools preferably now to be DISABLED 11/1/2022 Steve VK3VM
 
 function SetUnixTools {
 	Write-Host -NoNewLine "* Unix Tools configuration in `'Versions.ini`': " 
 	$tmpUnixToolsValue = $configTable.Get_Item("unixtools")
+	
 	if (($tmpUnixToolsValue -eq "enabled") -or ($tmpUnixToolsValue -eq "yes")) {	
 		$unixDir1 = $env:JTSDK_TOOLS + "\msys64"
 		$unixDir2 = $env:JTSDK_TOOLS + "\msys64\usr\bin"
-		# Trial: $env:JTSDK_PATH = $unixDir1 + ";" + $unixDir2 + ";" + $env:JTSDK_PATH 
-		$env:JTSDK_PATH = $env:JTSDK_PATH + ";" + $unixDir1 + ";" + $unixDir2
-		$env:UNIXTOOLS = "Enabled"
-		Write-Host "enabled"
+		$env:JTSDK_PATH = $env:JTSDK_PATH + ";" + $unixDir1 + ";" + $unixDir2 + ";"  
+		$env:UNIXTOOLS = "enabled"
+		Write-Host "ENABLED ==> SYS2 ADDED to System Path"
 	} else {
-		Write-Host "not set."
-		Write-Host "  --> *** Kit operation may be impacted: Set a marker in `'Versions.ini`' ***"
+		Write-Host "DISABLED ==> MSYS2 NOT ADDED to System Path"
 	}
 }
 
-# --- Hamlib3 Dirs ------------------------------------------------------------
+# --- Hamlib Dirs -------------------------------------------------------------
 
-function SetHamlib3Dirs {
+function SetHamlibDirs {
 	$env:hamlib_base = $env:JTSDK_TOOLS + "\hamlib"
 	$env:hamlib_base_f = ConvertForward($env:hamlib_base)
 	return ($env:hamlib_base).replace("\","/")
@@ -401,7 +405,7 @@ function GenerateToolChain ($qtdff, $gccdff, $rubyff, $fftw3fff, $hamlibff, $svn
 	Add-Content $of "SET (PALIB_LIBRARY C:/JTSDK64-Tools/tools/portaudio/lib/libportaudio.dll)"
 	Add-Content $of " "
 	Add-Content $of "# Cmake Consolidated Variables"
-	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{HLIB}/lib/gcc `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
+	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{HLIB}/lib `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH `$`{JTSDK_TOOLS})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_PROGRAM NEVER)"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_LIBRARY BOTH)"
@@ -436,16 +440,25 @@ function CheckJTSourceSelection {
 
 function InvokeInteractiveEnvironment {
 	invoke-expression 'cmd /c start powershell -NoExit -Command {                           `                `
-		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools Powershell"
+		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools"
 		New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2.exe"	
-		Write-Host "---------------------------------------------"
-		Write-Host "           JTSDK64 Tools $env:JTSDK64_VERSION"
-		Write-Host "---------------------------------------------"
+		New-Alias mingw32 "$env:JTSDK_TOOLS\msys64\mingw32.exe"	
+		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
+		Write-Host "--------------------------------------------"
+		Write-Host "           JTSDK Tools $env:JTSDK64_VERSION"
+		Write-Host "--------------------------------------------"
 		Write-Host ""
-		Write-Host "Config: $env:jtsdk64VersionConfig"
+		Write-Host "Config: $env:JTSDK_VC"
+		Write-Host ""
+		Write-Host -NoNewLine "MSYS2 Path: "
+		if ( $env:UNIXTOOLS -eq "enabled") {
+			Write-Host "$env:JTSDK_MSYS2"
+		} else {
+			Write-Host "$env:UNIXTOOLS"
+		}	
 		Write-Host ""
 		Write-Host "Package       Version/Status"
-		Write-Host "---------------------------------------------"
+		Write-Host "--------------------------------------------"
 		Write-Host "Source .....: $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
 			Write-Host "Qt .........: $env:QTV `[$env:VER_MINGW`]"
@@ -453,8 +466,8 @@ function InvokeInteractiveEnvironment {
 			Write-Host "Qt .........: $env:QTV Missing"
 		}
 		Write-Host -NoNewLine "Hamlib .....: "
-		if ((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV")) { 
-			if (((Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\gcc\libhamlib.dll.a") -Or (Test-Path "$env:JTSDK_TOOLS\hamlib\qt\$env:QTV\lib\libhamlib.dll.a"))) {
+		if ((Test-Path "$env:hamlib_base\qt\$env:QTV")) { 
+			if (Test-Path "$env:hamlib_base\qt\$env:QTV\lib\libhamlib.dll.a") {
 				Write-Host "Dynamic"
 			} else {
 				Write-Host "Static"
@@ -462,32 +475,32 @@ function InvokeInteractiveEnvironment {
 		} else {
 			Write-Host "Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\fftw\$env:fftwv")) { 
+		if ((Test-Path "$env:fftw3f_dir")) { 
 			Write-Host "FFTW .......: $env:fftwv"
 		} else {
 			Write-Host "FFTW .......: $env:fftwv Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\libusb\$env:libusbv")) { 
+		if ((Test-Path "$env:libusb_dir")) { 
 			Write-Host "LibUSB .....: $env:libusbv"
 		} else {
 			Write-Host "LibUSB .....: $env:libusbv Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\nsis\$env:nsisv")) { 
+		if ((Test-Path "$env:nsis_dir")) { 
 			Write-Host "NSIS .......: $env:nsisv"
 		} else {
 			Write-Host "NSIS .......: $env:nsisv Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\pkgconfig\$env:pkgconfigv")) { 
+		if ((Test-Path "$env:pkgconfig_dir")) { 
 			Write-Host "PkgConfig ..: $env:pkgconfigv"
 		} else {
 			Write-Host "PkgConfig ..: $env:pkgconfigv Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\ruby\$env:rubyv")) { 
+		if ((Test-Path "$env:ruby_dir")) { 
 			Write-Host "Ruby .......: $env:rubyv"
 		} else {
 			Write-Host "Ruby .......: $env:rubyv Missing"
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\subversion\$env:svnv")) { 
+		if ((Test-Path "$env:svn_dir")) { 
 			Write-Host "Subversion .: $env:svnv"
 		} else {
 			Write-Host "Subversion .: $env:svnv Missing"
@@ -496,19 +509,19 @@ function InvokeInteractiveEnvironment {
 		if ($env:cmakev -eq "qtcmake") {
 			Write-Host ""
 		} else {
-			if ((Test-Path "$env:JTSDK_TOOLS\cmake\$env:cmakev")) { 
+			if ((Test-Path "$env:cmake_dir")) { 
 				Write-Host ""
 			} else {
 				Write-Host "Missing"
 			}
 		}
-		if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
+		if ((Test-Path "$env:boost_dir")) { 
 			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS `[$env:BOOST_V_MINGW`]"
 		} else {
 			Write-Host "Boost ......: $env:boostv Missing"
 		}
 
-		Write-Host "---------------------------------------------"
+		Write-Host "--------------------------------------------"
 		Write-Host ""
 		Write-Host "Commands:"
 		Write-Host ""
@@ -566,6 +579,8 @@ $env:JTSDK_MSYS2_F = ConvertForward($env:JTSDK_SCRIPTS)
 
 CreateFolders							# --- Create Folders ------------------
 
+CheckJTSourceSelection					# --- JT Source Selection Check -------
+
 # --- CORE TOOLS --------------------------------------------------------------
 #
 # Versions of packages now set in $env:JTSDK_CONFIG\Versions.ini 
@@ -577,9 +592,16 @@ if ((Test-Path $env:JTSDK_TOOLS)) { $env:CORETOOLS="Installed" }
 # --- Read from Versions.ini -------------------------------------------------
 # --> Ref: https://serverfault.com/questions/186030/how-to-use-a-config-file-ini-conf-with-a-powershell-script
 
-$env:jtsdk64VersionConfig = "$env:JTSDK_CONFIG\Versions.ini"
-Get-Content $env:jtsdk64VersionConfig | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
-Write-Host "$env:jtsdk64VersionConfig"
+$env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
+Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
+Write-Host "$env:JTSDK_VC"
+
+CheckQtDeployment 						# --- Qt ------------------------------
+
+$QTD_ff = " "							# --- Set Qt Environment variables ----
+$GCCD_ff = " "
+$QTP_ff = " "
+SetQtEnvVariables -QTD_ff ([ref]$QTD_ff) -GCCD_ff ([ref]$GCCD_ff) -QTP_ff ([ref]$QTP_ff)
 
 SetSQLiteEnviron ($configTable)			# --- SQlite --------------------------
 
@@ -602,14 +624,8 @@ SetCMakeEnviron ($configTable)			# --- CMake ---------------------------
 
 SetScriptDir							# --- Scripts Directory ---------------
 
-CheckQtDeployment 						# --- Qt ------------------------------
 
 SetCheckBoost							# --- Boost ---------------------------
-
-$QTD_ff = " "							# --- Set Qt Environment variables ----
-$GCCD_ff = " "
-$QTP_ff = " "
-SetQtEnvVariables -QTD_ff ([ref]$QTD_ff) -GCCD_ff ([ref]$GCCD_ff) -QTP_ff ([ref]$QTP_ff)
 
 SetUnixTools							# --- UNIX TOOLS ----------------------
 
@@ -619,13 +635,11 @@ SetHamlibRepo							# --- SET HAMLIB REPO SOURCE ----------
 
 $env:PATH=$env:PATH + ";" + $env:JTSDK_PATH
 
-$hamlib_base_ff = SetHamlib3Dirs		# --- Hamlib3 Dirs --------------------
+$hamlib_base_ff = SetHamlibDirs		# --- Hamlib3 Dirs --------------------
 
 # --- Generate the Tool Chain -------------------------------------------------
 
 GenerateToolChain -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -hamlibff $hamlib_base_ff -svnff $svn_dir_ff
-
-CheckJTSourceSelection					# --- JT Source Selection Check -------
 
 # -----------------------------------------------------------------------------
 #  FINAL MESSAGE
