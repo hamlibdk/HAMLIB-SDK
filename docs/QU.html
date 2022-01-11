@@ -150,7 +150,7 @@ compilation terminated.
 </ul>
 <h3>Minor packaging issue observed when building JTDX</h3>
 <ul>
-	<p></p>As the notes said environments have become EXTREMELY COMPLEX. What can work on one machone may not work on another.</p><p>With regards to JTDX, a CPACK issue may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
+	<p>As the notes said environments have become EXTREMELY COMPLEX. What can work on one machone may not work on another.</p><p>With regards to JTDX, a CPACK issue may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
 	<p><strong>Resolution</strong>: Issue the following command BEFORE performing a <strong>jtbuild package</strong> command:</p>
 	<div style="padding-left: 25px;"><strong>Set-Location -Path</strong> &#34;C:\JTSDK64-Tools\tmp&#34;<br/><br/><strong>$env:Path += </strong>&#34;;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin&#34;
 	</div>
@@ -163,10 +163,53 @@ compilation terminated.
 	<p><span style="text-decoration: underline;">The issue will NOT be coded into a fix at this stage for the JTSDK as it may upset something else</span>.</p>
 
 	<p>WSJT-X does NOT demonstrate the issue. JTDX does. Therefore in all probability the issue is with JTDX and its CMAKE scripts. Further reports to the JTDX forum if it is observed may assist in resolution. A direct report of this issue has already been made to JTDX Developers.</p>
-<p>Ref: <a href="https://groups.io/g/JTSDK/message/1779">https://groups.io/g/JTSDK/message/1779</a></p>
-</div>
+	<p>Ref: <a href="https://groups.io/g/JTSDK/message/1779">https://groups.io/g/JTSDK/message/1779</a></p>
 </ul>
+<h3>Anomalies that do not make sense.</h3>
+<ul>
+	<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
+	<p>An example is provided below within JTDX where a deployment has been performed, a JTDX build successfully completed (and packaged), yet after a system reboot the following error was observed (again in CPACK):</p>
+</ul>
+<div class="container">
+<pre>
+...
+CPack: - Install project: jtdx []
+CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:817 (message):
+  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe failed: 1
 
+Call Stack (most recent call first):
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
+  C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
+
+
+CPack Error: Error when generating package: jtdx
+mingw32-make.exe: *** [Makefile:112: package] Error 1
+
+--------------------------------------------
+ WINDOWS INSTALLER BUILD ERROR
+--------------------------------------------
+...
+</pre></div>
+<ul>
+	<p><strong>Possible Cause</strong>: it is more than likely that a deployed MSYS2 utility is somehow conflicting with the set of utilities provided by Qt's MinGW Compiler set. (Ed. Note: This proved to be the case in this instance).</p>
+	<p><strong>Test for this Issue</strong>: <u>Disable path access to the MSYS2 Tools from the <strong>JTSDK64-Tools</strong> Environment</u>.</p>
+	<ul>
+		<li>Edit <strong>C:\JTSDK64-Tools\config\Versions.ini</strong></li>
+		<li>Change key <em>unixtools=enabled</em> to <em>unixtools=disabled</em></li>
+		<li>Save and exit.</li>
+		<li>Close all MSYS2 and Powershell Terminals</li>
+		<li>Re-launch the <strong>JTSDK64-Tools</strong> environment.</li>
+		<li>Re-attempt the build.</li>
+	</ul>
+	<p>If the build succeeds then it is more than likely that SOMEHOW a MSYS2/mingw64 etc. tool is conflicting.</p>
+
+	<p>At this point you should review changes made to your environment and  reset the <em>unixtools</em> key to <em>unixtools=enabled </em>. </p>
+	<p>Should all self-diagnosis attempts fail then seek further advice at the  <a href="https://groups.io/g/JTSDK">JTSDK Forum</a>.</p>
+</ul>
 <hr>
 <h2>Conclusion and Further References</h2>
 <hr>

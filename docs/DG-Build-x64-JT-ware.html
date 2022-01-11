@@ -152,31 +152,76 @@ PS C:\JTSDK64-Tools\config>
 <hr/>
 <h3>CPACK Packaging Issues - Not Finding DLL's</h3>
 <ul>
-		<p>A CPACK issue (various DLL's missing) may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
+	<p>A CPACK issue (various DLL's missing) may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
 
-		<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
+	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
 
-		<p><strong>Resolution:</strong> Issue the following command BEFORE performing a jtbuild package command:</p>
+	<p><strong>Resolution:</strong> Issue the following command BEFORE performing a jtbuild package command:</p>
+	<ul>
+	<p><strong>$env:Path += ";C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin"</strong></p>
+	</ul>
+	<p>These paths could ALSO possibly be added to the main Windows system paths.</p>
+	<ul>
+		<li>Control Panel/About/Advanced System Settings/Advanced/Environment Variables.</li>
+		<li>Append the lines to the existing local user's path:</li>
+		<br/>
 		<ul>
-		<p><strong>$env:Path += ";C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin"</strong></p>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
 		</ul>
-		<p>These paths could ALSO possibly be added to the main Windows system paths.</p>
-		<ul>
-			<li>Control Panel/About/Advanced System Settings/Advanced/Environment Variables.</li>
-			<li>Append the lines to the existing local user's path:</li>
-			<br/>
-			<ul>
-				<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
-			</ul>
-			<br/>
-			<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
-		</ul>.
+		<br/>
+		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
+	</ul>
+</ul>
+<h3>Further anomalies observed when building and packaging JTDX .</h3>
+<ul>
+	<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
+	<p>An example is provided below within JTDX where a deployment has been performed, a JTDX build successfully completed (and packaged), yet after a system reboot the following error was observed (again in CPACK):</p>
+</ul>
+<div class="container">
+<pre>
+...
+CPack: - Install project: jtdx []
+CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:817 (message):
+  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe failed: 1
+
+Call Stack (most recent call first):
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
+  C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
+
+
+CPack Error: Error when generating package: jtdx
+mingw32-make.exe: *** [Makefile:112: package] Error 1
+
+--------------------------------------------
+ WINDOWS INSTALLER BUILD ERROR
+--------------------------------------------
+...
+</pre></div>
+<ul>
+	<p><strong>Possible Cause</strong>: it is more than likely that a deployed MSYS2 utility is somehow conflicting with the set of utilities provided by Qt's MinGW Compiler set. (Ed. Note: This proved to be the case in this instance).</p>
+	<p><strong>Test for this Issue</strong>: <u>Disable path access to the MSYS2 Tools from the <strong>JTSDK64-Tools</strong> Environment</u>.</p>
+	<ul>
+		<li>Edit <strong>C:\JTSDK64-Tools\config\Versions.ini</strong></li>
+		<li>Change key <em>unixtools=enabled</em> to <em>unixtools=disabled</em></li>
+		<li>Save and exit.</li>
+		<li>Close all MSYS2 and Powershell Terminals</li>
+		<li>Re-launch the <strong>JTSDK64-Tools</strong> environment.</li>
+		<li>Re-attempt the build.</li>
+	</ul>
+	<p>If the build succeeds then it is more than likely that SOMEHOW a MSYS2/mingw64 etc. tool is conflicting.</p>
+
+	<p>At this point you should review changes made to your environment and  reset the <em>unixtools</em> key to <em>unixtools=enabled</em>. Sometimes the issue is as simple as the ordering of items in the system path settings.</p>
+	<p>Should all self-diagnosis attempts fail then seek further advice at the  <a href="https://groups.io/g/JTSDK">JTSDK Forum</a>.</p>
 </ul>
 <hr/>
 <h2>Notes for building JS8CALL</h2>
 <hr/>
 <h3>Hamlib Requirements</h3>
-    <ul>
+ <ul>
 	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with <strong>LibUSB</strong> support.</p>
 	<ul>
 	  	<li>Execute  the following commands at the <strong>mingw64</strong> command prompt:</li>		
@@ -188,7 +233,7 @@ PS C:\JTSDK64-Tools\config>
 		<li>Open a <strong>JTSDK64-Tools</strong> Console.</li>
 		<li>Build the JT-ware package with your specified option i.e.<strong> jtbuild package</strong></li>
 	</ul>
-	</ul>
+</ul>
 
 <hr>
 <h2>Notes for working with your own modified source</h2>
