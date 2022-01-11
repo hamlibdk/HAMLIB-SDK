@@ -14,7 +14,11 @@
 	<h1>JTSDK64 Applications and Tools</h1>
     
 	<hr>
+<<<<<<< HEAD
 	<h2>JTSDK 3.2.2 Common Questions</h2>
+=======
+	<h2>JTSDK 3.2.2 Common Questions and Quick Fixes</h2>
+>>>>>>> e7e024f (Resetting to 3.2.2.1)
 	<hr>
 	<h3>What has happened to the original JTSDK creator?</h3>
     <ul>
@@ -28,7 +32,11 @@
 	  <p>The original JTSDK Forum <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a> is used as the primary communication point for this project.</p>
 		<p>Have no hesitations posting questions to there. If you are unable to post then email main contributors in that forum directly.</p>
 	</ul>
+<<<<<<< HEAD
 	<h3>What happens if I receive a PowerShell security warning? Is it safe torun the PowerShell Scripts?</h3>
+=======
+	<h3>What happens if I receive a PowerShell security warning? Is it safe to run the PowerShell Scripts?</h3>
+>>>>>>> e7e024f (Resetting to 3.2.2.1)
     <ul>
 	<p>You may receive the following <strong>security notification</strong>:</p>
 	</ul>
@@ -105,10 +113,121 @@ Do you want to change the execution policy?
 	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
 	to folders created within the MSYS2 environment. See Step 3b below.</p>
 	</ul>
+<<<<<<< HEAD
 	
 <hr>
 	<h2>Conclusion and Further References</h2>
 	<hr>
+=======
+
+<hr>
+<h2>Issues and Potential Work Arounds</h2>
+<hr>
+<h3>JT-ware Compile Error around code that uses the Resource Compilers</h3>
+<ul> 
+<p>Those using the <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe" target="_blank" rel="nofollow noopener">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe</a></strong> image wil probably receive a resource compilation error at around the 60% mark.</p>
+<p>Example (but most often found at around 60% compilation mark):</p>
+</ul>
+	<div class="container">
+<pre>
+[ 14%] gcc.exe:Building Fortran object CMakeFiles/wsjt_fort_omp.dir/lib/chkmsg.f90.obj
+error: C:JTSDK64-Toolstmpwsjtx-outputqt5.15.22.5.4ReleasebuildVersionResource_wsprd.rc: 
+No such file or directory
+gcc.exe: warning: '[ 14%] Building Fortran object CMakeFiles/wsjt_fort.dir/lib/chkmsg.f90.obj
+-x c' after last input file has no effect
+gcc.exe: fatal error: no input files
+compilation terminated.
+/usr/bin/windres: preprocessing failed.
+</pre></div>
+	<ul>
+	<p>This is  a conflict caused by the complexity of resources i.e. Mixing of Qt-supplied MinGW and MSYS2-supplied tools/compilers.</p>
+	<p><strong>Resolution: Rename MSYS2 windres.exe</strong></p>
+	<ul>
+	<li>Delete the source and build folders in <strong>C:\JTSDK64-Tools\tmp</strong> (use the Windows File Manager as its easier than PowerShell Commands)
+	<ul>
+	<br/>
+	<li>For the brave, enter the following commands at a <em>JTSDK64-Tools</em> Command Prompt:</li>
+	</ul>
+	<br/>
+	</li>
+	</ul>
+	<div style="padding-left: 120px;"><strong>Set-Location -Path</strong> &#34;C:\JTSDK64-Tools\tmp&#34;<br/><br/><strong>Get-ChildItem -Recurse -Filter</strong> &#34;wsjtx*&#34;<strong> | Remove-Item -Force -Recurse</strong>   <span style="color: yellow"><strong>&nbsp; &nbsp; &lt;== BE CAREFUL</strong>: This can be as dangerous as a Unix <strong>rm -rf *</strong> if executed in the wrong path.</span><br/><br/></div>
+	<ul>
+	<li>Execute the following command at the PowerShell prompt:</li>
+	</ul><br/>
+	<div style="padding-left: 60px;"><strong>Rename-Item -Path </strong>&#34;C:\JTSDK64-Tools\tools\msys64\usr\bin\windres.exe&#34;<strong> -NewName </strong>&#34;windres.exe.disabled&#34;<br/><br/></div>
+	<ul>
+	<li>- Re-start the JT-ware build process.</li>
+	</ul>
+	<p><a href="https://groups.io/g/JTSDK/message/1780">Thanks for the reminder Tom (and Mike)</a> :-)</p>
+</ul>
+</ul>
+<h3>Minor packaging issue observed when building JTDX</h3>
+<ul>
+	<p>As the notes said environments have become EXTREMELY COMPLEX. What can work on one machone may not work on another.</p><p>With regards to JTDX, a CPACK issue may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
+	<p><strong>Resolution</strong>: Issue the following command BEFORE performing a <strong>jtbuild package</strong> command:</p>
+	<div style="padding-left: 25px;"><strong>Set-Location -Path</strong> &#34;C:\JTSDK64-Tools\tmp&#34;<br/><br/><strong>$env:Path += </strong>&#34;;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin&#34;
+	</div>
+
+	<p>These paths could also possibly be added to the main Windows system paths.</p>
+	<ul>
+		<li>Control Panel / About / Advanced System Settings / Advanced / Environment Variables.</li>
+		<li>Append the lines <span style="font-weight: bold;">;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin </span>onto the local user&#39;s path.</li>
+	</ul>
+	<p><span style="text-decoration: underline;">The issue will NOT be coded into a fix at this stage for the JTSDK as it may upset something else</span>.</p>
+
+	<p>WSJT-X does NOT demonstrate the issue. JTDX does. Therefore in all probability the issue is with JTDX and its CMAKE scripts. Further reports to the JTDX forum if it is observed may assist in resolution. A direct report of this issue has already been made to JTDX Developers.</p>
+	<p>Ref: <a href="https://groups.io/g/JTSDK/message/1779">https://groups.io/g/JTSDK/message/1779</a></p>
+</ul>
+<h3>Anomalies that do not make sense.</h3>
+<ul>
+	<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
+	<p>An example is provided below within JTDX where a deployment has been performed, a JTDX build successfully completed (and packaged), yet after a system reboot the following error was observed (again in CPACK):</p>
+</ul>
+<div class="container">
+<pre>
+...
+CPack: - Install project: jtdx []
+CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:817 (message):
+  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe failed: 1
+
+Call Stack (most recent call first):
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
+  C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
+
+
+CPack Error: Error when generating package: jtdx
+mingw32-make.exe: *** [Makefile:112: package] Error 1
+
+--------------------------------------------
+ WINDOWS INSTALLER BUILD ERROR
+--------------------------------------------
+...
+</pre></div>
+<ul>
+	<p><strong>Possible Cause</strong>: it is more than likely that a deployed MSYS2 utility is somehow conflicting with the set of utilities provided by Qt's MinGW Compiler set. (Ed. Note: This proved to be the case in this instance).</p>
+	<p><strong>Test for this Issue</strong>: <u>Disable path access to the MSYS2 Tools from the <strong>JTSDK64-Tools</strong> Environment</u>.</p>
+	<ul>
+		<li>Edit <strong>C:\JTSDK64-Tools\config\Versions.ini</strong></li>
+		<li>Change key <em>unixtools=enabled</em> to <em>unixtools=disabled</em></li>
+		<li>Save and exit.</li>
+		<li>Close all MSYS2 and Powershell Terminals</li>
+		<li>Re-launch the <strong>JTSDK64-Tools</strong> environment.</li>
+		<li>Re-attempt the build.</li>
+	</ul>
+	<p>If the build succeeds then it is more than likely that SOMEHOW a MSYS2/mingw64 etc. tool is conflicting.</p>
+
+	<p>At this point you should review changes made to your environment and  reset the <em>unixtools</em> key to <em>unixtools=enabled </em>. </p>
+	<p>Should all self-diagnosis attempts fail then seek further advice at the  <a href="https://groups.io/g/JTSDK">JTSDK Forum</a>.</p>
+</ul>
+<hr>
+<h2>Conclusion and Further References</h2>
+<hr>
+>>>>>>> e7e024f (Resetting to 3.2.2.1)
 	<ul>
 	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
 	high-quality, yet flexible build system. </p>

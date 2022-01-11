@@ -445,6 +445,36 @@ want to update Qt to the more contemporary 5.15.2 version you should do so now. 
 <p><strong>Environments should now be complete for building JT-ware</strong></p>
 <hr>
 <p>Now that seemed a lot of work. Please dissect these scripts to see what actually took place !</p>
+<<<<<<< HEAD
+=======
+
+<h4>(Optional) Step 3d: Update Path settings so that JTDX can find DLL's that it needs.</h4>
+
+<table width="*" align="center" border="1">
+	<tr>
+		<td class="custd"><p><strong><em>&nbsp;</em>This may not be needed in the future. There is a packaging error with JTDX that can be overcome with this simple set of steps.</strong>.</p></td>
+	</tr>
+</table>
+		
+<p>On your Windows Destop:</p>
+<ul>
+  <li>Start the <em>Windows Control Panel</em> (setps assumed to be known - i.e. Start / Run / Control).</li>
+	<li>Select <em>System / Advanced System Properties / Advanced / Environment Variables</em></li>
+	<li>Under &quot;User variables for &lt;user&gt;&quot;, <u>double-click on &quot;path&quot;</u></li>
+	<li>In the &quot;Edit environment variable&quot; dialog add the following two entries:</li>
+	  <ul>
+		<li>Click New ==&gt; <strong>C:\Windows\SysWOW64\downlevel </strong></li>
+		<li>Click New ==&gt; <strong>C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong></li>
+		<li> Click Ok / Ok.</li>
+	  </ul>
+  </li>
+	<li>It is now advisable to reboot your system.</li>
+</ul>
+
+<p><strong>Note:</strong>This is only a temporary work-around. Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
+	
+
+>>>>>>> e7e024f (Resetting to 3.2.2.1)
 <h3>Step 4: Build your JT- Software</h3>
 <p>Now we are ready to BUILD a JT-release. </p>
 <p>The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from <strong>C:\JTSDK64-Tools\config</strong>. Rename the file <strong>src-wsjtx</strong> from a default pull of WSJT-X to either <strong>src-jtdx</strong> or <strong>src-js8call</strong> if desired. </p>

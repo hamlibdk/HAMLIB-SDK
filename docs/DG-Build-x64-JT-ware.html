@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Boost, boost.org">
+	<title>JTSDK Guide for Building JT-ware</title>
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<script src="script.js"></script>
+</head>
+
+<body>
+	<h1>JTSDK64 Applications and Tools</h1>
+	<hr>
+	<h2>Guide for Building x64 JT-Ware</h2>
+	<hr>
+	<h3>Introduction</h3>
+    <ul>
+		<p>The scripts and packages provided assist with the construction of <a href="https://www.qt.io/download-open-source#section-2>Qt</a>-based environment are provided that enable <a href=" https: physics.princeton.edu pulsar k1jt wsjtx.html>WSJT-X</a> and derivatives <a href="https://jtdx.tech/en/">JTDX</a> and <a href="http://js8call.com/">JS8CALL</a> - collectively referred to as <strong>JT-ware</strong>.</p>
+	<p>These notes  will assist with with techniques to build JT-ware</p>
+<p>Note that the <strong>JTSDK 3.2.2</strong> is by default a x64/64-Bit Environment.&nbsp; &nbsp;&nbsp;</p>
+</ul>
+<h3>The PowerShell jtbuild commandlet</h3>
+	<ul>
+	  	<p>The PowerShell <strong>jtbuild</strong> commandlet is the scripted tool used to build JT-ware packages</p>
+		<p><strong>jtbuild</strong> accepts the following options:</p>
+	</ul>
+	
+<div class="reducewidth"> <pre>
+PS C:\JTSDK64-Tools> jtbuild -h	
+
+--------------------------------------------
+ Default Build Commands
+--------------------------------------------
+
+ Usage .....: jtbuild [ OPTION ] [[ SWITCH ]]
+
+ Examples...: jtbuild rinstall
+            : jtbuild rinstall -ng
+
+ Options:
+
+    rconfig    Release, Config Only
+    dconfig    Debug, Config Only
+    rinstall   Release, Non-packaged Install
+    dinstall   Debug, Non-packaged Install
+    package    Release, Windows Package
+    docs       Release, User Guide
+
+ Switches:
+
+    Switches only work if an [ OPTION ] is supplied.
+
+    -nc        Do not run configure
+    -ng        Do not check/pull source
+
+ * To Display this message, type .....: jtbuild -h
+
+PS C:\JTSDK64-Tools>
+</pre></div>
+	
+<h3>Configuring which JT-ware package is auto pulled from source</h3>
+    
+    <ul>
+	  <p>A marker file placed in <em>X:\JTSDK64-Tools\config</em> determines which JT-ware package is downloaded:</p>
+</ul>
+<div class="reducewidth"> <pre>
+PS C:\JTSDK64-Tools\config> dir
+
+
+    Directory: C:\JTSDK64-Tools\config
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        23/07/2021  10:36 PM              0 hlmaster
+-a----        23/07/2021  10:36 PM              0 qt5.15.2
+-a----        31/08/2021   4:19 AM              2 src-jtdx
+-a----         1/10/2021  11:51 AM            662 Versions.ini
+
+
+PS C:\JTSDK64-Tools\config>
+</pre></div>
+	<ul>
+		<p>In thie example the JT-ware release set to be auto pulled from its source <strong>git</strong> repository is <strong>JTDX</strong>.</p>
+		<p>All valid entries for this marker file are:</p> 
+        <ul>
+			<li><strong>src-wsjtx</strong> - Pull and update <strong>WSJT-X</strong> from source (default)</li>
+			<li><strong>src-jtdx</strong> - Pull and update <strong>JTDX</strong> from source</li>
+			<li><strong>src-js8call</strong> - Pull and update <strong>js8call</strong> from source</li>
+			<li><strong>src-none</strong> - Custom build - Do not pukll from source</li>
+            <ul>
+			  <li><strong>Note:</strong> The <strong>jtbuild -ng</strong> switch can over-rides any setting in <em>X:\JTSDK64-Tools\config</em> prevents any existing JT-ware source from being over-written/updated by any <strong>git</strong> process .</li>
+            </ul>
+		</ul>      
+    </ul>
+<h4>Changing repositories</h4>
+    
+    <ul>
+    	<p>To change from one repository all you do is rename the marker file in <em>X:\JTSDK64-Tools\config</em> to one of the valid options.</p>
+		<ul>
+	  <li>i.e: (PowerShell command shown)</li>
+<div class="reducewidth"> <pre>
+PS C:\JTSDK64-Tools\config> dir
+
+
+    Directory: C:\JTSDK64-Tools\config
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        23/07/2021  10:36 PM              0 hlmaster
+-a----        23/07/2021  10:36 PM              0 qt5.15.2
+-a----        31/08/2021   4:19 AM              2 src-jtdx
+-a----         1/10/2021  11:51 AM            662 Versions.ini
+
+
+PS C:\JTSDK64-Tools\config> Rename-Item -Path ".\src-jtdx" -NewName "src-wsjtx"
+PS C:\JTSDK64-Tools\config> dir
+
+
+    Directory: C:\JTSDK64-Tools\config
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        23/07/2021  10:36 PM              0 hlmaster
+-a----        23/07/2021  10:36 PM              0 qt5.15.2
+-a----        31/08/2021   4:19 AM              2 src-wsjtx
+-a----         1/10/2021  11:51 AM            662 Versions.ini
+
+
+PS C:\JTSDK64-Tools\config>
+</pre></div>
+		</ul>
+	</ul>
+<h3>Note: Multiple <strong>src-xxx</strong> marker files in <em>X:\JTSDK64-Tools\config</em></h3>
+    
+    <ul>
+    	<p>There can only be ONE prefixed <strong>src-xxx</strong> marker file in <em>X:\JTSDK64-Tools\config</em> .</p>
+    </ul>
+<hr/>
+<h2>Notes for building WSJT-X</h3>
+<hr/>
+    <ul>
+    	<p>There are no special notes for building <strong>WSJTX</strong> at this time.</p>
+		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
+	</ul>
+		
+<hr/>
+<h2>Notes for building JTDX</h2>
+<hr/>
+<h3>CPACK Packaging Issues - Not Finding DLL's</h3>
+<ul>
+	<p>A CPACK issue (various DLL's missing) may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
+
+	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
+
+	<p><strong>Resolution:</strong> Issue the following command BEFORE performing a jtbuild package command:</p>
+	<ul>
+	<p><strong>$env:Path += ";C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin"</strong></p>
+	</ul>
+	<p>These paths could ALSO possibly be added to the main Windows system paths.</p>
+	<ul>
+		<li>Control Panel/About/Advanced System Settings/Advanced/Environment Variables.</li>
+		<li>Append the lines to the existing local user's path:</li>
+		<br/>
+		<ul>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
+		</ul>
+		<br/>
+		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
+	</ul>
+</ul>
+<h3>Further anomalies observed when building and packaging JTDX .</h3>
+<ul>
+	<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
+	<p>An example is provided below within JTDX where a deployment has been performed, a JTDX build successfully completed (and packaged), yet after a system reboot the following error was observed (again in CPACK):</p>
+</ul>
+<div class="container">
+<pre>
+...
+CPack: - Install project: jtdx []
+CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:817 (message):
+  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe failed: 1
+
+Call Stack (most recent call first):
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
+  C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
+
+
+CPack Error: Error when generating package: jtdx
+mingw32-make.exe: *** [Makefile:112: package] Error 1
+
+--------------------------------------------
+ WINDOWS INSTALLER BUILD ERROR
+--------------------------------------------
+...
+</pre></div>
+<ul>
+	<p><strong>Possible Cause</strong>: it is more than likely that a deployed MSYS2 utility is somehow conflicting with the set of utilities provided by Qt's MinGW Compiler set. (Ed. Note: This proved to be the case in this instance).</p>
+	<p><strong>Test for this Issue</strong>: <u>Disable path access to the MSYS2 Tools from the <strong>JTSDK64-Tools</strong> Environment</u>.</p>
+	<ul>
+		<li>Edit <strong>C:\JTSDK64-Tools\config\Versions.ini</strong></li>
+		<li>Change key <em>unixtools=enabled</em> to <em>unixtools=disabled</em></li>
+		<li>Save and exit.</li>
+		<li>Close all MSYS2 and Powershell Terminals</li>
+		<li>Re-launch the <strong>JTSDK64-Tools</strong> environment.</li>
+		<li>Re-attempt the build.</li>
+	</ul>
+	<p>If the build succeeds then it is more than likely that SOMEHOW a MSYS2/mingw64 etc. tool is conflicting.</p>
+
+	<p>At this point you should review changes made to your environment and  reset the <em>unixtools</em> key to <em>unixtools=enabled</em>. Sometimes the issue is as simple as the ordering of items in the system path settings.</p>
+	<p>Should all self-diagnosis attempts fail then seek further advice at the  <a href="https://groups.io/g/JTSDK">JTSDK Forum</a>.</p>
+</ul>
+<hr/>
+<h2>Notes for building JS8CALL</h2>
+<hr/>
+<h3>Hamlib Requirements</h3>
+ <ul>
+	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with <strong>LibUSB</strong> support.</p>
+	<ul>
+	  	<li>Execute  the following commands at the <strong>mingw64</strong> command prompt:</li>		
+		<ul>
+			<li><strong>build-hamlib.sh -nlibusb -static</strong></li>
+		</ul>
+		<li>Once the Hamlib build is complete, close all MSYS2 and JTSDK64-Tools Terminals and Windows.</li>
+		<li>Ensure that the marker file inside <em>X:\JTSDK64-Tools\config</em> is named <em>src-js8call</em> </li>
+		<li>Open a <strong>JTSDK64-Tools</strong> Console.</li>
+		<li>Build the JT-ware package with your specified option i.e.<strong> jtbuild package</strong></li>
+	</ul>
+</ul>
+
+<hr>
+<h2>Notes for working with your own modified source</h2>
+<hr/>
+	
+	<ul>
+		<p>Modify the source for your own requirements at your own peril.</p> 
+		<p>Ensure that you comply with the source release requirements and terms for <strong>WSJT-X</strong> - again at your own peril.</p>
+		<p>If uncertain as to what these requirements are then please ask in the <strong>WSJT-X Forum</strong></p>
+	</ul>
+<hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td align="right"><a href="hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
