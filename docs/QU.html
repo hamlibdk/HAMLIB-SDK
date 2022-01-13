@@ -6,19 +6,47 @@
 	<title>Hamlib SDK v3.2.2 User Guide</title>
 	<link rel="stylesheet" href="style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-	<script src="script.js"></script>
 </head>
 
 <body>
 	
-	<h1>JTSDK64 Applications and Tools</h1>
-    
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
+
 	<hr>
-<<<<<<< HEAD
-	<h2>JTSDK 3.2.2 Common Questions</h2>
-=======
-	<h2>JTSDK 3.2.2 Common Questions and Quick Fixes</h2>
->>>>>>> e7e024f (Resetting to 3.2.2.1)
+	<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
+	<h2>JTSDK 3.2.2 Questions and Suggestions for Resolving for Common Issues</h2>
 	<hr>
 	<h3>What has happened to the original JTSDK creator?</h3>
     <ul>
@@ -32,15 +60,11 @@
 	  <p>The original JTSDK Forum <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a> is used as the primary communication point for this project.</p>
 		<p>Have no hesitations posting questions to there. If you are unable to post then email main contributors in that forum directly.</p>
 	</ul>
-<<<<<<< HEAD
-	<h3>What happens if I receive a PowerShell security warning? Is it safe torun the PowerShell Scripts?</h3>
-=======
 	<h3>What happens if I receive a PowerShell security warning? Is it safe to run the PowerShell Scripts?</h3>
->>>>>>> e7e024f (Resetting to 3.2.2.1)
     <ul>
 	<p>You may receive the following <strong>security notification</strong>:</p>
 	</ul>
-<div class="container"> <pre>
+<div class="reducewidth"> <pre>
 Execution Policy Change
 The execution policy helps protect you from scripts that you do not trust. Changing 
 the execution policy might expose you to the security risks described in the 
@@ -108,27 +132,52 @@ Do you want to change the execution policy?
 		
 		<li>Re-open MSYS2 with the <strong>msys2</strong> command for maintenance or <strong>mingw64</strong> for development work inside the PowerShell terminal</li>
 	</ul>
-	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It 
-	is safe to copy this enture foler across to your new MSYS2 Profile.</p>
+	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It is safe to copy this enture folder across to your new MSYS2 Profile.</p>
 	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
 	to folders created within the MSYS2 environment. See Step 3b below.</p>
 	</ul>
-<<<<<<< HEAD
-	
-<hr>
-	<h2>Conclusion and Further References</h2>
-	<hr>
-=======
 
 <hr>
 <h2>Issues and Potential Work Arounds</h2>
 <hr>
-<h3>JT-ware Compile Error around code that uses the Resource Compilers</h3>
-<ul> 
-<p>Those using the <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe" target="_blank" rel="nofollow noopener">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe</a></strong> image wil probably receive a resource compilation error at around the 60% mark.</p>
-<p>Example (but most often found at around 60% compilation mark):</p>
+<ul>
+	<p>Environments have become EXTREMELY COMPLEX. What can work on one machine may not work on another.</p>
+	<p>These notes may assist you getting around some of the issues that have been observed.</p>
 </ul>
-	<div class="container">
+<h3>Wrong Qt deployment settings</h3>
+<ul> 
+<p>By far the most common issue observed has occurred when end users have performed default deploys of&nbsp; <strong>Qt 5.12.12</strong>.&nbsp;</p>
+<p>It is now recommended that <strong>Qt 5.15.2</strong> be deployed and used for mainstream development.</p>
+<p>There are "legacy" reasons why the "default" Qt install is still pegged at <strong>Qt 5.12.12</strong>.</p>
+<p>Most development and testing has been performed with <strong>Qt 5.15.2</strong> and its <strong>MinGW 8.1</strong> environment.</p>
+<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><p><strong>All libraries and software including Boost, Hamlib and the JT-ware should be rebuilt if using <strong>Qt 5.12.12</strong>.</strong></p></td>
+		</tr>
+	</table>
+
+<p>The marker file to set the version of Qt used is found in&nbsp; <strong>x:\JTSDK64-Tools\config</strong> i.e. <strong>qt5.12.12</strong> (as default).</p>
+<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use&nbsp; i.e. from <strong>qt5.12.12</strong> to <strong>qt5.15.2 </strong>.&nbsp;</p>
+</ul>
+<h3>Issues observed when trying to build software with (default) Qt 5.12.12 deployments</h3>
+<ul> 
+<p>A number of issues have been reported from environments set up using default Qt installations i.e. <strong>Qt 5.12.12</strong> which uses compilers built under the <strong>MinGW 7.3</strong> environment.</p>
+<p>Most development and testing has been performed with <strong>Qt 5.15.2</strong> and its <strong>MinGW 8.1</strong> environment.</p>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><p><strong>All libraries and software including Boost, Hamlib and the JT-ware should be rebuilt if using <strong>Qt 5.12.12</strong>.</strong></p></td>
+		</tr>
+	</table>
+
+<p>Should issues persist then Deploy <strong>Qt 5.15.2</strong> and its <strong>MinGW 8.1</strong> Environment via the <strong>Qt Maintenance Tool</strong>.</p>
+</ul>
+<h3>JT-ware compile error around code that uses the Resource Compilers</h3>
+<ul> 
+<p>Many users have observed a compiler error (especially with JTDX) at around the 60% mark that relates to the Resource Compiler.</p>
+<p>It has been particularly prevelnt with those using the cut-down installation package <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe" target="_blank" rel="nofollow noopener">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2-NCD.exe .</a></strong></p>
+<p>Example (most often observed at around the 60% compilation mark):</p>
+</ul>
+	<div class="reducewidth">
 <pre>
 [ 14%] gcc.exe:Building Fortran object CMakeFiles/wsjt_fort_omp.dir/lib/chkmsg.f90.obj
 error: C:JTSDK64-Toolstmpwsjtx-outputqt5.15.22.5.4ReleasebuildVersionResource_wsprd.rc: 
@@ -141,7 +190,8 @@ compilation terminated.
 </pre></div>
 	<ul>
 	<p>This is  a conflict caused by the complexity of resources i.e. Mixing of Qt-supplied MinGW and MSYS2-supplied tools/compilers.</p>
-	<p><strong>Resolution: Rename MSYS2 windres.exe</strong></p>
+<p>The "NCD" version gets you to deploy the <strong>MSYS2</strong> tools and <strong>mingw64</strong> compilers yourself. Possibly new dependencies are conflicting with those supplied by the Qt MinGW compiler sets.&nbsp; &nbsp;&nbsp;</p>
+<p><strong>Resolution: Rename MSYS2 windres.exe</strong></p>
 	<ul>
 	<li>Delete the source and build folders in <strong>C:\JTSDK64-Tools\tmp</strong> (use the Windows File Manager as its easier than PowerShell Commands)
 	<ul>
@@ -164,27 +214,89 @@ compilation terminated.
 </ul>
 <h3>Minor packaging issue observed when building JTDX</h3>
 <ul>
-	<p>As the notes said environments have become EXTREMELY COMPLEX. What can work on one machone may not work on another.</p><p>With regards to JTDX, a CPACK issue may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
-	<p><strong>Resolution</strong>: Issue the following command BEFORE performing a <strong>jtbuild package</strong> command:</p>
-	<div style="padding-left: 25px;"><strong>Set-Location -Path</strong> &#34;C:\JTSDK64-Tools\tmp&#34;<br/><br/><strong>$env:Path += </strong>&#34;;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin&#34;
-	</div>
+<p>A CPACK issue may be observed when the JTSDK is deployed to a FRESH Windows OS.</p>
+</ul>
+	<div class="reducewidth">
+<pre>
+...
+CPack: - Run preinstall target for: jtdx
+CPack: - Install project: jtdx []
+warning: target 'libhamlib-4.dll' is not absolute...
+warning: target 'libhamlib-4.dll' does not exist...
+CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:817 (message):
+  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe failed: 1
 
-	<p>These paths could also possibly be added to the main Windows system paths.</p>
+  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe:
+  'libhamlib-4.dll': No such file
+
+Call Stack (most recent call first):
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
+  C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
+
+CPack Error: Error when generating package: jtdx
+mingw32-make.exe: *** [Makefile:112: package] Error 1
+
+--------------------------------------------
+ WINDOWS INSTALLER BUILD ERROR
+--------------------------------------------
+
+ There was a problem building the package,
+ or the script could not find:
+
+ C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build\
+
+ Check the Cmake logs for any errors, or
+ correct any build script issues that were
+ obverved and try to rebuild the package.
+
+PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
+</pre></div>
 	<ul>
-		<li>Control Panel / About / Advanced System Settings / Advanced / Environment Variables.</li>
-		<li>Append the lines <span style="font-weight: bold;">;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin </span>onto the local user&#39;s path.</li>
+	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
+
+	<p><strong>Resolution:</strong> Issue an appropriate command to find the path of necessary libraries before performing a <strong>jtbuild package </strong>command</p>
+<ul>
+<li>If you are using <strong>Qt 5.12.12</strong>:&nbsp;</li>
+<ul>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.12.12\bin<strong>"</strong></p>
 	</ul>
+<li>If you are using <strong>Qt 5.15.2</strong>:&nbsp;</li>
+<ul>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
+</ul>
+</ul>
+	<p>These paths can be added to the main Windows system paths.</p>
+		
+	<ul>
+		<li>Control Panel/About/Advanced System Settings/Advanced/Environment Variables.</li>
+		<li>Append the lines to the existing local user's path:</li>
+		<ul>
+			<li>For <strong>Qt 5.12.12</strong></li>
+			<br/>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.12.12\bin</strong>
+			<br/><br/>
+			<li>For <strong>Qt 5.15.2</strong></li>
+			<br/>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
+		</ul>
+		<br/>
+		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
+	</ul>
+
 	<p><span style="text-decoration: underline;">The issue will NOT be coded into a fix at this stage for the JTSDK as it may upset something else</span>.</p>
 
 	<p>WSJT-X does NOT demonstrate the issue. JTDX does. Therefore in all probability the issue is with JTDX and its CMAKE scripts. Further reports to the JTDX forum if it is observed may assist in resolution. A direct report of this issue has already been made to JTDX Developers.</p>
 	<p>Ref: <a href="https://groups.io/g/JTSDK/message/1779">https://groups.io/g/JTSDK/message/1779</a></p>
 </ul>
-<h3>Anomalies that do not make sense.</h3>
+<h3>Anomalies that do not make sense</h3>
 <ul>
-	<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
+<p><strong>Note:</strong>This issue is different to the one described before this. Review messages carefully.</p>	
+<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
 	<p>An example is provided below within JTDX where a deployment has been performed, a JTDX build successfully completed (and packaged), yet after a system reboot the following error was observed (again in CPACK):</p>
 </ul>
-<div class="container">
+<div class="reducewidth">
 <pre>
 ...
 CPack: - Install project: jtdx []
@@ -227,7 +339,6 @@ mingw32-make.exe: *** [Makefile:112: package] Error 1
 <hr>
 <h2>Conclusion and Further References</h2>
 <hr>
->>>>>>> e7e024f (Resetting to 3.2.2.1)
 	<ul>
 	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
 	high-quality, yet flexible build system. </p>
@@ -237,7 +348,7 @@ mingw32-make.exe: *** [Makefile:112: package] Error 1
 	<table width="100%" border="0">
 	  <tbody>
 		<tr>
-		  <td>Author: Steve VK3VM/VK3SIR</td>
+		  <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
 		  <td align="right"><a href="hamlibdk [at] outlook.com"
 			rel="nofollow"
 			onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>

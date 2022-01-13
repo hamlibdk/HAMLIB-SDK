@@ -78,9 +78,12 @@ table {
     max-width: 700x;
     display: inline-block;
     text-align: left;
+	font-size: 95%;
+	font-family: 'Courier New', monospace;
 }
 .container {
     text-align: center;
+	font-size: 85%;
  }
 
 .container pre {

@@ -3,15 +3,48 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Boost, boost.org">
-	<title>JTSDK Guide for Building JT-ware</title>
+	<title>JTSDK Guide for Building x64 JT-ware</title>
 	<link rel="stylesheet" href="style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-	<script src="script.js"></script>
 </head>
 
 <body>
-	<h1>JTSDK64 Applications and Tools</h1>
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
+
 	<hr>
+	<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
 	<h2>Guide for Building x64 JT-Ware</h2>
 	<hr>
 	<h3>Introduction</h3>
@@ -152,58 +185,47 @@ PS C:\JTSDK64-Tools\config>
 <hr/>
 <h3>CPACK Packaging Issues - Not Finding DLL's</h3>
 <ul>
-	<p>A CPACK issue (various DLL's missing) may arise when the JTSDK is deployed to a FRESH Windows OS.</p>
-
 	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
 
-	<p><strong>Resolution:</strong> Issue the following command BEFORE performing a jtbuild package command:</p>
-	<ul>
-	<p><strong>$env:Path += ";C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin"</strong></p>
+	<p><strong>Resolution:</strong> Issue an appropriate command to find the path of necessary libraries before performing a <strong>jtbuild package </strong>command</p>
+<ul>
+<li>If you are using <strong>Qt 5.12.12</strong>:</li>
+<ul>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.12.12\bin<strong>"</strong></p>
 	</ul>
-	<p>These paths could ALSO possibly be added to the main Windows system paths.</p>
+<li>If you are using <strong>Qt 5.15.2</strong>:</li>
+<ul>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
+</ul>
+	</ul>
+	<p>These paths could also  be added to the main Windows system paths.</p>
 	<ul>
 		<li>Control Panel/About/Advanced System Settings/Advanced/Environment Variables.</li>
 		<li>Append the lines to the existing local user's path:</li>
-		<br/>
 		<ul>
+			<li>For <strong>Qt 5.12.12</strong></li>
+			<br/>
+			<ul>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.12.12\bin</strong>
+			</ul>
+			<br/>
+			<li>For <strong>Qt 5.15.2</strong></li>
+			<br/>
+			<ul>
 			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
+			</ul>
 		</ul>
 		<br/>
 		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
 	</ul>
+	<p>Please refer to <a href="QU.html">The Questions Section</a> for more detail.</p>
 </ul>
 <h3>Further anomalies observed when building and packaging JTDX .</h3>
 <ul>
-	<p>During development and testing quite a number of issues were observed that were VERY FRUSTRATING and DID NOT MAKE ANY SENSE.</p>
-	<p>An example is provided below within JTDX where a deployment has been performed, a JTDX build successfully completed (and packaged), yet after a system reboot the following error was observed (again in CPACK):</p>
-</ul>
-<div class="container">
-<pre>
-...
-CPack: - Install project: jtdx []
-CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:817 (message):
-  C:/JTSDK64-Tools/tools/Qt/Tools/mingw810_64/bin/objdump.exe failed: 1
+	<p>An error message at packaging may be displayed that does not identify a DLL or missing library.</p>
+	
+	<p>Try the following procedure:</p>
 
-Call Stack (most recent call first):
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
-  C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
-
-
-CPack Error: Error when generating package: jtdx
-mingw32-make.exe: *** [Makefile:112: package] Error 1
-
---------------------------------------------
- WINDOWS INSTALLER BUILD ERROR
---------------------------------------------
-...
-</pre></div>
-<ul>
-	<p><strong>Possible Cause</strong>: it is more than likely that a deployed MSYS2 utility is somehow conflicting with the set of utilities provided by Qt's MinGW Compiler set. (Ed. Note: This proved to be the case in this instance).</p>
-	<p><strong>Test for this Issue</strong>: <u>Disable path access to the MSYS2 Tools from the <strong>JTSDK64-Tools</strong> Environment</u>.</p>
 	<ul>
 		<li>Edit <strong>C:\JTSDK64-Tools\config\Versions.ini</strong></li>
 		<li>Change key <em>unixtools=enabled</em> to <em>unixtools=disabled</em></li>
@@ -212,10 +234,8 @@ mingw32-make.exe: *** [Makefile:112: package] Error 1
 		<li>Re-launch the <strong>JTSDK64-Tools</strong> environment.</li>
 		<li>Re-attempt the build.</li>
 	</ul>
-	<p>If the build succeeds then it is more than likely that SOMEHOW a MSYS2/mingw64 etc. tool is conflicting.</p>
-
-	<p>At this point you should review changes made to your environment and  reset the <em>unixtools</em> key to <em>unixtools=enabled</em>. Sometimes the issue is as simple as the ordering of items in the system path settings.</p>
-	<p>Should all self-diagnosis attempts fail then seek further advice at the  <a href="https://groups.io/g/JTSDK">JTSDK Forum</a>.</p>
+		
+	<p>Please refer to <a href="QU.html">The Questions Section</a> for more detail and other possible solutions to issues observed.</p>
 </ul>
 <hr/>
 <h2>Notes for building JS8CALL</h2>
@@ -248,7 +268,7 @@ mingw32-make.exe: *** [Makefile:112: package] Error 1
 <table width="100%" border="0">
   <tbody>
     <tr>
-      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
       <td align="right"><a href="hamlibdk [at] outlook.com"
    		rel="nofollow"
    		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>

@@ -3,16 +3,48 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
-	<title>Hamlib SDK v3.2.2 User Guide</title>
+	<title>Hamlib SDK v3.2.2 Application Notes</title>
 	<link rel="stylesheet" href="style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-	<script src="script.js"></script>
 </head>
 
 <body>
 	
-<h1>JTSDK64 Applications and Tools</h1>
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
 <hr>
+	<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
 
 <h2>JTSDK 3.2.2 Application Notes</h2>
 
@@ -116,12 +148,15 @@ place - the <strong>Versions.ini</strong> file. This makes maintenance tasks eas
 	
 <h3>Limitations</h3>
 <ul>
-<p><a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> scripts are managed to tight security rules. See the next section.</p>
+<p><a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> scripts are managed to tight security rules.</p>
 <p>The kits may never be able to move away from the Windows CMD processor and its &quot;Batch 
 files&quot; in order to compile JT- software.</p>
 <p>Operational techniques have already evolved  i.e. the need for <strong>qt-gen-tc</strong> has been 
 eliminated. Some needed techniques to support &#39;familiarity&#39; also have limits. Ways that 
 processes are executed may change.</p>
+<p>Qt  under the MinGW compiler set needs to be deployed to build JT-ware. This means that there can be clashes with the MSYS2 utilities and compiler sets needed to build Hamlib and other libraries. Such clashes need to be resolved mostly via setting system paths in the correct sequence and/or sometimes diabling some tools that can conflict.&nbsp;&nbsp;</p>
+<p>There is only a small number of us are working on this project now. More assistance is needed :-)&nbsp;&nbsp;</p>
+<p>The complexity of the GIT code distribution system - initially conceived by Linus Torvalds of Linux fame - makes code and script management harder than it needs to be. We need a dedicated manager for this role that can teach us how to use this system more effectively.&nbsp;</p>
 </ul>
 	
 <hr>
@@ -165,8 +200,8 @@ high-quality, yet flexible build system. </p>
 <table width="100%" border="0">
   <tbody>
     <tr>
-      <td>Author: Steve VK3VM/VK3SIR</td>
-      <td align="right"><a href="hamlibdk [at] outlook.com"
+      <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
+<td align="right"><a href="hamlibdk [at] outlook.com"
    		rel="nofollow"
    		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
     </tr>

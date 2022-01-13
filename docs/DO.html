@@ -3,24 +3,56 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
-	<title>Hamlib SDK v3.2.2 User Guide</title>
+	<title>Hamlib SDK v3.2.2 Developer Options Guide</title>
 	<link rel="stylesheet" href="style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-	<script src="script.js"></script>
 </head>
 
 <body>
 	
-<h1>JTSDK64 Applications and Tools</h1>
-<hr>
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
 
+<hr>
+<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
 <h2>Developer Options</h2>
 
 <hr>
 <h3> Introduction</h3>
 <ul>
-<p>Both the <strong>jtbuild</strong> and <strong>build-hamlib-</strong> scripts now contain a number of switches that can be used to disable default features of the scripts.</p>
-<p>Use the embedded <strong>help</strong> facilities to discover the currently available set of switches:</p>
+<p>Both the <strong>jtbuild</strong> and <strong>build-hamlib</strong> scripts now contain a number of switches that can be used to control default features of the scripts.</p>
+<p>Use the embedded <strong>help</strong> facilities to discover the currently available set of switches.</p>
 </ul>
 <h3>The <strong>PowerShell</strong> Environment:</h3>
 <ul>
@@ -60,12 +92,14 @@ PS C:\JTSDK64-Tools> jtbuild -h
 
 PS C:\JTSDK64-Tools>
 </pre> </div>
-<h3>The <strong>MSYS2</strong> Environment:</h3>
+<h3>The <strong>MSYS2</strong> Environment</h3>
 <ul>
 	<p>The <strong>MSYS2</strong> environment offers a full MinGW/MSYS2 environment centred on building <a href="https://sourceforge.net/projects/hamlib/">Hamlib</a>.</p> 
-	<p>Hamlib is not the only software that can be built here. Full MinGW32, MinGW64, CLang and UCRT64 environments can be launched that offer the GNU compiler suites and/or a deployed Qt-GNU compiler suite to develop software.</p>
+<p>Hamlib is not the only software that can be built here. Full MinGW32, MinGW64, CLang and UCRT64 environments can be launched that offer the GNU compiler suites and/or a deployed Qt-GNU compiler suite to develop software.</p>
+<p>Software construction is moving away from using just the <strong>msys2</strong> environment with the Qt compiler sets to develop software.&nbsp;</p>
+<p>Techniques are evolving such that the <strong>mingw32</strong> and <strong>mingw64</strong> &nbsp;environments - with relevant packages added by the <strong>pacman</strong> tool - should be used to develop software that must be constructed using the GCC compilers.</p>
 </ul>	
-<h4>Using <strong>build-hamlib*</strong> to build Hamlib</h4>
+<h4>Using <strong>build-hamlib</strong> to construct the Hamlib Libraries</h4>
 <div class="reducewidth"><pre>
 ---------------------------------------------------------------
  BUILD-HAMLIB - HELP
@@ -117,7 +151,7 @@ $
 <table width="100%" border="0">
   <tbody>
     <tr>
-      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
       <td align="right"><a href="hamlibdk [at] outlook.com"
    		rel="nofollow"
    		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>

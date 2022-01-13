@@ -4,40 +4,78 @@
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
 	<title>JTSDK General Guide for Building Libraries and Software</title>
-	<link href="style-new.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 </head>
 
 <body>
-<h1>JTSDK64 Applications and Tools</h1>
+	
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
+
+
 <hr/>
+<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
 <h2>General Guide for Building Software</h2>
 <hr/>
 
 <h3>Introduction</h3>
 
 	<ul>
-	<p>This kit maintains two environments:</p>	
+	<p><strong>Note</strong>: This page has been deprecated in favour of <a href="DG-Build-x86-JT-ware.html">x86</a> and <a href="DG-Build-x86-JT-ware.html">x64</a> build notes.</p>
+	<p>This kit maintains two environments:</p>
+	<ul>
+		<li>A <strong>PowerShell</strong> based environment that supports a powerful and flexible scripting language that can script the build of software. This environment also sets up a powerful set of environment variables that makes accessing tools (such as Hamlib) simpler.</li>
+
+		<li>A <strong>MSYS2</strong> based environment that basically mimics Linux environments with GNU compilers and tools. WIthin this environment there are anumber of sub-environments:</li>
+
+	<ul>
+		<li>A plain MSYS2 environment, designed to be used with the Qt-supplied compilers - launched with <strong>mingw64</strong> from within the <strong>PowerShell</strong> environment. <strong>Note:&nbsp; </strong>the bare-bones <strong>msys2</strong> environment is no longer recommended for building software yet is recommended for kit maintenance.&nbsp;</li>
+				
+		<li>GNU-Compiler-accessible environments, lauched under the <strong>PowerShell</strong> environment with one of the following commands:</li>
+				
 		<ul>
-			<li>A <strong>PowerShell</strong> based environment that supports a powerful and flexible scripting language that can script the build of software. This environment also sets up a powerful set of environment variables that makes accessing tools (such as Hamlib) simpler.</li>
-			
-			<li>A <strong>MSYS2</strong> based environment that basically mimics Linux environments with GNU compilers and tools. WIthin this environment there are anumber of sub-environments:</li>
-			
-			<ul>
-				<li>A plain MSYS2 environment, designed to be used with the Qt-supplied compilers - launched with <strong>mingw64</strong> from within the <strong>PowerShell</strong> environment. <strong>Note:&nbsp; </strong>the bare-bones <strong>msys2</strong> environment is no longer recommended for building software yet is recommended for kit maintenance.&nbsp;</li>
-				
-				<li>GNU-Compiler-accessible environments, lauched under the <strong>PowerShell</strong> environment with one of the following commands:</li>
-				
-				<ul>
-					<li><strong>mingw64</strong> - an environment designed for 64-bit software compilation with the GCC compiler suite.</li>
+			<li><strong>mingw64</strong> - an environment designed for 64-bit software compilation with the GCC compiler suite.</li>
 					
-					<li><strong>mingw32</strong> - an environment designed for 32-bit software compilation with the GCC compiler suite.</li>
+			<li><strong>mingw32</strong> - an environment designed for 32-bit software compilation with the GCC compiler suite.</li>
 					
-					<li><strong>ucrtw64</strong> - an environment designed for 64-bit software compilation under the Universal C Runtime. It should ideally work and behave as if the code was compiled with MS Visual Studio 2019. This environ is not supported.</li>
+			<li><strong>ucrtw64</strong> - an environment designed for 64-bit software compilation under the Universal C Runtime. It should ideally work and behave as if the code was compiled with MS Visual Studio 2019. This environ is not supported.</li>
 					
-					<li><strong>clang64</strong> - an environment designed for 64-bit software compilation The <strong>clang</strong> executable is actually a small driver which controls the overall execution of other tools such as the compiler, assembler and linker. It must at the moment be used with with the GCC compiler suite. This environ is not supported.</li>
-				</ul>
-			</ul>
+			<li><strong>clang64</strong> - an environment designed for 64-bit software compilation The <strong>clang</strong> executable is actually a small driver which controls the overall execution of other tools such as the compiler, assembler and linker. It must at the moment be used with with the GCC compiler suite. This environ is not supported.</li>
 		</ul>
+	</ul>
+</ul>
 	
 	  	<p>Only the <strong>mingw64</strong> will be actively discussed on this site (although techniques for 32-bit builds within a 64-bit environment are provided under the JTSDK-3.2.0-stream)</p>
 	  <p>Note that this document provides many generalisations to simplify discussion. Please research each tool fully beofer use.&nbsp;</p>
@@ -59,13 +97,14 @@
 			<li><strong>dir env:</strong></li>
 			
 			</ul>
-			<li>Examine the <strong>PowerShell</strong> commandlets found in:</li>
+		<p>Examine the <strong>PowerShell</strong> commandlets found in:</p>
 				
 			<ul>
 			<li><strong>c:\JTSDK64-Tools\tools\scripts</strong></li>
 			</ul>
-		</ul>
-	  <p>The most important script to examine is <strong>jtbuild.ps1</strong> should you feel that you have a need to use this environment to automate build processes.</p>
+		
+	    <p>The most important script to examine is <strong>jtbuild.ps1</strong> should you feel that you have a need to use this environment to automate build processes.</p>
+	</ul>
 </ul>
 
 <h3>Using the MSYS2 Environment</h3>
@@ -145,7 +184,7 @@
 <table width="100%" border="0">
   <tbody>
     <tr>
-      <td>Author: Steve VK3VM/VK3SIR</td>
+      <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
       <td align="right"><a href="hamlibdk [at] outlook.com"
    		rel="nofollow"
    		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
