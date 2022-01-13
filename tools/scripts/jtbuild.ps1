@@ -229,6 +229,10 @@ function DownloadSource {
 		}
 	}
 	
+	if (Test-Path $env:JTSDK_CONFIG\src-none) {
+		$pullUpdates = "No"
+	}
+	
 	if ($pullUpdates -ne "No") {
 		Write-Host "* Performing a source update check"
 		write-Host ""
@@ -835,13 +839,8 @@ ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt) -rcgopt ([ref]$ncg)
 
 # Reads in configuration data from Versions.ini ------------------ PROCESS key data from Versions.ini
 
-<<<<<<< HEAD
-$env:jtsdk64VersionConfig = "$env:JTSDK_CONFIG\Versions.ini"
-Get-Content $env:jtsdk64VersionConfig | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
-=======
 $env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
 Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
->>>>>>> e7e024f (Resetting to 3.2.2.1)
 
 $srcd = $configTable.Get_Item("srcd")				# Sets srcd => Source Location
 $dest = $configTable.Get_Item("destd")				# Sets dest => Desctination Location
@@ -860,7 +859,7 @@ $autorun= $configTable.Get_Item("autorun")			# Autorun Flag
 $pullUpd="No"
 $pullUpd=$configTable.Get_Item("pulllatest")		# Pull latest updates Flag
 
-$JJ=$env:NUMBER_OF_PROCESSORS						# Read from ENV; Can set mamnually
+$JJ=$env:NUMBER_OF_PROCESSORS						# Read from ENV; Can set manually
 
 
 # Display Build Commencement Message ----------------------------- COMMENCE BUILD

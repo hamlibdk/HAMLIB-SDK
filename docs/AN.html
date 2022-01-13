@@ -158,6 +158,113 @@ processes are executed may change.</p>
 <p>There is only a small number of us are working on this project now. More assistance is needed :-)&nbsp;&nbsp;</p>
 <p>The complexity of the GIT code distribution system - initially conceived by Linus Torvalds of Linux fame - makes code and script management harder than it needs to be. We need a dedicated manager for this role that can teach us how to use this system more effectively.&nbsp;</p>
 </ul>
+<hr/>
+<h2>Notes for building WSJT-X</h3>
+<hr/>
+    <ul>
+    	<p>There are no special notes for building <strong>WSJTX</strong> at this time.</p>
+		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
+	</ul>
+		
+<hr/>
+<h2>Notes for building JTDX</h2>
+<hr/>
+<ul>
+	<p>Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-jtdx</strong></p>
+</ul>
+<h3>CPACK Packaging Issues - Not Finding DLL's</h3>
+<ul>
+	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
+
+	<p><strong>Resolution:</strong> Issue an appropriate command to find the path of necessary libraries before performing a <strong>jtbuild package </strong>command</p>
+<ul>
+<li>If you are using <strong>Qt 5.12.12</strong>:</li>
+<ul>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.12.12\bin<strong>"</strong></p>
+</ul>
+<li>If you are using <strong>Qt 5.15.2</strong>:</li>
+<ul>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
+</ul>
+</ul>
+	<p>These paths could also  be added to the main Windows system paths.</p>
+	<ul>
+		<li>Control Panel/About/Advanced System Settings/Advanced/Environment Variables.</li>
+		<li>Append the lines to the existing local user's path:</li>
+		<ul>
+			<li>For <strong>Qt 5.12.12</strong></li>
+			<br/>
+			<ul>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.12.12\bin</strong>
+			</ul>
+			<br/>
+			<li>For <strong>Qt 5.15.2</strong></li>
+			<br/>
+			<ul>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
+			</ul>
+		</ul>
+		<br/>
+		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
+	</ul>
+	<p>Please refer to <a href="QU.html">The Questions Section</a> for more detail.</p>
+</ul>
+<h3>Further anomalies observed when building and packaging JTDX</h3>
+<ul>
+<p>An error message at packaging may be displayed that does not identify a DLL or missing library.</p>
+	
+	<p>Try the following procedure:</p>
+
+	<ul>
+		<li>Edit <strong>C:\JTSDK64-Tools\config\Versions.ini</strong></li>
+		<li>Change key <em>unixtools=enabled</em> to <em>unixtools=disabled</em></li>
+		<li>Save and exit.</li>
+		<li>Close all MSYS2 and Powershell Terminals</li>
+		<li>Re-launch the <strong>JTSDK64-Tools</strong> environment.</li>
+		<li>Re-attempt the build.</li>
+	</ul>
+		
+	<p>Please refer to <a href="QU.html">The Questions Section</a> for more detail and other possible solutions to issues observed.</p>
+</ul>
+<hr/>
+<h2>Notes for building JS8CALL</h2>
+<hr/>
+<ul>
+	<p>Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-js8call</strong></p>
+</ul>
+<h3>Hamlib Requirements</h3>
+ <ul>
+	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with <strong>LibUSB</strong> support.</p>
+	<ul>
+	  	<li>Execute  the following commands at the <strong>mingw64</strong> command prompt:</li>		
+		<ul>
+			<li><strong>build-hamlib.sh -nlibusb -static</strong> <== note the use of the extention to bypass the <em>alias</em></li>
+		</ul>
+		<li>Once the Hamlib build is complete, close all MSYS2 and JTSDK64-Tools Terminals and Windows.</li>
+		
+		<li>Open a <strong>JTSDK64-Tools</strong> Console.</li>
+		<li>Build the JT-ware package with your specified option i.e.<strong> jtbuild package</strong></li>
+	</ul>
+</ul>
+
+<hr>
+<h2>Notes for working with your own modified source</h2>
+<hr/>
+	
+	<ul>
+		<p>Modify the source for your own requirements at your own peril.</p> 
+		<p>Start with a GIT pull from your base repository. This should set markers appropriate for your development.</p>
+		<p>Execute  the following command at the <strong>JTSDK64-Tools</strong> command prompt:</p>		
+		<ul>
+			<li><strong>jtbuild package -ng</strong>   <== Does not pull from a GIT Repository</li>
+		</ul>
+	<p>It is highly recommended that you customise the<strong> jtbuild.ps1</strong> script in <strong>x:\JTSDK64-Tools\tools\scripts</strong>&nbsp;for your own purpose and set this command as a PowerShell <em><strong>alias</strong></em> so that you do not continuously over-write your work.&nbsp;</p>
+<p>These kits are focussed on users that want to build their own JT-ware releases based on the latest code available.<br>
+<br>
+Details on how to do this are not provided in this documentation as one should only be tinkering with JT-ware source code if one knows how to work with both the source code and how to modify the PowerShell scripts for their needs.</p>
+<p>Ensure that you comply with the source release requirements and terms for <strong>WSJT-X</strong> source usage - again at your own peril.</p>
+<p>If uncertain as to what these requirements are then please ask in the <strong>WSJT-X Forum</strong>.</p>
+	</ul>
 	
 <hr>
 <h2>Contributions</h2>
@@ -179,7 +286,7 @@ there is too valuable for the general IT community.</p>
 <p><strong> ALL CONTRIBUTIONS AND COMMENTS ARE GRATEFULLY WELCOMED </strong> !</p>
 </ul>
 
-<h3>Bug Reports</h3>
+<h3>JTSDK Bug Reports</h3>
 
 <ul>
 <p>For submitting bug reports and feature requests, use the <a href="https://sourceforge.net/p/hamlib-sdk/tickets/">Issue Tracker</a>. </p>
