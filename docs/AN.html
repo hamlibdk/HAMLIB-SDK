@@ -98,8 +98,7 @@ Current packaging preempts known cases of proposed licence and delivery conditio
 <a href="http://www.mingw.org/">MinGW</a> 7.3 and <a href="http://www.mingw.org/">MinGW</a> 8.1 environs are available (saving 3+ hours).</p>
 	</ul>
 	
-	
-	<table width="*" align="center" border="1">
+<table width="*" align="center" border="1">
 		<tr>
 			<td class="custd"><p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt</a> <strong>5.15.2</strong> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v8.1.7z">Boost-1.78.0</a> working with <a href="http://www.mingw.org/">MinGW</a> <strong>8.1</strong>.</p></td>
 		</tr>
@@ -161,6 +160,11 @@ processes are executed may change.</p>
 <hr/>
 <h2>Notes for building WSJT-X</h3>
 <hr/>
+		<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-wsjtx</strong></td>
+		</tr>
+	</table>
     <ul>
     	<p>There are no special notes for building <strong>WSJTX</strong> at this time.</p>
 		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
@@ -169,9 +173,12 @@ processes are executed may change.</p>
 <hr/>
 <h2>Notes for building JTDX</h2>
 <hr/>
-<ul>
-	<p>Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-jtdx</strong></p>
-</ul>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-jtdx</strong></td>
+		</tr>
+	</table>
+
 <h3>CPACK Packaging Issues - Not Finding DLL's</h3>
 <ul>
 	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
@@ -229,16 +236,25 @@ processes are executed may change.</p>
 <hr/>
 <h2>Notes for building JS8CALL</h2>
 <hr/>
-<ul>
-	<p>Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-js8call</strong></p>
-</ul>
+
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-js8call</strong></td>
+		</tr>
+	</table>
+	<br/>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with with <strong>Dynamic libraries and&nbsp;LibUSB support</strong>.</p></td>
+		</tr>
+	</table>
 <h3>Hamlib Requirements</h3>
  <ul>
-	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with <strong>LibUSB</strong> support.</p>
+	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with with <strong>Dynamic libraries and&nbsp;LibUSB support</strong>.</p>
 	<ul>
 	  	<li>Execute  the following commands at the <strong>mingw64</strong> command prompt:</li>		
 		<ul>
-			<li><strong>build-hamlib.sh -nlibusb -static</strong> <== note the use of the extention to bypass the <em>alias</em></li>
+			<li><strong>build-hamlib -nlibusb -static</strong> &lt;== note the use of the extension<em>&nbsp;</em></li>
 		</ul>
 		<li>Once the Hamlib build is complete, close all MSYS2 and JTSDK64-Tools Terminals and Windows.</li>
 		
@@ -250,7 +266,11 @@ processes are executed may change.</p>
 <hr>
 <h2>Notes for working with your own modified source</h2>
 <hr/>
-	
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">Ensure that the marker file inside <strong>x:\JTSDK64-Tools\config</strong> is named <strong>src-none</strong></td>
+		</tr>
+	</table>
 	<ul>
 		<p>Modify the source for your own requirements at your own peril.</p> 
 		<p>Start with a GIT pull from your base repository. This should set markers appropriate for your development.</p>
@@ -258,14 +278,14 @@ processes are executed may change.</p>
 		<ul>
 			<li><strong>jtbuild package -ng</strong>   <== Does not pull from a GIT Repository</li>
 		</ul>
-	<p>It is highly recommended that you customise the<strong> jtbuild.ps1</strong> script in <strong>x:\JTSDK64-Tools\tools\scripts</strong>&nbsp;for your own purpose and set this command as a PowerShell <em><strong>alias</strong></em> so that you do not continuously over-write your work.&nbsp;</p>
-<p>These kits are focussed on users that want to build their own JT-ware releases based on the latest code available.<br>
-<br>
-Details on how to do this are not provided in this documentation as one should only be tinkering with JT-ware source code if one knows how to work with both the source code and how to modify the PowerShell scripts for their needs.</p>
-<p>Ensure that you comply with the source release requirements and terms for <strong>WSJT-X</strong> source usage - again at your own peril.</p>
-<p>If uncertain as to what these requirements are then please ask in the <strong>WSJT-X Forum</strong>.</p>
-	</ul>
-	
+		<p>The "source marker" in <strong>x:\JTSDK64-Tools\config</strong> can also be renamed to <strong>hl-none</strong> for a more permanent solution.</p>		
+		<p>It is highly recommended that you customise the<strong> jtbuild.ps1</strong> script in <strong>x:\JTSDK64-Tools\tools\scripts</strong>&nbsp;for your own purpose and set this command as a PowerShell <em><strong>alias</strong></em> so that you do not continuously over-write your work.&nbsp;</p>
+		<p>These kits are focussed on users that want to build their own JT-ware releases based on the latest code available.<br>
+		<br>
+		Details on how to do this are not provided in this documentation as one should only be tinkering with JT-ware source code if one knows how to work with both the source code and how to modify the PowerShell scripts for their needs.</p>
+		<p>Ensure that you comply with the source release requirements and terms for <strong>WSJT-X</strong> source usage - again at your own peril.</p>
+		<p>If uncertain as to what these requirements are then please ask in the <strong>WSJT-X Forum</strong>.</p>
+	</ul>	
 <hr>
 <h2>Contributions</h2>
 <hr>
@@ -273,25 +293,21 @@ Details on how to do this are not provided in this documentation as one should o
 <h3>How Can I Help?</h3>
 
 <ul>
-<p>Please test these scripts and those in the <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/">Tests</a> folder. Report observations either 
-via the <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> or the email address where most most messages come from (if 
-you cannot post). The <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> is used somewhat as as &#39;blog&#39; as information in 
-there is too valuable for the general IT community.</p>
-<p><strong><em>The &#39;core team&#39; behind this are not PowerShell gurus.</em></strong>&nbsp;</p>
-<p><strong><em>The 'core team' behind this are not Web-Developers.</em></strong>&nbsp;</p>
-<p>This is a learning effort. 
-  If you are a PowerShell guru PLEASE PLEASE PLEASE jump in and comment to assist. Send 
-  back BETTER SCRIPT. <strong>Teach us all</strong>. </p>
-<p>We especially require people to make these README.md scripts better !</p>
-<p><strong> ALL CONTRIBUTIONS AND COMMENTS ARE GRATEFULLY WELCOMED </strong> !</p>
+	<p>Please test these scripts and those in the <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/">Tests</a> folder. Report observations either via the <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> or the email address where most most messages come from (if you cannot post). The <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> is used somewhat as as &#39;blog&#39; as information in 
+	there is too valuable for the general IT community.</p>
+	<p><strong><em>The &#39;core team&#39; behind this are not PowerShell gurus.</em></strong>&nbsp;</p>
+	<p><strong><em>The 'core team' behind this are not Web-Developers.</em></strong>&nbsp;</p>
+	<p>This is a learning effort. If you are a PowerShell guru PLEASE PLEASE PLEASE jump in and comment to assist. Send back BETTER SCRIPT. <strong>Teach us all</strong>. </p>
+	<p>We especially require people to make these README.md scripts better !</p>
+	<p><strong> ALL CONTRIBUTIONS AND COMMENTS ARE GRATEFULLY WELCOMED </strong> !</p>
 </ul>
 
 <h3>JTSDK Bug Reports</h3>
 
 <ul>
-<p>For submitting bug reports and feature requests, use the <a href="https://sourceforge.net/p/hamlib-sdk/tickets/">Issue Tracker</a>. </p>
-<p>Reports, suggestions and comments via the <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> - or via the email addresses 
-from main contributors there of late if you do not have post access - are essential.</p>
+	<p>For submitting bug reports and feature requests, use the <a href="https://sourceforge.net/p/hamlib-sdk/tickets/">Issue Tracker</a>. </p>
+	<p>Reports, suggestions and comments via the <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> - or via the email addresses 
+	from main contributors there of late if you do not have post access - are essential.</p>
 </ul>
 	
 <hr>
@@ -299,20 +315,18 @@ from main contributors there of late if you do not have post access - are essent
 <hr>
 
 <ul>
-<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
-high-quality, yet flexible build system. </p>
-<p>Base ref: <a href="https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md">https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md</a></p>
-	</ul>
+	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
+	high-quality, yet flexible build system. </p>
+	<p>Base ref: <a href="https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md">https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md</a></p>
+</ul>
 <hr>
 <table width="100%" border="0">
-  <tbody>
-    <tr>
-      <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
-<td align="right"><a href="hamlibdk [at] outlook.com"
-   		rel="nofollow"
-   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
-    </tr>
-  </tbody>
+	<tbody>
+		<tr>
+		  <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
+			<td align="right"><a href="hamlibdk [at] outlook.com" rel="nofollow" onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+		</tr>
+	</tbody>
 </table>
 </body>
 </html>

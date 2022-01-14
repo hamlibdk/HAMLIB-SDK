@@ -2,11 +2,11 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.2
+# Version ......: 3.2.2.1
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 #
-# Updates.......:  20-2-2021 - 5-1-2022 Steve VK3VM / VK3SIR 
+# Updates.......:  20-2-2021 - 15-1-2022 Steve VK3VM / VK3SIR 
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -40,7 +40,7 @@ alias vdir='ls --color=auto --format=long'
 alias l='ls -CF'                              #
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
-alias build-hamlib='bash "/home/$USER/bin/build-hamlib.sh" -dynamic'
+alias build-hamlib='bash "/home/$USER/bin/build-hamlib.sh"' # edited to remove -dynamic option 15-1-2022 Steve VK3VM
 alias build-hamlib-dll='bash "/home/$USER/bin/build-hamlib.sh" -dynamic'
 alias build-hamlib-static='bash "/home/$USER/bin/build-hamlib.sh" -static'
 

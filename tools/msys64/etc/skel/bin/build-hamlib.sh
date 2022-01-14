@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.2.2
+# Version ......: 3.2.2.1
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
@@ -14,6 +14,7 @@
 #          Aligned configure otions to (src)/scripts/build-w64.sy 9/9/2021
 #          Dynamic libraries delivered properly to main library tree 4/5-01-2022 Steve VK3VM
 #          LibUSB DLL library path set from Versions.ini 6-1-2022 Steve VK3VM
+#          Modifications to handle opposite CLI switches and default path dynamic build now 15-1-2022 Steve VK3VM
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
@@ -638,17 +639,22 @@ function Help-Messages () {
 	echo ''
 	echo '* Available Command Line Options:'
 	echo ''
-	echo '  --> -h ........: Help'
-	echo '  --> -b / -nb ..: Process / Do not process bootstrap'
-	echo '  --> -c / -nc ..: Process / Do not process configure'
-	echo '  --> -g / -ng...: Process / Do not pull/check source from GIT repository'
-	echo '  --> -libusb ...: Configure with LibUSB support'
-	echo '  --> -nlibusb ..: Do not configure with LibUSB support'
-	echo '  --> -static ...: Statically Linked Libraries built'
+	echo -e "  --> ${C_G}-h${C_NC} ........: Help"
+	echo -e "  --> ${C_G}-b${C_NC}/${C_G}-nb${C_NC} ....: Process / Do not process bootstrap"
+	echo -e "  --> ${C_G}-c${C_NC}/${C_G}-nc${C_NC} ....: Process / Do not process configure"
+	echo -e "  --> ${C_G}-g${C_NC}/${C_G}-ng${C_NC} ....: Process / Do not pull/check source from GIT repository"
+	echo -e "  --> ${C_G}-libusb${C_NC} ...: Configure with LibUSB support"
+	echo -e "  --> ${C_G}-nlibusb${C_NC} ..: Do not configure with LibUSB support"
+	echo -e "  --> ${C_G}-static${C_NC} ...: Statically Linked Libraries built"
 	echo '       or ..' 
-	echo '  --> -dynamic ..: Shared/Dynamically Linked Libraries built'
+	echo -e "  --> ${C_G}-dynamic${C_NC} ..: Shared/Dynamically Linked Libraries built"
 	echo ''
-	echo '  Note: You cannot select -static with -dynamic'
+	echo -e "${C_R}* Note:${C_NC} You cannot select ${C_R}-static${C_NC} with ${C_R}-dynamic${C_NC}"
+	echo ''
+	echo '  If using switches you may need to combine options to over-ride default build behaviour:'
+	echo ''
+	echo -e "  i.e.: ${C_G}build-hamlib -nb${C_NC} reverts to Hamlib default STATIC build behaviour"
+	echo -e "        ${C_G}build-hamlib -nb -dynamic${C_NC} over-rides this behaviour"
 	echo ''
 	exit 1
 }
@@ -663,6 +669,21 @@ cd
 
 SHAREASPARAM="No"
 STATICASPARAM="No"
+BOOTSTRAPASPARAM="No"
+CONFIGASPARAM="No"
+GITASPARM="No"
+LIBUSBASPARAM="No"
+
+# If no parameters entered 14-1-2022 Steve VK3VM 
+if [ $# -eq 0 ];
+then
+	SHAREDBUILD="Yes"
+	SHAREASPARAM="Yes"
+	STATICBUILD="No"
+	STATICASPARAM="No"
+	PROCESSLIBUSB="Yes" # -- JUST TO BE SAFE ---------------
+	OPTIONS="None (Default = Dynamic with LibUSB)"
+fi
 
 while [ $# -gt 0 ]; do
 	case $1 in
@@ -671,53 +692,113 @@ while [ $# -gt 0 ]; do
 		shift
 		;;
 	-b|--b)
+		if [ $BOOTSTRAPASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -b and -nb options"
+		fi
 		PROCESSBOOTSTRAP="Yes"
+		BOOTSTRAPASPARAM="Yes"
 		shift
 		;;
 	-nb|--nb)
+		if [ $BOOTSTRAPASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -b and -nb options"
+		fi
 		PROCESSBOOTSTRAP="No"
+		BOOTSTRAPASPARAM="Yes"
 		shift
 		;;
 	-c|--c)
+		if [ $CONFIGASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -c and -nc options"
+		fi
 		PROCESSCONFIGURE="Yes"
+		CONFIGASPARAM="Yes"
 		shift
 		;;
 	-nc|--nc)
+		if [ $CONFIGASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -c and -nc options"
+		fi
 		PROCESSCONFIGURE="No"
+		CONFIGASPARAM="Yes"
 		shift
 		;;
 	-g|--g)
+		if [ $GITASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -g and -ng options"
+		fi
 		PERFORMGITPULL="Yes"
+		GITASPARAM="Yes"
 		shift
 		;;		
 	-ng|--ng)
+		if [ $GITASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -g and -ng options"
+		fi
 		PERFORMGITPULL="No"
+		GITASPARAM="Yes"
 		shift
 		;;
 	-libusb|--libusb)
+		if [ $LIBUSBASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -libusb and -nlibusb options"
+		fi
 		PROCESSLIBUSB="Yes"
+		LIBUSBASPARAM="Yes"
 		shift
 		;;	
 	-nlibusb|--nlibusb)
+		if [ $LIBUSBASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both -libusb and -nlibusb options"
+		fi
 		PROCESSLIBUSB="No"
+		LIBUSBASPARAM="Yes"
 		shift
 		;;
 	-shared|-dynamic|--shared|--dynamic)
+		if [ $SHAREASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both Dynamic and No Dynamic build"
+		fi
 		SHAREDBUILD="Yes"
 		SHAREASPARAM="Yes"
 		shift
 		;;
 	-nshared|-ndynamic|--nshared|--ndynamic)
+		if [ $SHAREASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both Dynamic and No Dynamic build"
+		fi
 		SHAREDBUILD="No"
+		SHAREASPARAM="Yes"
 		shift
 		;;
 	-static|--static)
+		if [ $STATICASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both Static and No Static build"
+		fi
 		STATICBUILD="Yes"
 		STATICASPARAM="Yes"
+		SHAREDBUILD="No"
+		SHAREASPARAM="No"
 		shift
 		;;	
 	-nstatic|--nstatic)
-		STATICBUILD="No"	
+		if [ $STATICASPARAM = "Yes" ];
+		then
+			Error-Message "Cannot set for both Static and No Static build"
+		fi
+		STATICBUILD="No"
+		STATICASPARAM="Yes"
 		shift
 		;;
 	*)
@@ -736,7 +817,7 @@ then
 	fi
 fi
 
-clear
+#clear
 
 # -- run tool check -----------------------------------------------------------
 

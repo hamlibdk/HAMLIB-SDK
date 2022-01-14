@@ -29,7 +29,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 LicenseFile=C:\JTSDK64-Tools\gpl-3.0.rtf
-VersionInfoVersion=3.2.2.2
+VersionInfoVersion=3.2.2.1.3
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -38,7 +38,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 source: "C:\JTSDK64-Tools\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [InstallDelete]
-Type: files; Name: "{app}\jtsdk-tools*"
+Type: files; Name: "{app}\HAMLIB*.url"
+Type: files; Name: "{app}\jtsdk-tools*.iss"
 
 [Icons]
 Name: "{group}\Help Resources"; Filename: "https://groups.io/g/JTSDK/topics"; WorkingDir: "{app}"

@@ -92,15 +92,23 @@ Do you want to change the execution policy?
 	<p>These Virtual machines should have a lifetime of at least 30 days.</p>
 	</ul>
 
-	<h3>Step 1: Deploy the JTSDK64-Base-3.2.2.exe Installer and any &quot;Tools&quot; packages if they exist</h3>
+	<h3>Step 1: Deploy the JTSDK64-Base-3.2.2.exe Installer and the latest &quot;Tools&quot; package</h3>
 
 	<ul>
-	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
-	<ul>
-		<li>Download and deploy the installer (i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests-3.2.2/JTSDK64-Base-3.2.2b1.exe">JTSDK-Base-3.2.2</a>) inside a FRESH VM.</li>	
-		<li>Deploy the latest &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1</a> ) to your Base Deployment.</li>
+		<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used. </strong></p>
+		<ul>
+			<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests-3.2.2/JTSDK64-Base-3.2.2b1.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>	
+			<li>Deploy the latest &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1</a> ) to your "Base" deployment if there is a "Tools" package available.&nbsp; &nbsp;&nbsp;</li>
+		</ul>
 	</ul>
-	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">The latest "Tools" package can be found at&nbsp;<a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> .</td>
+		</tr>
+	</table>
+		<p></p>
+	<ul>
+		<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 	</ul>
 
 	<h3>Step 2: Launch the Installation Environment</h3>
@@ -209,7 +217,7 @@ Do you want to change the execution policy?
 	
 	<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd"><p><strong>Follow on-screen prompts carefully.</strong></p></td>
+			<td class="custd"><strong>Follow on-screen prompts carefully.</strong></td>
 		</tr>
 	</table>
 
@@ -288,7 +296,7 @@ Enter your selection, then hit &#60;return&#62;:
         <br/>
 		<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd"><p><strong>The basic deployment is now complete.</strong></p></td>
+			<td class="custd"><strong>The basic deployment is now complete.</strong></td>
 		</tr>
 	    </table>
 		
@@ -375,7 +383,7 @@ Enter your selection, then hit &#60;return&#62;:
 
 <table width="*" align="center" border="1">
 	<tr>
-		<td class="custd"><p><strong><em>&nbsp;** THIS IS SLOW **</em></strong>. Despite &quot;dropins&quot; being available on the Sourceforge and Github the best procedure is to build your own.</p></td>
+		<td class="custd"><strong><em>&nbsp;** THIS IS SLOW **</em></strong>. Despite &quot;dropins&quot; being available on the Sourceforge and Github the best procedure is to build your own.</td>
 	</tr>
 </table>
 	<ul>
@@ -429,7 +437,7 @@ Enter your selection, then hit &#60;return&#62;:
 
 <table width="*" align="center" border="1">
 	<tr>
-		<td class="custd"><p><strong><em>&nbsp;</em>This may not be needed in the future. There is a packaging error with JTDX that can be overcome with this simple set of steps.</strong>.</p></td>
+		<td class="custd"><strong>There is a possible error with JTDX that can be overcome with this simple set of steps.</strong>.</td>
 	</tr>
 </table>
 <ul>
@@ -473,16 +481,24 @@ Enter your selection, then hit &#60;return&#62;:
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
 	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
-	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </p>
+	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong> ) </p>
 	</ul>
-	
-<h3>Maintenance Updates: &quot;Tools&quot; Packages</h3>
-	
-	<ul>
+<hr/>
+<h2>Maintenance Updates: &quot;Tools&quot; Packages</h2>
+<hr/>	
+<ul>
 	<p>Maintenance updates will be applied in the form of &quot;Tools&quot; packages. These packages 
 	are designed to be deployed to existing &quot;Base&quot; packages.</p>
-	</ul>
-	
+</ul>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>It is ESSENTIAL that any available 'Tools' packages be applied to a 'Base' package.</strong></td>
+		</tr>
+	</table>
+<p></p>
+<ul>
+	<p>You do not need to apply previous 'Tools' packages. Just deploy the latest 'Tools' package that is available.</p>
+</ul>
 <h4>Application of Maintenance &quot;Tools&quot; packages</h4>
 
 	<ul>

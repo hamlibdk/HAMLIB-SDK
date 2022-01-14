@@ -574,16 +574,21 @@ $ build-hamlib.sh -h
 * Available Command Line Options:
 
   --> -h ........: Help
-  --> -b / -nb ..: Process / Do not process bootstrap
-  --> -c / -nc ..: Process / Do not process configure
-  --> -g / -ng...: Process / Do not pull/check source from GIT repository
+  --> -b/-nb ....: Process / Do not process bootstrap
+  --> -c/-nc ....: Process / Do not process configure
+  --> -g/-ng ....: Process / Do not pull/check source from GIT repository
   --> -libusb ...: Configure with LibUSB support
   --> -nlibusb ..: Do not configure with LibUSB support
   --> -static ...: Statically Linked Libraries built
        or ..
   --> -dynamic ..: Shared/Dynamically Linked Libraries built
 
-  Note: You cannot select -static with -dynamic (Static = Default).
+* Note: You cannot select -static with -dynamic
+
+  If using switches you may need to combine options to over-ride default build behaviour:
+
+  i.e.: build-hamlib -nb reverts to Hamlib default STATIC build behaviour
+        build-hamlib -nb -dynamic over-rides this behaviour
 
 radio@jtsdk ~
 $

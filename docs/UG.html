@@ -167,11 +167,20 @@ Do you want to change the execution policy?
 <hr>
 <h2>Maintenance Updates: &quot;Tools&quot; Packages</h2>
 <hr>
+
 <ul>
 	<p>Maintenance updates will be applied in the form of &quot;Tools&quot; packages. These packages 
 	are designed to be deployed to existing &quot;Base&quot; packages.</p>
 </ul>
-<h3>Application of Maintenance &quot;Tools&quot; packages</h3>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>It is ESSENTIAL that any available 'Tools' packages be applied to a 'Base' package.</strong></td>
+		</tr>
+	</table>
+<p></p>
+<ul>
+	<p>You do not need to apply previous 'Tools' packages. Just deploy the latest 'Tools' package that is available.</p>
+</ul>
 <ul>
 	<p>&quot;Tools&quot; packages are updates to the &quot;Base&quot; environments.</p>
 	<p><em>These steps assume that you have a deployed base environment</em></p>
@@ -614,6 +623,7 @@ PS C:\JTSDK64-Tools>
 </ul>
 <div class="reducewidth">
 <pre>
+
 ---------------------------------------------------------------
  BUILD-HAMLIB - HELP
 ---------------------------------------------------------------
@@ -621,16 +631,21 @@ PS C:\JTSDK64-Tools>
 * Available Command Line Options:
 
   --> -h ........: Help
-  --> -b / -nb ..: Process / Do not process bootstrap
-  --> -c / -nc ..: Process / Do not process configure
-  --> -g / -ng...: Process / Do not pull/check source from GIT repository
+  --> -b/-nb ....: Process / Do not process bootstrap
+  --> -c/-nc ....: Process / Do not process configure
+  --> -g/-ng ....: Process / Do not pull/check source from GIT repository
   --> -libusb ...: Configure with LibUSB support
   --> -nlibusb ..: Do not configure with LibUSB support
   --> -static ...: Statically Linked Libraries built
        or ..
   --> -dynamic ..: Shared/Dynamically Linked Libraries built
 
-  Note: You cannot select -static with -dynamic (Static = Default).
+* Note: You cannot select -static with -dynamic
+
+  If using switches you may need to combine options to over-ride default build behaviour:
+
+  i.e.: build-hamlib -nb reverts to Hamlib default STATIC build behaviour
+        build-hamlib -nb -dynamic over-rides this behaviour
 
 radio@radio ~
 $

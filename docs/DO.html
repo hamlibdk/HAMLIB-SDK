@@ -51,8 +51,10 @@
 <hr>
 <h3> Introduction</h3>
 <ul>
-<p>Both the <strong>jtbuild</strong> and <strong>build-hamlib</strong> scripts now contain a number of switches that can be used to control default features of the scripts.</p>
-<p>Use the embedded <strong>help</strong> facilities to discover the currently available set of switches.</p>
+<p>This kit is a selection of packages focussing on building and compiling both Hamlib and JT-ware from their source GIT distribution repositories.</p>
+<p>The software environments provided are much more powerful than just performing these roles. Full Qt-MinGW and MSYS2 environments are available for building software that can run under the MS Windows 10 + Operating System(s).</p>
+<p>Examples for compiling key libraries needed by the JT-ware are provided in this section.</p>
+<p>Eventually this kit will support the development of many more packages for Amateur Radio purposes.</p>
 </ul>
 <h3>The <strong>PowerShell</strong> Environment:</h3>
 <ul>
@@ -101,6 +103,7 @@ PS C:\JTSDK64-Tools>
 </ul>	
 <h4>Using <strong>build-hamlib</strong> to construct the Hamlib Libraries</h4>
 <div class="reducewidth"><pre>
+
 ---------------------------------------------------------------
  BUILD-HAMLIB - HELP
 ---------------------------------------------------------------
@@ -108,16 +111,21 @@ PS C:\JTSDK64-Tools>
 * Available Command Line Options:
 
   --> -h ........: Help
-  --> -b / -nb ..: Process / Do not process bootstrap
-  --> -c / -nc ..: Process / Do not process configure
-  --> -g / -ng...: Process / Do not pull/check source from GIT repository
+  --> -b/-nb ....: Process / Do not process bootstrap
+  --> -c/-nc ....: Process / Do not process configure
+  --> -g/-ng ....: Process / Do not pull/check source from GIT repository
   --> -libusb ...: Configure with LibUSB support
   --> -nlibusb ..: Do not configure with LibUSB support
   --> -static ...: Statically Linked Libraries built
        or ..
   --> -dynamic ..: Shared/Dynamically Linked Libraries built
 
-  Note: You cannot select -static with -dynamic (Static = Default).
+* Note: You cannot select -static with -dynamic
+
+  If using switches you may need to combine options to over-ride default build behaviour:
+
+  i.e.: build-hamlib -nb reverts to Hamlib default STATIC build behaviour
+        build-hamlib -nb -dynamic over-rides this behaviour
 
 radio@radio ~
 $
