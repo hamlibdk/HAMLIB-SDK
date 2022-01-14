@@ -6,3 +6,49 @@ git commit -m "Changes Notes"
 
 git push
 
+
+
+
+https://stackoverflow.com/questions/5509543/how-do-i-properly-force-a-git-push
+
+
+ref: https://stackoverflow.com/questions/13382415/mirroring-a-repository-across-github-sourceforge-and-google-code
+
+You can edit your .git/config file to create a remote that pushes to multiple repositories.
+
+[remote "everyone"]
+    url = https://github.com/USERNAME/REPOSITORY.git
+    url = ssh://USERNAME@git.code.sf.net/p/PROJECTNAME/MOUNTPOINT
+    url = https://PROJECT.googlecode.com/git
+or with the git config --add command:
+
+git config --add remote.everyone.url https://github.com/USERNAME/REPOSITORY.git
+git config --add remote.everyone.url ssh://USERNAME@git.code.sf.net/p/PROJECTNAME/MOUNTPOINT
+git config --add remote.everyone.url https://PROJECT.googlecode.com/git
+Now when you type git push everyone master, you'll push the master branch to all three remotes.
+
+git push everyone master --force
+
+git push --all --force    <== If any issues with above !
+
+Thanks to this Stack Overflow answer for the clue.
+
+https://linuxways.net/ubuntu/how-to-setup-git-server-on-ubuntu-20-04/
+
+
+Ref below: https://stackoverflow.com/questions/3899627/create-git-branch-with-current-changes 
+
+git branch 3.2.1
+
+git checkout 3.2.1
+
+git commit -s
+
+git add .
+
+git commit -m "3.2.1"
+
+git push --set-upstream origin 3.2.1
+
+git config --add remote.everyone.url https://github.com/hamlibdk/HAMLIB-SDK.git
+git config --add remote.everyone.url https://hamlibdk@git.code.sf.net/p/hamlib-sdk/code

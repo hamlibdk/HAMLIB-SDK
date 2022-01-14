@@ -648,7 +648,7 @@ function Help-Messages () {
 	echo '       or ..' 
 	echo '  --> -dynamic ..: Shared/Dynamically Linked Libraries built'
 	echo ''
-	echo '  Note: You cannot select -static with -dynamic (Static = Default).'
+	echo '  Note: You cannot select -static with -dynamic'
 	echo ''
 	exit 1
 }
