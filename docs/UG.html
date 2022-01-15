@@ -489,7 +489,7 @@ want to update Qt to the more contemporary 5.15.2 version you should do so now. 
 <ul>
 <p><strong>Note:</strong> If you have difficulties packaging <a href="https://hamlib.github.io/">Hamlib</a> with <a href="https://jtdx.tech/en/">JTDX</a> and/or <a href="http://js8call.com/">JS8CALL</a> you may need to use the The <strong>build-hamlib.sh</strong> script from the MSYS2 terminal as follows:</p>
 	<ul>
-	<li><strong>build-hamlib.sh -nlibusb -dynamic</strong></li>
+	<li><strong>build-hamlib.sh -nlibusb -static</strong></li>
 	</ul>
 </ul>
 <hr>
@@ -509,10 +509,8 @@ want to update Qt to the more contemporary 5.15.2 version you should do so now. 
 </ul>
 
 <p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
-</ul>
-<hr>
-<ul>
-<p>Pre-compiled drop-in Packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>&nbsp;,  <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a>  and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v8.1.7z">Boost-1.78.0 (MinGW 8.1)</a> are available at the time of writing.</p>
+
+<p>Pre-compiled drop-in Packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> ,  <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a>  and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v8.1.7z">Boost-1.78.0 (MinGW 8.1)</a> are available at the time of writing.</p>
 <p>Each “drop-in” package has folders i.e. 1.74.0-7.3 for <a href="http://www.mingw.org/">MinGW</a> 7.3 (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). </p>
 <ul>
 <li>Extract the folder for the Boost version-package that you want to use into <strong>C:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! </li>
