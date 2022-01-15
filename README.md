@@ -641,7 +641,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [MSYS2]: https://www.msys2.org/
 [MinGW]: http://www.mingw.org/
 [Qt]: https://www.qt.io/download-open-source 
-[PowerShell][]: https://docs.microsoft.com/en-us/[PowerShell][]/
+[PowerShell]: https://docs.microsoft.com/en-us/[PowerShell][]/
 [Ant]: https://ant.apache.org/
 [Gradle]: https://gradle.org/
 [Maven]: https://maven.apache.org/
