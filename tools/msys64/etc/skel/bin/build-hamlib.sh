@@ -364,8 +364,8 @@ function Run-Config () {
 				# Matches new default path (i.e. to build Hamlib DLL only) 4/1/2022 SIR
 				# SHAREDVAR='--enable-shared'
 				# STATICVAR='--disable-static'
-				SHAREDVAR=' '
-				STATICVAR=' '
+				SHAREDVAR='--enable-shared'
+				STATICVAR='--disable-static'
 				STSHMSG='Shared/Dynamic'
 				STATICBUILD="No"
 		fi
@@ -510,7 +510,7 @@ EOF
 function Copy-DLLs {
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" COPY SUPPORT DLLs TO HAMLIB DESINATION"${C_NC}
+	echo -e ${C_Y}" COPY SUPPORT LIBRARIES TO HAMLIB DEPLOYMENT DESINATION"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	echo "* Destination: $PREFIX/bin"
@@ -535,7 +535,7 @@ function Copy-DLLs {
 	then
 		if [ $SHAREDBUILD = "Yes" ];
 		then
-			echo "  --> Temporary: Removing Static Hamlib libraries that may cause issues with Dynamic Builds"
+			echo "  --> (Temporary): Removing Static Hamlib libraries/fragments that could cause issues with Dynamic Builds"
 			if [ -f "$PREFIX/lib/libhamlib.a" ];
 			then
 				rm -f "$PREFIX/lib/libhamlib.a" > /dev/null
@@ -559,7 +559,7 @@ function Copy-DLLs {
 	then
 		if [ $STATICBUILD = "Yes" ];
 		then
-			echo "  --> Temporary: Removing Dynamic Hamlib libraries that may cause issues with Static Builds"
+			echo "  --> (Temporary): Removing Dynamic Hamlib libraries/fragments that may cause issues with Static Builds"
 			if [ -f "$PREFIX/lib/libhamlib.a" ];
 			then
 				rm -f "$PREFIX/lib/libhamlib.dll.a" > /dev/null
