@@ -85,13 +85,16 @@ been met (i.e. [PowerShell][] conversion, Ability to compile latest source code 
 bleeding-edge Hamlib code). 
 
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. [Boost 1.78](Boost-1.78.0) ) as part of the learning process.
+build libraries (i.e. [Boost 1.78][] ) as part of the learning process.
 
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0 MinGW 8.1](Boost-1.78.0) built under Qt's 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] built under Qt's 
 [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs are available - saving many hours. 
+************************************************************************************
+**Stop Press:** A [Boost-1.78.0][] "Drop-In package" for [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) is now available 
+at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z 
 ************************************************************************************
 The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.78.0][] 
 working with [MinGW 8.1](MinGW) under the **mingw64** [MSYS2][] environment.
@@ -679,7 +682,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.75.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.75.0-MinGW-v7.3-v8.1.7z
 [Boost-1.76.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.76.0-MinGW-v7.3-v8.1.7z
 [Boost-1.77.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z
-[Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v8.1.7z
+[Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
 [WSJT-X 2.2.2]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.2.tgz
