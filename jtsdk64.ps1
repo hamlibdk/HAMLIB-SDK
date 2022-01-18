@@ -26,6 +26,7 @@
 #                 mitigating an evolving JTSDK architectural flaw 11/1/2022 Steve VK3VM
 #               : Added in a FUDGE (add .NET directories to path) so that JTDX builds can  
 #                 complete its packaging. 14/1/2022 Mike W9MDB & Steve VK3VM
+#               : Fudge to handle MinGW 9.0.0 Tools with Qt 18-1-2022 Steve VK3VM
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -233,18 +234,27 @@ function SetQtEnvVariables ([ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
 	$env:QTD=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$env:VER_MINGW+"\bin"
 	$env:QTD_F = ConvertForward($env:QTD)
 	$QTD_ff.Value = ($env:QTD).replace("\","/")
+	
+	$env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$env:VER_MINGW+"\plugins\platforms"
+	$env:QTP_F = ConvertForward($env:QTP)
+	$QTP_ff.Value = ($env:QTP).replace("\","/")
 
+	# Fudge to handle MinGW 9.0.0 Tools with Qt
+	if ($env:VER_MINGW -like "mingw_64") {
+		$ver_mingw_tmp = $env:VER_MINGW
+	#	# A fudge
+		$env:VER_MINGW = "mingw90_64"	
+	}
+	
 	# Dirty method to add additional 0 required for Tools MinGW
 	# May cause issues if the MinGW people change structures or use sub-versions !
-
 	$verMinGWAddZero= $env:VER_MINGW -replace "_", "0_"
 	$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$verMinGWAddZero+"\bin"
 	$GCCD_ff.Value = ($env:GCCD).replace("\","/")
 	$env:GCCD_F = ConvertForward($env:GCCD)
-
-	$env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$env:VER_MINGW+"\plugins\platforms"
-	$env:QTP_F = ConvertForward($env:QTP)
-	$QTP_ff.Value = ($env:QTP).replace("\","/")
+	
+	# De-Fudge to handle MinGW 9.0.0 Tools with Qt
+	if ( Get-Variable -name ver_mingw_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW = $ver_mingw_tmp }
 	
 	# Note: This is the NEW First occurence of JTSDK_PATH
 
