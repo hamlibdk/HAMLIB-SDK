@@ -280,6 +280,12 @@ function CheckBoostCorrectMinGWVersion($boostDir) {
 
 	ForEach ($subPathBoost in $listBoostDeploy)
 	{    
+		if ($subPathBoost.Name -like '*-mgw11-*') {
+			# More than Likely GCC11 and Qt 6.2.2 with MinGW 9.0.0 or later
+			# Needs a better method
+			$retval="mingw_64"
+			break
+		}
 		if ($subPathBoost.Name -like '*-mgw8-*') {
 			$retval="mingw81_64"
 			break
