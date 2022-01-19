@@ -27,6 +27,7 @@
 #               : Added in a FUDGE (add .NET directories to path) so that JTDX builds can  
 #                 complete its packaging. 14/1/2022 Mike W9MDB & Steve VK3VM
 #               : Fudge to handle MinGW 9.0.0 Tools with Qt 18-1-2022 Steve VK3VM
+#               : Refactoring to cater for Qt 6.2.2 amd MinGW 9.0.0 18-19-1-2022 Steve VK3VM 
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -40,7 +41,7 @@ function GenerateError($type) {
 }
 
 # --- Create Folders ----------------------------------------------------------
-# --> Review necessity of this considering JTSDK-APPS package ***
+# --> Perhaps redundant? Review necessity of this in the future ***
 
 function CreateFolders {
 
@@ -79,7 +80,7 @@ function SetSQLiteEnviron ($configTable) {
 	$env:sqlitev = $configTable.Get_Item("sqlitev")
 	$env:sqlite_dir = $env:JTSDK_TOOLS + "\sqlite\" + $env:sqlitev
 	$env:sqlite_dir_f = ConvertForward($env:sqlite_dir)
-	$env:JTSDK_PATH = $env:JTSDK_PATH+";"+$env:sqlite_dir   
+	$env:JTSDK_PATH += ";"+$env:sqlite_dir   
 }
 
 # --- FFTW --------------------------------------------------------------------
@@ -89,7 +90,7 @@ function SetFFTWEnviron($configTable, [ref]$fftw3f_dir_ff) {
 	$env:fftw3f_dir = $env:JTSDK_TOOLS + "\fftw\" + $env:fftwv
 	$fftw3f_dir_ff.Value = ($env:fftw3f_dir).replace("\","/")
 	$env:fftw3f_dir_f = ConvertForward($env:fftw3f_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:fftw3f_dir
+	$env:JTSDK_PATH += ";"+$env:fftw3f_dir
 }
 
 # --- LibUSB ------------------------------------------------------------------
@@ -98,7 +99,7 @@ function SetLibUSBEnviron ($configTable) {
 	$env:libusbv = $configTable.Get_Item("libusbv")	
 	$env:libusb_dir = $env:JTSDK_TOOLS + "\libusb\" + $env:libusbv
 	$env:libusb_dir_f = ConvertForward($env:libusb_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH+";"+$env:libusb_dir
+	$env:JTSDK_PATH += ";"+$env:libusb_dir
 	$env:libusb_dll = $configTable.Get_Item("libusbdll")	
 }
 
@@ -108,7 +109,7 @@ function SetNSISEnviron ($configTable) {
 	$env:nsisv = $configTable.Get_Item("nsisv")	
 	$env:nsis_dir = $env:JTSDK_TOOLS + "\nsis\" + $env:nsisv
 	$env:nsis_dir_f = ConvertForward($env:nsis_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:nsis_dir
+	$env:JTSDK_PATH += ";" + $env:nsis_dir
 }
 
 # --- Package Config ----------------------------------------------------------
@@ -117,7 +118,7 @@ function SetPkgConfigEnviron ($configTable) {
 	$env:pkgconfigv = $configTable.Get_Item("pkgconfigv")
 	$env:pkgconfig_dir = $env:JTSDK_TOOLS + "\pkgconfig\" + $env:pkgconfigv
 	$env:pkgconfig_dir_f = ConvertForward($env:pkgconfig_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:pkgconfig_dir
+	$env:JTSDK_PATH += ";" + $env:pkgconfig_dir
 }
 
 # --- Ruby --------------------------------------------------------------------
@@ -127,7 +128,7 @@ function SetRubyEnviron($configTable, [ref]$ruby_dir_ff) {
 	$env:ruby_dir = $env:JTSDK_TOOLS + "\ruby\" + $env:rubyv
 	$ruby_dir_ff.Value = ($env:ruby_dir).replace("\","/")
 	$env:ruby_dir_f = ConvertForward($env:ruby_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:ruby_dir
+	$env:JTSDK_PATH += ";" + $env:ruby_dir
 }
 
 # --- Subversion --------------------------------------------------------------
@@ -138,7 +139,7 @@ function SetSubversionEnviron ($configTable, [ref]$svn_dir_ff) {
 	$env:svn_dir = $env:JTSDK_TOOLS + "\subversion\" + $env:svnv
 	$svn_dir_ff.Value = ($env:svn_dir).replace("\","/")
 	$env:svn_dir_f = ConvertForward($env:svn_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:svn_dir
+	$env:JTSDK_PATH += ";" + $env:svn_dir
 }
 
 # --- CMake -------------------------------------------------------------------
@@ -155,7 +156,7 @@ function SetCMakeEnviron ($configTable) {
 		Write-Host "$env:cmake_dir"
 	}
 	$env:cmake_dir_f = ConvertForward($env:cmake_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:cmake_dir
+	$env:JTSDK_PATH += ";" + $env:cmake_dir
 }
 
 # --- Scripts Directory ------------------------------------------------------
@@ -163,7 +164,7 @@ function SetCMakeEnviron ($configTable) {
 function SetScriptDir {
 	$env:scripts_dir = $env:JTSDK_TOOLS + "\scripts\"
 	$env:scripts_dir_f = ConvertForward($env:scripts_dir)
-	$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:scripts_dir
+	$env:JTSDK_PATH += ";" + $env:scripts_dir
 }
 
 # --- Qt ----------------------------------------------------------------------
@@ -193,7 +194,6 @@ function CheckQtDeployment {
 	}
 
 	# Thanks to Mile Black W9MDB for the concept
-	# Code here could be cleaner - with better variable nomenclature !
 
 	$listQtDeploy = Get-ChildItem -Path $env:JTSDK_TOOLS\qt -EA SilentlyContinue                 
 
@@ -229,17 +229,22 @@ function CheckQtDeployment {
 # --- Set Qt Environment variables --------------------------------------------
 # --> MinGW environs need be set for detected version in $env:VER_MINGW
 
-function SetQtEnvVariables ([ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
+function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
 
-	$env:QTD=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$env:VER_MINGW+"\bin"
+	$env:QTBASE=$env:JTSDK_TOOLS + "\Qt\" + $env:QTV
+	$env:QTBASE_F = ConvertForward($env:QTBASE)
+	$QTBASE_ff.Value = ($env:QTBASE).replace("\","/")
+
+	$env:QTD=$env:QTBASE + "\" + $env:VER_MINGW+"\bin"
 	$env:QTD_F = ConvertForward($env:QTD)
 	$QTD_ff.Value = ($env:QTD).replace("\","/")
 	
-	$env:QTP=$env:JTSDK_TOOLS + "\Qt\"+$env:QTV+"\"+$env:VER_MINGW+"\plugins\platforms"
+	$env:QTP=$env:QTBASE + "\" + $env:VER_MINGW + "\plugins\platforms"
 	$env:QTP_F = ConvertForward($env:QTP)
 	$QTP_ff.Value = ($env:QTP).replace("\","/")
 
 	# Fudge to handle MinGW 9.0.0 Tools with Qt
+	# --> MinGW 9.0.0 Tools now just named mingw_64 [ No version prefix ] 
 	if ($env:VER_MINGW -like "mingw_64") {
 		$ver_mingw_tmp = $env:VER_MINGW
 	#	# A fudge
@@ -256,17 +261,21 @@ function SetQtEnvVariables ([ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
 	# De-Fudge to handle MinGW 9.0.0 Tools with Qt
 	if ( Get-Variable -name ver_mingw_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW = $ver_mingw_tmp }
 	
+	#####################################################
 	# Note: This is the NEW First occurence of JTSDK_PATH
+	#####################################################
 
-	#$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
-	$env:JTSDK_PATH=$env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
-	Write-Host "* Qt Environment Variables"
-	Write-Host "  --> QTD ----> $env:QTD"
-	Write-Host "  --> QTD_F --> $env:QTD_F"
-	Write-Host "  --> QTP ----> $env:QTP"
-	Write-Host "  --> QTP_F --> $env:QTP_F"
-	Write-Host "  --> GCCD ---> $env:GCCD"
-	Write-Host "  --> GCCD_F -> $env:GCCD_F"
+	#$env:JTSDK_PATH += ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
+	$env:JTSDK_PATH=$env:GCCD + ";" + $env:QTD + ";" + $env:QTP + ";" + $env:QTP + "\lib" 
+	Write-Host "* Setting Qt Environment Variables"
+	Write-Host "  --> QTBASE ----> $env:QTBASE"
+	Write-Host "  --> QTBASE_F --> $env:QTBASE_F"
+	Write-Host "  --> QTD -------> $env:QTD"
+	Write-Host "  --> QTD_F -----> $env:QTD_F"
+	Write-Host "  --> QTP -------> $env:QTP"
+	Write-Host "  --> QTP_F -----> $env:QTP_F"
+	Write-Host "  --> GCCD ------> $env:GCCD"
+	Write-Host "  --> GCCD_F ----> $env:GCCD_F"
 }
 
 # --- CHECK BOOST DEPLOY IS FOR CORRECT MINGW VERSION -------------------------
@@ -310,7 +319,7 @@ function SetCheckBoost {
 	
 	if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
 
-		$env:JTSDK_PATH=$env:JTSDK_PATH + ";" + $env:boost_dir + "\lib"
+		$env:JTSDK_PATH += ";" + $env:boost_dir + "\lib"
 		Write-Host -NoNewLine "* Boost version $env:boostv is deployed under "
 		$env:BOOST_V_MINGW = CheckBoostCorrectMinGWVersion($env:boost_dir)
 		Write-Host $env:BOOST_V_MINGW
@@ -337,7 +346,7 @@ function SetUnixTools {
 	if (($tmpUnixToolsValue -eq "enabled") -or ($tmpUnixToolsValue -eq "yes")) {	
 		$unixDir1 = $env:JTSDK_TOOLS + "\msys64"
 		$unixDir2 = $env:JTSDK_TOOLS + "\msys64\usr\bin"
-		$env:JTSDK_PATH = $env:JTSDK_PATH + ";" + $unixDir1 + ";" + $unixDir2 + ";"  
+		$env:JTSDK_PATH += ";" + $unixDir1 + ";" + $unixDir2 + ";"  
 		$env:UNIXTOOLS = "enabled"
 		Write-Host "ENABLED ==> SYS2 ADDED to System Path"
 	} else {
@@ -371,7 +380,7 @@ function SetHamlibRepo {
 
 # --- Generate Qt Tool Chain Files --------------------------------------------
 
-function GenerateToolChain ($qtdff, $gccdff, $rubyff, $fftw3fff, $hamlibff, $svnff) {
+function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $hamlibff, $svnff) {
 
 	$QTVR = $env:QTV -replace "\.",''
 
@@ -596,7 +605,7 @@ CheckJTSourceSelection					# --- JT Source Selection Check -------
 
 # --- CORE TOOLS --------------------------------------------------------------
 #
-# Versions of packages now set in $env:JTSDK_CONFIG\Versions.ini 
+# Versions of packages set in $env:JTSDK_CONFIG\Versions.ini 
 
 Write-Host -NoNewLine "* Setting Core Tool Variables from "
 
@@ -611,10 +620,12 @@ Write-Host "$env:JTSDK_VC"
 
 CheckQtDeployment 						# --- Qt ------------------------------
 
-$QTD_ff = " "							# --- Set Qt Environment variables ----
+$QTBASE_ff = " "						# --- Set Qt Environment variables ----
+$QTD_ff = " "							
 $GCCD_ff = " "
 $QTP_ff = " "
-SetQtEnvVariables -QTD_ff ([ref]$QTD_ff) -GCCD_ff ([ref]$GCCD_ff) -QTP_ff ([ref]$QTP_ff)
+
+SetQtEnvVariables -QTBASE_ff ([ref]$QTBASE_ff) -QTD_ff ([ref]$QTD_ff) -GCCD_ff ([ref]$GCCD_ff) -QTP_ff ([ref]$QTP_ff)
 
 SetSQLiteEnviron ($configTable)			# --- SQlite --------------------------
 
@@ -646,17 +657,18 @@ SetHamlibRepo							# --- SET HAMLIB REPO SOURCE ----------
 
 # --- SET FINAL ENVIRONMENT PATHS and CONSOLE TITLE ---------------------------
 
-$env:PATH=$env:PATH + ";" + $env:JTSDK_PATH
+$env:PATH += $env:JTSDK_PATH
 $env:PATH += ";C:\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\bin"	# -- Always Find HAMLIB in search path
+$env:PATH += ";C:\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\lib"	# -- Always Find HAMLIB Library Dir in search path
 
 # The next line is a FUDGE for an issue with JTDX packaging. Not Happy with this !
-$env:PATH += ";C:\Windows\SysWOW64\downlevel;C:\Windows\System32\downlevel\"
+$env:PATH += ";C:\Windows\SysWOW64\downlevel;C:\Windows\System32\downlevel"
 
-$hamlib_base_ff = SetHamlibDirs		# --- Hamlib3 Dirs --------------------
+$hamlib_base_ff = SetHamlibDirs		     # --- Hamlib Dirs --------------------
 
 # --- Generate the Tool Chain -------------------------------------------------
 
-GenerateToolChain -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -hamlibff $hamlib_base_ff -svnff $svn_dir_ff
+GenerateToolChain -qtbaseff $QTBASE_ff -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -hamlibff $hamlib_base_ff -svnff $svn_dir_ff
 
 # -----------------------------------------------------------------------------
 #  FINAL MESSAGE
@@ -665,7 +677,8 @@ GenerateToolChain -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff
 Write-Host ""
 Write-Host "* Environment configured for `'jtbuild`' JT-software and `'msys2`' Hamlib development"
 Write-Host ""
-pause
+
+Read-Host -Prompt "*** Press [ENTER] to Launch JTSDK-Tools Environment *** "
 
 InvokeInteractiveEnvironment			# --- Invoke the Interactive Environment
 

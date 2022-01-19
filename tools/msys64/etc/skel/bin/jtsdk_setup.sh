@@ -82,7 +82,7 @@ function jtsetup () {
 
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
-    "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" \
+    "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" "bison" \
     "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" "tar" "dos2unix" )
 
     # loop through the pkg_list array and install as needed
@@ -114,7 +114,7 @@ function gnusetup () {
     # declare the package array
 	
 	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" \
-	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" )
+	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -353,9 +353,6 @@ function greeting_message (){
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''
-	echo -e ${C_R}"Note:"${C_C}" Menu Option 4 must be selected before building Dynamic Hamlib Libraries."${C_NC}
-    echo ''
-
 }
 
 # set title function

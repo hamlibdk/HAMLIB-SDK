@@ -153,9 +153,9 @@ files&quot; in order to compile JT- software.</p>
 <p>Operational techniques have already evolved  i.e. the need for <strong>qt-gen-tc</strong> has been 
 eliminated. Some needed techniques to support &#39;familiarity&#39; also have limits. Ways that 
 processes are executed may change.</p>
-<p>Qt  under the MinGW compiler set needs to be deployed to build JT-ware. This means that there can be clashes with the MSYS2 utilities and compiler sets needed to build Hamlib and other libraries. Such clashes need to be resolved mostly via setting system paths in the correct sequence and/or sometimes diabling some tools that can conflict. </p>
-<p>There is only a small number of us are working on this project now. More assistance is needed :-) </p>
-<p>The complexity of the GIT code distribution system - initially conceived by Linus Torvalds of Linux fame - makes code and script management harder than it needs to be. We need a dedicated manager for this role that can teach us how to use this system more effectively.</p>
+<p>Qt  under the MinGW compiler set needs to be deployed to build JT-ware. This means that there can be clashes with the MSYS2 utilities and compiler sets needed to build Hamlib and other libraries. Such clashes need to be resolved mostly via setting system paths in the correct sequence and/or sometimes diabling some tools that can conflict.&nbsp;&nbsp;</p>
+<p>There is only a small number of us are working on this project now. More assistance is needed :-)&nbsp;&nbsp;</p>
+<p>The complexity of the GIT code distribution system - initially conceived by Linus Torvalds of Linux fame - makes code and script management harder than it needs to be. We need a dedicated manager for this role that can teach us how to use this system more effectively.&nbsp;</p>
 </ul>
 <hr/>
 <h2>Notes for building WSJT-X</h3>
@@ -167,7 +167,7 @@ processes are executed may change.</p>
 	</table>
     <ul>
     	<p>There are no special notes for building <strong>WSJTX</strong> at this time.</p>
-		<p>Source for <strong>WSJT-X</strong>  and <strong>JTDX</strong> is development prioritised for any build process.</p>
+		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
 	</ul>
 		
 <hr/>
@@ -245,16 +245,16 @@ processes are executed may change.</p>
 	<br/>
 	<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd">The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with with <strong>Dynamic libraries and LibUSB support</strong>.</td>
+			<td class="custd"><p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with with <strong>Dynamic libraries and&nbsp;LibUSB support</strong>.</p></td>
 		</tr>
 	</table>
 <h3>Hamlib Requirements</h3>
  <ul>
-	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with with <strong>Dynamic libraries and LibUSB support</strong>.</p>
+	<p>The current release version of <strong>JS8CALL</strong> will not package if the <strong>Hamlib</strong> is built with with <strong>Dynamic libraries and&nbsp;LibUSB support</strong>.</p>
 	<ul>
 	  	<li>Execute  the following commands at the <strong>mingw64</strong> command prompt:</li>		
 		<ul>
-			<li><strong>build-hamlib -nlibusb -static</strong> &lt;== note the use of the extension</li>
+			<li><strong>build-hamlib -nlibusb -static</strong> &lt;== note the use of the extension<em>&nbsp;</em></li>
 		</ul>
 		<li>Once the Hamlib build is complete, close all MSYS2 and JTSDK64-Tools Terminals and Windows.</li>
 		
@@ -279,7 +279,7 @@ processes are executed may change.</p>
 			<li><strong>jtbuild package -ng</strong>   <== Does not pull from a GIT Repository</li>
 		</ul>
 		<p>The "source marker" in <strong>x:\JTSDK64-Tools\config</strong> can also be renamed to <strong>hl-none</strong> for a more permanent solution.</p>		
-		<p>It is highly recommended that you customise the<strong> jtbuild.ps1</strong> script in <strong>x:\JTSDK64-Tools\tools\scripts</strong> for your own purpose and set this command as a PowerShell <em><strong>alias</strong></em> so that you do not continuously over-write your work.</p>
+		<p>It is highly recommended that you customise the<strong> jtbuild.ps1</strong> script in <strong>x:\JTSDK64-Tools\tools\scripts</strong>&nbsp;for your own purpose and set this command as a PowerShell <em><strong>alias</strong></em> so that you do not continuously over-write your work.&nbsp;</p>
 		<p>These kits are focussed on users that want to build their own JT-ware releases based on the latest code available.<br>
 		<br>
 		Details on how to do this are not provided in this documentation as one should only be tinkering with JT-ware source code if one knows how to work with both the source code and how to modify the PowerShell scripts for their needs.</p>
@@ -295,8 +295,8 @@ processes are executed may change.</p>
 <ul>
 	<p>Please test these scripts and those in the <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/">Tests</a> folder. Report observations either via the <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> or the email address where most most messages come from (if you cannot post). The <a href="https://groups.io/g/JTSDK/messages">JTSDK Forum</a> is used somewhat as as &#39;blog&#39; as information in 
 	there is too valuable for the general IT community.</p>
-	<p><strong><em>The &#39;core team&#39; behind this are not PowerShell gurus.</em></strong></p>
-	<p><strong><em>The 'core team' behind this are not Web-Developers.</em></strong></p>
+	<p><strong><em>The &#39;core team&#39; behind this are not PowerShell gurus.</em></strong>&nbsp;</p>
+	<p><strong><em>The 'core team' behind this are not Web-Developers.</em></strong>&nbsp;</p>
 	<p>This is a learning effort. If you are a PowerShell guru PLEASE PLEASE PLEASE jump in and comment to assist. Send back BETTER SCRIPT. <strong>Teach us all</strong>. </p>
 	<p>We especially require people to make these README.md scripts better !</p>
 	<p><strong> ALL CONTRIBUTIONS AND COMMENTS ARE GRATEFULLY WELCOMED </strong> !</p>
