@@ -271,7 +271,38 @@ It is recommended to use all the initial default settings and file locations.
 ### Step 2: Launch the Installation Environment
  
 - Launch the **JTSDK64-Setup** environment from the link on your desktop
-- In this environment type: **postinstall**
+
+```
+---------------------------------------------------------
+            JTSDK64 Tools Setup v3.2.2.1
+---------------------------------------------------------
+
+* Required Tools
+
+  --> VC Runtimes ..: Not Installed
+  --> Git ..........: Installed
+  --> OmniRig ......: Installed
+
+* Qt Script-Provisioned Tools
+
+  --> MinGW 7.3 ....: Qt 5.12.12
+  --> MinGW 8.1 ....: Qt 5.15.2
+  --> MinGW 9.0.0 ..: Qt 6.2.2
+
+* Optional Components
+
+  --> VS Code ......: Not Installed
+  --> Boost ........: Installed
+
+* Post Install / Setup Commands
+
+  --> Main Install .: postinstall
+  --> MSYS2 Shell ..: msys2
+
+PS C:\JTSDK64-Tools>
+```
+
+- At the PowerShell prompt type: **postinstall**
 
 The following information will be displayed:
 

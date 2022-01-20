@@ -117,12 +117,44 @@ Do you want to change the execution policy?
 	<p>Perform the following steps:</p>
 	<ul>
 		<li>Launch the <strong>JTSDK64-Setup</strong> environment.</li>
-		<li>In this environment type: <strong>postinstall</strong></li>
+	</ul>
+</ul>
+<div class="reducewidth"> <pre>
+---------------------------------------------------------
+            JTSDK64 Tools Setup v3.2.2.1
+---------------------------------------------------------
+
+* Required Tools
+
+  --> VC Runtimes ..: Not Installed
+  --> Git ..........: Installed
+  --> OmniRig ......: Installed
+
+* Qt Script-Provisioned Tools
+
+  --> MinGW 7.3 ....: Qt 5.12.12
+  --> MinGW 8.1 ....: Qt 5.15.2
+  --> MinGW 9.0.0 ..: Qt 6.2.2
+
+* Optional Components
+
+  --> VS Code ......: Not Installed
+  --> Boost ........: Installed
+
+* Post Install / Setup Commands
+
+  --> Main Install .: postinstall
+  --> MSYS2 Shell ..: msys2
+
+PS C:\JTSDK64-Tools>
+</pre> </div>
+	<ul>
+	<ul>
+		<li>At the PowerShell prompt type: <strong>postinstall</strong></li>
 	</ul>
 	<p>The following information will be displayed:</p>
 	</ul>
-	<div class="reducewidth">
-<pre>
+<div class="reducewidth"> <pre>
 ------------------------------------------------------
   JTSDK64 Tools Post Install/Redeployment Selections
 ------------------------------------------------------
@@ -235,8 +267,6 @@ For Help Menu, type ..: jthelp
 Copyright (C) 2013-2021, GPLv3, Greg Beam, KI7MT and JTSDK Contributors.
 This is free software; There is NO warranty; not even
 for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-Note: Menu Option 4 must be selected before building Dynamic Hamlib Libraries.
 
 sdk@radio ~
 $
