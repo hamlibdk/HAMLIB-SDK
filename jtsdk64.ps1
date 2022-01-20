@@ -266,7 +266,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	#####################################################
 
 	#$env:JTSDK_PATH += ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
-	$env:JTSDK_PATH=$env:GCCD + ";" + $env:QTD + ";" + $env:QTP + ";" + $env:QTP + "\lib" 
+	$env:JTSDK_PATH=";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP + ";" + $env:QTP + "\lib" 
 	Write-Host "* Setting Qt Environment Variables"
 	Write-Host "  --> QTBASE ----> $env:QTBASE"
 	Write-Host "  --> QTBASE_F --> $env:QTBASE_F"
