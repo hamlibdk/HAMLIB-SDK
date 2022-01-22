@@ -174,8 +174,10 @@ Read-Host -Prompt "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** "
 
 invoke-expression 'cmd /c start powershell -NoExit -Command {                           `           `
     $host.UI.RawUI.WindowTitle = "JTSDK64 Setup Powershell Window" 
+	$Host.UI.RawUI.BackgroundColor = "Black"
     New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2_shell.cmd"
 	New-Alias postinstall "$env:JTSDK_TOOLS\setup\jtsdk64-postinstall.ps1"
+	Clear-Host
     Write-Host "---------------------------------------------------------"
 	Write-Host "            JTSDK64 Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Cyan
 	Write-Host "---------------------------------------------------------"

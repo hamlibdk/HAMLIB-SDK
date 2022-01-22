@@ -1,0 +1,1 @@
+build-hamlib.sh and jtsdk-setup.sh now placed into /usr/local/bin

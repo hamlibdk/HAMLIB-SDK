@@ -463,9 +463,11 @@ function CheckJTSourceSelection {
 function InvokeInteractiveEnvironment {
 	invoke-expression 'cmd /c start powershell -NoExit -Command {                           `                `
 		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools"
+		$Host.UI.RawUI.BackgroundColor = "Black"
 		New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2.exe"	
 		New-Alias mingw32 "$env:JTSDK_TOOLS\msys64\mingw32.exe"	
 		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
+		Clear-Host
 		Write-Host "--------------------------------------------"
 		Write-Host "           JTSDK Tools $env:JTSDK64_VERSION"
 		Write-Host "--------------------------------------------"
