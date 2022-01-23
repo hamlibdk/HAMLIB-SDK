@@ -29,7 +29,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 LicenseFile=C:\JTSDK64-Tools\gpl-3.0.rtf
-VersionInfoVersion=3.2.2.1
+VersionInfoVersion=3.2.2.1.6
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

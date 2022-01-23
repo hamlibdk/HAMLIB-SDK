@@ -15,6 +15,7 @@
 #          Dynamic libraries delivered properly to main library tree 4/5-01-2022 Steve VK3VM
 #          LibUSB DLL library path set from Versions.ini 6-1-2022 Steve VK3VM
 #          Modifications to handle opposite CLI switches and default path dynamic build now 15-1-2022 Steve VK3VM
+#          Change path mods from home dir for .sh files to /usr/local/bin 23-1-2022 Steve VK3VM
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
@@ -38,6 +39,7 @@ HOST_ARCH=$MINGW_CHOST
 PKG_NAME=Hamlib
 BUILDER=$(whoami)
 GCCUSED="$(which gcc)"
+GCCPATH="$(which gcc | awk '{ print substr( $0, 1, length($0)-4 ) }')"
 
 # -- Colours ------------------------------------------------------------------
 
@@ -83,7 +85,12 @@ mkdir -p $HOME/src/hamlib/{build,src} >/dev/null 2>&1
 
 # -- Tool Chain Paths ---------------------------------------------------------
 
-export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBDLL:$PATH"
+if [ $MSYSTEM == "MINGW32" ] || [ $MSYSTEM == "MINGW64" ];
+then 
+	export PATH="$LIBUSBINC:$LIBUSBDLL:$PATH"
+else
+	export PATH="$GCCD_F:$QTD_F:$QTP_F:$LIBUSBINC:$LIBUSBDLL:$PATH"
+fi
 
 #-----------------------------------------------------------------------------#
 # FUNCTIONS                                                                   #
@@ -201,6 +208,7 @@ Tool-Check () {
 
 	# List tools versions
 	echo -e ' Compiler ...........: '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
+	echo -e ' Compiler Path ......: '${C_G}"$GCCPATH"${C_NC}
 	echo -e ' Bin Utils ..........: '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
 	echo -e ' Libtool ............: '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
 	echo -e ' Pkg-Config .........: '${C_G}"$(pkg-config --version)"${C_NC}
@@ -522,8 +530,26 @@ function Copy-DLLs {
 		echo "  --> $LIBUSBDLL/libusb-1.0.dll"
 		cp -u "$LIBUSBDLL/libusb-1.0.dll" "$PREFIX/bin"
 	fi
-	echo "  --> $GCCD_F/libwinpthread-1.dll"
-	cp -u "$GCCD_F/libwinpthread-1.dll" "$PREFIX/bin"
+	
+	# -- Copy Extra DLL's etc needed for Hamlib -----------------------------------
+	# These lines may need ongoing manual maintenance as Hamlib and MSYS2 Evolves
+	# A better technique to identify Support DLL's needed by Hamlib is needed.
+
+	if [ -f "$GCCPATH/libwinpthread-1.dll" ];
+	then
+		echo "  --> $GCCPATH/libwinpthread-1.dll"
+		cp -u "$GCCPATH/libwinpthread-1.dll" "$PREFIX/bin"
+	fi 
+	if [ -f "$GCCPATH/libtermcap-0.dll" ];
+	then
+		echo "  --> $GCCPATH/libtermcap-0.dll"
+		cp -u "$GCCPATH/libtermcap-0.dll" "$PREFIX/bin"
+	fi
+	if [ -f "$GCCPATH/libreadline8.dll" ];
+	then
+		echo "  --> $GCCPATH/libreadline8.dll"
+		cp -u "$GCCPATH/libreadline8.dll" "$PREFIX/bin"
+	fi
 	
 	# -- Special Cleanup for Dynamic Builds ---------------------------------------
 	# Note: This may NOT be required in the future when configure option --disable-static works

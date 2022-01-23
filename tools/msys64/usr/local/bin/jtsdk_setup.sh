@@ -40,9 +40,9 @@ alias vdir='ls --color=auto --format=long'
 alias l='ls -CF'                              #
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
-alias build-hamlib='bash "/home/$USER/bin/build-hamlib.sh"' # edited to remove -dynamic option 15-1-2022 Steve VK3VM
-alias build-hamlib-dll='bash "/home/$USER/bin/build-hamlib.sh" -dynamic'
-alias build-hamlib-static='bash "/home/$USER/bin/build-hamlib.sh" -static'
+alias build-hamlib='bash "build-hamlib.sh"'   # edited to remove -dynamic option 15-1-2022 Steve VK3VM
+alias build-hamlib-dll='bash "build-hamlib.sh" -dynamic'
+alias build-hamlib-static='bash "build-hamlib.sh" -static'
 
 # Function: Help Menu ---------------------------------------------------------
 function jthelp () {
@@ -83,7 +83,7 @@ function jtsetup () {
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" "bison" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" "tar" "dos2unix" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -113,7 +113,7 @@ function gnusetup () {
 
     # declare the package array
 	
-	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" \
+	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" "msys2-w32api-runtime" \
 	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" )
 
     # loop through the pkg_list array and install as needed
