@@ -242,6 +242,85 @@ Do you want to change the execution policy?
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
 <h3>Step 2: Launch the Installation Environment</h3>
+    <h4>Special Note for Windows 11 and Tools 3.2.2.1 and VC Runtimes Deployment</h4>   
+
+    <ul>
+    <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
+    </ul>
+	<div class="reducewidth">
+<pre>
+---------------------------------------------------------
+            JTSDK64 Tools Setup v3.2.2.1
+---------------------------------------------------------
+
+* Required Tools
+
+  --> VC Runtimes ..: Not Installed
+  --> Git ..........: Not Installed
+  --> OmniRig ......: Not Installed
+
+* Qt Script-Provisioned Tools
+
+  --> MinGW 7.3 ....: Qt Not Installed
+  --> MinGW 8.1 ....: Qt Not Installed
+  --> MinGW 9.0.0 ..: Qt Not Installed
+
+* Optional Components
+
+  --> VS Code ......: Not Installed
+  --> Boost ........: Not Installed
+
+* Post Install / Setup Commands
+
+  --> Main Install .: postinstall
+  --> MSYS2 Shell ..: msys2
+
+PS C:\JTSDK64-Tools>
+</pre> </div>
+    <ul>    
+        <p>In the above example it is shown that the VC 2019 Runtimes are not deployed.</p>
+        <p>When you run <strong>postinstall</strong> with deployment of VC 2019 Runtimes selected for deployment the following error occurs:</p>
+    </ul>
+	<div class="reducewidth">
+<pre>
+...
+ Enter Your Install/Redeployment Selection(s):
+
+(required) VC/C++ Runtimes (Y|N) .: y
+...
+...
+-----------------------------------------------------
+Installing Visual C/C++ x86 and x64 Runtimes
+-----------------------------------------------------
+
+* Downloading VC/C++ Installer
+
+  --> Downloading the latest VC/C++ x86 Installer: Complete
+  --> Downloading the latest VC/C++ x64 Installer: Complete
+
+-----------------------------------------------------
+ Visual C/C++ Runtime - Error In x86 Install
+-----------------------------------------------------
+
+****************************************************
+Processing Error
+****************************************************
+
+The exit status from step [ VC Runtimes Install ] returned
+a non-zero status. Check the error message and
+and try again.
+
+If the problem presists, contact: JTSDK@Groups.io
+
+PS C:\JTSDK64-Tools\tools\setup\vcruntime>
+</pre> </div>
+    <ul>    
+        <p>This is because LATER versions of the VC Runtimes may be reployed in your Windows 11 deployment</p>
+        <p>The postinstall script has difficulty handling and detecting later versions of the VC runtimes.</p>
+        <p>Restart the deployment. Ignore the deployment of The VC 2019 runtimes (i.e. select 'N') if you experience this error.</p>
+    </ul>
+    <h4>Mainstream Deployment</h4> 
+
 <ul>
 	<p>Perform the following steps:</p>
 	<ul>

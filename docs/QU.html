@@ -42,7 +42,7 @@
 			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
 			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
 			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
-			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">Download</a</td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">Download</a</td>
 		</tr>
 	</table>
 	<hr/>
@@ -50,8 +50,8 @@
 	<hr>
 	<h3>What has happened to the original JTSDK creator?</h3>
     <ul>
-		<p><a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is still around and with us on the JTSDK Forum at <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a>. People's interests change; you will see from Greg's posts that he has evolved past active JTSDK development.</a> 
-		<p>We cannot thank Greg more highly for his past and ongoing work - especially as a mentor at this point in time.</p>
+		<p><a href="https://github.com/KI7MT">Greg Beam KI7MT</a> is still around and with us on the JTSDK Forum at <a href="https://groups.io/g/JTSDK">jtsdk@groups.io</a>. People's interests change; you will see from Greg's posts that he has evolved past active JTSDK development. 
+		</p><p>We cannot thank Greg more highly for his past and ongoing work - especially as a mentor at this point in time.</p>
 	<p>No politics here. This is not a push out or push aside. The 'hamlibdk' group as entities seek no glory nor recognition. Contributors just evolved work where Greg left off as the need was there for this to occur.</p>
 <p>Other developers have gone silent (but may still be around in the background) due to some of the nastiness in our environment.&nbsp;</p>
 </ul>
@@ -106,7 +106,7 @@ Do you want to change the execution policy?
 <h4>Where do I get and how do I apply 'Tools' packages?</h4>
 
 	<ul>
-	  <p><strong></strong>&quot;Tools&quot;</strong> packages are updates to the <strong></strong>&quot;Base&quot;</strong> environments.</p>
+	  <p><strong></strong>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
 	<p><em>These steps assume that you have a deployed base environment</em></p>
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
@@ -144,6 +144,88 @@ Do you want to change the execution policy?
 	<p>Environments have become EXTREMELY COMPLEX. What can work on one machine may not work on another.</p>
 	<p>These notes may assist you getting around some of the issues that have been observed.</p>
 </ul>
+<h3>VC 2019 Runtimes Deployment Error during <strong>postinstall</strong></h4>   
+
+    <ul>
+    <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
+    </ul>
+	<div class="reducewidth">
+<pre>
+---------------------------------------------------------
+            JTSDK64 Tools Setup v3.2.2.1
+---------------------------------------------------------
+
+* Required Tools
+
+  --> VC Runtimes ..: Not Installed
+  --> Git ..........: Not Installed
+  --> OmniRig ......: Not Installed
+
+* Qt Script-Provisioned Tools
+
+  --> MinGW 7.3 ....: Qt Not Installed
+  --> MinGW 8.1 ....: Qt Not Installed
+  --> MinGW 9.0.0 ..: Qt Not Installed
+
+* Optional Components
+
+  --> VS Code ......: Not Installed
+  --> Boost ........: Not Installed
+
+* Post Install / Setup Commands
+
+  --> Main Install .: postinstall
+  --> MSYS2 Shell ..: msys2
+
+PS C:\JTSDK64-Tools>
+</pre> </div>
+    <ul>    
+        <p>In the above example it is shown that the VC 2019 Runtimes are not deployed.</p>
+        <p>When you run <strong>postinstall</strong> with deployment of VC 2019 Runtimes selected for deployment the following error occurs:</p>
+    </ul>
+	<div class="reducewidth">
+<pre>
+...
+ Enter Your Install/Redeployment Selection(s):
+
+(required) VC/C++ Runtimes (Y|N) .: y
+...
+...
+-----------------------------------------------------
+Installing Visual C/C++ x86 and x64 Runtimes
+-----------------------------------------------------
+
+* Downloading VC/C++ Installer
+
+  --> Downloading the latest VC/C++ x86 Installer: Complete
+  --> Downloading the latest VC/C++ x64 Installer: Complete
+
+-----------------------------------------------------
+ Visual C/C++ Runtime - Error In x86 Install
+-----------------------------------------------------
+
+****************************************************
+Processing Error
+****************************************************
+
+The exit status from step [ VC Runtimes Install ] returned
+a non-zero status. Check the error message and
+and try again.
+
+If the problem presists, contact: JTSDK@Groups.io
+
+PS C:\JTSDK64-Tools\tools\setup\vcruntime>
+</pre> </div>
+    <ul>    
+        <p>This is because LATER versions of the VC Runtimes may be reployed in your Windows 11 deployment</p>
+        <p>The postinstall script has difficulty handling and detecting later versions of the VC runtimes.</p>
+        <p>This can be resolved with the following simple procedure:</p>
+        <ul>
+            <li>Restart the deployment.</li>
+            <li>Ignore the deployment of The VC 2019 runtimes (i.e. select 'N') if you experience this error.</li>
+        </ul>
+    </ul>
+    
 <h3>Wrong Qt deployment settings</h3>
 <ul> 
 <p>By far the most common issue observed has occurred when end users have performed default deploys of&nbsp; <strong>Qt 5.12.12</strong>.&nbsp;</p>
@@ -211,7 +293,7 @@ compilation terminated.
 	</ul>
 	<p><a href="https://groups.io/g/JTSDK/message/1780">Thanks for the reminder Tom (and Mike)</a> :-)</p>
 </ul>
-</ul>
+
 <h3>Minor packaging issue observed when building JTDX</h3>
 <ul>
 <p>A CPACK issue may be observed when the JTSDK is deployed to a FRESH Windows OS.</p>
