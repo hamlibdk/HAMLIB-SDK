@@ -33,7 +33,7 @@ function ConvertForward($inValue) {
 $env:JTSDK64_VERSION = [IO.File]::ReadAllText($PSScriptRoot+"\ver.jtsdk")
 $host.ui.RawUI.WindowTitle = “JTSDK64 Tools Setup ” + $env:JTSDK64_VERSION
 
-Clear-Host
+# Clear-Host
 Write-Host "--------------------------------------------------------------"
 Write-Host "               JTSDK64 Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
 Write-Host "--------------------------------------------------------------"
@@ -45,7 +45,7 @@ Write-Host " "
 
 # --- Main Paths --------------------------------------------------------------
 
-Write-Host -NoNewline "* Setting Environment Variables ... "
+Write-Host "* Setting Environment Variables:"
 $env:JTSDK_HOME = $PSScriptRoot 
 $env:JTSDK_HOME_F = ConvertForward($env:JTSDK_HOME) 
 $env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
@@ -88,7 +88,17 @@ $env:VSCODE_STATUS="Not Installed"
 $env:BOOST_STATUS="Not Installed"
 $env:OMNIRIG_STATUS="Not Installed"
 
-Write-Host "Done"
+Write-Host "  --> Required Deployment Environment Variables ... Set"
+
+# --- Read from Versions.ini -------------------------------------------------
+# --> Ref: https://serverfault.com/questions/186030/how-to-use-a-config-file-ini-conf-with-a-powershell-script
+
+$env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
+Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
+$env:VC_RUNPATH = $configTable.Get_Item("vcrunurl")
+Write-Host -NoNewLine "  --> VC/C++ Runtime Path "
+Write-Host -NoNewLine "$env:VC_RUNPATH" -ForegroundColor DarkCyan
+Write-Host " from Versions.ini ... Set"
 
 #------------------------------------------------------------------------------
 # APP CHECK
@@ -96,9 +106,9 @@ Write-Host "Done"
 
 # --- VC Runtimes -------------------------------------------------------------
 
-Write-Host -NoNewline "* Checking VC 2019 Runtime availability (Please wait) ... "
+Write-Host -NoNewline "* Checking for Visual C/C++ 2022 Runtime availability (Please wait) ... "
 
-$vcRunInstance = Get-CimInstance -ClassName Win32_Product -Filter "Vendor = 'Microsoft Corporation' and Name LIKE '%Microsoft Visual C++ 2019%'"
+$vcRunInstance = Get-CimInstance -ClassName Win32_Product -Filter "Vendor = 'Microsoft Corporation' and Name LIKE '%Microsoft Visual C++ 2022%'"
 if ($vcRunInstance) { $env:VCRUNTIME_STATUS="Installed" }
 Write-Host "Done"
 

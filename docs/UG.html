@@ -187,7 +187,7 @@ Do you want to change the execution policy?
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1.exe</a>.</p>
+	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe">JTSDK64-Tools-3.2.2.2.exe</a>.</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
@@ -237,12 +237,12 @@ Do you want to change the execution policy?
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
 	<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.1.exe">JTSDK64-Tools-3.2.2.1</a> ) to your Base Deployment.</li>
+	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe">JTSDK64-Tools-3.2.2.2</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
 <h3>Step 2: Launch the Installation Environment</h3>
-    <h4>Special Note for Windows 11 and Tools 3.2.2.1 and VC Runtimes Deployment</h4>   
+    <h4>Special Note for Windows 11 and Tools 3.2.2.2 and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
@@ -250,7 +250,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 ---------------------------------------------------------
-            JTSDK64 Tools Setup v3.2.2.1
+            JTSDK64 Tools Setup v3.2.2.2
 ---------------------------------------------------------
 
 * Required Tools
@@ -278,8 +278,8 @@ Do you want to change the execution policy?
 PS C:\JTSDK64-Tools>
 </pre> </div>
     <ul>    
-        <p>In the above example it is shown that the VC 2019 Runtimes are not deployed.</p>
-        <p>When you run <strong>postinstall</strong> with deployment of VC 2019 Runtimes selected for deployment the following error occurs:</p>
+        <p>In the above example it is shown that the VC 2022 Runtimes are not deployed.</p>
+        <p>When you run <strong>postinstall</strong> with deployment of VC 2022 Runtimes selected for deployment the following error occurs:</p>
     </ul>
 	<div class="reducewidth">
 <pre>
@@ -317,7 +317,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
     <ul>    
         <p>This is because LATER versions of the VC Runtimes may be reployed in your Windows 11 deployment</p>
         <p>The postinstall script has difficulty handling and detecting later versions of the VC runtimes.</p>
-        <p>Restart the deployment. Ignore the deployment of The VC 2019 runtimes (i.e. select 'N') if you experience this error.</p>
+        <p>Restart the deployment. Ignore the deployment of The VC 2022 runtimes (i.e. select 'N') if you experience this error.</p>
     </ul>
     <h4>Mainstream Deployment</h4> 
 

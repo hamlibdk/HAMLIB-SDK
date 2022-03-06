@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 3.2.2 
+# Version ...........: 3.2.3 
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
@@ -39,6 +39,11 @@ function TheEnd($code) {
 	#Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
 	#Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null
 	#Pop-Location
+	
+	# EXPERIMENT
+
+	$env:PATH = $env:PATH_BKP
+	Remove-Item env:PATH_BKP
 
 	exit($code)
 }
@@ -823,6 +828,10 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 #	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null 
 #}
 
+#EXPERIMENT
+if ( -Not ( Test-Path env:PATH_BKP ) ) { $env:PATH_BKP = $env:PATH }
+$env:PATH = $env:PATH +";" + $env:QT_JTSDK_PATH
+
 #Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
 #Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe | Out-Null
 #Pop-Location
@@ -918,5 +927,6 @@ if ($topt -like "Docs") { DocsTarget }
 
 # ---------------------------------------------------------------- FINAL CATCH-ALL !!!
 GenerateError("Undefined Target")
+
 
 TheEnd (-1)

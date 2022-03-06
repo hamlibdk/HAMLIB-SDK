@@ -25,12 +25,12 @@ Write-Host " "
 
 # Process variables for x86
 
-$appURL= "https://aka.ms/vs/16/release/vc_redist.x86.exe"
+$appURL= "$env:VC_RUNPATH/vc_redist.x86.exe"
 
 $appName="vc_redist.x86.exe"
 $param = "-o $appName -J -L $appURL"
 
-Write-Host -NoNewline "  --> Downloading the latest VC/C++ x86 Installer: "
+Write-Host -NoNewline "  --> Downloading latest VC/C++ x86 Installer at ${appURL}: "
 
 Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appName
 
@@ -38,12 +38,12 @@ Write-Host "Complete"
 
 # Process variables for x64
 
-$appURL= "https://aka.ms/vs/16/release/vc_redist.x64.exe"
+$appURL= "$env:VC_RUNPATH/vc_redist.x64.exe"
 
 $appName="vc_redist.x64.exe"
 $param = "-o $appName -J -L $appURL"
 
-Write-Host -NoNewline "  --> Downloading the latest VC/C++ x64 Installer: "
+Write-Host -NoNewline "  --> Downloading latest VC/C++ x64 Installer at ${appURL}: "
 
 Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appName
 

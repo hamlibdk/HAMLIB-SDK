@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Deploy-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2
+# Version ......: 3.2.3
 # Description ..: Downloads the latest Git Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -21,8 +21,14 @@ function ErrorDetected($fnctn) {
 	exit(-1)
 }
 
+#EXPERIMENT
+if ( -Not ( Test-Path env:PATH_BKP ) ) { $env:PATH_BKP = $env:PATH }
+# $env:PATH = $env:PATH +";" + $env:QT_JTSDK_PATH
+
+$env:PATH = $env:PATH + ";" + "C:\JTSDK64-Tools\tools\msys64\mingw64\bin; C:\JTSDK64-Tools\tools\msys64\mingw64\usr\local\bin; C:\JTSDK64-Tools\tools\msys64\mingw64\bin; C:\JTSDK64-Tools\tools\msys64\usr\bin" 
+
 $scriptRoot = $PSScriptRoot				# Save execution location
-Set-Location -Path $env:JTSDK_HOME		#Chnage to the JTSDK HOME Directory
+Set-Location -Path $env:JTSDK_HOME		#Change to the JTSDK HOME Directory
 
 Clear-Host
 Write-Host "-----------------------------------------------"
@@ -54,5 +60,10 @@ if (!(Test-Path $pathTest)) {
 }	
 
 Write-Host ""
+
+# EXPERIMENT
+
+$env:PATH = $env:PATH_BKP
+Remove-Item env:PATH_BKP
 
 exit(0)
