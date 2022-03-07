@@ -52,3 +52,11 @@ git push --set-upstream origin 3.2.1
 
 git config --add remote.everyone.url https://github.com/hamlibdk/HAMLIB-SDK.git
 git config --add remote.everyone.url https://hamlibdk@git.code.sf.net/p/hamlib-sdk/code
+
+Pushing Tags..
+--------------
+
+See: https://git-scm.com/book/en/v2/Git-Basics-Tagging
+See: https://stackoverflow.com/questions/7328454/how-to-synchronize-multiple-git-repositories-including-tags-and-branches
+
+--> Especially: for i in $(git remote); do git push --mirror "$i"; done
