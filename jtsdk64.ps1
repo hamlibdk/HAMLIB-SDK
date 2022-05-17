@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.1
+# Version ......: 3.2.2.3
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -27,7 +27,8 @@
 #               : Added in a FUDGE (add .NET directories to path) so that JTDX builds can  
 #                 complete its packaging. 14/1/2022 Mike W9MDB & Steve VK3VM
 #               : Fudge to handle MinGW 9.0.0 Tools with Qt 18-1-2022 Steve VK3VM
-#               : Refactoring to cater for Qt 6.2.2 amd MinGW 9.0.0 18-19-1-2022 Steve VK3VM 
+#               : Refactoring to cater for Qt 6.2.2 and MinGW 9.0.0 18-19-1-2022 Steve VK3VM 
+#               : Further refactoring as Qt 6.2.2 and later now refers to MinGW 11.2.0 16-05-2022 Uwe DG2YCB with Steve VK3VM
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -72,6 +73,14 @@ function ConvertForward($inValue) {
 	$inValue = ($inValue).replace("\","/")
 	$inValue = ($inValue).Insert(0,'/')
 	return $inValue.replace(":","")
+}
+
+# --- CONVERT NUMBER  ---------------------------------------------------------
+# --> Converts input string into numbers only
+
+function ConvertNumber($inValue) {
+	$retval = $inValue -replace '\D+(\d+)\D+','$1'
+	return [int]$retval
 }
 
 # --- SQlite ------------------------------------------------------------------
@@ -220,7 +229,7 @@ function CheckQtDeployment {
 
 	if ($countMinGW -eq 1) 
 	{
-		Write-Host "  --> Qt Version Deployed: `[$env:QTV`] MinGW Version: `[$env:VER_MINGW`]" # - contains MinGW Release
+		Write-Host "  --> Qt Version Deployed: `[$env:QTV`] MinGW Directory: `[$env:VER_MINGW`]" # - contains MinGW Release
 	} else {
 		GenerateError("NO Qt DEPLOYMENT or MULTIPLE Qt MARKERS SET IN $env:JTSDK_CONFIG. PLEASE CORRECT")
 	}
@@ -230,6 +239,18 @@ function CheckQtDeployment {
 # --> MinGW environs need be set for detected version in $env:VER_MINGW
 
 function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
+
+	# Validate Support
+	$locQTV =ConvertNumber($env:QTV) 
+	#Write-Host $locQTV
+	#Read-Host -Prompt "Press any key to continue"
+	if ( $locQTV -ge 600 ) 
+	{
+		if ( $locQTV -lt 630 ) 
+		{
+			GenerateError("UNSUPPORTED Qt6 VERSION. Use Qt Version 6.3.0 or Greater.")
+		}
+	}
 
 	$env:QTBASE=$env:JTSDK_TOOLS + "\Qt\" + $env:QTV
 	$env:QTBASE_F = ConvertForward($env:QTBASE)
@@ -243,12 +264,12 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	$env:QTP_F = ConvertForward($env:QTP)
 	$QTP_ff.Value = ($env:QTP).replace("\","/")
 
-	# Fudge to handle MinGW 9.0.0 Tools with Qt
-	# --> MinGW 9.0.0 Tools now just named mingw_64 [ No version prefix ] 
+	# Fudge to handle MinGW 11.2.0 Tools with Qt
+	# --> MinGW 11.2.0 Tools now just named mingw_64 [ No version prefix ] 
 	if ($env:VER_MINGW -like "mingw_64") {
 		$ver_mingw_tmp = $env:VER_MINGW
 	#	# A fudge
-		$env:VER_MINGW = "mingw90_64"	
+		$env:VER_MINGW = "mingw112_64"	
 	}
 	
 	# Dirty method to add additional 0 required for Tools MinGW
@@ -258,7 +279,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	$GCCD_ff.Value = ($env:GCCD).replace("\","/")
 	$env:GCCD_F = ConvertForward($env:GCCD)
 	
-	# De-Fudge to handle MinGW 9.0.0 Tools with Qt
+	# De-Fudge to handle MinGW 12.2.0 Tools with Qt
 	if ( Get-Variable -name ver_mingw_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW = $ver_mingw_tmp }
 	
 	#####################################################
@@ -281,6 +302,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 # --- CHECK BOOST DEPLOY IS FOR CORRECT MINGW VERSION -------------------------
 # --> Get from examing nomenclature in C:\JTSDK64-Tools\tools\boost\<ver>\lib
 #     i.e. xxxx-mgw8-XXX for MinGW 8.1    xxxx-mgw7-XXX for MinGW 7.3	
+#          As of Qt 6.2.2 minGW 11.2.0 is deployed so format xxxx-mgw11-XXX
 
 function CheckBoostCorrectMinGWVersion($boostDir) {
 	$retval = "Not Found"
@@ -348,9 +370,9 @@ function SetUnixTools {
 		$unixDir2 = $env:JTSDK_TOOLS + "\msys64\usr\bin"
 		$env:JTSDK_PATH += ";" + $unixDir1 + ";" + $unixDir2 + ";"  
 		$env:UNIXTOOLS = "enabled"
-		Write-Host "ENABLED ==> SYS2 ADDED to System Path"
+		Write-Host "ENABLED ==> MSYS2 Tools ADDED to System Path"
 	} else {
-		Write-Host "DISABLED ==> MSYS2 NOT ADDED to System Path"
+		Write-Host "DISABLED ==> MSYS2 Tools NOT ADDED to System Path (recommended)"
 	}
 }
 
@@ -439,7 +461,7 @@ function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $ham
 # --- JT Source Selection Check -----------------------------------------------
 
 function CheckJTSourceSelection {
-	$env:JT_SRC="None"
+	$env:JT_SRC="Missing"
 	$listSrcDeploy = Get-ChildItem -Path $env:JTSDK_CONFIG -EA SilentlyContinue
 	ForEach ($subPathSrc in $listSrcDeploy)
 	{    
@@ -449,8 +471,10 @@ function CheckJTSourceSelection {
 			break
 		}
 	}
-	if ( $env:JT_SRC -eq "None") {
-		Write-Host " * No JT- source selection marker found in $env:JTSDK_CONFIG"
+
+	if ( $env:JT_SRC -eq "Missing") {
+		Write-Host "  --> JT- source selection marker is missing."
+		GenerateError("Please put source selection marker in X:\JTSDK64-Tools\config")
 	}
 }
 
@@ -469,7 +493,7 @@ function InvokeInteractiveEnvironment {
 		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
 		Clear-Host
 		Write-Host "--------------------------------------------"
-		Write-Host "           JTSDK Tools $env:JTSDK64_VERSION"
+		Write-Host "          JTSDK x64 Tools $env:JTSDK64_VERSION"
 		Write-Host "--------------------------------------------"
 		Write-Host ""
 		Write-Host "Config: $env:JTSDK_VC"

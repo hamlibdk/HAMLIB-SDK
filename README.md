@@ -47,11 +47,11 @@ being hopefully required.
 
 This base stream now comes with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
 
-### Release Notes: Tools 3.2.2.2 Package
+### Release Notes: Tools 3.2.2.3 Package
 
 **It is recommended that one updates any v3.2.2.1 deployments ASAP.**
 
-The [Tools 3.2.2.2](JTSDK64-Tools-3.2.2.2) package comprises of a number of updates centred on 
+The [Tools 3.2.2.3](JTSDK64-Tools-3.2.2.3) package comprises of a number of updates centred on 
 resolving the ever increasing number of issues observed with conflicts caused by both the [Qt MinGW](Qt) 
 and [MSYS2][] toolsets being in the search path together.
 
@@ -59,7 +59,7 @@ The **jtsdk64.ps1** environment tool now is set to NOT offer the [MSYS2][]toolse
 switch in **x:\JTSDK64-Tools\config\Versions.ini** for ***unixtools*** now being recommended 
 as set to ***disabled*** i.e. ***unixtools=disabled***.
 
-The [Tools 3.2.2.2](JTSDK64-Tools-3.2.2.2) package now sets the [VC Runtime][] to Version 17 
+The [Tools 3.2.2.3](JTSDK64-Tools-3.2.2.3) package now sets the [VC Runtime][] to Version 17 
 (i.e. [Visual Studio][] 2022). This should deploy any runtimes compatible swith [Visual Studio][] 2015 
 onwards.
 
@@ -214,7 +214,7 @@ are designed to be deployed to existing "Base" packages.
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-**Note:** The current "Tools" package is  [JTSDK64-Tools-3.2.2.2.exe](JTSDK64-Tools-3.2.2.2).
+**Note:** The current "Tools" package is  [JTSDK64-Tools-3.2.2.3.exe](JTSDK64-Tools-3.2.2.3).
 ************************************************************************************
 
 - Deploy the tools package to your JTSDK install directory.
@@ -223,7 +223,7 @@ Updates may apply to the [MSYS2][] environment. Therefore the "profile" director
 [MSYS2][] may be deleted and re-created.
 
 ************************************************************************************
-The current "Tools" package [JTSDK64-Tools-3.2.2.2.exe](JTSDK64-Tools-3.2.2.2) does not delete the profile nor update [MSYS2][] scripts.
+The current "Tools" package [JTSDK64-Tools-3.2.2.3.exe](JTSDK64-Tools-3.2.2.3) does not delete the profile nor update [MSYS2][] scripts.
 ************************************************************************************
 
 Before any updates (manual from "[Tests][]" or from a "Tools" package) you should backup your [MSYS2][] Environment:
@@ -273,7 +273,7 @@ These Virtual machines should have a lifetime of at least 30 days.
 ** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
 
 - Deploy the installer [JTSDK64-Base-3.2.2][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.2.2][] ) to your Base Deployment.
+- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.2.3][] ) to your Base Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -282,31 +282,40 @@ It is recommended to use all the initial default settings and file locations.
 - Launch the **JTSDK64-Setup** environment from the link on your desktop
 
 ```
----------------------------------------------------------
-            JTSDK64 Tools Setup v3.2.2.2
----------------------------------------------------------
+-------------------------------------------
+           JTSDK Setup v3.2.2.3
+-------------------------------------------
 
-* Required Tools
+  Required Tool Status
 
-  --> VC Runtimes ..: Not Installed
-  --> Git ..........: Installed
-  --> OmniRig ......: Installed
+     VC Runtimes ... Not Installed
+     Git ........... Not Installed
+     OmniRig ....... Not Installed
 
-* Qt Script-Provisioned Tools
+  Qt Script-Provisioned Tool Chain Status
 
-  --> MinGW 7.3 ....: Qt 5.12.12
-  --> MinGW 8.1 ....: Qt 5.15.2
-  --> MinGW 9.0.0 ..: Qt 6.2.2
+     x64:
 
-* Optional Components
+     MinGW 7.3 ..... Qt Not Installed
+     MinGW 8.1 ..... Qt Not Installed
+     MinGW 11.2 .... Qt Not Installed
 
-  --> VS Code ......: Not Installed
-  --> Boost ........: Installed
+     x86:
 
-* Post Install / Setup Commands
+     MinGW 4.9 ..... Qt Not Installed
+     MinGW 7.3 ..... Qt Not Installed
+     MinGW 8.1 ..... Qt Not Installed
+     MinGW 11.2 .... Qt Not Installed
 
-  --> Main Install .: postinstall
-  --> MSYS2 Shell ..: msys2
+  Optional Component Status
+
+     VS Code ....... Not Installed
+     Boost ......... Not Installed
+
+  Post Install / Manual Setup Commands
+
+     Main Install .. postinstall
+     MSYS2 Shell ... msys2
 
 PS C:\JTSDK64-Tools>
 ```
@@ -708,6 +717,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.2.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.1.exe
 [JTSDK64-Base-3.2.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe
 [JTSDK64-Tools-3.2.2.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe
+[JTSDK64-Tools-3.2.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
@@ -720,7 +730,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v8.1.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
-[WSJT-X 2.2.2]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.2.tgz
+[WSJT-X 2.2.3]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.3.tgz
 [WSJT-X 2.3.0]: http://physics.princeton.edu/pulsar/K1JT/wsjtx-2.3.0.tgz 
 [WSJT-X 2.4.0]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.4.0.tgz
 [WSJT-X 2.5.0 rc6]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc6.tgz

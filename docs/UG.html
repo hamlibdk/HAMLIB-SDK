@@ -187,7 +187,7 @@ Do you want to change the execution policy?
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe">JTSDK64-Tools-3.2.2.2.exe</a>.</p>
+	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe">JTSDK64-Tools-3.2.2.3.exe</a>.</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
@@ -237,43 +237,52 @@ Do you want to change the execution policy?
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
 	<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe">JTSDK64-Tools-3.2.2.2</a> ) to your Base Deployment.</li>
+	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe">JTSDK64-Tools-3.2.2.3</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
 <h3>Step 2: Launch the Installation Environment</h3>
-    <h4>Special Note for Windows 11 and Tools 3.2.2.2 and VC Runtimes Deployment</h4>   
+    <h4>Special Note for Windows 11 and Tools 3.2.2.3 and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
     </ul>
 	<div class="reducewidth">
 <pre>
----------------------------------------------------------
-            JTSDK64 Tools Setup v3.2.2.2
----------------------------------------------------------
+-------------------------------------------
+           JTSDK Setup v3.2.2.3
+-------------------------------------------
 
-* Required Tools
+  Required Tool Status
 
-  --> VC Runtimes ..: Not Installed
-  --> Git ..........: Not Installed
-  --> OmniRig ......: Not Installed
+     VC Runtimes ... Not Installed
+     Git ........... Not Installed
+     OmniRig ....... Not Installed
 
-* Qt Script-Provisioned Tools
+  Qt Script-Provisioned Tool Chain Status
 
-  --> MinGW 7.3 ....: Qt Not Installed
-  --> MinGW 8.1 ....: Qt Not Installed
-  --> MinGW 9.0.0 ..: Qt Not Installed
+     x64:
 
-* Optional Components
+     MinGW 7.3 ..... Qt Not Installed
+     MinGW 8.1 ..... Qt Not Installed
+     MinGW 11.2 .... Qt Not Installed
 
-  --> VS Code ......: Not Installed
-  --> Boost ........: Not Installed
+     x86:
 
-* Post Install / Setup Commands
+     MinGW 4.9 ..... Qt Not Installed
+     MinGW 7.3 ..... Qt Not Installed
+     MinGW 8.1 ..... Qt Not Installed
+     MinGW 11.2 .... Qt Not Installed
 
-  --> Main Install .: postinstall
-  --> MSYS2 Shell ..: msys2
+  Optional Component Status
+
+     VS Code ....... Not Installed
+     Boost ......... Not Installed
+
+  Post Install / Manual Setup Commands
+
+     Main Install .. postinstall
+     MSYS2 Shell ... msys2
 
 PS C:\JTSDK64-Tools>
 </pre> </div>
@@ -295,8 +304,8 @@ Installing Visual C/C++ x86 and x64 Runtimes
 
 * Downloading VC/C++ Installer
 
-  --> Downloading latest VC/C++ x86 Installer at https:/aka.ms/vs/17/release/vc_redist.x86.exe: Complete
-  --> Downloading latest VC/C++ x64 Installer at https:/aka.ms/vs/17/release/vc_redist.x64.exe: Complete
+  --> Downloading the latest VC/C++ x86 Installer: Complete
+  --> Downloading the latest VC/C++ x64 Installer: Complete
 
 -----------------------------------------------------
  Visual C/C++ Runtime - Error In x86 Install
@@ -387,7 +396,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 </div>
 <ul>
 	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.12.12 as the base. &#39;F&#39; Deploys Qt 5.12.12, 5.15.2 and 6.2.2. Qt is required. </p>
+	deployment being Qt 5.12.12 as the base. &#39;F&#39; Deploys Qt 5.12.12, 5.15.2 and 6.3.0. Qt is required. </p>
 	<ul>
 		<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (note:&#39;Y&#39; or &#39;D&#39; is recommended for an initial installation. Add Qt 5.15.2 as a minimum later.)</li>
 	</ul>

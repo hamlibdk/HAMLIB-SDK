@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-JSQt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2
+# Version ......: 3.2.2.3
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -201,7 +201,34 @@ Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw730`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt5.51212.win64_mingw73`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.622.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qt3d.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtactiveqt.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtcharts.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtconnectivity.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtdatavis3d.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtimageformats.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtlanguageserver.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtlottie.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtmultimedia.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtnetworkauth.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtpositioning.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtremoteobjects.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtscxml.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtsensors.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtserialbus.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtserialport.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtvirtualkeyboard.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtwebchannel.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtwebsockets.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtwebview.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.debug_info`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.debug_info.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.qtquick3d.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.qtquicktimeline.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.qtshadertools.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.wasm_32`"`)`;"
 Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
 Add-Content $of  "`}"
 Add-Content $of  " "
