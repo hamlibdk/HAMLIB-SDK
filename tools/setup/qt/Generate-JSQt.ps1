@@ -19,6 +19,8 @@
 #      Full Install
 #      qt-unified-windows-x86-online.exe --script .\qt-full-install.qs
 #
+# Updated for Qt 5.15.2 ad default Steve VK3VM 18-5-2022
+#
 #-----------------------------------------------------------------------------#
 
 
@@ -117,8 +119,8 @@ Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2019_x64`"`)`
 Add-Content $of  " widget.selectComponent`(`"qt.tools.maintenance`"`)"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.qtcreator`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.cmake.win64`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw730`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt5.51212.win64_mingw73`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
 Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
 Add-Content $of  "`}"
 Add-Content $of  " "
@@ -203,6 +205,8 @@ Add-Content $of  " widget.selectComponent`(`"qt.qt5.51212.win64_mingw73`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.win64_mingw`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.qt5compat`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.qt5compat.win64_mingw`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qt3d.win64_mingw`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtactiveqt.win64_mingw`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt6.630.addons.qtcharts.win64_mingw`"`)`;"

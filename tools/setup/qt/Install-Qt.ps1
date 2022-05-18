@@ -15,6 +15,7 @@
 # Conversion and logic refactoring Steve VK3SIR 25-12-2020 - 18-1-2021
 # Updates for Qt 5.12.12 and 6.2.2 27-05-2021 - 6-1-2022
 # Updates for Qt 6.3.0 16-5-2022
+# Set Qt 5.12.2 and completely deprecate unavailable 5.12-stream Steve VK3VM 18-5-2022
 #
 #-----------------------------------------------------------------------------#
 
@@ -25,7 +26,7 @@ Set-Location -Path $PSScriptRoot
 function InstallError($msg) {
 	#Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Qt Error In Installation"
+	Write-Host " JTSDK Error In Qt Deployment"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host $msg
@@ -97,7 +98,7 @@ function InstallQt($script) {
 function UpdateQt {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Qt Maintainence Tool Update Components"
+	Write-Host " JTSDK Qt Maintainence Tool Update Components"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host "* Starting Qt Maintainence Tool to Update Components."
@@ -120,7 +121,7 @@ function UpdateQt {
 function ManageQt {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Qt Maintainence Tool Manage Components"
+	Write-Host " JTSDK Qt Maintainence Tool Manage Components"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host "* Starting Qt Maintainence Tool to Manage Components."
@@ -143,7 +144,7 @@ function ManageQt {
 function PreviousQtInstall {
 	Clear-Host
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Qt Setup Previous Install Found"
+	Write-Host " JTSDK Qt Setup Previous Install Found"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host " The install script found MaintenanceTool.exe in the"
@@ -162,7 +163,7 @@ function InstallHelp {
 	Clear-Host
 	Write-Host ""	
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Qt Installation Help"
+	Write-Host " JTSDK Qt Installation Help"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host " This script can install Qt using one of two deploys:"
@@ -174,8 +175,8 @@ function InstallHelp {
 	Write-Host "        qt.tools.qtcreator"
 	Write-Host "        qt.tools.maintenance"
 	Write-Host "        qt.tools.cmake.win64"
-	Write-Host "        qt.qt5.51212.win64_mingw73"
-	Write-Host "        qt.tools.win64_mingw730"
+	Write-Host "        qt.qt5.5152.win64_mingw81"
+	Write-Host "        qt.tools.win64_mingw810"
 	Write-Host "        qt.tools.vcredist_msvc2017_x64"
 	Write-Host "        qt.tools.vcredist_msvc2019_x64"
 	Write-Host ""
@@ -183,7 +184,7 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host "      Installs Minimal, plus additional versions:"
 	Write-Host ""
-	Write-Host "        qt.qt5.5152.win64_mingw73"
+	Write-Host "        qt.qt5.51212.win64_mingw73"
 	Write-Host "        qt.qt6.630.win64_mingw + addons"
 	Write-Host "        qt.tools.win64_mingw810"
 	Write-Host ""
@@ -212,7 +213,7 @@ function InstallSummary {
 	
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK64 Qt Install Summary"
+	Write-Host " JTSDK Qt Install Summary"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host " JTSDK64 Tools Qt Install Complete. The following"
@@ -228,8 +229,8 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
-		Write-Host "    qt.qt5.51212.win64_mingw73"
-		Write-Host "    qt.tools.win64_mingw730"
+		Write-Host "    qt.qt5.5152.win64_mingw81"
+		Write-Host "    qt.tools.win64_mingw810"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
 		Write-Host "    qt.tools.vcredist_msvc2019_x64"
 	}
@@ -282,8 +283,8 @@ Write-Host "No command `switch or invalid switch entered."
 Write-Host ""
 Write-Host "Valid Switches`:"
 Write-Host ""
-Write-Host "  min    - Scripted installation Qt MinGW 5.12.12 only"
-Write-Host "  full   - Scripted installation Qt 5.12.12, 5.15.2, 6.3.0"
+Write-Host "  min    - Scripted installation Qt MinGW 5.15.2 only"
+Write-Host "  full   - Scripted installation Qt 5.12.12 `(If Available`), 5.15.2, 6.3.0"
 Write-Host "  update - Update Qt Deployment"
 Write-Host "  manage - Manage Qt Deployment"
 Write-Host "  help   - Get Installation Help"
