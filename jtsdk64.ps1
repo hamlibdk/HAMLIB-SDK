@@ -180,7 +180,7 @@ function SetScriptDir {
 
 function CheckQtDeployment {
 
-	Write-Host "* Checking QT Deployment"
+	Write-Host "* Checking Qt Deployment"
 
 	$listQtDeploy = Get-ChildItem -Path $env:JTSDK_CONFIG -EA SilentlyContinue
 	$subPathQtStore = "NULL";
@@ -194,12 +194,12 @@ function CheckQtDeployment {
 		}
 	}
 
-	# Defaults to and sets for Qt 5.12.12 (base Qt version) if no default file found
+	# Defaults to and sets for Qt 5.15.2 (base Qt version) if no default file found
 	if ($subPathQtStore -eq "NULL") {
-		Write-Host "  --> No Qt configuration marker: Setting default `[Qt 5.12.12`]"
-		$tmpOut = $env:JTSDK_CONFIG + "\qt5.12.12"
+		Write-Host "  --> No Qt configuration marker: Setting default `[Qt 5.15.2`]"
+		$tmpOut = $env:JTSDK_CONFIG + "\qt5.15.2"
 		Out-File -FilePath $tmpOut
-		$env:QTV = "5.12.12"    
+		$env:QTV = "5.15.2"    
 	}
 
 	# Thanks to Mile Black W9MDB for the concept
@@ -279,7 +279,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	$GCCD_ff.Value = ($env:GCCD).replace("\","/")
 	$env:GCCD_F = ConvertForward($env:GCCD)
 	
-	# De-Fudge to handle MinGW 12.2.0 Tools with Qt
+	# De-Fudge to handle MinGW 11.2.0 Tools with Qt
 	if ( Get-Variable -name ver_mingw_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW = $ver_mingw_tmp }
 	
 	#####################################################
@@ -312,7 +312,7 @@ function CheckBoostCorrectMinGWVersion($boostDir) {
 	ForEach ($subPathBoost in $listBoostDeploy)
 	{    
 		if ($subPathBoost.Name -like '*-mgw11-*') {
-			# More than Likely GCC11 and Qt 6.2.2 with MinGW 9.0.0 or later
+			# More than Likely GCC11 and >= Qt 6.2.2 with MinGW 11.2.0 or later
 			# Needs a better method
 			$retval="mingw_64"
 			break
