@@ -13,7 +13,7 @@
 #
 # Usage of files created:
 #
-#      Minimal Install
+#      Minimal Install 
 #      qt-unified-windows-x86-online.exe --script .\qt-min-install.qs
 #
 #      Full Install

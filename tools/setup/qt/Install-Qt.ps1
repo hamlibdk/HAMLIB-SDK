@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------#
-# Name .........: Install-Qt.ps1
+# Name .........: Install-Qt.ps1 
 # Project ......: Part of the JTSDK64 Tools Project
 # Version ......: 3.2.2.3
 # Description ..: Installs Qt for Windows tailored for JT- Applications
