@@ -89,26 +89,35 @@ $env:VSCODE_STATUS="Not Installed"
 $env:BOOST_STATUS="Not Installed"
 $env:OMNIRIG_STATUS="Not Installed"
 
+# --- VC Runtime Path ---------------------------------------------------------
+
+$env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
+Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
+$env:VC_RUNPATH = $configTable.Get_Item("vcrunurl")
+Write-Host -NoNewLine "  --> VC/C++ Runtime Path "
+Write-Host -NoNewLine "$env:VC_RUNPATH" -ForegroundColor DarkCyan
+Write-Host " from Versions.ini ... Set"
+
 #------------------------------------------------------------------------------
 # APP CHECK
 #------------------------------------------------------------------------------
 
 # --- VC Runtimes -------------------------------------------------------------
 
-Write-Host -NoNewline "* Checking for latest VC Runtime package availability (Please wait) ..."
+Write-Host "* Checking for Visual C/C++ 2022 runtime availability (Please wait)"
+
 $vcRunInstance = Get-CimInstance -ClassName Win32_Product -Filter "Vendor = 'Microsoft Corporation' and Name LIKE '%Microsoft Visual C++ 2022%'"
 if ($vcRunInstance) { $env:VCRUNTIME_STATUS="Installed" }
-Write-Host "Done"
 
 # --- OmniRig -----------------------------------------------------------------
 
-Write-Host "* Checking OmniRig"
+Write-Host "* Checking for OmniRig"
 $exe = "$env:ProgramFiles `(x86`)\Afreet\OmniRig\OmniRig.exe"
 if (Test-Path $exe) { $env:OMNIRIG_STATUS="Installed" }
 
 # --- Git ---------------------------------------------------------------------
 
-Write-Host "* Checking Git"
+Write-Host "* Checking for Git-SCM"
 
 #Ref: https://stackoverflow.com/questions/46743845/trying-to-find-out-if-git-is-installed-via-powershell
 try {
@@ -124,19 +133,19 @@ catch [System.Management.Automation.CommandNotFoundException]
 
 # --- VS Code ----------------------------------------------------------------
 
-Write-Host "* Checking VS Code"
+Write-Host "* Checking fot VS Code"
 $exe = "$env:LOCALAPPDATA"+"\Programs\Microsoft VS Code\unins000.exe"
 if (Test-Path $exe) { $env:VSCODE_STATUS="Installed"}
 
 # --- Boost ------------------------------------------------------------------
 
-Write-Host "* Checking Boost"
+Write-Host "* Checking for Boost"
 $exe = "$env:JTSDK_TOOLS"+"\boost"
 if (Test-Path $exe) { $env:BOOST_STATUS="Installed"}
 
 # --- Qt Scripted Version Deploy Tool Chain -----------------------------------
 
-Write-Host "* Checking QT Deployment"
+Write-Host "* Checking Qt deployment"
 
 if (Test-Path "$env:JTSDK_TOOLS\Qt\MaintenanceTool.exe") { $env:QTMAINT_STATUS="Installed" }
 if (Test-Path "$env:JTSDK_TOOLS\Qt\Tools\QtCreator\bin\qtcreator.exe") { $env:QTCREATOR_STATUS="Installed" }
@@ -171,10 +180,10 @@ if ($env:MinGW112_32STATUS -eq ", Qt ") { $env:MinGW112_32STATUS="Not Installed"
 
 # --- Complete ! --------------------------------------------------------------
 
-Write-Host ""
+Write-Host " "
 Write-Host "The environment for JTSDK deployment is now in place."
-Write-Host ""
-pause
+Write-Host " "
+Read-Host -Prompt "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** "
 
 #------------------------------------------------------------------------------
 # PRINT TOOL CHAN STATUS / CREATE INTERACTIVE POWERSHELL ENVIRON
