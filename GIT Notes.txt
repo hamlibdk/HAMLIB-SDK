@@ -60,3 +60,10 @@ See: https://git-scm.com/book/en/v2/Git-Basics-Tagging
 See: https://stackoverflow.com/questions/7328454/how-to-synchronize-multiple-git-repositories-including-tags-and-branches
 
 --> Especially: for i in $(git remote); do git push --mirror "$i"; done
+
+git tag -a v3.2.2.3 -m "Release v3.2.2.3"
+
+then
+
+for i in $(git remote); do git push --mirror "$i"; done
+
