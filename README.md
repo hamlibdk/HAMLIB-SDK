@@ -94,7 +94,7 @@ been met (i.e. [PowerShell][] conversion, Ability to compile latest source code 
 bleeding-edge Hamlib code). 
 
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. [Boost 1.78](Boost-1.78.0) ) as part of the learning process.
+build libraries (i.e. [Boost 1.79](Boost-1.79.0) ) as part of the learning process.
 
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
@@ -732,7 +732,8 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.75.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.75.0-MinGW-v7.3-v8.1.7z
 [Boost-1.76.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.76.0-MinGW-v7.3-v8.1.7z
 [Boost-1.77.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z
-[Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v8.1.7z
+[Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z
+[Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
 [WSJT-X 2.2.3]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.3.tgz
