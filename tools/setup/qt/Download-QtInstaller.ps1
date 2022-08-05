@@ -18,8 +18,8 @@ Set-Location -Path $PSScriptRoot
 # Process variables
 
 # dir$app = "curl"
-$appName="qt-unified-windows-x86-online.exe"
-$appURL="https://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe"
+$appName="qt-unified-windows-x64-online.exe"
+$appURL="https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe"
 #$param = "-o $appName -J -L $appURL"
 
 Write-Host " "

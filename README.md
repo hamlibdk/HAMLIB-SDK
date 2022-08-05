@@ -47,9 +47,9 @@ being hopefully required.
 
 This base stream now comes with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
 
-### Release Notes: Tools 3.2.2.3 Package
+### Release Notes: Tools 3.2.2.3 and Tools 3.2.2.4 Packages
 
-**It is recommended that one updates any v3.2.2.1 deployments ASAP.**
+**It is recommended that any v3.2.2.1 deployments be updated ASAP.**
 
 The [Tools 3.2.2.3](JTSDK64-Tools-3.2.2.3) package comprises of a number of updates centred on 
 resolving the ever increasing number of issues observed with conflicts caused by both the [Qt MinGW](Qt) 
@@ -59,9 +59,9 @@ The **jtsdk64.ps1** environment tool now is set to NOT offer the [MSYS2][]toolse
 switch in **x:\JTSDK64-Tools\config\Versions.ini** for ***unixtools*** now being recommended 
 as set to ***disabled*** i.e. ***unixtools=disabled***.
 
-The [Tools 3.2.2.3](JTSDK64-Tools-3.2.2.3) package now sets the [VC Runtime][] to Version 17 
-(i.e. [Visual Studio][] 2022). This should deploy any runtimes compatible swith [Visual Studio][] 2015 
-onwards.
+As of the [Tools 3.2.2.3](JTSDK64-Tools-3.2.2.3) package the [VC Runtime][] is set to Version 17 
+(i.e. [Visual Studio][] 2022). This should deploy any runtimes compatible with [Visual Studio][] 2015 
+and below.
 
 A minor issue with the delivery of packages in the **X:\JTSDK64-Tools\tools\scripts**  directory 
 has also been resolved.
@@ -76,6 +76,14 @@ the maintainers of the [32-bit compilation patches](32bit-compile).
 Some environment variables have been renamed. While not really critical, other scripts 
 have been modified to reflect this change in nomenclature.
 
+The [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) package has been required to be released as [Qt][] no 
+longer is released in 32bit/x86 versions. This candidate updates references in the [Qt][] deployment 
+scripts to update x86 references to x64references. 
+
+**Note:** The [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) update should NOT be needed by most "ongoing" users 
+with working deployments. The [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) update is essential for new deployments to 
+work properly.
+
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
 ************************************************************************************
@@ -84,7 +92,7 @@ have been modified to reflect this change in nomenclature.
 
 The most up-to date documentation and bleeding-edge notes can be found at:
 
-- https://hamlib-sdk.sourceforge.io/  <== The Base Site
+- https://hamlib-sdk.sourceforge.io/  <== The **Base Site** and the first place to look for information
 - https://groups.io/g/JTSDK/	<== The Help Forum
 
 ### Project Status
@@ -99,10 +107,14 @@ build libraries (i.e. [Boost 1.79](Boost-1.79.0) ) as part of the learning proce
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0 MinGW 8.1](Boost-1.78.0) built under Qt's 
-[MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs are available - saving many hours. 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][] and [Boost-1.79.0][] are available - saving many hours.. 
+
+- [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] are built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
+- [Boost-1.79.0][] is built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+
+Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
-The recommended mainstream development environments are [Qt][] 5.15.2 and [Boost-1.78.0][] 
+The recommended development environment should be [Qt][] 5.15.2 and [Boost-1.79.0][] 
 working with [MinGW 8.1](MinGW) under the **mingw64** [MSYS2][] environment.
 ************************************************************************************ 
 
@@ -184,7 +196,7 @@ The basic concept of supporting **Windows Environment Variables** through [Power
 will remain a cornerstone concept.
 
 ************************************************************************************
-## Upgrades
+## Upgrades from Versions earlier than Base 3.2.2
 ************************************************************************************
 
 The [JTSDK64-Base-3.2.2][] can be installed over the top of previous kits - yet it is 
@@ -203,7 +215,10 @@ If you need to revert back to your old deployment then all you need do is rename
 ************************************************************************************
 
 Maintenance updates will be applied in the form of "Tools" packages. These packages 
-are designed to be deployed to existing "Base" packages.
+are designed to be deployed to an existing "Base" package and/or Base package with earlier Tools Package applied.
+
+A Tools package can only be applied to a matching Base release. i.e. You cannot apply a [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) 
+package to a JTSDK64-Base-3.2.1][] - based deployment.
 
 ### Application of Maintenance "Tools" packages
 
@@ -214,7 +229,7 @@ are designed to be deployed to existing "Base" packages.
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-**Note:** The current "Tools" package is  [JTSDK64-Tools-3.2.2.3.exe](JTSDK64-Tools-3.2.2.3).
+**Note:** The current "Tools" package is  [JTSDK64-Tools-3.2.2.4.exe](JTSDK64-Tools-3.2.2.4).
 ************************************************************************************
 
 - Deploy the tools package to your JTSDK install directory.
@@ -223,7 +238,7 @@ Updates may apply to the [MSYS2][] environment. Therefore the "profile" director
 [MSYS2][] may be deleted and re-created.
 
 ************************************************************************************
-The current "Tools" package [JTSDK64-Tools-3.2.2.3.exe](JTSDK64-Tools-3.2.2.3) does not delete the profile nor update [MSYS2][] scripts.
+The current "Tools" package [JTSDK64-Tools-3.2.2.4.exe](JTSDK64-Tools-3.2.2.4) does not delete the profile nor update [MSYS2][] scripts.
 ************************************************************************************
 
 Before any updates (manual from "[Tests][]" or from a "Tools" package) you should backup your [MSYS2][] Environment:
@@ -273,7 +288,7 @@ These Virtual machines should have a lifetime of at least 30 days.
 ** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
 
 - Deploy the installer [JTSDK64-Base-3.2.2][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.2.3][] ) to your Base Deployment.
+- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.2.4][] ) to your Base Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -283,7 +298,7 @@ It is recommended to use all the initial default settings and file locations.
 
 ```
 -------------------------------------------
-           JTSDK Setup v3.2.2.3
+           JTSDK Setup v3.2.2.4
 -------------------------------------------
 
   Required Tool Status
@@ -362,7 +377,7 @@ The following information will be displayed:
 (required) Default Qt (D/Y|F|N) ...:
 ```
 Qt Presents a number of options. 'D' or 'Y' Selects a scripted "Default" 
-deployment being Qt 5.15.2 as the base. 'F' Deployes Qt 5.12.12 (if available), 5.15.2 and 6.0.3. 
+deployment being Qt 5.15.2 as the base. 'F' Deployes Qt 5.12.12 (if available), 5.15.2 and 6.3.0. 
 
 - Qt is required. Select 'Y'/'D' or 'F' (note:'Y' or 'D' is recommended)
 ```
@@ -533,11 +548,11 @@ In the JTSDK64-Tools environment:
 Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][] and [Boost-1.79.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
-The drop-in package for  [Boost-1.78.0][] only supports [MinGW 8.1](MinGW) .
+The drop-in package for  [Boost-1.79.0][] now supports [MinGW 8.1](MinGW) and [MinGW 11.2](MinGW) .
   
 - Extract the folder for the Boost version-package that you want to use into **C:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
 
@@ -722,7 +737,8 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.2.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.1.1.exe
 [JTSDK64-Base-3.2.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe
 [JTSDK64-Tools-3.2.2.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe
-[JTSDK64-Tools-3.2.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3b2.exe
+[JTSDK64-Tools-3.2.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe
+[JTSDK64-Tools-3.2.2.4]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.4.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
@@ -734,7 +750,6 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.77.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z
 [Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z
 [Boost-1.79.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z
-[Boost-1.80.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
 [WSJT-X 2.2.3]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.3.tgz

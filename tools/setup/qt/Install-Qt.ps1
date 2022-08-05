@@ -1,13 +1,13 @@
 #-----------------------------------------------------------------------------#
-# Name .........: Install-Qt.ps1 
+# Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.3
+# Version ......: 3.2.2.4
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-# Author .......: HAMLIB SDK COntributors <hamlibdk@hotmail.com>
+# Author .......: HAMLIB SDK Contributors <hamlibdk@hotmail.com>
 # Copyright ....: Copyright (C) 2013 - 2021 Greg Beam, KI7MT
 #               : Copyright (C) 2020 - 2022 HAMLIB SDK Contributors
 # License ......: GPLv3
@@ -48,7 +48,7 @@ function InstallQt($script) {
 	Invoke-Expression -Command $PSScriptRoot\Download-QtInstaller.ps1
 
 	#Deal with 	Online Installer unable to be downloaded
-	$exe = "$PSScriptRoot\qt-unified-windows-x86-online.exe"
+	$exe = "$PSScriptRoot\qt-unified-windows-x64-online.exe"
 	if (Test-Path $exe) {
 		Write-Host "  --> Validated Installation `[$exe`]"
 	} else {
@@ -80,9 +80,9 @@ function InstallQt($script) {
 	Write-Host "  --> Deploying via script `[$script`]"
 	
 	# This version specifies the closest pool mirror as source
-	#$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs"
+	#$cmd = "qt-unified-windows-x64-online.exe --script .\qt`-$script`-install.qs"
 	# This version specifies the funet.fi mirror as source
-	$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
+	$cmd = "qt-unified-windows-x64-online.exe --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	# A proper exit returns 1 at the moment ... crazy !
 	IF ($LASTEXITCODE -eq 1) {

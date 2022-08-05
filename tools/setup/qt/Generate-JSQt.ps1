@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-JSQt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.3
+# Version ......: 3.2.2.4
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -13,11 +13,11 @@
 #
 # Usage of files created:
 #
-#      Minimal Install 
-#      qt-unified-windows-x86-online.exe --script .\qt-min-install.qs
+#      Minimal Install
+#      qt-unified-windows-x64-online.exe --script .\qt-min-install.qs
 #
 #      Full Install
-#      qt-unified-windows-x86-online.exe --script .\qt-full-install.qs
+#      qt-unified-windows-x64-online.exe --script .\qt-full-install.qs
 #
 # Updated for Qt 5.15.2 ad default Steve VK3VM 18-5-2022
 #

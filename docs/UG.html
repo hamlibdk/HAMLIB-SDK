@@ -79,12 +79,16 @@
 </ul>
 <hr>
 <ul>
-	<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v8.1.7z">Boost-1.78.0 (MinGW 8.1 Only)</a> built under Qt&#39;s 
-	<a href="http://www.mingw.org/">MinGW</a> 7.3 and <a href="http://www.mingw.org/">MinGW</a> 8.1 environs are available (saving 3+ hours). </p>
+	Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> are available - saving many hours.. </p>
+	<ul>
+		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> are built with and supplied under Qt's MinGW 7.3 and MinGW 8.1 environs.</li>
+	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> is built with and supplied under Qt's MinGW 8.1 and MinGW 11.3 environs. </li>
+	</ul>
+	<p>Extract the folder for the Boost version-package that you want to use into <strong>x:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix !</p>
 </ul>
 <hr>
 <ul>
-	<p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt</a> 5.15.2 and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v8.1.7z">Boost-1.78.0</a> working with <a href="http://www.mingw.org/">MinGW</a> 8.1.</p>
+	<p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt</a> 5.15.2 and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> working with <a href="http://www.mingw.org/">MinGW</a> 8.1.</p>
 </ul>
 <hr>
 <h3>The Next Steps</h3>
@@ -187,7 +191,7 @@ Do you want to change the execution policy?
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe">JTSDK64-Tools-3.2.2.3.exe</a>.</p>
+	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.4.exe">JTSDK64-Tools-3.2.2.4.exe</a>.</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
@@ -237,12 +241,12 @@ Do you want to change the execution policy?
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
 	<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe">JTSDK64-Tools-3.2.2.3</a> ) to your Base Deployment.</li>
+	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.4.exe">JTSDK64-Tools-3.2.2.4</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
 <h3>Step 2: Launch the Installation Environment</h3>
-    <h4>Special Note for Windows 11 and Tools 3.2.2.3 and VC Runtimes Deployment</h4>   
+    <h4>Special Note for Windows 11 and Tools 3.2.2.3/Tools 3.2.2.4 and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
@@ -250,7 +254,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.2.3
+           JTSDK Setup v3.2.2.4
 -------------------------------------------
 
   Required Tool Status
@@ -609,10 +613,10 @@ Enter your selection, then hit <return>:
 
 <p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
 
-<p>Pre-compiled drop-in Packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> ,  <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a>  and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v8.1.7z">Boost-1.78.0 (MinGW 8.1)</a> are available at the time of writing.</p>
+<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> are available at the time of writing.</p>
 <p>Each “drop-in” package has folders i.e. 1.74.0-7.3 for <a href="http://www.mingw.org/">MinGW</a> 7.3 (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). </p>
 <ul>
-<li>Extract the folder for the Boost version-package that you want to use into <strong>C:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! </li>
+<li>Extract the folder for the Boost version-package that you want to use into <strong>C:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix.</li>
 </ul>
 <p>A Windows symbolic link will work too: i.e.: Assume that both the 1.74.0-7.3 and 1.74.0-8.1 distributions have been unpacked from <strong>Boost-1.74.0-MinGW-v7.3-v8.1.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> . Assume that the command shell or powershell windows are positioned at <strong>C:\JTSDK64-Tools\tools\boost</strong></p>
 <ul>
@@ -776,7 +780,7 @@ from main contributors there of late if you do not have post access - are essent
 <ul>
 <p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
 high-quality, yet flexible build system. </p>
-<p>Base ref: <a href="https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md">https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md</a></p>
+<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md</a></p>
 </ul>
 <hr>
 <table width="100%" border="0">
