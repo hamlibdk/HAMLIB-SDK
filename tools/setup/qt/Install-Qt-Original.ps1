@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.4
+# Version ......: 3.2.1
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
@@ -9,14 +9,11 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: HAMLIB SDK Contributors <hamlibdk@hotmail.com>
 # Copyright ....: Copyright (C) 2013 - 2021 Greg Beam, KI7MT
-#               : Copyright (C) 2020 - 2022 HAMLIB SDK Contributors
+#               : Copyright (C) 2020 - 2021 HAMLIB SDK Contributors
 # License ......: GPLv3
 #
 # Conversion and logic refactoring Steve VK3SIR 25-12-2020 - 18-1-2021
-# Updates for Qt 5.12.12 and 6.2.2 27-05-2021 - 6-1-2022
-# Updates for Qt 6.3.0 16-5-2022
-# Set Qt 5.12.2 and completely deprecate unavailable 5.12-stream Steve VK3VM 18-5-2022
-# References to Qt 5.12.x removed as no longer available Steve VK3VM 7-8-2022
+# Updates for Qt 5.12.11 and 6.1.3 17 Apr 2021 - 29-09-2021
 #
 #-----------------------------------------------------------------------------#
 
@@ -27,7 +24,7 @@ Set-Location -Path $PSScriptRoot
 function InstallError($msg) {
 	#Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK Error In Qt Deployment"
+	Write-Host " JTSDK64 Qt Error In Installation"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host $msg
@@ -49,7 +46,7 @@ function InstallQt($script) {
 	Invoke-Expression -Command $PSScriptRoot\Download-QtInstaller.ps1
 
 	#Deal with 	Online Installer unable to be downloaded
-	$exe = "$PSScriptRoot\qt-unified-windows-x64-online.exe"
+	$exe = "$PSScriptRoot\qt-unified-windows-x86-online.exe"
 	if (Test-Path $exe) {
 		Write-Host "  --> Validated Installation `[$exe`]"
 	} else {
@@ -81,9 +78,9 @@ function InstallQt($script) {
 	Write-Host "  --> Deploying via script `[$script`]"
 	
 	# This version specifies the closest pool mirror as source
-	#$cmd = "qt-unified-windows-x64-online.exe --script .\qt`-$script`-install.qs"
+	$cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs"
 	# This version specifies the funet.fi mirror as source
-	$cmd = "qt-unified-windows-x64-online.exe --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
+	# $cmd = "qt-unified-windows-x86-online.exe --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	# A proper exit returns 1 at the moment ... crazy !
 	IF ($LASTEXITCODE -eq 1) {
@@ -99,7 +96,7 @@ function InstallQt($script) {
 function UpdateQt {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK Qt Maintainence Tool Update Components"
+	Write-Host " JTSDK64 Qt Maintainence Tool Update Components"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host "* Starting Qt Maintainence Tool to Update Components."
@@ -122,7 +119,7 @@ function UpdateQt {
 function ManageQt {
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK Qt Maintainence Tool Manage Components"
+	Write-Host " JTSDK64 Qt Maintainence Tool Manage Components"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host "* Starting Qt Maintainence Tool to Manage Components."
@@ -145,7 +142,7 @@ function ManageQt {
 function PreviousQtInstall {
 	Clear-Host
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK Qt Setup Previous Install Found"
+	Write-Host " JTSDK64 Qt Setup Previous Install Found"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host " The install script found MaintenanceTool.exe in the"
@@ -164,7 +161,7 @@ function InstallHelp {
 	Clear-Host
 	Write-Host ""	
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK Qt Installation Help"
+	Write-Host " JTSDK64 Qt Installation Help"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host " This script can install Qt using one of two deploys:"
@@ -176,8 +173,8 @@ function InstallHelp {
 	Write-Host "        qt.tools.qtcreator"
 	Write-Host "        qt.tools.maintenance"
 	Write-Host "        qt.tools.cmake.win64"
-	Write-Host "        qt.qt5.5152.win64_mingw81"
-	Write-Host "        qt.tools.win64_mingw810"
+	Write-Host "        qt.qt5.51211.win64_mingw73"
+	Write-Host "        qt.tools.win64_mingw730"
 	Write-Host "        qt.tools.vcredist_msvc2017_x64"
 	Write-Host "        qt.tools.vcredist_msvc2019_x64"
 	Write-Host ""
@@ -185,7 +182,8 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host "      Installs Minimal, plus additional versions:"
 	Write-Host ""
-	Write-Host "        qt.qt6.631.win64_mingw + addons"
+	Write-Host "        qt.qt5.5152.win64_mingw73"
+	Write-Host "        qt.qt6.613.win64_mingw81"
 	Write-Host "        qt.tools.win64_mingw810"
 	Write-Host ""
 	Write-Host " Usage:"
@@ -213,7 +211,7 @@ function InstallSummary {
 	
 	Write-Host ""
 	Write-Host "-----------------------------------------------------"
-	Write-Host " JTSDK Qt Install Summary"
+	Write-Host " JTSDK64 Qt Install Summary"
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host " JTSDK64 Tools Qt Install Complete. The following"
@@ -229,8 +227,8 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
-		Write-Host "    qt.qt5.5152.win64_mingw81"
-		Write-Host "    qt.tools.win64_mingw810"
+		Write-Host "    qt.qt5.51211.win64_mingw73"
+		Write-Host "    qt.tools.win64_mingw730"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
 		Write-Host "    qt.tools.vcredist_msvc2019_x64"
 	}
@@ -244,8 +242,9 @@ function InstallSummary {
 		Write-Host "    qt.tools.qtcreator"
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
+		Write-Host "    qt.qt5.51211.win64_mingw73"
 		Write-Host "    qt.qt5.5152.win64_mingw81"
-		Write-Host "    qt.qt6.631.win64_mingw + addons"
+		Write-Host "    qt.qt6.613.win64_mingw81"
 		Write-Host "    qt.tools.win64_mingw730"
 		Write-Host "    qt.tools.win64_mingw810"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
@@ -282,8 +281,8 @@ Write-Host "No command `switch or invalid switch entered."
 Write-Host ""
 Write-Host "Valid Switches`:"
 Write-Host ""
-Write-Host "  min    - Scripted installation Qt MinGW 5.15.2 only"
-Write-Host "  full   - Scripted installation 5.15.2, 6.3.1"
+Write-Host "  min    - Scripted installation Qt MinGW 5.12.11 only"
+Write-Host "  full   - Scripted installation Qt 5.12.11, 5.15.2, 6.1.3"
 Write-Host "  update - Update Qt Deployment"
 Write-Host "  manage - Manage Qt Deployment"
 Write-Host "  help   - Get Installation Help"

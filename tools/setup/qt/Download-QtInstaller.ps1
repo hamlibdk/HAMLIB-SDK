@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-QtInstaller.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2 
+# Version ......: 3.2.2.4 
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #

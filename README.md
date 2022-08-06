@@ -377,7 +377,7 @@ The following information will be displayed:
 (required) Default Qt (D/Y|F|N) ...:
 ```
 Qt Presents a number of options. 'D' or 'Y' Selects a scripted "Default" 
-deployment being Qt 5.15.2 as the base. 'F' Deployes Qt 5.12.12 (if available), 5.15.2 and 6.3.0. 
+deployment being Qt 5.15.2 as the base. 'F' Deploys 5.15.2 and 6.3.1. 
 
 - Qt is required. Select 'Y'/'D' or 'F' (note:'Y' or 'D' is recommended)
 ```
@@ -485,29 +485,29 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
 **Step 3a: Upgrade your Qt Deployment**
  
 A Minimum Qt installation pegs at [Qt][] at version 5.15.2. If you did not use the "F" Full option for [Qt][] deployment or you 
-want to add additional Qt versions - i.e. test 6.3.0 version - you should do so now. 
+want to add additional Qt versions - i.e. test 6.3.1 version - you should do so now. 
 
 **The use of Qt 5.15.2 is the Qt deployment for JT-ware. Qt6 streams are not yet supported.**
 
-**It is not recommended that versions of Qt below Qt 6.3.0 / MinGW 11.2 be used in this JTSDK**
+**It is not recommended that versions of Qt below Qt 6.3.1 / MinGW 11.2 be used in this JTSDK**
 
 To add an additional version of Qt to the default Qt 5.15.2 version:
 
 - Navigate to the Qt Deployment directory
 - Run the Qt Maintenance Tool from your Qt deployment directory (i.e. **C:\JTASK64-Tools\tools\Qt**)
 
-To add Qt 6.3.0:
+To add Qt 6.3.1:
 
-- Add Qt 6.3.0 MinGW
-- Ensure that components Qt 6.3.0/MinGW 11.2.0 64 bit and Qt 6.3.0/Qt5 Compatability Module are added.
-- Select Qt 6.3.0/All Additional Libraries .
+- Add Qt 6.3.1 MinGW
+- Ensure that components Qt 6.3.1/MinGW 11.2.0 64 bit and Qt 6.3.1/Qt5 Compatability Module are added.
+- Select Qt 6.3.1/All Additional Libraries .
 - Add Developer and Designer Tools / MinGW 11.2.0 64-bit
 - (Recommended) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX download).
 
 On Completion:
 
 - Adjust the maker file in **x:\JTSDK64-Tools\config** marker file to match the Qt version that you want to use 
-- i.e. rename **qt5.15.2** to **qt6.3.0**
+- i.e. rename **qt5.15.2** to **qt6.3.1**
 
 ************************************************************************************
 There must only be ONE marker file for Qt in **x:\JTSDK64-Tools\config**
