@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name ........: jtsdk64-postinstall.ps1
 # Project .....: HAMLIB SDK - JTSDK64 Tools Project
-# Version .....: 3.2.2
+# Version .....: 3.2.2.4
 # Description .: Installs Components based on User selections
 # 
 # Usage .......: Call from jtsdk64-tools-setup environ => jtsdk64-postinstall $*
@@ -21,7 +21,7 @@
 
 # ------------------------------------------------------------------- GLOBALS
 
-$defaultQt="5.12.12"
+$defaultQt="5.15.2"
 
 # ------------------------------------------------------------------- MESSAGE DISPLAY
 function MsgDisplay {
