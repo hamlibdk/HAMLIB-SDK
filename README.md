@@ -218,7 +218,7 @@ Maintenance updates will be applied in the form of "Tools" packages. These packa
 are designed to be deployed to an existing "Base" package and/or Base package with earlier Tools Package applied.
 
 A Tools package can only be applied to a matching Base release. i.e. You cannot apply a [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) 
-package to a JTSDK64-Base-3.2.1][] - based deployment.
+package to a **JTSDK64-Base-3.2.1**-based deployment.
 
 ### Application of Maintenance "Tools" packages
 
