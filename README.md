@@ -218,7 +218,7 @@ Maintenance updates will be applied in the form of "Tools" packages. These packa
 are designed to be deployed to an existing "Base" package and/or Base package with earlier Tools Package applied.
 
 A Tools package can only be applied to a matching Base release. i.e. You cannot apply a [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) 
-package to a **JTSDK64-Base-3.2.1**-based deployment.
+package to a JTSDK64-Base-3.2.1][] - based deployment.
 
 ### Application of Maintenance "Tools" packages
 
@@ -293,6 +293,8 @@ These Virtual machines should have a lifetime of at least 30 days.
 It is recommended to use all the initial default settings and file locations.
  
 ### Step 2: Launch the Installation Environment
+
+** It is recommended that you DISABLE REALTIME SCANNING ON YOUR ANTIVIRUS before continuing deployment. **
  
 - Launch the **JTSDK64-Setup** environment from the link on your desktop
 
