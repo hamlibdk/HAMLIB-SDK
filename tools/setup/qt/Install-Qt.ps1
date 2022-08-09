@@ -82,8 +82,8 @@ function InstallQt($script) {
 	
 	# This version specifies the closest pool mirror as source
 	#$cmd = "qt-unified-windows-x64-online.exe --script .\qt`-$script`-install.qs"
-	# This version specifies the funet.fi mirror as source
-	$cmd = "qt-unified-windows-x64-online.exe --ao --script .\qt`-$script`-install.qs `-`-mirror http`:`/`/www.nic.funet.fi`/pub`/mirrors`/download.qt-project.org"
+	# This version specifies the contents to $QT_SOURCE read from Versions.ini (if there is one) as source
+	$cmd = "$QT_INSTPROG --ao --script .\qt`-$script`-install.qs $QT_SOURCE"
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	# A proper exit returns 1 at the moment ... crazy !
 	IF ($LASTEXITCODE -eq 1) {
@@ -265,6 +265,20 @@ function InstallSummary {
 # -----------------------------------------------------------------------------
 
 Set-Location -Path "$PSScriptRoot"
+
+$env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
+Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
+$QT_INSTPROG = $configTable.Get_Item("qtinstprog")
+$QT_SOURCE = $configTable.Get_Item("qtsource")
+Write-Host "Qt Installation program: $QT_INSTPROG "
+If ($QT_SOURCE) {
+	Write-Host "Qt Installation Mirror: $QT_SOURCE"
+	$QT_SOURCE = " --mirror $QT_SOURCE"
+} else {
+	Write-Host "Qt is being pulled from a pooled repository."
+}
+Write-Host ""
+# Read-Host -Prompt "Press any key to continue"
 
 # Process input commands
 
