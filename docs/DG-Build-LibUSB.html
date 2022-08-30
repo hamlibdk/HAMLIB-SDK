@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Portaudio, audio, portaudio.com">
+	<title>JTSDK Guide for Building PortAudio</title>
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+</head>
+
+<body>
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
+
+<hr/>
+<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
+<h2>Guide for Building LibUSB</h2>
+<hr/>
+<ul>
+<p>A number of operational issues have arisen with the use of compiled LibUSB packages downloaded from <a href="file:///C|/Users/stepheni.HOME/AppData/Local/Microsoft/Windows/INetCache/IE/XFNP0OWK/releases[1]">https://github.com/libusb/libusb/releases</a> </p>
+<p>It is now recommended that users of the JTSDK compile their own LibUSB from the latest source provided by the LibUSB Maintainers,.</p>
+<p>These steps  will demonstrate how to build and deploy a library set under the <strong>mingw64</strong> environment for the JTSDK..</p>
+</ul>
+	
+<h3>Step 1: Download and fully  deploy the JTSDK 3.2.2</h3>
+
+<ul>
+<li>Version 3.2.2 can be found at:</li>
+		
+	<ul>
+	<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
+	</ul>
+</ul>
+
+<h3>Step 2: Deploy build tools</h3>
+<ul>
+  <p>The first stage involves deploying tools as if  one were building Hamlib. Many required MSYS2 tools are deployed as part of this process.</p>
+	<ul>
+		<li>Execute  the following command inside the JTSDK-Tools environment:</li>
+		
+		<ul>
+		<li><strong>msys2</strong></li>
+		</ul>
+		
+	</ul>
+	<ul>
+		<li>Execute  the following commands inside the MSYS2 environment:</li>
+		
+		<ul>
+			<li><strong>menu</strong></li>
+		</ul>
+		
+	</ul>
+	<ul>
+		<li>Select <strong>Option 2</strong> to update the MSYS2 environment. If the environment requests  that you close the window after completion then do so. Restart this section  again.</li>
+		
+		<li>Select <strong>Option 3</strong>. Install Hamlib dependencies.</li>
+		
+		<li>Select <strong>Option 4</strong>. Install msys64 GNU Compilers.</li>
+	</ul>
+  <p>This should have now downloaded the build  environment for mingw64 – providing a POSIX-compliant environment in which  LibUSB code should be built.</p>
+	<ul>
+		<li>Close all MSYS2 and JTSDK-Tools  environment Windows</li>
+	</ul>
+</ul>
+<h3>Step 3: Deploy the mingw64 Build Environment</h3>
+<ul>
+	<p>Launch an environment that provides the native GNU compilers.</p>
+	<ul>
+	  <li>Launch  the JTSDK64-Tools environment</li>
+		
+	  <li>Inside  the JTSDK64-Tools environment type:</li>
+	  
+		<ul>
+			<li><strong>mingw64</strong></li>
+		</ul>
+	</ul>
+</ul>
+
+<h3>Step 4: Download the  Source</h3>
+	
+<ul>
+  <p>Download URL of the latest stable LibUSB. At the time of writimng the latest version was Version <a href="https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2">1.0.26</a></p>
+  <ul>
+  	<li>Navigate to <a href="https://libusb.info/">https://libusb.info/</a></li>	
+  </ul>
+  <ul>
+  	<li>Download the latest source by selecting Donwloads / Latest Source (tarball)</li>
+  	<li> Save this file to the MSYS2 src directory ( i.e. x:\JTSDK64-Tools\tools\msys64\home\&lt;user name&gt;\src )</li>
+  </ul>
+  <p>Change to the directory that you have just downloaded this source package to from within a <strong>msys64</strong> shell::</p>
+  <ul>
+    <li><strong>cd ~/src</strong></li>
+  </ul>	
+<p>Extract  the source package (assuming Version 1.0.26) with:
+</p>
+<ul>
+  
+  <ul>
+	  <li><strong>tar xjfz libusb-1.0.26.tar.bz2</strong></li>
+  </ul>
+</ul>
+</ul>
+	
+<h3>Step 5: Configure and build the LibUSB library</h3>
+<ul>
+	<p>The following set of steps actually configures and builds the library.</p>
+	<ul>
+  	<li>Execute  the following commands at the MSYS2 command prompt:</li>
+
+	<ul>
+		<li><strong>cd libusb</strong></li>
+
+		<li><strong>mkdir /tmp/libusb</strong></li>
+		
+		<li>You may be required to create the &quot;build&quot; directory. Type <strong>mkdir build</strong> </li>
+		<li><strong>cd build</strong></li>
+
+		<li><strong>../configure -–prefix=/tmp/libusb</strong></li>
+	</ul>
+	
+	<p>The above command places all that is built into the subdirectory <strong>/tmp/libusb</strong> . This way the built libraries are easy to  find.</p>
+
+  	<li>Start  the actual build and deployment with the following commands:</li>
+	
+	<ul>
+		<li><strong>make</strong></li>
+		
+		<li><strong>make</strong><strong> </strong><strong>install</strong><strong> </strong></li>
+	</ul>
+</ul>
+</ul>
+	
+<h3>Complete</h3>
+	
+<ul>
+	
+    <p>You will find a structure inside <em>/tmp</em> (windows path <em>C:\msys64\tmp\portaudio</em>) that contains the same LibUSB library structure. .</p>
+    <p>Rename the directory /tmp/libusb to a name that6 best fits the &quot;structuring&quot; of the JTSDK. In this case we assume that source for v 1.0.26 has been used</p>
+	<ul>
+		<li>cd /tmp</li>
+		<li>mv libusb 1.0.26</li>
+	</ul>
+    <p>Deliver that folder structure to <em>X:\JTSDK64-Tools\tools\</em>libusb .</p> 
+
+	<p>Make the appropriate adjustment in <em>C:\JTSDK64-Tools\config\Versions.ini</em> so that it can be used by the JTSDK. </p>
+	<br><strong>File:</strong> x:\JTSDK64-Tools\config\Versions.ini</br>
+	<ul>
+		<br>...</br>
+		<br>libusbv=1.0.26</br>
+		<br># Next can also be /MinGW64/dll</br>
+		<br>libusbdll=/bin</br>
+		<br>...</br>
+	</ul>
+    <p>Close all JTSDK64-Rools and MSYS2/mingw64 windows.</p>
+	<p>When you re-open all the windows hopefully you will be able to use your compiled LibUSB packages with the JTSDK.</p
+</ul>
+</ul>		
+<hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
+      <td align="right"><a href="hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

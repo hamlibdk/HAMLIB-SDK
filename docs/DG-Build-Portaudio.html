@@ -155,7 +155,8 @@
 		<li><strong>cd portaudio</strong></li>
 
 		<li><strong>mkdir /tmp/portaudio</strong></li>
-
+		
+		<li>You may be required to create the &quot;build&quot; directory. Type <strong>mkdir build</strong> </li>
 		<li><strong>cd build</strong></li>
 
 		<li><strong>../configure -–prefix=/tmp/portaudio</strong></li>
@@ -176,12 +177,14 @@
 <h3>Complete</h3>
 	
 	<ul>
-
+	
     <p>You will find a structure inside <em>/tmp</em> (windows path <em>C:\msys64\tmp\portaudio</em>) that contains the same PortAudio  library structure as delivered into the JTSDK i.e. <em>X:\JTSDK64-Tools\tools\portaudio</em> .</p>
 
     <p>Deliver that folder structure to <em>X:\JTSDK64-Tools\tools\</em> .</p> 
 
     <p>Make the appropriate adjustment in <em>C:\JTSDK64-Tools\config\Versions.ini</em> so that it can be used by the JTSDK.</p>
+	
+		<p><strong>Note:</strong> These procedures DO NOT build PortAudio with <a href="https://www.asio4all.org/">ASIO Drivers</a>. [ Note that these drivers have NOTHING TO DO WITH THE AUSTRALIAN  AGENCY OF THE SAME NAME - yes we do get queries about this ... hmmm ]. These drivers may have specific licensing requirements that preclude us distributing these as part of the JTSDK. You can find instructions inside the JTSDK source (in the WSJTX (src)/doc folder) on how to build PortAudio with these drivers; these instructions can easily be adapted for use with the JTSDK.</p>
 	</ul>
     <hr>
 <table width="100%" border="0">

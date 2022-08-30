@@ -20,7 +20,7 @@
 					</td>
       				<td>
 		  				<h1>HAMLIB SDK </h1>
-						<h2>Evolving the Jt-ware Software Developer's Kit (JTSDK)</h2>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
 					</td>
     			</tr>
   			</table>
@@ -98,7 +98,7 @@ Do you want to change the execution policy?
 		<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used. </strong></p>
 		<ul>
 			<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>	
-			<li>Deploy the latest &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.4.exe">JTSDK64-Tools-3.2.2.4</a> ) to your "Base" deployment if there is a "Tools" package available.&nbsp; &nbsp;&nbsp;</li>
+			<li>Deploy the latest &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.5.exe">JTSDK64-Tools-3.2.2.5</a> ) to your "Base" deployment if there is a "Tools" package available.&nbsp; &nbsp;&nbsp;</li>
 		</ul>
 	</ul>
 	<table width="*" align="center" border="1">
@@ -113,7 +113,15 @@ Do you want to change the execution policy?
 
 	<h3>Step 2: Launch the Installation Environment</h3>
 
-    <h4>Special Note for Windows 11 and Tools 3.2.2.3 / Tools 3.2.2.4 and VC Runtimes Deployment</h4>   
+<h4>Preparation: Disable Antivirus Real Time Scanning</h4>   
+
+    <ul>
+    <p>It is recommended that you disable real-time scanning for your Antivirus program. This can significantly slow down deployment.</p>
+	<p>As users will have many varied solutions (Including the most common option being Windows Antivirus) the steps to do this will not be documented here.</p>
+    </ul>	
+		
+		
+    <h4>Special Note for Windows 11, Tools 3.2.2.5 and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
@@ -121,7 +129,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.2.4
+           JTSDK Setup v3.2.2.5
 -------------------------------------------
 
   Required Tool Status
@@ -260,8 +268,8 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</div>
 	<ul>
 	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt 5.12.12 (if available), 5.15.2 and 6.3.0.
-	Qt 5.15.2 (default) is the recommended version for Jt-ware development. </p>
+	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt 5.15.2 and 6.3.1.
+	Qt 5.15.2 (default) is the recommended version for JT-ware development. </p>
 	<ul>
 	<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (note:&#39;Y&#39; or &#39;D&#39; is recommended)</li>
 	</ul>
@@ -409,21 +417,21 @@ Enter your selection, then hit &#60;return&#62;:
 	<ul>
 	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.15.2. If you did not use 
 	  the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	  want to update Qt to an experimental version such as 6.3.0 version you should do so now. 
-	  Note that using Qt 5.15.2 is the only Qt version that Jt-ware source supports at this time.</p>
+	  want to update Qt to an experimental version such as 6.3.1 version you should do so now. 
+	  Note that using Qt 5.15.2 is the only Qt version that JT-ware source supports at this time.</p>
 	  <p>Perform the following steps:</p>
 		<ul>
 		  	<li>Navigate to the Qt Deployment directory</li>
 			
 			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
 		</ul>
-	  <p>To add Qt 6.3.0:</p>
+	  <p>To add Qt 6.3.1:</p>
 		<ul>
-			<li>Add Qt 6.3.0 MinGW.</li>
+			<li>Add Qt 6.3.1 MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 ]</li>
 			
-			<li>Ensure that components Qt 6.3.0/MinGW 11.2.0 64 bit and Qt 6.3.0/Qt5 Compatability Module are added.</li>
+			<li>Ensure that components Qt 6.3.1/MinGW 11.2.0 64 bit and Qt 6.3.1 Qt5 Compatability Module are added.</li>
 			
-			<li>Select Qt 6.3.0/All Additional Libraries .</li>
+			<li>Select Qt 6.3.1/All Additional Libraries .</li>
 			
 			<li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
 			
@@ -434,7 +442,7 @@ Enter your selection, then hit &#60;return&#62;:
 			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
 			
 			<ul>
-			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.3.0</strong></li>
+			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.3.1</strong></li>
 			</ul>
 		</ul>
 	</ul>
@@ -486,12 +494,12 @@ Enter your selection, then hit &#60;return&#62;:
 		<li>Type: <strong>Deploy-Boost</strong></li>
 		</ul>
 	
-		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.79.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
+		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.79.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-ware under your selected Qt version on your machine.</p>
 	
 	<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> are available - saving many hours.. </p>
 	<ul>
 		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> are built with and supplied under Qt's MinGW 7.3 and MinGW 8.1 environs.</li>
-	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> is built with and supplied under Qt's MinGW 8.1 and MinGW 11.3 environs. </li>
+	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> is built with and supplied under Qt's MinGW 8.1 and MinGW 11.2 environs. </li>
 	</ul>
 	<p>Extract the folder for the Boost version-package that you want to use into <strong>x:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! </p>
 		<p>A Windows symbolic link will also work with a drop-in package. Refer to the example below:</p> 
@@ -552,7 +560,7 @@ Enter your selection, then hit &#60;return&#62;:
 		<li>It is now advisable to reboot your system.</li>
 	</ul>
 		
-	<p><strong>Note:</strong> This is only a temporary work-arround. Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
+	<p><strong>Note:</strong> This is a temporary work-arround. Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
 	
 </ul>
 <h3>Step 4: Build your JT- Software</h3>
@@ -597,39 +605,40 @@ Enter your selection, then hit &#60;return&#62;:
 <h4>Application of Maintenance &quot;Tools&quot; packages</h4>
 
 	<ul>
-		<p><strong></strong>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
-	<p><em>These steps assume that you have a deployed base environment</em></p>
-	<ul>
-	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
-	</ul>
-	<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.4.exe">JTSDK64-Tools-3.2.2.4.exe</a>.</p>
-	<ul>
-	<li>Deploy the tools package to your JTSDK install directory.</li>
-	</ul>
-	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
-	MSYS2 should be deleted and re-created.</p>
-	<ul>
-		<li>(Optional) Copy any folders stored under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
-		
-		<li>Close any open MSYS2 environment terminal(s).</li>
-		
-		<li>Perform the system upgrade.</li>
-		
-		<li>Delete folders that exist under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong>.</li>
-	  
+		<p>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
+		<p>A &quot;Tools&quot; package can only be applied to matching &quot;Base&quot; deployments</p>
 		<ul>
-			<li>i.e: PowerShell: <strong> Remove-Item &quot;C:\JTSDK64-Tools\tools\msys64\home*&quot; -Recurse -Force </strong></li>
+			<li>You can only apply a &quot;Tools 3.2.2.5&quot; package to deployments based on &quot;Base 3.2.2&quot;. It does not matter what 
+		&quot;Tools&quot; versions are deployed to &quot;Base 3.2.2&quot; - the latest &quot;Tools&quot; package can always be applied to it.
+		      <p><em>These steps assume that you have a deployed base environment</em></p>
+		<ul>
+			<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 		</ul>
+		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.5.exe">JTSDK64-Tools-3.2.2.5.exe</a>.</p>
+		<ul>
+			<li>Deploy the tools package to your JTSDK install directory.</li>
+		</ul>
+		<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for MSYS2 should be deleted and re-created.</p>
+		<ul>
+			<li>(Optional) Copy any folders stored under <strong>x:\JTSDK64-Tools\tools\msys64\home</strong> to a backup location. This should enable you to access previous work.</li>
 		
-		<li>Re-open MSYS2 with the appropriate <strong>msys2</strong> environment initiator (i.e. <strong>mingw64</strong>) inside the PowerShell terminal</li>
-	</ul>
-	<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It 
-	is safe to copy this enture foler across to your new MSYS2 Profile.</p>
-	<p>You will need to pull down your Hamlib repository again and/or restore any custom work 
-	to folders created within the MSYS2 environment.</p>
-	</ul>
+			<li>Close any open MSYS2 environment terminal(s).</li>
+		
+			<li>Perform the system upgrade.</li>
+		
+			<li>Delete folders that exist under <strong>C:\JTSDK64-Tools\tools\msys64\home</strong>.</li>
+	  
+			<ul>
+				<li>i.e: PowerShell: <strong> Remove-Item &quot;C:\JTSDK64-Tools\tools\msys64\home*&quot; -Recurse -Force </strong></li>
+			</ul>
+		
+			<li>Re-open MSYS2 with the appropriate <strong>msys2</strong> environment initiator (i.e. <strong>mingw64</strong>) inside the PowerShell terminal</li>
+		</ul>
+		<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It is safe to copy this enture foler across to your new MSYS2 Profile.</p>
+		<p>You will need to pull down your Hamlib repository again and/or restore any custom work to folders created within the MSYS2 environment.</p>
+	</li></ul></ul>
 	
-<hr>
+	<hr>
 	<h2>Conclusion and Further References</h2>
 	<hr>
 	<ul>

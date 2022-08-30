@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.2.2.1
+# Version ......: 3.2.2.5
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
@@ -21,7 +21,9 @@
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
 #                 Copyright (c) 2020-2022 JTSDK Contributors
 #
-# Support for Qt 5.12.12, 5.15.2, 6.2.2 by Steve VK3VM
+# Support for Qt 5.12.12, 5.15.2, 6.3.1 by Steve VK3VM
+#
+# Minor bugs (in configure line) and better support for env vars 28-08-2022 Steve VK3VM
 #
 ################################################################################
 
@@ -389,6 +391,11 @@ function Run-Config () {
 		echo -e "  --> Build Type: "${C_G}$STSHMSG${C_NC}' built '${C_G}$LIBUSBMSG${C_NC}${C_NC}' LibUSB'${C_NC}
 		echo ''
 		
+		# echo "CPPFLAGS: ${libusb_dir_f}/include"
+		# echo "ORIGINAL: ${libusb_dir_f}/MinGW64/dll"
+		# echo "NEW.....: ${libusb_dir_f}${libusb_dll}"
+		# read -p "Press ENTER to continue"
+		
 		# New options to match that in (hamlib-src)/scripts/build-w64.sh - creates cleaner configuration results
 		# Implemented Steve VK3SIR 9-9-2021
 		# Setup so maybe can fully implement -shared / -static command line options	
@@ -401,7 +408,8 @@ function Run-Config () {
 		--without-cxx-binding \
 		$LIBUSBVAR \
 		CPPFLAGS="-I${libusb_dir_f}/include" \
-		LDFLAGS="-L${libusb_dir_f}/MinGW64/dll" 
+		LDFLAGS="-L${libusb_dir_f}${libusb_dll}" 
+		#LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 		# CPPFLAGS="-I${libusb_dir_f}/include -I/usr/include" \
 		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib"
 	else
@@ -619,9 +627,9 @@ function Test-Binaries {
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	# Overcomes a bug encountered when LibUSB support is enabled
-	PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
+	PREFIXB="${JTSDK_TOOLS}\hamlib\qt"
+	PREFIXB="${PREFIXB}\\${QTV}"
 	cmd /C "$PREFIXB\bin\rigctl.exe --version"
-		# $PREFIX/bin/rigctl.exe --version
 	
 	if [ $PROCESSLIBUSB = "Yes" ];
 	then
@@ -631,7 +639,7 @@ function Test-Binaries {
 		echo -e ${C_NC}'---------------------------------------------------------------'
 		echo ''
 		# Overcomes a bug encountered when LibUSB support is enabled
-		PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\$QTV"
+		# PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\${QTV}"
 		cmd /C "$PREFIXB\bin\rigtestlibusb.exe"
 	fi
 }

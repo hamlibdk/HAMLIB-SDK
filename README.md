@@ -47,9 +47,9 @@ being hopefully required.
 
 This base stream now comes with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
 
-### Release Notes: Tools 3.2.2.3 and Tools 3.2.2.4 Packages
+### Release Notes: Tools 3.2.2.x to Tools 3.2.2.5 (current)
 
-**It is recommended that any v3.2.2.1 deployments be updated ASAP.**
+**It is recommended that any legacy v3.2.2.1 deployments be updated ASAP.**
 
 The [Tools 3.2.2.3](JTSDK64-Tools-3.2.2.3) package comprises of a number of updates centred on 
 resolving the ever increasing number of issues observed with conflicts caused by both the [Qt MinGW](Qt) 
@@ -80,8 +80,12 @@ The [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) package has been required to be relea
 longer is released in 32bit/x86 versions. This candidate updates references in the [Qt][] deployment 
 scripts to update x86 references to x64references. 
 
-**Note:** The [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) update should NOT be needed by most "ongoing" users 
-with working deployments. The [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) update is essential for new deployments to 
+The [Tools 3.2.2.5](JTSDK64-Tools-3.2.2.5) package fixes a long term legacy bug with Hamlib 
+configuration and LibUSB. Note that [Tools 3.2.2.5](JTSDK64-Tools-3.2.2.5) also packages maintainer-built 
+versions of LibUSB.
+
+**Note:** The [Tools 3.2.2.5](JTSDK64-Tools-3.2.2.5) update should NOT be needed by most "ongoing" users 
+with working deployments. The [Tools 3.2.2.5](JTSDK64-Tools-3.2.2.5) update is essential for new deployments to 
 work properly.
 
 ************************************************************************************
@@ -110,7 +114,7 @@ Current packaging preempts known cases of proposed licence and delivery conditio
 Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][] and [Boost-1.79.0][] are available - saving many hours.. 
 
 - [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] are built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
-- [Boost-1.79.0][] and [Boost-1.80.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+- [Boost-1.79.0][] is built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
@@ -217,7 +221,7 @@ If you need to revert back to your old deployment then all you need do is rename
 Maintenance updates will be applied in the form of "Tools" packages. These packages 
 are designed to be deployed to an existing "Base" package and/or Base package with earlier Tools Package applied.
 
-A Tools package can only be applied to a matching Base release. i.e. You cannot apply a [Tools 3.2.2.4](JTSDK64-Tools-3.2.2.4) 
+A Tools package can only be applied to a matching Base release. i.e. You cannot apply a [Tools 3.2.2.5](JTSDK64-Tools-3.2.2.5) 
 package to a JTSDK64-Base-3.2.1][] - based deployment.
 
 ### Application of Maintenance "Tools" packages
@@ -229,7 +233,7 @@ package to a JTSDK64-Base-3.2.1][] - based deployment.
 - Download any "Tools" packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-**Note:** The current "Tools" package is  [JTSDK64-Tools-3.2.2.4.exe](JTSDK64-Tools-3.2.2.4).
+**Note:** The current "Tools" package is  [JTSDK64-Tools-3.2.2.5.exe](JTSDK64-Tools-3.2.2.5).
 ************************************************************************************
 
 - Deploy the tools package to your JTSDK install directory.
@@ -238,7 +242,7 @@ Updates may apply to the [MSYS2][] environment. Therefore the "profile" director
 [MSYS2][] may be deleted and re-created.
 
 ************************************************************************************
-The current "Tools" package [JTSDK64-Tools-3.2.2.4.exe](JTSDK64-Tools-3.2.2.4) does not delete the profile nor update [MSYS2][] scripts.
+The current "Tools" package [JTSDK64-Tools-3.2.2.5.exe](JTSDK64-Tools-3.2.2.5) does not delete the profile nor update [MSYS2][] scripts.
 ************************************************************************************
 
 Before any updates (manual from "[Tests][]" or from a "Tools" package) you should backup your [MSYS2][] Environment:
@@ -288,19 +292,17 @@ These Virtual machines should have a lifetime of at least 30 days.
 ** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
 
 - Deploy the installer [JTSDK64-Base-3.2.2][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.2.4][] ) to your Base Deployment.
+- Deploy the latest "Tools" Packages if they exist ( i.e. [JTSDK64-Tools-3.2.2.5][] ) to your Base Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
 ### Step 2: Launch the Installation Environment
-
-** It is recommended that you DISABLE REALTIME SCANNING ON YOUR ANTIVIRUS before continuing deployment. **
  
 - Launch the **JTSDK64-Setup** environment from the link on your desktop
 
 ```
 -------------------------------------------
-           JTSDK Setup v3.2.2.4
+           JTSDK Setup v3.2.2.5
 -------------------------------------------
 
   Required Tool Status
@@ -741,6 +743,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.2.2.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.2.exe
 [JTSDK64-Tools-3.2.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.3.exe
 [JTSDK64-Tools-3.2.2.4]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.4.exe
+[JTSDK64-Tools-3.2.2.5]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.5.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
