@@ -627,9 +627,11 @@ function Test-Binaries {
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	# Overcomes a bug encountered when LibUSB support is enabled
-	PREFIXB="${JTSDK_TOOLS}\hamlib\qt"
-	PREFIXB="${PREFIXB}\\${QTV}"
-	cmd /C "$PREFIXB\bin\rigctl.exe --version"
+	# PREFIXB="${JTSDK_TOOLS}\hamlib\qt"
+	# PREFIXB="${PREFIXB}\\${QTV}"
+	PREFIXB="${JTSDK_TOOLS_F}/hamlib/qt/${QTV}"
+	#cmd /C "$PREFIXB\bin\rigctl.exe --version"
+	"${PREFIXB}"/bin/rigctl.exe --version
 	
 	if [ $PROCESSLIBUSB = "Yes" ];
 	then
@@ -640,7 +642,8 @@ function Test-Binaries {
 		echo ''
 		# Overcomes a bug encountered when LibUSB support is enabled
 		# PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\${QTV}"
-		cmd /C "$PREFIXB\bin\rigtestlibusb.exe"
+		# cmd /C "$PREFIXB\bin\rigtestlibusb.exe"
+		"${PREFIXB}"/bin/rigtestlibusb.exe
 	fi
 }
 
