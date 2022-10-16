@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.2.2.5.1
+# Version ......: 3.2.2.5
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
@@ -391,8 +391,13 @@ function Run-Config () {
 		echo -e "  --> Build Type: "${C_G}$STSHMSG${C_NC}' built '${C_G}$LIBUSBMSG${C_NC}${C_NC}' LibUSB'${C_NC}
 		echo ''
 		
+		# echo "CPPFLAGS: ${libusb_dir_f}/include"
+		# echo "ORIGINAL: ${libusb_dir_f}/MinGW64/dll"
+		# echo "NEW.....: ${libusb_dir_f}${libusb_dll}"
+		# read -p "Press ENTER to continue"
+		
 		# New options to match that in (hamlib-src)/scripts/build-w64.sh - creates cleaner configuration results
-		# Implemented Steve VK3SIR 9-9-2021 [ Pruned 16-09-2022 ]
+		# Implemented Steve VK3SIR 9-9-2021
 		# Setup so maybe can fully implement -shared / -static command line options	
 		
 		# ../src/configure --host=${HOST_ARCH} \
@@ -404,6 +409,9 @@ function Run-Config () {
 		$LIBUSBVAR \
 		CPPFLAGS="-I${libusb_dir_f}/include" \
 		LDFLAGS="-L${libusb_dir_f}${libusb_dll}" 
+		#LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
+		# CPPFLAGS="-I${libusb_dir_f}/include -I/usr/include" \
+		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib"
 	else
 		echo '* Option -nc set to disable executing configure script'
 	fi
@@ -535,32 +543,20 @@ function Copy-DLLs {
 	# These lines may need ongoing manual maintenance as Hamlib and MSYS2 Evolves
 	# A better technique to identify Support DLL's needed by Hamlib is needed.
 
-	if [ $STATICBUILD = "No" ];
+	if [ -f "$GCCPATH/libwinpthread-1.dll" ];
 	then
-		if [ $SHAREDBUILD = "Yes" ];
-		then
-			files=(${GCCPATH}/libgcc_**)
-			if [ -e "${files[0]}" ];
-			then
-				echo "  --> $GCCPATH/libgcc_*.dll"
-				cp -u ${GCCPATH}/libgcc_*.dll ${PREFIX}/bin
-			fi 
-			if [ -f "$GCCPATH/libwinpthread-1.dll" ];
-			then
-				echo "  --> $GCCPATH/libwinpthread-1.dll"
-				cp -u "$GCCPATH/libwinpthread-1.dll" "$PREFIX/bin"
-			fi 
-			if [ -f "$GCCPATH/libtermcap-0.dll" ];
-			then
-				echo "  --> $GCCPATH/libtermcap-0.dll"
-				cp -u "$GCCPATH/libtermcap-0.dll" "$PREFIX/bin"
-			fi
-			if [ -f "$GCCPATH/libreadline8.dll" ];
-			then
-				echo "  --> $GCCPATH/libreadline8.dll"
-				cp -u "$GCCPATH/libreadline8.dll" "$PREFIX/bin"
-			fi
-		fi
+		echo "  --> $GCCPATH/libwinpthread-1.dll"
+		cp -u "$GCCPATH/libwinpthread-1.dll" "$PREFIX/bin"
+	fi 
+	if [ -f "$GCCPATH/libtermcap-0.dll" ];
+	then
+		echo "  --> $GCCPATH/libtermcap-0.dll"
+		cp -u "$GCCPATH/libtermcap-0.dll" "$PREFIX/bin"
+	fi
+	if [ -f "$GCCPATH/libreadline8.dll" ];
+	then
+		echo "  --> $GCCPATH/libreadline8.dll"
+		cp -u "$GCCPATH/libreadline8.dll" "$PREFIX/bin"
 	fi
 	
 	# -- Special Cleanup for Dynamic Builds ---------------------------------------
@@ -573,6 +569,12 @@ function Copy-DLLs {
 	then
 		if [ $SHAREDBUILD = "Yes" ];
 		then
+			files=(${GCCPATH}/libgcc_**)
+			if [ -e "${files[0]}" ];
+			then
+				echo "  --> $GCCPATH/libgcc_*.dll"
+				cp -u ${GCCPATH}/libgcc_*.dll ${PREFIX}/bin
+			fi
 			echo "  --> (Temporary): Removing Static Hamlib libraries/fragments that could cause issues with Dynamic Builds"
 			if [ -f "$PREFIX/lib/libhamlib.a" ];
 			then
@@ -587,8 +589,11 @@ function Copy-DLLs {
 		fi
 	fi
 	
-	# -- Special Cleanup for Static Builds -----------------------------------
+		# -- Special Cleanup for Static Builds -----------------------------------
 	# Note: This may NOT be required in the future when configure option --disable-dynamic works
+	
+	# echo "PREFIX: $PREFIX"
+	# read -p "Press any key to resume ..."
 	
 	if [ $SHAREDBUILD = "No" ];
 	then

@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.2.1
+# Version ......: 3.2.2.6
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 #
@@ -339,12 +339,16 @@ function menu () {
     done
 }
 
+# Display Main Menu
 function greeting_message (){
-    # Display Main Menu
     printf '\033[8;40;100t'
     clear ||:
     echo ''
-    echo -e ${C_C}"$JTSDK64_NAME ($MSYSTEM) using QT v$QTV"${C_NC}
+    echo -ne ${C_C}"$JTSDK64_NAME (${C_Y}$MSYSTEM${C_C})"
+	if [ $UNIXTOOLS != "Disabled" ]; then
+		echo -ne " using ${C_Y}Qt v$QTV"
+	fi
+	echo -e ${C_NC}
     echo ''
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
