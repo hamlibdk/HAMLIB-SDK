@@ -165,16 +165,16 @@
 <h3>Step 5: Drop in a special build helper file</h3>
 	
 	<ul>
-		<p>A stated at the start of this page, a script <a href="https://fftw.org/pub/fftw/BUILD-MINGW64.sh">BUILD-MINGW64.sh</a> from  <a href="http://www.fftw.org/install/windows.html">http://www.fftw.org/install/windows.html</a> needs to be dropped into into the source directory to assist with the Windows build of FFTW.</p>
+		<p>A  script <a href="https://fftw.org/pub/fftw/BUILD-MINGW64.sh">BUILD-MINGW64.sh</a> from  <a href="http://www.fftw.org/install/windows.html">http://www.fftw.org/install/windows.html</a> needs to be dropped into into the source directory to assist with the Windows build of FFTW. If you are developing from a <strong>mingw32</strong> environment then there is a 32-bit script needed.&nbsp; &nbsp;</p>
 	  <ul>
 		  <li>Execute  the following commands at the MSYS2 terminal prompt:</li>
 			
 			<ul>
 				<li><strong>cd ~/src/fftw-3.3.10</strong></li>
 				
-				<li><strong>wget https://fftw.org/pub/fftw/BUILD-MINGW64.sh</strong></li>
-
-			</ul>
+			<li><strong>wget https://fftw.org/pub/fftw/BUILD-MINGW64.sh</strong>&nbsp;[ or <strong>wget https://fftw.org/pub/fftw/BUILD-MINGW32.sh </strong> ]</li>
+			<li><strong>Note:</strong> If you are using <strong>mingw32.exe</strong> then slight modifications to <strong>BUILD-MINGW32.sh</strong> may be needed as some tool nomenclature may have changed since the script was originally written i.e.&nbsp;<strong>i686-w64-mingw32-nm</strong> is now just <strong>nm</strong> .</li>
+</ul>
 		</ul>
 	</ul>
 	
@@ -189,7 +189,7 @@
 		<ul>
 			<li><strong>cd fftw-3.3.10</strong></li>
 			
-			<li><strong>./BUILD-MINGW64.sh</strong></li>
+			<li><strong>./BUILD-MINGW64.sh</strong> [ or<strong> ./BUILD-MINGW32.sh </strong>]</li>
 		</ul>
 	</ul>
 	<p>The above command places a .ZIP file containing the built <strong>FFTW 3.3.10</strong> libraries in the source directory.</p>
