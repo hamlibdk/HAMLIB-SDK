@@ -79,7 +79,7 @@
 </ul>
 <hr>
 <ul>
-	Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> are available - saving many hours.. </p>
+	Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> ,&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z">Boost-1.80.0</a> are available - saving a considerable amount of time.</p>
 	<ul>
 		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.77.0-MinGW-v7.3-v8.1.7z">Boost-1.77.0</a> , <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">Boost-1.78.0</a> are built with and supplied under Qt's MinGW 7.3 and MinGW 8.1 environs.</li>
 	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z">Boost-1.80.0</a> is built with and supplied under Qt's MinGW 8.1 and MinGW 11.3 environs. </li>
@@ -88,7 +88,7 @@
 </ul>
 <hr>
 <ul>
-	<p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt</a> 5.15.2 and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z">Boost-1.79.0</a> working with <a href="http://www.mingw.org/">MinGW</a> 8.1.</p>
+	<p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt 5.15.2</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z">Boost-1.80.0</a> working with <a href="http://www.mingw.org/">MSYS2 MinGW</a> 8.1.</p>
 </ul>
 <hr>
 <h3>The Next Steps</h3>
@@ -153,6 +153,34 @@ Do you want to change the execution policy?
 	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
 	that developing these scripts is also a learning exercise for the Development Team.</p>
 </ul>
+	
+<h3>Prerequisite: Windows Login Profile Without Spaces</h3>
+<ul>
+<p>It is important that the Windows Login Account/Profile does <strong>NOT HAVE SPACES IN IT</strong>.</p>
+	<ul>
+	<li>Valid user profiles include "HAMLIBSDK" and "HAMLIB_SDK".</li>
+	<li>An example of an invalid user profile is "HAMLIB SDK" as it contains a space.</li>	
+	</ul>
+	<p>The following procedure (supplied by Joe K0OG) can be used to fix this problem:</p>
+	<ul>
+		<li>Delete any previous attempts at creating the user profile under <strong>X:\JTSDK64-Tools\Tools\msys64\home</strong></li>
+		<li>Press Windows key + X key.</li>
+		<li>Click on Control Panel.</li>
+		<li>Under view, select large icons.</li>
+		<li>Go to User Account.</li>
+		<li>Click on Manage another account.</li>
+		<li>Select the User Account for which you want to select the password.</li>
+		<li>Click on Change the username.</li>
+		<li>Click on Change Name button.</li>
+		<li>Reboot</li>
+		<li>Log back in under the NEW User Profile (with simplified username)</li>
+		<li>Restart JTSDK64-Tools / mingw64</li>
+		
+	</ul>
+	<p>This will recreate the new profile and should permit successful builds.</p>
+</ul>
+	
+
 <h3>Windows Environment Variables</h3>
 <ul>
 	<p>The basic concept of supporting <strong>Windows Environment Variables</strong> through <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> <strong>$env:<env-var></strong> facilities that ease access into CMake, QMake and the MinGW compilers - components that will always remain a cornerstone concepts.</p>
@@ -191,7 +219,7 @@ Do you want to change the execution policy?
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.5.exe">JTSDK64-Tools-3.2.2.5.exe</a>.</p>
+	<p><strong>Note:</strong> The current &quot;Tools&quot; package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.6.exe">JTSDK64-Tools-3.2.2.6.exe</a>.</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
@@ -241,12 +269,12 @@ Do you want to change the execution policy?
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
 	<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.5.exe">JTSDK64-Tools-3.2.2.5</a> ) to your Base Deployment.</li>
+	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.6.exe">JTSDK64-Tools-3.2.2.6</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
 <h3>Step 2: Launch the Installation Environment</h3>
-    <h4>Special Note for Windows 11, Tools 3.2.2.5 and VC Runtimes Deployment</h4>   
+    <h4>Special Note for Windows 11, Tools 3.2.2.6 and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
@@ -254,7 +282,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.2.5
+           JTSDK Setup v3.2.2.6
 -------------------------------------------
 
   Required Tool Status

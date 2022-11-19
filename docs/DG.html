@@ -62,13 +62,39 @@ Do you want to change the execution policy?
 [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
 </pre>
 	</div>
-	<ul>
+<ul>
 	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
 	that developing these scripts is also a learning exercise for the Development Team.</p>
+</ul>
+	
+<h3>Prerequisite: Windows Login Profile Without Spaces</h3>
+<ul>
+<p>It is important that the Windows Login Account/Profile does <strong>NOT HAVE SPACES IN IT</strong>.</p>
+	<ul>
+	<li>Valid user profiles include "HAMLIBSDK" and "HAMLIB_SDK".</li>
+	<li>An example of an invalid user profile is "HAMLIB SDK" as it contains a space.</li>	
 	</ul>
+	<p>The following procedure (supplied by Joe K0OG) can be used to fix this problem:</p>
+	<ul>
+		<li>Delete any previous attempts at creating the user profile under <strong>X:\JTSDK64-Tools\Tools\msys64\home</strong></li>
+		<li>Press Windows key + X key.</li>
+		<li>Click on Control Panel.</li>
+		<li>Under view, select large icons.</li>
+		<li>Go to User Account.</li>
+		<li>Click on Manage another account.</li>
+		<li>Select the User Account for which you want to select the password.</li>
+		<li>Click on Change the username.</li>
+		<li>Click on Change Name button.</li>
+		<li>Reboot</li>
+		<li>Log back in under the NEW User Profile (with simplified username)</li>
+		<li>Restart JTSDK64-Tools / mingw64</li>
+		
+	</ul>
+	<p>This will recreate the new profile and should permit successful builds.</p>
+</ul>
 	
 
-	<hr>
+<hr>
 <h2>Deployment</h2>
 <hr>
 
