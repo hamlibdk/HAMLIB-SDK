@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK,Jt-ware,wsjtx,jtdx,js8call,build wsjtx,compile wsjtx,Qt,Windows,software,development">
-	<title>Hamlib SDK v3.2.2 Deployment Guide</title>
+	<title>Hamlib SDK v3.2.3 Deployment Guide</title>
 	<link rel="stylesheet" href="style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 </head>
@@ -46,7 +46,7 @@
 		</tr>
 	</table>
 	<hr/>
-	<h2>JTSDK 3.2.2 Deployment Guide</h2>
+	<h2>JTSDK 3.2.3 Deployment Guide</h2>
 	<hr>
 
 	<h3>PowerShell Security Warnings</h3>
@@ -62,39 +62,13 @@ Do you want to change the execution policy?
 [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
 </pre>
 	</div>
-<ul>
+	<ul>
 	<p>It is safe to select <strong>Y</strong>. These scripts are not any processor flaw tests. Remember
 	that developing these scripts is also a learning exercise for the Development Team.</p>
-</ul>
-	
-<h3>Prerequisite: Windows Login Profile Without Spaces</h3>
-<ul>
-<p>It is important that the Windows Login Account/Profile does <strong>NOT HAVE SPACES IN IT</strong>.</p>
-	<ul>
-	<li>Valid user profiles include "HAMLIBSDK" and "HAMLIB_SDK".</li>
-	<li>An example of an invalid user profile is "HAMLIB SDK" as it contains a space.</li>	
 	</ul>
-	<p>The following procedure (supplied by Joe K0OG) can be used to fix this problem:</p>
-	<ul>
-		<li>Delete any previous attempts at creating the user profile under <strong>X:\JTSDK64-Tools\Tools\msys64\home</strong></li>
-		<li>Press Windows key + X key.</li>
-		<li>Click on Control Panel.</li>
-		<li>Under view, select large icons.</li>
-		<li>Go to User Account.</li>
-		<li>Click on Manage another account.</li>
-		<li>Select the User Account for which you want to select the password.</li>
-		<li>Click on Change the username.</li>
-		<li>Click on Change Name button.</li>
-		<li>Reboot</li>
-		<li>Log back in under the NEW User Profile (with simplified username)</li>
-		<li>Restart JTSDK64-Tools / mingw64</li>
-		
-	</ul>
-	<p>This will recreate the new profile and should permit successful builds.</p>
-</ul>
 	
 
-<hr>
+	<hr>
 <h2>Deployment</h2>
 <hr>
 
@@ -118,13 +92,13 @@ Do you want to change the execution policy?
 	<p>These Virtual machines should have a lifetime of at least 30 days.</p>
 	</ul>
 
-	<h3>Step 1: Deploy the JTSDK64-Base-3.2.2.exe Installer and the latest &quot;Tools&quot; package</h3>
+	<h3>Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and the latest &quot;Tools&quot; package</h3>
 
 	<ul>
 		<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used. </strong></p>
 		<ul>
-			<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK-Base-3.2.2</a> ) inside a FRESH VM.</li>	
-			<li>Deploy the latest &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.6.exe">JTSDK64-Tools-3.2.2.6</a> ) to your "Base" deployment if there is a "Tools" package available.&nbsp; &nbsp;&nbsp;</li>
+			<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe">JTSDK-Base-3.2.3</a> ) inside a FRESH VM.</li>	
+			<li>Deploy the latest &quot;Tools&quot; Packages if there are any ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.0.exe">JTSDK64-Tools-3.2.3.0</a> ) to your "Base" deployment if there is a "Tools" package available.&nbsp; &nbsp;&nbsp;</li>
 		</ul>
 	</ul>
 	<table width="*" align="center" border="1">
@@ -147,7 +121,7 @@ Do you want to change the execution policy?
     </ul>	
 		
 		
-    <h4>Special Note for Windows 11, Tools 3.2.2.6 and VC Runtimes Deployment</h4>   
+    <h4>Special Note for Windows 11, Tools Packages and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
@@ -155,7 +129,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.2.6
+           JTSDK Setup v3.2.3
 -------------------------------------------
 
   Required Tool Status
@@ -294,7 +268,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</div>
 	<ul>
 	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt 5.15.2 and 6.3.1.
+	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt 5.15.2 and 6.3.2.
 	Qt 5.15.2 (default) is the recommended version for JT-ware development. </p>
 	<ul>
 	<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (note:&#39;Y&#39; or &#39;D&#39; is recommended)</li>
@@ -443,7 +417,7 @@ Enter your selection, then hit &#60;return&#62;:
 	<ul>
 	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.15.2. If you did not use 
 	  the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	  want to update Qt to an experimental version such as 6.3.1 version you should do so now. 
+	  want to update Qt to an experimental version such as 6.3.2 version you should do so now. 
 	  Note that using Qt 5.15.2 is the only Qt version that JT-ware source supports at this time.</p>
 	  <p>Perform the following steps:</p>
 		<ul>
@@ -451,13 +425,13 @@ Enter your selection, then hit &#60;return&#62;:
 			
 			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
 		</ul>
-	  <p>To add Qt 6.3.1:</p>
+	  <p>To add Qt 6.3.2:</p>
 		<ul>
-			<li>Add Qt 6.3.1 MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 ]</li>
+			<li>Add Qt 6.3.2 MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 ]</li>
 			
-			<li>Ensure that components Qt 6.3.1/MinGW 11.2.0 64 bit and Qt 6.3.1 Qt5 Compatability Module are added.</li>
+			<li>Ensure that components Qt 6.3.2/MinGW 11.2.0 64 bit and Qt 6.3.2 Qt5 Compatability Module are added.</li>
 			
-			<li>Select Qt 6.3.1/All Additional Libraries .</li>
+			<li>Select Qt 6.3.2/All Additional Libraries .</li>
 			
 			<li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
 			
@@ -468,7 +442,7 @@ Enter your selection, then hit &#60;return&#62;:
 			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
 			
 			<ul>
-			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.3.1</strong></li>
+			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.3.2</strong></li>
 			</ul>
 		</ul>
 	</ul>
@@ -605,7 +579,7 @@ Enter your selection, then hit &#60;return&#62;:
 <hr/>
 	<h3>Upgrades</h3>
 	<ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.2.exe">JTSDK64-Base-3.2.2</a> can be installed over the top of previous kits - yet it is 
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe">JTSDK64-Base-3.2.3</a> can be installed over the top of previous kits - yet it is 
 	highly recommended that one start from scratch. </p>
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
@@ -634,13 +608,13 @@ Enter your selection, then hit &#60;return&#62;:
 		<p>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
 		<p>A &quot;Tools&quot; package can only be applied to matching &quot;Base&quot; deployments</p>
 		<ul>
-			<li>You can only apply a &quot;Tools 3.2.2.6&quot; package to deployments based on &quot;Base 3.2.2&quot;. It does not matter what 
-		&quot;Tools&quot; versions are deployed to &quot;Base 3.2.2&quot; - the latest &quot;Tools&quot; package can always be applied to it.
+			<li>You can only apply a &quot;Tools 3.2.3.6&quot; package to deployments based on &quot;Base 3.2.3&quot;. It does not matter what 
+		&quot;Tools&quot; versions are deployed to &quot;Base 3.2.3&quot; - the latest &quot;Tools&quot; package can always be applied to it.
 		      <p><em>These steps assume that you have a deployed base environment</em></p>
 		<ul>
 			<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 		</ul>
-		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.2.6.exe">JTSDK64-Tools-3.2.2.6.exe</a>.</p>
+		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.0.exe">JTSDK64-Tools-3.2.3.0.exe</a>.</p>
 		<ul>
 			<li>Deploy the tools package to your JTSDK install directory.</li>
 		</ul>
