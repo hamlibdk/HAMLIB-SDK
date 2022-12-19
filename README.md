@@ -69,9 +69,9 @@ build libraries (i.e. [Boost 1.81](Boost-1.81.0) ) as part of the learning proce
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][], [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available - saving many hours.. 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available - saving many hours.. 
 
-- [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] are built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
+- [Boost-1.74.0][] is built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
 - [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
@@ -533,7 +533,7 @@ In the JTSDK64-Tools environment:
 Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][], [Boost-1.79.0][] , [Boost-1.80.0][] and [Boost-1.81.0][] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
