@@ -57,7 +57,7 @@
 	<hr/>	
 	<h2>Using the Deploy-Boost Script</h2>
 	<hr/>
-	<ul>
+<ul>
 	<p>This script, available from the <strong>JTSDK64-Tools</strong> console, can automate the entire process of building <strong>Boost</strong>. To use this script to properly build <strong>Boost</strong> there are some configuration changes to the environment that should be made first. The environment configuration setting <em>unixtools=</em> should be set to <em>enabled</em> inside <strong>Versions.ini</strong>.</p>
 <p>This setting should be returned to <em>disabled</em> after you have built <strong>Boost</strong>.</p>
 		<ul>
@@ -71,7 +71,7 @@
 	<hr/>
 		<h2>Building from mingw64 Environment </h2>	
 	<hr/>	
-	<h3>Step 1: Download and fully deploy the latest JTSDK i.e. v3.2.3</h3>
+<h3>Step 1: Download and fully deploy the latest JTSDK i.e. v3.2.3</h3>
 	<ul>
 <li>The JTSDK Version 3.2.3 and any Tools packages can be found at: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ </a></li>
 	<li>Refer to the <a href="DG.html">Deployment Guide for deploying JTSDK 3.2.3</a>.</li>
@@ -111,23 +111,8 @@
         </ul>
     </ul>
 <h3>Step 3: Deploy the <strong>mingw64</strong> Build Environment</h3>
-    
-	<ul>
-		<p>There is a small quirk where tools such as <strong>bison</strong> are required. Therefore we must configure the environment to use the MSYS2 MinGW environment that we have deployed. Fortunately we can do this - we edit the configuration file <strong>Versions.ini</strong> and set <em>unixtools=disabled</em>.</p>
-	
-	<ul>
-	  <li>In the Windows FIle Exporer, navigate to <strong>x:\JTSDK64-Tools\config</strong></li>
-	  
-		<li>Double-Click on the file <strong>Versions.ini</strong> to open it in your favorite editor</li>
-		<li>Locate the line <em>unixtools=disabled</em>. Edit this line to <em>unixtools=enabled</em></li>
-		<li>Save your edited <strong>Versions.ini</strong> and exit your text editor.</li>
-	</ul>
-	  <p> Note that its is not recommended that you have <em>unixtools=enabled</em> when you are building JT-ware as there are possibilities for MinGW libraries and tools that the Qt maintainers supply being over-ridden by those supplied by the MSYS2 MinGW suppliers. It is remote - but possible.</p>
-		<p>It is highly recommended that you set <em>unixtools=</em> back to </em>disabled</em> once you have finished building <strong>Boost</strong>.
-    </ul>
-	
-    <ul>
-    <p>Launch an environment with the native GNU compilers.</p>
+<ul>
+  <p>Launch an environment with the native MSYS2 MinGW GNU compilers.</p>
 	<ul>
 		<li> If there were any <strong>JTSDK64-Tools</strong> environment windows in use please close them all now.
 		<li>Launch  the <strong>JTSDK64-Tools</strong> environment</li>
@@ -141,7 +126,7 @@
 	<h3>Step 4: Download the Source</h3>
 	
     <ul>
-    	<p>You need to determine the download URL of the latest stable Boost release by clicking on the &ldquo;Current Release&rdquo; link at <a href="https://www.boost.org/">https://www.boost.org/</a> . At the time of writing the  current version was 1.80.0.</p>
+    	<p>You need to determine the download URL of the latest stable Boost release by clicking on the &ldquo;Current Release&rdquo; link at <a href="https://www.boost.org/">https://www.boost.org/</a> . At the time of writing the  current version was 1.81.0.</p>
 	<ul>
 	  <li>Type  the following commands:</li>
 		
@@ -157,7 +142,7 @@
 	  	<li>In  the msys64 shell, type <strong>wget</strong>, paste the URL, and then press enter. i.e.</li>
 		
 	  	<ul>
-			<li><strong>wget </strong><a href="https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz">https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz</a></li>
+			<li><strong>wget </strong><a href="https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz">https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz</a></li>
 		</ul>
 	</ul>
 	<p>This downloads the source package</p>
@@ -165,7 +150,7 @@
 	  	<li>Extract  the source package with:</li>
 		
 		<ul>
-			<li><strong>tar xvfz boost_1_80_0.tar.gz</strong></li>
+			<li><strong>tar xvfz boost_1_81_0.tar.gz</strong></li>
 		</ul>
 	</ul>
     </ul>
@@ -178,7 +163,7 @@
 	  	<li>Execute  the following commands at the MSYS2 command prompt:</li>
 		
 		<ul>
-			<li><strong>cd boost_1_80_0</strong></li>
+			<li><strong>cd boost_1_81_0</strong></li>
 			
 	  		<li><strong>./bootstrap.sh</strong></li>
 			
@@ -195,11 +180,14 @@
 
         <p>You will need to rename that folder to match the current version (i.e. rename folder&nbsp; <em><strong>boost</strong></em> to <em><strong>1.80.0</strong></em>) before it can be used with the JTSDK.&nbsp;</p>
 <p>Deliver that folder structure to <em><strong>X:\JTSDK64-Tools\tools\boost\</strong></em> .</p>
-<p>Make the appropriate adjustment in <em><strong>x:\JTSDK64-Tools\config\Versions.ini</strong></em> so that it can be used by the JTSDK to build JT-ware. i.e the <em>unixtools</em> key should be set to <em>disabled</em>.</p>
+<p>If you made adjustments to the key's <em>unixtools</em> inside <em><strong>x:\JTSDK64-Tools\config\Versions.ini</strong></em> key please set its value back to <em>disabled</em>.</p>
+	<ul>	
+		<li>i.e. <em>unixtools=disabled</em></li>
     </ul>
+</ul>
 
 <h3>Reference</h3>
-	<ul>
+<ul>
 	  <li><a href="https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html">https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html</a>  </li>
 	</ul>
 <hr>
