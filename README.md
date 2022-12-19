@@ -64,19 +64,19 @@ been met (i.e. [PowerShell][] conversion, Ability to compile latest source code 
 bleeding-edge Hamlib code). 
 
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. [Boost 1.80](Boost-1.80.0) ) as part of the learning process.
+build libraries (i.e. [Boost 1.81](Boost-1.81.0) ) as part of the learning process.
 
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][], [Boost-1.79.0][] and [Boost-1.80.0][]are available - saving many hours.. 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][], [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available - saving many hours.. 
 
 - [Boost-1.74.0][], [Boost-1.77.0][] and [Boost-1.78.0][] are built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
-- [Boost-1.79.0][] and [Boost-1.80.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+- [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
-The recommended development environment should be [Qt][] 5.15.2 and [Boost-1.80.0][] 
+The recommended development environment should be [Qt][] 5.15.2 and [Boost-1.81.0][] 
 working with [MinGW 8.1](MinGW) under the **mingw64** [MSYS2][] environment.
 ************************************************************************************ 
 
@@ -490,7 +490,8 @@ To add Qt 6.3.2:
 
 On Completion:
 
-- Adjust the maker file in **x:\JTSDK64-Tools\config** marker file to match the Qt version that you want to use 
+Adjust the marker file in **x:\JTSDK64-Tools\config** to match the Qt version that you want to use 
+
 - i.e. rename **qt5.15.2** to **qt6.3.2**
 
 ************************************************************************************
@@ -532,11 +533,11 @@ In the JTSDK64-Tools environment:
 Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][], [Boost-1.79.0][] and [Boost-1.80.0][] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.77.0][], [Boost-1.78.0][], [Boost-1.79.0][] , [Boost-1.80.0][] and [Boost-1.81.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
-The drop-in package for  [Boost-1.79.0][] now supports [MinGW 8.1](MinGW) and [MinGW 11.2](MinGW) .
+The drop-in packages for [Boost-1.79.0][] onwards now supports [MinGW 8.1](MinGW) and [MinGW 11.2](MinGW) .
   
 - Extract the folder for the Boost version-package that you want to use into **C:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
 
@@ -544,8 +545,8 @@ A Windows symbolic link will work too: i.e.: Assume that both the 1.74.0-7.3 and
 
 Examples:
 
-- Cmd:** mklink /D 1.80.0 1.80.0-8.1 **
-- [PowerShell][]:** New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.80.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.80.0-8.1 **
+- Cmd:** mklink /D 1.81.0 1.81.0-8.1 **
+- [PowerShell][]:** New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.81.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.81.0-8.1 **
  
 The preference is to build your own Boost package and NOT use these ! ** Warning: Boost does not build 100% properly and to full capability under MinGW/[MSYS2][] environments that we use – yet its good enough for our purposes !**
 ************************************************************************************
