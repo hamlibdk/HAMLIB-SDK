@@ -145,7 +145,7 @@
 			<li><strong>wget </strong><a href="https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz">https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz</a></li>
 		</ul>
 	</ul>
-	<p>This downloads the source package</p>
+	<p>This downloads the source package.</p>
 	<ul>
 	  	<li>Extract  the source package with:</li>
 		
@@ -158,9 +158,7 @@
 	<h3>Step 5: Configure and build the Boost libraries</h3>
 
     <ul>
-	<p>The following is based off <a href="https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html">https://www.boost.org/doc/libs/1_63_0/more/getting_started/windows.html</a></p>
-	<ul>
-	  	<li>Execute  the following commands at the MSYS2 command prompt:</li>
+	  	<p>Execute  the following commands at the MSYS2 command prompt:</p>
 		
 		<ul>
 			<li><strong>cd boost_1_81_0</strong></li>
@@ -169,8 +167,8 @@
 			
 	  		<li><strong>b2 install&nbsp;--prefix=/tmp/boost</strong></li>
 		</ul>
-	</ul>
-	<p>The above command places all that is built into the subdirectory <strong>/tmp/boost</strong>. This way the built libraries are easy to  find.</p>
+	
+	<p>This places the built components into the subdirectory <strong>/tmp/boost</strong>. This way the libraries are easy to find.</p>
     </ul>
 	
 	<h3>Complete</h3>
@@ -178,7 +176,7 @@
     <ul>
         <p>You will find a structure inside <em>/tmp</em> (Windows path <em><strong>x:\msys64\tools\msys64\tmp\boost</strong></em>) that contains your built Boost library set that can be inserted into the JTSDK.</p>
 
-        <p>You will need to rename that folder to match the current version (i.e. rename folder&nbsp; <em><strong>boost</strong></em> to <em><strong>1.80.0</strong></em>) before it can be used with the JTSDK.&nbsp;</p>
+        <p>You will need to rename that folder to match the current version (i.e. rename folder&nbsp; <em><strong>boost</strong></em> to <em><strong>1.81.0</strong></em>) before it can be used with the JTSDK.&nbsp;</p>
 <p>Deliver that folder structure to <em><strong>X:\JTSDK64-Tools\tools\boost\</strong></em> .</p>
 <p>If you made adjustments to the key <em>unixtools</em> inside <em><strong>x:\JTSDK64-Tools\config\Versions.ini</strong></em>  , set its value back to <em>disabled</em>.</p>
 	<ul>	
