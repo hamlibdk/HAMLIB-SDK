@@ -344,10 +344,14 @@ function greeting_message (){
     printf '\033[8;40;100t'
     clear ||:
     echo ''
-    echo -ne ${C_C}"$JTSDK64_NAME (${C_Y}$MSYSTEM${C_C})"
-	if [ $UNIXTOOLS != "Disabled" ]; then
-		echo -ne " using ${C_Y}Qt v$QTV"
-	fi
+	echo -ne ${C_C}"$JTSDK64_NAME (${C_Y}$MSYSTEM${C_C})"
+	if [ -z "$UNIXTOOLS" ]; then
+		echo -ne " "
+	else
+		if [ $UNIXTOOLS != "Disabled" ]; then
+			echo -ne " adding ${C_Y}Qt v$QTV"
+		fi
+	fi 
 	echo -e ${C_NC}
     echo ''
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
