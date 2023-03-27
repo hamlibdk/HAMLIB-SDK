@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.2.6
+# Version ......: 3.2.3.1
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 #
@@ -10,7 +10,7 @@
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-#				  Enhancements (c) 2021 - 2022 JTSDK & Hamlib Development Contributors
+#				  Enhancements (c) 2021 - 2023 JTSDK & Hamlib Development Contributors
 #
 ################################################################################
 
@@ -357,7 +357,7 @@ function greeting_message (){
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
     echo ''
-    echo "Copyright (C) 2013-2022, GPLv3, $AUTHOR."
+    echo "Copyright (C) 2013-2023, GPLv3, $AUTHOR."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''
