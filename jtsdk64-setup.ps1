@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64-setup.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.3
+# Version ......: 3.2.3.1
 # Description ..: JTSDK64 Postinstall Setup Environment
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line
@@ -11,10 +11,10 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#                 And (C) 2020 - 2021 subsequent JTSDK Contributors
+#                 And (C) 2020 - 2023 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
-# Adjustments...: Steve VK3VM 8 Dec 2020 - 25 Mar 2021
+# Adjustments...: Steve VK3VM 8 Dec 2020 - 11 Apr 2023
 #                 Uwe DG2YCB 25 Mar 2021 - 17 May 2022 (support for 32-bit)
 
 # --- CONVERT FORWARD ---------------------------------------------------------
@@ -94,6 +94,8 @@ $env:OMNIRIG_STATUS="Not Installed"
 $env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
 Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
 $env:VC_RUNPATH = $configTable.Get_Item("vcrunurl")
+$env:QT5_VER = $configTable.Get_Item("qt5v")
+$env:QT6_VER = $configTable.Get_Item("qt6v")
 Write-Host -NoNewLine "  --> VC/C++ Runtime Path "
 Write-Host -NoNewLine "$env:VC_RUNPATH" -ForegroundColor DarkCyan
 Write-Host " from Versions.ini ... Set"
