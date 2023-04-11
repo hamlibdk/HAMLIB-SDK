@@ -39,12 +39,9 @@ https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/
 The preferred [MSYS2][] development environment for building Hamlib is now executed by typing 
 **mingw64** at the [PowerShell][] prompt.
 
-### Release Notes: Tools 3.2.3.0 
+### Release Notes: Tools 3.2.3.1 
 
-**There are no current Tools Package Releases with this Base version.**
-
-Any **Tools** package that may be released in the future will comprise of a number of updates 
-necessary to maintain the kit and its software development aims.
+The current [JTSDK64-Tools-3.2.3.1][] package can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe
 
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
@@ -69,10 +66,10 @@ build libraries (i.e. [Boost 1.81](Boost-1.81.0) ) as part of the learning proce
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available - saving many hours.. 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.81.0][]are available - saving many hours.. 
 
 - [Boost-1.74.0][] is built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
-- [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+- [Boost-1.80.0][] and [Boost-1.81.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
@@ -183,7 +180,7 @@ are designed to be deployed to an existing **Base** package and/or **Base** pack
 **Tools** Package applied.
 
 A **Tools** package can only be applied to a matching **Base** release. i.e. You cannot apply a 
-[Tools 3.2.3.0](JTSDK64-Tools-3.2.3.0) package to a JTSDK64-Base-3.2.1][] - based deployment.
+[Tools 3.2.3.1](JTSDK64-Tools-3.2.3.1) package to a [JTSDK64-Base-3.2.1][] - based deployment.
 
 ### Application of Maintenance **Tools** packages
 
@@ -194,7 +191,7 @@ A **Tools** package can only be applied to a matching **Base** release. i.e. You
 - Download any **Tools** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-**Note:** There is no current **Tools** Package.
+**Note:** the current tools package is [Tools 3.2.3.1][]
 ************************************************************************************
 
 - Deploy the **Tools** package - if there is one - to your JTSDK install directory.
@@ -283,7 +280,7 @@ It is recommended to use all the initial default settings and file locations.
 
 ```
 -------------------------------------------
-           JTSDK Setup v3.2.3
+           JTSDK Setup v3.2.3.1
 -------------------------------------------
 
   Required Tool Status
@@ -296,17 +293,13 @@ It is recommended to use all the initial default settings and file locations.
 
      x64:
 
-     MinGW 7.3 ..... Qt Not Installed
      MinGW 8.1 ..... Qt Not Installed
      MinGW 11.2 .... Qt Not Installed
 
      x86:
 
-     MinGW 4.9 ..... Qt Not Installed
-     MinGW 7.3 ..... Qt Not Installed
      MinGW 8.1 ..... Qt Not Installed
-     MinGW 11.2 .... Qt Not Installed
-
+     
   Optional Component Status
 
      VS Code ....... Not Installed
@@ -362,7 +355,7 @@ The following information will be displayed:
 (required) Default Qt (D/Y|F|N) ...:
 ```
 Qt Presents a number of options. 'D' or 'Y' Selects a scripted "Default" 
-deployment being Qt 5.15.2 as the base. 'F' Deploys 5.15.2 and 6.3.2. 
+deployment being Qt 5.15.2 as the base. 'F' Deploys 5.15.2 and 6.5.0. 
 
 - Qt is required. Select 'Y'/'D' or 'F' (note:'Y' or 'D' is recommended)
 ```
@@ -406,7 +399,7 @@ JTSDK64 Tools MSYS2 (MSYS)
 For main menu, type ..: menu
 For Help Menu, type ..: jthelp
 
-Copyright (C) 2013-2022, GPLv3, Greg Beam, KI7MT and Contributors.
+Copyright (C) 2013-2023, GPLv3, Greg Beam, KI7MT and Contributors.
 This is free software; There is NO warranty; not even
 for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -469,7 +462,7 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
 **Step 3a: Upgrade your Qt Deployment**
  
 A Minimum Qt installation pegs at [Qt][] at version 5.15.2. If you did not use the "F" Full option for [Qt][] deployment or you 
-want to add additional Qt versions - i.e. test 6.3.2 version - you should do so now. 
+want to add additional Qt versions - i.e. test Qt 6.5.0 - you should do so now. 
 
 **The use of Qt 5.15.2 is the Qt deployment for JT-ware. Qt6 streams are not yet supported for JT-ware compiles.**
 
@@ -480,19 +473,18 @@ To add an additional version of Qt to the default Qt 5.15.2 version:
 - Navigate to the Qt Deployment directory
 - Run the Qt Maintenance Tool from your Qt deployment directory (i.e. **C:\JTASK64-Tools\tools\Qt**)
 
-To add Qt 6.3.2:
+To add Qt 6.5.0:
 
-- Add Qt 6.3.2 MinGW
-- Ensure that components Qt 6.3.2/MinGW 11.2.0 64 bit and Qt 6.3.2/Qt5 Compatability Module are added.
-- Select Qt 6.3.2/All Additional Libraries .
+- Add Qt 6.5.0 MinGW
+- Ensure that components Qt 6.5.0/MinGW 11.2.0 64 bit and Qt 6.5.0/Qt5 Compatability Module are added.
+- Select Qt 6.5.0/All Additional Libraries .
 - Add Developer and Designer Tools / MinGW 11.2.0 64-bit
 - (Recommended) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX download).
 
 On Completion:
 
-Adjust the marker file in **x:\JTSDK64-Tools\config** to match the Qt version that you want to use 
-
-- i.e. rename **qt5.15.2** to **qt6.3.2**
+- Adjust the maker file in **x:\JTSDK64-Tools\config** marker file to match the Qt version that you want to use 
+- i.e. rename **qt5.15.2** to **qt6.5.0**
 
 ************************************************************************************
 There must only be ONE marker file for Qt in **x:\JTSDK64-Tools\config**
@@ -533,15 +525,15 @@ In the JTSDK64-Tools environment:
 Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.79.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
-The drop-in packages for [Boost-1.79.0][] onwards now supports [MinGW 8.1](MinGW) and [MinGW 11.2](MinGW) .
+The drop-in packages since [Boost-1.79.0][] now supports [MinGW 8.1](MinGW) and [MinGW 11.2](MinGW) .
   
 - Extract the folder for the Boost version-package that you want to use into **C:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
 
-A Windows symbolic link will work too: i.e.: Assume that both the 1.74.0-7.3 and 1.74.0-8.1 distributions have been unpacked from **Boost-1.74.0-MinGW-v7.3-v8.1.7z** to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or [PowerShell][] windows are positioned at **C:\JTSDK64-Tools\tools\boost**
+A Windows symbolic link will work too: i.e.: Assume that both the 1.81.0-8.1 and 1.81.0-11.2 distributions have been unpacked from **Boost-1.81.0-MinGW-v8.1-v11.2.7z** to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or [PowerShell][] windows are positioned at **C:\JTSDK64-Tools\tools\boost**
 
 Examples:
 
@@ -727,7 +719,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.2.2.5]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/JTSDK64-Tools-3.2.2.5.exe
 [JTSDK64-Tools-3.2.2.6]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/JTSDK64-Tools-3.2.2.6.exe
 [JTSDK64-Base-3.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe
-[JTSDK64-Tools-3.2.3.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.0.exe
+[JTSDK64-Tools-3.2.3.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/

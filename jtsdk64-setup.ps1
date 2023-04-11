@@ -78,13 +78,9 @@ $env:VCRUNTIME_STATUS="Not Installed"
 $env:GIT_STATUS="Not Installed"
 $env:QTMAINT_STATUS="Not Installed"
 $env:QTCREATOR_STATUS="Not Installed"
-$env:MinGW112_STATUS="Not Installed"
+$env:MinGW900_STATUS="Not Installed"
 $env:MinGW81_STATUS="Not Installed"
-$env:MinGW73_STATUS="Not Installed"
-$env:MinGW112_32STATUS="Not Installed"
 $env:MinGW81_32STATUS="Not Installed"
-$env:MinGW73_32STATUS="Not Installed"
-$env:MinGW49_32STATUS="Not Installed"
 $env:VSCODE_STATUS="Not Installed"
 $env:BOOST_STATUS="Not Installed"
 $env:OMNIRIG_STATUS="Not Installed"
@@ -160,25 +156,15 @@ if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_64\bin") { $env:MinGW81_STATUS
 $env:MinGW81_STATUS = $env:MinGW81_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw81_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
 if ($env:MinGW81_STATUS -eq ", Qt ") { $env:MinGW81_STATUS="Not Installed" }
 
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw112_64\bin") { $env:MinGW112_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw112_64\bin\Qt?Core.dll }
-$env:MinGW112_STATUS = $env:MinGW112_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw112_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW112_STATUS -eq ", Qt ") { $env:MinGW112_STATUS="Not Installed" }
-
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw49_32\bin") { $env:MinGW49_32STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw49_32\bin\Qt?Core.dll }
-$env:MinGW49_32STATUS = $env:MinGW49_32STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "JTSDK" -replace "mingw49_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW49_32STATUS -eq ", Qt ") { $env:MinGW49_32STATUS="Not Installed" }
-
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw73_32\bin") { $env:MinGW73_32STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw73_32\bin\Qt?Core.dll }
-$env:MinGW73_32STATUS = $env:MinGW73_32STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "JTSDK" -replace "mingw73_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW73_32STATUS -eq ", Qt ") { $env:MinGW73_32STATUS="Not Installed" }
-
 if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_32\bin") { $env:MinGW81_32STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_32\bin\Qt?Core.dll }
 $env:MinGW81_32STATUS = $env:MinGW81_32STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "JTSDK" -replace "mingw81_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
 if ($env:MinGW81_32STATUS -eq ", Qt ") { $env:MinGW81_32STATUS="Not Installed" }
 
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw112_32\bin") { $env:MinGW112_32STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw112_32\bin\Qt?Core.dll }
-$env:MinGW112_32STATUS = $env:MinGW112_32STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw112_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW112_32STATUS -eq ", Qt ") { $env:MinGW112_32STATUS="Not Installed" }
+if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin") { $env:MinGW900_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin\Qt?Core.dll }
+$env:MinGW900_STATUS = $env:MinGW900_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ") -replace "64"
+if ($env:MinGW900_STATUS -eq ", Qt ") { $env:MinGW900_STATUS="Not Installed" }
+
+
 
 # --- Complete ! --------------------------------------------------------------
 
@@ -199,35 +185,31 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 	Write-Host "           JTSDK Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
 	Write-Host "-------------------------------------------"
 	Write-Host ""
-	Write-Host "  Required Tool Status"
+	Write-Host "  Required Tool Status"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     VC Runtimes ... $env:VCRUNTIME_STATUS"
-	Write-Host "     Git ........... $env:GIT_STATUS"
-	Write-Host "     OmniRig ....... $env:OMNIRIG_STATUS"
+	Write-Host "     VC Runtimes ....... $env:VCRUNTIME_STATUS"
+	Write-Host "     Git ............... $env:GIT_STATUS"
+	Write-Host "     OmniRig ........... $env:OMNIRIG_STATUS"
 	Write-Host ""
-	Write-Host "  Qt Script-Provisioned Tool Chain Status"
+	Write-Host "  Qt Script-Provisioned Tool Chain Status"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     x64:"
+	Write-Host "     x64:"  -ForegroundColor Green
 	Write-Host ""
-	Write-Host "     MinGW 7.3 ..... Qt $env:MinGW73_STATUS"
-	Write-Host "     MinGW 8.1 ..... Qt $env:MinGW81_STATUS"
-	Write-Host "     MinGW 11.2 .... Qt $env:MinGW112_STATUS"
+	Write-Host "     MinGW 8.1 ......... Qt $env:MinGW81_STATUS"
+	Write-Host "     MinGW 9.0 (11.2) .. Qt $env:MinGW900_STATUS"
 	Write-Host ""
-	Write-Host "     x86:"
+	Write-Host "     x86:"  -ForegroundColor Green
 	Write-Host ""
-	Write-Host "     MinGW 4.9 ..... Qt $env:MinGW49_32STATUS"
-	Write-Host "     MinGW 7.3 ..... Qt $env:MinGW73_32STATUS"
-	Write-Host "     MinGW 8.1 ..... Qt $env:MinGW81_32STATUS"
-	Write-Host "     MinGW 11.2 .... Qt $env:MinGW112_32STATUS"
+	Write-Host "     MinGW 8.1 ......... Qt $env:MinGW81_32STATUS"
 	Write-Host ""
-	Write-Host "  Optional Component Status"
+	Write-Host "  Optional Component Status"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     VS Code ....... $env:VSCODE_STATUS"
-	Write-Host "     Boost ......... $env:BOOST_STATUS"
+	Write-Host "     VS Code ........... $env:VSCODE_STATUS"
+	Write-Host "     Boost ............. $env:BOOST_STATUS"
 	Write-Host ""
-	Write-Host "  Post Install / Manual Setup Commands"
+	Write-Host "  Post Install / Manual Setup Commands"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     Main Install .. postinstall"
-	Write-Host "     MSYS2 Shell ... msys2"
+	Write-Host "     Main Install ...... postinstall"
+	Write-Host "     MSYS2 Shell ....... msys2"
 	Write-Host ""
 }'
