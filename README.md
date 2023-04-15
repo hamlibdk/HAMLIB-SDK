@@ -66,7 +66,7 @@ build libraries (i.e. [Boost 1.81](Boost-1.81.0) ) as part of the learning proce
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.81.0][]are available - saving many hours.. 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available - saving many hours.. 
 
 - [Boost-1.74.0][] is built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
 - [Boost-1.80.0][] and [Boost-1.81.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
@@ -191,7 +191,7 @@ A **Tools** package can only be applied to a matching **Base** release. i.e. You
 - Download any **Tools** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-**Note:** the current tools package is [Tools 3.2.3.1][]
+**Note:** the current tools package is [JTSDK64-Tools-3.2.3.1][]
 ************************************************************************************
 
 - Deploy the **Tools** package - if there is one - to your JTSDK install directory.
