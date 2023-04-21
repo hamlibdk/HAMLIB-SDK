@@ -265,12 +265,12 @@ The following procedure (supplied by Joe K0OG) can be used to fix this problem:
 
 This will recreate the new profile and should permit successful builds.
 
-### Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and any **Tools** packages if they exist
+### Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and JTSDK64-Tools-3.2.3.1.exe update package
  
-** Note that these instructions assumes a fresh Windows 10 Virtual Machine is used **
+** Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used **
 
 - Deploy the **Base** installer [JTSDK64-Base-3.2.3][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **Tools** Packages if they exist to your **Base** Deployment.
+- Deploy the latest **Tools** Package [JTSDK64-Tools-3.2.3.1][] to your **Base** Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -522,10 +522,10 @@ In the JTSDK64-Tools environment:
 
 - Type: **Deploy-Boost**
 
-Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
+Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.81.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.81.0][] and [Boost-1.82.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
@@ -733,6 +733,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.79.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z
 [Boost-1.80.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z
 [Boost-1.81.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z
+[Boost-1.82.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
 [WSJT-X 2.2.3]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.3.tgz
@@ -741,6 +742,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [WSJT-X 2.5.0 rc6]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.0-rc6.tgz
 [WSJT-X 2.5.4]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.5.4.tgz
 [WSJT-X 2.6.0]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.6.0.tgz
+[WSJT-X 2.6.1]: https://sourceforge.net/projects/wsjt/files/wsjtx-2.6.1/wsjtx-2.6.1.tgz
 [Archive]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/
 [Fl-Apps]: https://sourceforge.net/projects/fldigi/files/
 [DotNET SDK]: https://dotnet.microsoft.com/download
