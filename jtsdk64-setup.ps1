@@ -32,7 +32,7 @@ $host.ui.RawUI.WindowTitle = “JTSDK64 Tools Setup ” + $env:JTSDK64_VERSION
 
 Clear-Host
 Write-Host "------------------------------------------------------------"
-Write-Host "                JTSDK Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
+Write-Host "               JTSDK Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
 Write-Host "------------------------------------------------------------"
 Write-Host ""
 

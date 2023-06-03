@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.3.1
+# Version ......: 3.2.3.2
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
@@ -16,8 +16,9 @@
 # Updates for Qt 5.12.12 and 6.2.2 27-05-2021 - 6-1-2022
 # Updates for Qt 6.3.0 16-5-2022
 # Set Qt 5.12.2 and completely deprecate unavailable 5.12-stream Steve VK3VM 18-5-2022
-# References to Qt 5.12.x removed as no longer available Steve VK3VM 7-8-2022
-# References for Qt 6 deployment updated to Qt 6.5.0 Steve VK3VM 10-04-2023
+# References to Qt 5.12.x removed as no longer available Steve VK3VM 07-8-2022
+# References for Qt 6 deployment updated to Qt 6.5.0 Steve VK3VM 10-4-2023
+# References for Qt 6 deployment updated to Qt 6.5.1 Coordinated by Steve VK3VM 02-6-2023
 #
 #-----------------------------------------------------------------------------#
 
@@ -186,7 +187,7 @@ function InstallHelp {
 	Write-Host ""
 	Write-Host "      Installs Minimal, plus additional versions:"
 	Write-Host ""
-	Write-Host "        qt.qt6.650.win64_mingw (Full Deployment)"
+	Write-Host "        qt.qt6.651.win64_mingw (Full Deployment)"
 	Write-Host "        qt.tools.win64_mingw900"
 	Write-Host ""
 	Write-Host " Usage:"
@@ -246,7 +247,7 @@ function InstallSummary {
 		Write-Host "    qt.tools.maintenance"
 		Write-Host "    qt.tools.cmake.win64"
 		Write-Host "    qt.qt5.5152.win64_mingw81"
-		Write-Host "    qt.qt6.650.win64_mingw (full deployment)"
+		Write-Host "    qt.qt6.651.win64_mingw (full deployment)"
 		Write-Host "    qt.tools.win64_mingw810"
 		Write-Host "    qt.tools.win64_mingw900"
 		Write-Host "    qt.tools.vcredist_msvc2017_x64"
@@ -298,7 +299,7 @@ Write-Host ""
 Write-Host "Valid Switches`:"
 Write-Host ""
 Write-Host "  min    - Scripted installation Qt MinGW 5.15.2 only"
-Write-Host "  full   - Scripted installation 5.15.2, 6.5.0"
+Write-Host "  full   - Scripted installation 5.15.2, 6.5.1"
 Write-Host "  update - Update Qt Deployment"
 Write-Host "  manage - Manage Qt Deployment"
 Write-Host "  help   - Get Installation Help"

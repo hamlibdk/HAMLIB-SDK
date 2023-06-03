@@ -39,9 +39,12 @@ https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/
 The preferred [MSYS2][] development environment for building Hamlib is now executed by typing 
 **mingw64** at the [PowerShell][] prompt.
 
-### Release Notes: Tools 3.2.3.1 
+### Release Notes: Tools 3.2.3.1 and Tools 3.2.3.2 
 
 The current [JTSDK64-Tools-3.2.3.1][] package can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe
+
+Patches that update to Tools 3.2.3.2 have not been compiled into an update package. These 
+can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/ .
 
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
@@ -61,19 +64,19 @@ been met (i.e. [PowerShell][] conversion, Ability to compile latest source code 
 bleeding-edge Hamlib code). 
 
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. [Boost 1.81](Boost-1.81.0) ) as part of the learning process.
+build libraries (i.e. [Boost 1.81](Boost-1.82.0) ) as part of the learning process.
 
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.81.0][] are available - saving many hours.. 
+Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.80.0][] and [Boost-1.82.0][] are available - saving many hours.. 
 
 - [Boost-1.74.0][] is built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
-- [Boost-1.80.0][] and [Boost-1.81.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+- [Boost-1.80.0][] and [Boost-1.82.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
-The recommended development environment should be [Qt][] 5.15.2 and [Boost-1.81.0][] 
+The recommended development environment should be [Qt][] 5.15.2 and [Boost-1.82.0][] 
 working with [MinGW 8.1](MinGW) under the **mingw64** [MSYS2][] environment.
 ************************************************************************************ 
 
@@ -180,7 +183,7 @@ are designed to be deployed to an existing **Base** package and/or **Base** pack
 **Tools** Package applied.
 
 A **Tools** package can only be applied to a matching **Base** release. i.e. You cannot apply a 
-[Tools 3.2.3.1](JTSDK64-Tools-3.2.3.1) package to a [JTSDK64-Base-3.2.1][] - based deployment.
+[Tools 3.2.3.2](JTSDK64-Tools-3.2.3.2) package to a [JTSDK64-Base-3.2.1][] - based deployment.
 
 ### Application of Maintenance **Tools** packages
 
@@ -191,10 +194,19 @@ A **Tools** package can only be applied to a matching **Base** release. i.e. You
 - Download any **Tools** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-**Note:** the current tools package is [JTSDK64-Tools-3.2.3.1][]
+The current tools package is [JTSDK64-Tools-3.2.3.1][]
 ************************************************************************************
 
 - Deploy the **Tools** package - if there is one - to your JTSDK install directory.
+
+************************************************************************************
+**Note:** Unpackaged updates to **Version 2.3.2.3** are available. These can be found at:
+
+- https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
+
+Drop all the files from (but not including) README.md in place of originals; This will 
+update to Version 3.2.3.2 .
+************************************************************************************
 
 Updates may apply to the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
@@ -265,12 +277,12 @@ The following procedure (supplied by Joe K0OG) can be used to fix this problem:
 
 This will recreate the new profile and should permit successful builds.
 
-### Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and JTSDK64-Tools-3.2.3.1.exe update package
+### Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and JTSDK64-Tools-3.2.3.2.exe update package
  
 ** Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used **
 
 - Deploy the **Base** installer [JTSDK64-Base-3.2.3][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **Tools** Package [JTSDK64-Tools-3.2.3.1][] to your **Base** Deployment.
+- Deploy the latest **Tools** Package [JTSDK64-Tools-3.2.3.2][] to your **Base** Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -280,7 +292,7 @@ It is recommended to use all the initial default settings and file locations.
 
 ```
 -------------------------------------------
-           JTSDK Setup v3.2.3.1
+           JTSDK Setup v3.2.3.2
 -------------------------------------------
 
   Required Tool Status
@@ -522,10 +534,10 @@ In the JTSDK64-Tools environment:
 
 - Type: **Deploy-Boost**
 
-Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.81.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
+Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.82.0 (configurable in **C:\JTSDK64-Tools\config\Versions.ini**) that is suitable to build JT-software under your selected Qt version on your machine.
 
 ************************************************************************************
-Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.81.0][] and [Boost-1.82.0][] are available at the time of writing.
+Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.82.0][] and [Boost-1.82.0][] are available at the time of writing.
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
@@ -533,12 +545,12 @@ The drop-in packages since [Boost-1.79.0][] now supports [MinGW 8.1](MinGW) and 
   
 - Extract the folder for the Boost version-package that you want to use into **C:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
 
-A Windows symbolic link will work too: i.e.: Assume that both the 1.81.0-8.1 and 1.81.0-11.2 distributions have been unpacked from **Boost-1.81.0-MinGW-v8.1-v11.2.7z** to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or [PowerShell][] windows are positioned at **C:\JTSDK64-Tools\tools\boost**
+A Windows symbolic link will work too: i.e.: Assume that both the 1.82.0-8.1 and 1.82.0-11.2 distributions have been unpacked from **Boost-1.82.0-MinGW-v8.1-v11.2.7z** to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or [PowerShell][] windows are positioned at **C:\JTSDK64-Tools\tools\boost**
 
 Examples:
 
-- Cmd:** mklink /D 1.81.0 1.81.0-8.1 **
-- [PowerShell][]:** New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.81.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.81.0-8.1 **
+- Cmd:** mklink /D 1.82.0 1.82.0-8.1 **
+- [PowerShell][]:** New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.82.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.82.0-8.1 **
  
 The preference is to build your own Boost package and NOT use these ! ** Warning: Boost does not build 100% properly and to full capability under MinGW/[MSYS2][] environments that we use – yet its good enough for our purposes !**
 ************************************************************************************
@@ -720,6 +732,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [JTSDK64-Tools-3.2.2.6]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Archive/JTSDK64-Tools-3.2.2.6.exe
 [JTSDK64-Base-3.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe
 [JTSDK64-Tools-3.2.3.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe
+[JTSDK64-Tools-3.2.3.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
@@ -732,7 +745,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md
 [Boost-1.78.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z
 [Boost-1.79.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.79.0-MinGW-v8.1-v11.2.7z
 [Boost-1.80.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z
-[Boost-1.81.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z
+[Boost-1.82.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z
 [Boost-1.82.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/

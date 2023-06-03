@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.3
+# Version ......: 3.2.3.2
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -10,10 +10,10 @@
 # 
 # Author .......: Hamlib SDK Contributors <hamlibdk@outlook.com>
 #
-# Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
+# Concept ......: Greg Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2022 JTSDK Contributors
+#                 (C) 2020-2023 JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
@@ -29,6 +29,8 @@
 #               : Fudge to handle MinGW 9.0.0 Tools with Qt 18-1-2022 Steve VK3VM
 #               : Refactoring to cater for Qt 6.2.2 and MinGW 9.0.0 18-19-1-2022 Steve VK3VM 
 #               : Further refactoring as Qt 6.2.2 and later now refers to MinGW 11.2.0 16-05-2022 Uwe DG2YCB with Steve VK3VM
+#               : Improvements and refactoring preparing for HLSDK (JTSDK) 4.0 02/03-06-202 Coordinated by Steve VK3VM
+#               --> Primarily fixes to better support the kit residing on drives rather than just C:
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -202,12 +204,12 @@ function CheckQtDeployment {
 		$env:QTV = "5.15.2"    
 	}
 
-	# Thanks to Mile Black W9MDB for the concept
+	# Thanks to Mike Black W9MDB for the concept for the script below.
 
 	$listQtDeploy = Get-ChildItem -Path $env:JTSDK_TOOLS\qt -EA SilentlyContinue                 
 
-	$env:VER_MINGW=" " 				# Remember: $env:QTV contains the QT Version!	
-	$countMinGW = 0					#           $subPathQt contains name of Qt version from marker
+	$env:VER_MINGW_GCC=" " 			# NOTE: $env:QTV contains the QT Version!	
+	$countMinGW = 0					#       $subPathQt contains name of Qt version from marker
 
 	ForEach ($subPathQt in $listQtDeploy)
 	{
@@ -216,7 +218,7 @@ function CheckQtDeployment {
 			ForEach ($itemListSubUnderQtDir in $listSubUnderQtDir) {
 				if ($subPathQt.Name -eq $env:QTV) {
 					if (($itemListSubUnderQtDir -like '*64')) {
-						$env:VER_MINGW = $itemListSubUnderQtDir
+						$env:VER_MINGW_GCC = $itemListSubUnderQtDir
 						if ($itemListSubUnderQtDir -like 'mingw*') {
 							$countMinGW = $countMinGW + 1
 							break
@@ -229,14 +231,14 @@ function CheckQtDeployment {
 
 	if ($countMinGW -eq 1) 
 	{
-		Write-Host "  --> Qt Version Deployed: `[$env:QTV`] MinGW Directory: `[$env:VER_MINGW`]" # - contains MinGW Release
+		Write-Host "  --> Qt Version Deployed: `[$env:QTV`] MinGW Directory: `[$env:VER_MINGW_GCC`]" # - contains MinGW Release
 	} else {
 		GenerateError("NO Qt DEPLOYMENT or MULTIPLE Qt MARKERS SET IN $env:JTSDK_CONFIG. PLEASE CORRECT")
 	}
 }
 
 # --- Set Qt Environment variables --------------------------------------------
-# --> MinGW environs need be set for detected version in $env:VER_MINGW
+# --> MinGW environs need be set for detected version in $env:VER_MINGW_GCC
 
 function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$QTP_ff) {
 
@@ -256,39 +258,36 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	$env:QTBASE_F = ConvertForward($env:QTBASE)
 	$QTBASE_ff.Value = ($env:QTBASE).replace("\","/")
 
-	$env:QTD=$env:QTBASE + "\" + $env:VER_MINGW+"\bin"
+	$env:QTD=$env:QTBASE + "\" + $env:VER_MINGW_GCC+"\bin"
 	$env:QTD_F = ConvertForward($env:QTD)
 	$QTD_ff.Value = ($env:QTD).replace("\","/")
 	
-	$env:QTP=$env:QTBASE + "\" + $env:VER_MINGW + "\plugins\platforms"
+	$env:QTP=$env:QTBASE + "\" + $env:VER_MINGW_GCC + "\plugins\platforms"
 	$env:QTP_F = ConvertForward($env:QTP)
 	$QTP_ff.Value = ($env:QTP).replace("\","/")
 
 	# Fudge to handle MinGW 11.2.0 Tools with Qt
 	# --> MinGW 11.2.0 Tools now just named mingw_64 [ No version prefix ] 
-	if ($env:VER_MINGW -like "mingw_64") {
-		$ver_mingw_tmp = $env:VER_MINGW
-	#	# A fudge
-		$env:VER_MINGW = "mingw112_64"	
+	if ($env:VER_MINGW_GCC -like "mingw_64") {
+		$VER_MINGW_GCC_tmp = $env:VER_MINGW_GCC
+	#	# The Fudge itself: It is actually the GCC version.
+		$env:VER_MINGW_GCC = "mingw112_64"	
 	}
 	
 	# Dirty method to add additional 0 required for Tools MinGW
 	# May cause issues if the MinGW people change structures or use sub-versions !
-	$verMinGWAddZero= $env:VER_MINGW -replace "_", "0_"
+	$verMinGWAddZero= $env:VER_MINGW_GCC -replace "_", "0_"
 	$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$verMinGWAddZero+"\bin"
 	$GCCD_ff.Value = ($env:GCCD).replace("\","/")
 	$env:GCCD_F = ConvertForward($env:GCCD)
 	
 	# De-Fudge to handle MinGW 11.2.0 Tools with Qt
-	if ( Get-Variable -name ver_mingw_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW = $ver_mingw_tmp }
+	if ( Get-Variable -name VER_MINGW_GCC_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW_GCC = $VER_MINGW_GCC_tmp }
 	
-	#####################################################
 	# Note: This is the NEW First occurence of JTSDK_PATH
-	#####################################################
-
-	#$env:JTSDK_PATH += ";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP 
 	$env:JTSDK_PATH=";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP + ";" + $env:QTP + "\lib" 
-	Write-Host "* Setting Qt Environment Variables"
+	
+	Write-Host "* Setting environment variables for Qt"
 	Write-Host "  --> QTBASE ----> $env:QTBASE"
 	Write-Host "  --> QTBASE_F --> $env:QTBASE_F"
 	Write-Host "  --> QTD -------> $env:QTD"
@@ -345,15 +344,15 @@ function SetCheckBoost {
 		Write-Host -NoNewLine "* Boost version $env:boostv is deployed under "
 		$env:BOOST_V_MINGW = CheckBoostCorrectMinGWVersion($env:boost_dir)
 		Write-Host $env:BOOST_V_MINGW
-		Write-Host -NoNewLine "  --> Current Qt Support: `[$env:VER_MINGW`] Status: "
-		if ($env:BOOST_V_MINGW -like $env:VER_MINGW) {
+		Write-Host -NoNewLine "  --> Current Qt Support: `[$env:VER_MINGW_GCC`] Status: "
+		if ($env:BOOST_V_MINGW -like $env:VER_MINGW_GCC) {
 			$env:BOOST_STATUS="Functional"
 			Write-Host "Functional"
 		} else {
 			Write-Host "*** NON FUNCTIONAL FOR JTSDK USE ***"
 		}
 	} else {
-		Write-Host "*** BOOST NOT DEPLOYED: Provide library for $env:VER_MINGW to $env:JTSDK_TOOLS\boost\$env:boostv ***"
+		Write-Host "*** BOOST NOT DEPLOYED: Provide library for $env:VER_MINGW_GCC to $env:JTSDK_TOOLS\boost\$env:boostv ***"
 	}
 }
 
@@ -377,9 +376,9 @@ function SetUnixTools {
 }
 
 # --- Hamlib Dirs -------------------------------------------------------------
-
+	
 function SetHamlibDirs {
-	$env:hamlib_base = $env:JTSDK_TOOLS + "\hamlib"
+	$env:hamlib_base=$env:JTSDK_TOOLS + "\hamlib"
 	$env:hamlib_base_f = ConvertForward($env:hamlib_base)
 	return ($env:hamlib_base).replace("\","/")
 }
@@ -392,17 +391,25 @@ function SetHamlibRepo {
 	# This logic works - assuming only one marker...
 	$env:HLREPO = "NONE"
 	if (Test-Path "$env:JTSDK_CONFIG\hlmaster") { $env:HLREPO = "MASTER" }
+	# The next repo has been deprecated. It is here as an example - but it may not work.
 	if (Test-Path "$env:JTSDK_CONFIG\hlw9mdb") { $env:HLREPO = "W9MDB" }
-	if (Test-Path "$env:JTSDK_CONFIG\hlg4wjs") { $env:HLREPO = "G4WJS" }
 	Write-Host "$env:HLREPO"
 	if ($env:HLREPO -eq "NONE") {
 		Write-Host "  --> Please set a repository source marker in $env:JTSDK_CONFIG"
 	}
 }
 
+# --- PortAudio Dirs ----------------------------------------------------------
+	
+function SetPortAudioDirs ([ref]$pa_dir_ff) {
+	$env:portaudio_dir = $env:JTSDK_TOOLS + "\portaudio"
+	$pa_dir_ff.Value = ($env:portaudio_dir).replace("\","/")
+	$env:portaudio_dir_f = ConvertForward($env:portaudio_dir)
+}
+
 # --- Generate Qt Tool Chain Files --------------------------------------------
 
-function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $hamlibff, $svnff) {
+function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $palibff, $hamlibff, $svnff) {
 
 	$QTVR = $env:QTV -replace "\.",''
 
@@ -445,8 +452,8 @@ function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $ham
 	Add-Content $of "SET (SVND $svnff)"
 	Add-Content $of " "
 	Add-Content $of "# PortAudio"
-	Add-Content $of "SET (PALIB C:/JTSDK64-Tools/tools/portaudio)"
-	Add-Content $of "SET (PALIB_LIBRARY C:/JTSDK64-Tools/tools/portaudio/lib/libportaudio.dll)"
+	Add-Content $of "SET (PALIB $palibff)"
+	Add-Content $of "SET (PALIB_LIBRARY $palibff/lib/libportaudio.dll)"
 	Add-Content $of " "
 	Add-Content $of "# Cmake Consolidated Variables"
 	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{HLIB}/lib `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
@@ -509,7 +516,7 @@ function InvokeInteractiveEnvironment {
 		Write-Host "--------------------------------------------"
 		Write-Host "Source .....: $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
-			Write-Host "Qt .........: $env:QTV `[$env:VER_MINGW`]"
+			Write-Host "Qt .........: $env:QTV `[$env:VER_MINGW_GCC`]"
 		} else {
 			Write-Host "Qt .........: $env:QTV Missing"
 		}
@@ -612,8 +619,6 @@ $env:JTSDK_HOME = $PSScriptRoot
 $env:JTSDK_HOME_F = ConvertForward($env:JTSDK_HOME) 
 $env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
 $env:JTSDK_CONFIG_F = ConvertForward($env:JTSDK_CONFIG)
-#$env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
-#$env:JTSDK_DATA_F = ConvertForward($env:JTSDK_DATA)
 $env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
 $env:JTSDK_SRC_F = ConvertForward($env:JTSDK_SRC) 
 $env:JTSDK_TMP = $env:JTSDK_HOME + "\tmp"
@@ -681,20 +686,24 @@ SetUnixTools							# --- UNIX TOOLS ----------------------
 
 SetHamlibRepo							# --- SET HAMLIB REPO SOURCE ----------
 
+$pa_dir_ff = " "                        # --- PortAudio -----------------------
+SetPortAudioDirs -pa_dir_ff ([ref]$pa_dir_ff)						
+
 # --- SET FINAL ENVIRONMENT PATHS and CONSOLE TITLE ---------------------------
 
 $env:PATH += $env:JTSDK_PATH
-$env:PATH += ";C:\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\bin"	# -- Always Find HAMLIB in search path
-$env:PATH += ";C:\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\lib"	# -- Always Find HAMLIB Library Dir in search path
+$env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\bin"	# -- Always Find HAMLIB in search path
+$env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\lib"	# -- Always Find HAMLIB Library Dir in search path
 
-# The next line is a FUDGE for an issue with JTDX packaging. Not Happy with this !
-$env:PATH += ";C:\Windows\SysWOW64\downlevel;C:\Windows\System32\downlevel"
+# The next line is a FUDGE for an issue with JTDX packaging. Not Happy with this - but is necessary !
+#$env:PATH += ";C:\Windows\SysWOW64\downlevel;C:\Windows\System32\downlevel"
+$env:PATH += ";"+$env:windir+"\SysWOW64\downlevel;"+$env:windir+"\System32\downlevel"
 
 $hamlib_base_ff = SetHamlibDirs		     # --- Hamlib Dirs --------------------
 
 # --- Generate the Tool Chain -------------------------------------------------
 
-GenerateToolChain -qtbaseff $QTBASE_ff -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -hamlibff $hamlib_base_ff -svnff $svn_dir_ff
+GenerateToolChain -qtbaseff $QTBASE_ff -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -palibff $pa_dir_ff -hamlibff  $hamlib_base_ff -svnff $svn_dir_ff
 
 # -----------------------------------------------------------------------------
 #  FINAL MESSAGE
