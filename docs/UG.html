@@ -191,7 +191,7 @@ Do you want to change the execution policy?
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> The current &quot;Tools&quot; package is&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe">JTSDK64-Tools-3.2.3.1.exe</a>.</p>
+	<p><strong>Note:</strong> The current &quot;Tools&quot; package is&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe">JTSDK64-Tools-3.2.3.2.exe</a>.</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
@@ -241,7 +241,7 @@ Do you want to change the execution policy?
 	<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used </strong></p>
 	<ul>
 	<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe">JTSDK-Base-3.2.3</a> ) inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe">JTSDK64-Tools-3.2.3.1</a> ) to your Base Deployment.</li>
+	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe">JTSDK64-Tools-3.2.3.2</a> ) to your Base Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
@@ -254,7 +254,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.3.1
+           JTSDK Setup v3.2.3.2
 -------------------------------------------
 
   Required Tool Status
@@ -396,7 +396,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 </div>
 <ul>
 	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt  5.15.2 and 6.5.0.
+	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt  5.15.2 and 6.5.1.
 	Qt 5.15.2 (default) is the recommended version for Jt-ware development. </p>
 	<ul>
 		<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; <strong>Note:</strong> &#39;Y&#39; or &#39;D&#39; is recommended for an initial installation. Add other Qt versions later.</li>
@@ -540,7 +540,7 @@ Enter your selection, then hit <return>:
 <ul>
 	<p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.15.2. If you did not use 
 	the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	want to update Qt to an experimental version such as 6.5.0 version you should do so now. 
+	want to update Qt to an experimental version such as 6.5.1 version you should do so now. 
 	Note that using Qt 5.15.2 is the only Qt version that JT-ware source supports at this time.</p>
   <p>Perform the following steps:</p>
 	<ul>
@@ -548,13 +548,13 @@ Enter your selection, then hit <return>:
 		
 		<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
 	</ul>
-  <p>To add Qt 6.5.0:</p>
+  <p>To add Qt 6.5.1:</p>
 	<ul>
-		<li>Add Qt 6.5.0 MinGW.</li>
+		<li>Add Qt 6.5.1 MinGW.</li>
 		
-		<li>Ensure that components Qt 6.5.0/MinGW 11.2.0 64 bit and Qt 6.5.0/Qt5 Compatability Module are added.</li>
+		<li>Ensure that components Qt 6.5.1/MinGW 11.2.0 64 bit and Qt 6.5.1/Qt5 Compatability Module are added.</li>
 		
-		<li>Select Qt 6.5.0/All Additional Libraries .</li>
+		<li>Select Qt 6.5.1/All Additional Libraries .</li>
 		
 		<li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
 		
@@ -565,7 +565,7 @@ Enter your selection, then hit <return>:
 		<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
 		
 		<ul>
-		<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.5.0</strong></li>
+		<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.5.1</strong></li>
 		</ul>
 	</ul>
 </ul>

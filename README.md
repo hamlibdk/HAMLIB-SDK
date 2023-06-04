@@ -46,6 +46,9 @@ The current [JTSDK64-Tools-3.2.3.1][] package can be found at https://sourceforg
 Patches that update to Tools 3.2.3.2 have not been compiled into an update package. These 
 can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/ .
 
+Version 3.2.3.2 now implements a long promised facility to simply change the version of Qt deployed from the 
+**Versions.ini** file.
+
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
 ************************************************************************************
@@ -208,7 +211,7 @@ Drop all the files from (but not including) README.md in place of originals; Thi
 update to Version 3.2.3.2 .
 ************************************************************************************
 
-Updates may apply to the [MSYS2][] environment. Therefore the "profile" directory for 
+Updates may be required for the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
 
 Before any updates (manual from "[Tests][]" or from a **Tools** package) you should backup your [MSYS2][] Environment:

@@ -98,7 +98,7 @@ Do you want to change the execution policy?
 		<p><strong> Note that these instructions assumes a fresh Windows 10 Virtual Machine is used. </strong></p>
 		<ul>
 			<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe">JTSDK-Base-3.2.3</a> inside a FRESH VM.</li>	
-			<li>Deploy the latest &quot;Tools&quot; Package <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe">JTSDK64-Tools-3.2.3.1</a> to your "Base" deployment .&nbsp; &nbsp;&nbsp;</li>
+			<li>Deploy the latest &quot;Tools&quot; Package <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe">JTSDK64-Tools-3.2.3.2</a> to your "Base" deployment .&nbsp; &nbsp;&nbsp;</li>
 		</ul>
 	</ul>
 	<table width="*" align="center" border="1">
@@ -129,7 +129,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.3.1
+           JTSDK Setup v3.2.3.2
 -------------------------------------------
 
   Required Tool Status
@@ -262,7 +262,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</div>
 	<ul>
 	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt 5.15.2 and 6.5.0&nbsp; Qt 5.15.2 (default) is the recommended version for JT-ware development. </p>
+	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt 5.15.2 and 6.5.1&nbsp; Qt 5.15.2 (default) is the recommended version for JT-ware development. </p>
 	<ul>
 	<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (note:&#39;Y&#39; or &#39;D&#39; is recommended)</li>
 	</ul>
@@ -410,7 +410,7 @@ Enter your selection, then hit &#60;return&#62;:
 	<ul>
 	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.15.2. If you did not use 
 	  the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	  want to update Qt to an experimental version such as 6.5.0 version you should do so now. 
+	  want to update Qt to an experimental version such as 6.5.1 version you should do so now. 
 	  Note that using Qt 5.15.2 is the only Qt version that JT-ware source supports at this time.</p>
 	  <p>Perform the following steps:</p>
 		<ul>
@@ -418,13 +418,13 @@ Enter your selection, then hit &#60;return&#62;:
 			
 			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
 		</ul>
-	  <p>To add Qt 6.5.0:</p>
+	  <p>To add Qt 6.5.1:</p>
 		<ul>
-			<li>Add Qt 6.5.0 MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 ]</li>
+			<li>Add Qt 6.5.1 MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 ]</li>
 			
-			<li>Ensure that components Qt 6.5.0/MinGW 11.2.0 64 bit and Qt 6.5.0 Qt5 Compatability Module are added.</li>
+			<li>Ensure that components Qt 6.5.1/MinGW 11.2.0 64 bit and Qt 6.5.1 Qt5 Compatability Module are added.</li>
 			
-			<li>Select Qt 6.5.0/All Additional Libraries .</li>
+			<li>Select Qt 6.5.1/All Additional Libraries .</li>
 			
 			<li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
 			
@@ -435,7 +435,7 @@ Enter your selection, then hit &#60;return&#62;:
 			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
 			
 			<ul>
-			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.5.0</strong></li>
+			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.5.1</strong></li>
 			</ul>
 		</ul>
 	</ul>
@@ -601,13 +601,13 @@ Enter your selection, then hit &#60;return&#62;:
 		<p>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
 		<p>A &quot;Tools&quot; package can only be applied to matching &quot;Base&quot; deployments</p>
 		<ul>
-			<li>You can only apply a &quot;Tools 3.2.3.1&quot; package to deployments based on &quot;Base 3.2.3&quot;. It does not matter what 
+			<li>You can only apply a &quot;Tools 3.2.3.2&quot; package to deployments based on &quot;Base 3.2.3&quot;. It does not matter what 
 		&quot;Tools&quot; versions are deployed to &quot;Base 3.2.3&quot; - the latest &quot;Tools&quot; package can always be applied to it.
 		      <p><em>These steps assume that you have a deployed base environment</em></p>
 		<ul>
 			<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 		</ul>
-		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe">JTSDK64-Tools-3.2.3.1.exe</a>.</p>
+		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe">JTSDK64-Tools-3.2.3.2.exe</a>.</p>
 		<ul>
 			<li>Deploy the tools package to your JTSDK install directory.</li>
 		</ul>

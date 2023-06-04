@@ -117,7 +117,7 @@ Do you want to change the execution policy?
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 	</ul>
-	<p><strong>Note:</strong> The current "Tools" Package is&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe">JTSDK64-Tools-3.2.3.1.exe</a> .</p>
+	<p><strong>Note:</strong> The current "Tools" Package is&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe">JTSDK64-Tools-3.2.3.2.exe</a> .</p>
 	<ul>
 	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
@@ -158,7 +158,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.3.1
+           JTSDK Setup v3.2.3.2
 -------------------------------------------
 
   Required Tool Status
@@ -248,9 +248,9 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</table>
 
 <p>The marker file to set the version of Qt used is found in <strong>x:\JTSDK64-Tools\config</strong> i.e. <strong>qt5.15.2</strong> (as default).</p>
-<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.5.0 </strong>.&nbsp;</p>
+<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.5.1 </strong>.&nbsp;</p>
 </ul>
-<h3>Issues observed when trying to build software with Qt 6.5.0 deployments</h3>
+<h3>Issues observed when trying to build software with Qt 6.5.1 deployments</h3>
 <p><strong>Qt 6</strong> is not currently supported by the JT-ware developers. Current source code of all known JT-ware forks at the time that this document was written will not compile under <strong>Qt 6</strong>.</p>
 <p>JT-ware developers are researching Qt 6-compatible code conversion.&nbsp;</p>
 <h3>JT-ware compile error around code that uses the Resource Compilers</h3>
@@ -342,9 +342,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 <ul>
 <p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
 	</ul>
-<li>If you are using <strong>Qt 6.5.0</strong>:&nbsp;</li>
+<li>If you are using <strong>Qt 6.5.1</strong>:&nbsp;</li>
 <ul>
-<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.5.0\bin<strong>"</strong></p>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.5.1\bin<strong>"</strong></p>
 </ul>
 </ul>
 	<p>These paths can be added to the main Windows system paths.</p>
@@ -357,9 +357,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 			<br/>
 			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
 			<br/><br/>
-			<li>For <strong>Qt 6.5.0</strong>:</li>
+			<li>For <strong>Qt 6.5.1</strong>:</li>
 			<br/>
-			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.5.0\bin</strong>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.5.1\bin</strong>
 		</ul>
 		<br/>
 		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
