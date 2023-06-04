@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-JSQt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.3.2
+# Version ......: 4.0 Alpha
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -21,9 +21,11 @@
 #
 # Updated for Qt 5.15.2 as default Steve VK3VM 18-5-2022
 # Major maintenance for Qt 6.3.1; 5.12.12 references removed Steve VK3VM 7-8-2022
-# Minor maintenance for Qt 6.3.2 Steve VK3VM 7-8-2022
-# Minor maintenance for Qt 6.5.0 Steve VK3VM 10-04-2023
-# Minor maintenance for Qt 6.5.1 Coordinated by Steve VK3VM 02-06-2023
+# Minor maintenance for Qt 6.3.2 Steve VK3VM 07-8-2022
+# Minor maintenance for Qt 6.5.0 Steve VK3VM 10-4-2023
+# Minor maintenance for Qt 6.5.1 Coordinated by Steve VK3VM 02-6-2023
+# Bump to Version 4.0: Incorporation of QT5_VER and QT6_VER variables Coordinated by Steve VK3VM 04-6-2023
+# --> The versions of Qt deployed now set inside Versions.ini. Maintenance now reduced.
 #
 #-----------------------------------------------------------------------------#
 
@@ -46,7 +48,7 @@ $appFormalName="Qt"
 # Script should be run in an environ that sets these !
 if (-not (Test-Path env:JTSDK_HOME)) {
     Write-Host "* Setting Environment Variables"
-    $env:JTSDK_HOME = "C:\JTSDK64-Tools"
+    $env:JTSDK_HOME = $env:SystemDrive + "\JTSDK64-Tools"
     $env:JTSDK_CONFIG = $env:JTSDK_HOME + "\config"
     $env:JTSDK_DATA= $env:JTSDK_HOME + "\data"
     $env:JTSDK_SRC = $env:JTSDK_HOME + "\src"
@@ -74,6 +76,9 @@ $installDir_F="$env:JTSDK_TOOLS\$appFormalName"
 # covert back-slahes to forward-slashes, as Qt installer will fail otherwise
 $installDir_F = $installDir_F.replace("\","/")
 
+$qt5ver=$env:QT5_VER.replace(".","")
+$qt6ver=$env:QT6_VER.replace(".","")
+
 # -----------------------------------------------------------------
 #  INSTALL SECTION
 # -----------------------------------------------------------------
@@ -82,6 +87,11 @@ $installDir_F = $installDir_F.replace("\","/")
 Write-Host "-----------------------------------------------------"
 Write-Host " Generate QT Install Scripts"
 Write-Host "-----------------------------------------------------"
+Write-Host " "
+Write-Host "* Qt Versions to be deployed - Read from Versions.ini"
+Write-Host " "
+Write-Host "  --> Qt 5 Deployment .. $env:QT5_VER"
+Write-Host "  --> Qt 6 Deployment .. $env:QT6_VER"
 Write-Host " "
 Write-Host "* $minOutFileText"
 Write-Host " "
@@ -127,7 +137,8 @@ Add-Content $of  " widget.selectComponent`(`"qt.tools.qtcreator`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.cmake`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.openssl.win_x64`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt5.$qt5ver.win64_mingw81`"`)`;"
 Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
 Add-Content $of  "`}"
 Add-Content $of  " "
@@ -156,7 +167,7 @@ Add-Content $of  "`}"
 $pathTest = "$outFilePath\$minOutFilename"
 
 if (Test-Path $pathTest) {
-    Write-Host "  --> Validation ....... Passed `[found $minOutFilename`]"
+    Write-Host "  --> Script Validation: Passed `[found $minOutFilename`]"
     Write-Host " "
 } else {
     GenerateError
@@ -211,70 +222,68 @@ Add-Content $of  " widget.selectComponent`(`"qt.tools.cmake`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.openssl`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.openssl.win_x64`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt5.$qt5ver.win64_mingw81`"`)`;"
 
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.win64_mingw`"`)`;"
 # Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw900`"`)`;"
-
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qt5compat`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qt5compat.win64_mingw`"`)`;"
-
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qt3d`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qt3d.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtactiveqt`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtactiveqt.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtactiveqt`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtactiveqt.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtcharts`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtcharts.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtconnectivity`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtconnectivity.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtdatavis3d`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtdatavis3d.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtimageformats`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtimageformats.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtlanguageserver`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtlanguageserver.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtlottie`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtlottie.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtmultimedia`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtmultimedia.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtnetworkauth`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtnetworkauth.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtpdf`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtpdf.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtpositioning`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtpositioning.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtremoteobjects`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtremoteobjects.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtscxml`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtscxml.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtsensors`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtsensors.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtserialbus`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtserialbus.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtserialport`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtserialport.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtvirtualkeyboard`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtvirtualkeyboard.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebchannel`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebchannel.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebengine`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebengine.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebsockets`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebsockets.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebview`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.addons.qtwebview.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.debug_info`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.debug_info.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qtquick3d`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qtquick3d.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qtquicktimeline`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qtquicktimeline.win64_mingw`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qtshadertools`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt6.651.qtshadertools.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qt5compat`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qt5compat.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qt3d`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qt3d.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtactiveqt`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtactiveqt.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtactiveqt`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtactiveqt.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtcharts`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtcharts.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtconnectivity`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtconnectivity.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtdatavis3d`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtdatavis3d.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtimageformats`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtimageformats.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtlanguageserver`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtlanguageserver.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtlottie`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtlottie.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtmultimedia`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtmultimedia.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtnetworkauth`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtnetworkauth.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtpdf`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtpdf.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtpositioning`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtpositioning.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtremoteobjects`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtremoteobjects.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtscxml`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtscxml.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtsensors`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtsensors.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtserialbus`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtserialbus.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtserialport`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtserialport.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtvirtualkeyboard`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtvirtualkeyboard.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebchannel`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebchannel.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebengine`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebengine.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebsockets`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebsockets.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebview`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.addons.qtwebview.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.debug_info`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.debug_info.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qtquick3d`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qtquick3d.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qtquicktimeline`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qtquicktimeline.win64_mingw`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qtshadertools`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.qtshadertools.win64_mingw`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.windows_kits_debuggers`"`)`;"
 Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
 Add-Content $of  "`}"
@@ -303,7 +312,7 @@ Add-Content $of  "`}"
 
 $pathTest = "$outFilePath\$fullOutFilename"
 if (Test-Path $pathTest) {
-    Write-Host "  --> Validation ....... Passed `[found $fullOutFilename`]"
+    Write-Host "  --> Script Validation: Passed `[found $fullOutFilename`]"
 } else {
     GenerateError
 }
