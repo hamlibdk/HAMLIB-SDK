@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
 	<title>Hamlib SDK v3.2.3 User's Guide</title>
-	<link rel="stylesheet" href="style-new.css">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="stylesheet" href="../style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
 </head>
 
 <body>
@@ -16,23 +16,23 @@
 			<table width="*" border="0">
     			<tr>
       				<td>
-						<img src="favicon.ico" alt=""/>
+						<img src="../favicon.ico" alt=""/>
 					</td>
       				<td>
-		  				<h1>HAMLIB SDK </h1>
+		  				<h1>HAMLIB SDK Version 3 </h1>
 						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
 					</td>
     			</tr>
   			</table>
 		</td>
 		<td align="right" style="vertical-align: top"  >
-			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
-			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+			<a href="UG3.html"><img src="../UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index3.html"><img src="../HomeIcon.png" width="34" height="33" alt=""/></a>
 		</td>
 	</tr>
 </table>
 <hr>
-<script id="replace_with_navbar" src="nav.js"></script>
+<script id="replace_with_navbar" src="nav3.js"></script>
 <h2>JTSDK 3.2.3 User's Guide</h2>
 <hr>
 
@@ -88,7 +88,7 @@
 </ul>
 <hr>
 <ul>
-	<p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt 5.15.2</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a> working with <a href="http://www.mingw.org/">MSYS2 MinGW</a> 8.1.</p>
+	<p>The recommended mainstream development environments are <a href="https://www.qt.io/download-open-source">Qt 5.15.2</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z">Boost-1.82.0</a> working with <a href="http://www.mingw.org/">MSYS2 MinGW</a> 8.1.</p>
 </ul>
 <hr>
 <h3>The Next Steps</h3>
@@ -540,7 +540,7 @@ Enter your selection, then hit <return>:
 <ul>
 	<p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.15.2. If you did not use 
 	the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	want to update Qt to an experimental version such as 6.5.1 version you should do so now. 
+	want to update Qt to an experimental version such as Qt 6.5.1 version you should do so now. 
 	Note that using Qt 5.15.2 is the only Qt version that JT-ware source supports at this time.</p>
   <p>Perform the following steps:</p>
 	<ul>
@@ -554,11 +554,12 @@ Enter your selection, then hit <return>:
 		
 		<li>Ensure that components Qt 6.5.1/MinGW 11.2.0 64 bit and Qt 6.5.1/Qt5 Compatability Module are added.</li>
 		
-		<li>Select Qt 6.5.1/All Additional Libraries .</li>
+		<li>Select Qt 6.5.0/All Additional Libraries .</li>
 		
 		<li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
 		
-		<li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX download).</li>
+		<li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX component downloads).</li>
+		<li>(Optional) Add the OpenSSL 3.xx toolkit (for future enhancements).</li>
 	</ul>
 	<p>On Completion:</p>
 	<ul>
@@ -607,17 +608,17 @@ Enter your selection, then hit <return>:
 <li>Type: <strong>Deploy-Boost</strong></li>
 </ul>
 
-<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.74.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
+<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.82.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
 
-<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z">Boost-1.80.0</a> <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">&nbsp;</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a> are available at the time of writing.</p>
+<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a> <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.78.0-MinGW-v7.3-v8.1.7z">&nbsp;</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z">Boost-1.82.0</a> are available at the time of writing.</p>
 <p>Each “drop-in” package has folders i.e. 1.74.0-7.3 for <a href="http://www.mingw.org/">MinGW</a> 7.3 (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). </p>
 <ul>
 <li>Extract the folder for the Boost version-package that you want to use into <strong>C:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix.</li>
 </ul>
-<p>A Windows symbolic link will work too: i.e.: Assume that both the 1.81.0-8.1 and 1.81.0-11.2 distributions have been unpacked from <strong>Boost-1.81.0-MinGW-v8.1-v11.2.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> . Assume that the command shell or powershell windows are positioned at <strong>C:\JTSDK64-Tools\tools\boost</strong></p>
+<p>A Windows symbolic link will work too: i.e.: Assume that both the 1.82.0-8.1 and 1.82.0-11.2 distributions have been unpacked from <strong>Boost-1.82.0-MinGW-v8.1-v11.2.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> . Assume that the command shell or powershell windows are positioned at <strong>C:\JTSDK64-Tools\tools\boost</strong></p>
 <ul>
-<li>Cmd:<strong> mklink /D 1.81.0 1.81.0-8.1 </strong></li>
-<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.81.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.81.0-8.1 </strong></li>
+<li>Cmd:<strong> mklink /D 1.82.0 1.82.0-8.1 </strong></li>
+<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.82.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.82.0-8.1 </strong></li>
 </ul>
 <p>The preference is to build your own Boost package and NOT use these ! <strong> Warning: Boost does not build 100% properly and to full capability under MinGW/MSYS2 environments that we use – yet its good enough for our purposes !</strong></p>
 </ul>
@@ -783,7 +784,7 @@ high-quality, yet flexible build system. </p>
 <tbody>
 	<tr>
 	  <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
-<td align="right"><a href="hamlibdk [at] outlook.com"
+<td align="right"><a href="../hamlibdk [at] outlook.com"
 		rel="nofollow"
 		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
 	</tr>

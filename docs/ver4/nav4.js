@@ -1,0 +1,10 @@
+// JavaScript Document 
+// Ref: https://stackoverflow.com/questions/31954089/how-can-i-reuse-a-navigation-bar-on-multiple-pages
+fetch("./ver4/nav4.html")
+.then(res => res.text())
+.then(text => {
+    let oldelem = document.querySelector("script#replace_with_navbar");
+    let newelem = document.createElement("div");
+    newelem.innerHTML = text;
+    oldelem.parentNode.replaceChild(newelem,oldelem);
+})

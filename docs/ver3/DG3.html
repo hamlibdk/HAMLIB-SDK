@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK,Jt-ware,wsjtx,jtdx,js8call,build wsjtx,compile wsjtx,Qt,Windows,software,development">
 	<title>Hamlib SDK v3.2.3 Deployment Guide</title>
-	<link rel="stylesheet" href="style-new.css">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="stylesheet" href="../style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
 </head>
 
 <body>
@@ -16,18 +16,18 @@
 			<table width="*" border="0">
     			<tr>
       				<td>
-						<img src="favicon.ico" alt=""/>
+						<img src="../favicon.ico" alt=""/>
 					</td>
       				<td>
-		  				<h1>HAMLIB SDK </h1>
+		  				<h1>HAMLIB SDK Version 3 </h1>
 						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
 					</td>
     			</tr>
   			</table>
 		</td>
 		<td align="right" style="vertical-align: top"  >
-			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
-			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
+			<a href="UG3.html"><img src="../UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index3.html"><img src="../HomeIcon.png" width="34" height="33" alt=""/></a>
 		</td>
 	</tr>
 </table>
@@ -35,12 +35,12 @@
 	<hr>
 	<table width="100%" border="0">
 		<tr>
-			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
-			<td width="12.5%" align="center"><a href="DG-Build-x64-Jt-ware.html">Build x64</a></td>
-			<td width="12.5%" align="center"><a href="DG-Build-x86-Jt-ware.html">Build x86</a></td>
-		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
-			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
-			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="DG3.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG3-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG3-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO3.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN3.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU3.html">Questions</a></td>
 			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
 			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">Download</a</td>
 		</tr>
@@ -428,8 +428,9 @@ Enter your selection, then hit &#60;return&#62;:
 			
 			<li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
 			
-			<li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX download).</li>
-		</ul>
+		  <li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX component downloads).</li>
+			<li>(Optional) Add the OpenSSL 3.x.x toolkit (for future capabilities).&nbsp;</li>
+        </ul>
 	  <p>On Completion:</p>
 		<ul>
 			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
@@ -487,9 +488,9 @@ Enter your selection, then hit &#60;return&#62;:
 		<li>Type: <strong>Deploy-Boost</strong></li>
 		</ul>
 	
-		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.81.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-ware under your selected Qt version on your machine.</p>
+		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.82.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-ware under your selected Qt version on your machine.</p>
 	
-	<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.80.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.80.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a> are available - saving many hours.. </p>
+	<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.81.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z">Boost-1.82.0</a> are available - saving many hours.. </p>
 	<ul>
 		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> is built with and supplied under Qt's MinGW 7.3 and MinGW 8.1 environs.</li>
 	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z">Boost-1.82.0</a> are built with and supplied under Qt's MinGW 8.1 and MinGW 11.2 environs. </li>
@@ -498,7 +499,7 @@ Enter your selection, then hit &#60;return&#62;:
 		<p>A Windows symbolic link will also work with a drop-in package. Refer to the example below:</p> 
 		<ul>
 		
-		<li>Assume that both the 1.81.0-8.1 and 1.81.0-11.2 distributions have been unpacked from <strong>Boost-1.81.0-MinGW-v8.1-v11.2.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> .</li> 
+		<li>Assume that both the <strong>1.82.0-8.1</strong> and <strong>1.82.0-11.2</strong> distributions have been unpacked from <strong>Boost-1.82.0-MinGW-v8.1-v11.2.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> .</li> 
 		
 			<li>The <strong>Command Shell</strong> or <strong>PowerShell</strong> terminals must be positioned at <strong>x:\JTSDK64-Tools\tools\boost</strong></li>
 			
@@ -509,9 +510,9 @@ Enter your selection, then hit &#60;return&#62;:
 			<li>Execute the command that is most appropriate for your terminal environment. Examples are shown below:</li>
 			
 			<ul>
-				<li>Command Shell (CMD):<strong> mklink /D 1.81.0 1.81.0-8.1 </strong></li>
+				<li>Command Shell (CMD):<strong> mklink /D 1.82.0 1.82.0-8.1 </strong></li>
 				
-				<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.81.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.81.0-8.1 </strong></li>
+				<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.82.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.82.0-8.1 </strong></li>
 			</ul>
 		</ul>
 		<p><strong>Note:</strong> The preference is to build your own Boost package and NOT use these "dropins".</p>
@@ -644,7 +645,7 @@ Enter your selection, then hit &#60;return&#62;:
 	  <tbody>
 		<tr>
 		  <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
-<td align="right"><a href="hamlibdk [at] outlook.com"
+<td align="right"><a href="../hamlibdk [at] outlook.com"
 			rel="nofollow"
 			onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
 		</tr>
