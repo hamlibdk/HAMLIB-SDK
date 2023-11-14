@@ -2,11 +2,12 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.3.1
+# Version ......: 3.2.4
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 #
 # Updates.......:  20-2-2021 - 15-1-2022 Steve VK3VM / VK3SIR 
+#                  12-15-11-2023 - Menu additions for Fl-app support Steve VK3VM/VK3SIR
 #
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
@@ -114,7 +115,39 @@ function gnusetup () {
     # declare the package array
 	
 	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" "msys2-w32api-runtime" \
-	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" )
+	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" \ 
+	"mingw-w64-x86_64-cmake" "mingw-w64-x86_64-ninja")
+
+    # loop through the pkg_list array and install as needed
+    for i in "${pkg_list[@]}"
+    do
+        pacman -S --overwrite "*" --needed --noconfirm --disable-download-timeout "$i"
+    done
+
+    echo ''
+    echo -e ${C_Y}"Finished Package Installation"${C_NC}
+    echo ''
+
+}
+
+# Function: install Fl-app dependencies ---------------------------------------
+function flappsetup () {
+
+    # make directories
+    mkdir -p $HOME/src > /dev/null 2>&1
+
+    # start installation
+    clear ||:
+    echo ''
+    echo '---------------------------------------------------------------------'
+    echo -e ${C_Y}"INSTALL FL-APP DEPENDENCIES (EXPERIMENTAL)"${C_NC}
+    echo '---------------------------------------------------------------------'
+    echo ''
+
+    # declare the package array
+	
+	declare -a pkg_list=("mingw-w64-x86_64-fltk" "mingw-w64-x86_64-libsamplerate" "mingw-w64-x86_64-libsndfile" \
+	"mingw-w64-x86_64-portaudio" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -272,11 +305,13 @@ function menu () {
 		echo " 2. Update MSYS2"
         echo " 3. Install Hamlib dependencies"
 		echo " 4. Install msys64 GNU Compilers"
-        echo " 5. Update MSYS2 Keyring"
-		echo " 6. Build Hamlib - Static Libraries"
-        echo " 7. Build Hamlib - Dynamic Package"
-		echo " 8. Clear Hamlib Source"
-		echo " 9. Select HAMLIB Repository"
+        echo " 5. Install FL-app dependiencies (Experimental)"
+		echo " 6. Update MSYS2 Keyring (Deprecated)"
+		echo " 7. Build Hamlib - Static Libraries"
+        echo " 8. Build Hamlib - Dynamic Package"
+		echo " 9. Add Hamlib to pkgconfig (Experimental)"
+		echo " a. Clear Hamlib Source"
+		echo " b. Select HAMLIB Repository"
 		echo " h. List help commands"
 		echo " v. List version information"
 		echo ''
@@ -304,26 +339,44 @@ function menu () {
 			4)
                 gnusetup
                 read -p "Press enter to continue..." ;;
-            5)
+			5)
+                flappsetup
+                read -p "Press enter to continue..." ;;
+			6)
                 msys-keyring
                 read -p "Press enter to continue..." ;;
-            6)
+            7)
                 build-hamlib-static
 				echo ""
 				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD DYNAMIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
-			7)
+			8)
                 build-hamlib-dll
 				echo ""
 				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD STATIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
-			8)
+			9)
+				echo ""
+                echo -e ${C_R}"ADDING JTSDK Hamlib SOURCE TO pkgconfig"${C_NC}
+                echo ''
+				SUB='Qt'
+				if [[ "$PKG_CONFIG_PATH" == *"$SUB"* ]]; then
+					echo "Qt pkgconfig path for Hamlib already added:"
+					echo ''
+					echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
+				else
+					export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$QTBASE_F/lib/pkgconfig"
+					echo 'Added: PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$QTBASE_F/lib/pkgconfig" '
+				fi;
+				echo ''
+                read -p "Press enter to continue..." ;;
+			a)
                 clear-hamlib
                 echo ''
                 read -p "Press enter to continue..." ;;
-			9)
+			b)
                 change-repo
                 echo ''
                 read -p "Press enter to continue..." ;;

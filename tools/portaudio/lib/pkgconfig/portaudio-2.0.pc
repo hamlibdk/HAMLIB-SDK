@@ -1,4 +1,4 @@
-prefix=/usr/local/portaudio
+prefix=/c/JTSDK64-Tools/tools/portaudio
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
