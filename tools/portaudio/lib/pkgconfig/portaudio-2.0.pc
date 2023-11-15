@@ -1,4 +1,4 @@
-prefix=/c/JTSDK64-Tools/tools/portaudio
+prefix=prefix=C:/JTSDK64-Tools/tools/portaudio/lib/pkgconfig
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
