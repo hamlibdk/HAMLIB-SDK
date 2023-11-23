@@ -147,7 +147,7 @@ function flappsetup () {
     # declare the package array
 	
 	declare -a pkg_list=("mingw-w64-x86_64-fltk" "mingw-w64-x86_64-libsamplerate" "mingw-w64-x86_64-libsndfile" \
-	"mingw-w64-x86_64-portaudio" )
+	"mingw-w64-x86_64-portaudio" "mingw-w64-x86_64-gobject-introspection-runtime" "libuuid-devel" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -309,7 +309,7 @@ function menu () {
 		echo " 6. Update MSYS2 Keyring (Deprecated)"
 		echo " 7. Build Hamlib - Static Libraries"
         echo " 8. Build Hamlib - Dynamic Package"
-		echo " 9. Add Hamlib to pkgconfig (Experimental)"
+		echo " 9. Add Hamlib and LibUSB to pkgconfig (Experimental)"
 		echo " a. Clear Hamlib Source"
 		echo " b. Select HAMLIB Repository"
 		echo " h. List help commands"
@@ -359,16 +359,18 @@ function menu () {
                 read -p "Press enter to continue..." ;;
 			9)
 				echo ""
-                echo -e ${C_R}"ADDING JTSDK Hamlib SOURCE TO pkgconfig"${C_NC}
+                echo -e ${C_R}"ADDING JTSDK HAMLIB and LibUSB SOURCE TO pkgconfig"${C_NC}
                 echo ''
-				SUB='Qt'
+				SUB='qt'
 				if [[ "$PKG_CONFIG_PATH" == *"$SUB"* ]]; then
-					echo "Qt pkgconfig path for Hamlib already added:"
+					echo -e ${C_Y}"Qt pkgconfig path for Hamlib and LibUSB already added"${C_NC}
 					echo ''
-					echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
 				else
-					export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$QTBASE_F/lib/pkgconfig"
-					echo 'Added: PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$QTBASE_F/lib/pkgconfig" '
+					# We want to add C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\lib\pkgconfig
+					# PKG_CONFIG_PATH=/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig:/c/JTSDK64-Tools/tools/hamlib/qt/5.15.2/mingw81_64/lib/pkgconfig
+
+					export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$JTSDK_TOOLS_F/hamlib/qt/$QTV/lib/pkgconfig:$libusb_dir_f/libusb-MinGW-x64/lib/pkgconfig"
+					echo "New pkgconfig path: $PKG_CONFIG_PATH"
 				fi;
 				echo ''
                 read -p "Press enter to continue..." ;;
