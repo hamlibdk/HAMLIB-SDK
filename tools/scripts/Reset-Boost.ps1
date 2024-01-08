@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Reset-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2
+# Version ......: 3.2.3.3
 # Description ..: Downloads the latest Git Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -10,11 +10,16 @@
 # Copyright ....: Copyright (C) 2021 - 2022 Hamlib SDK Contributors
 # License ......: GPL-3
 #
+# Version 3.2.3.3 Corrects using GITHUB static release site and different package nomenclature for source - Steve I 2024-01-08
+#                 Slight script cleanups  - Steve I 2024-01-08
+#
+# Development Note: As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
+#
 #-----------------------------------------------------------------------------#
 
 function ErrorDetected($fnctn) {
 	Write-Host ""
-	Write-Host "*** *** ERROR DETECTED IN $fnctn *** ***"
+	Write-Host -ForegroundColor Red "*** *** ERROR DETECTED IN $fnctn *** ***"
 	Write-Host ""
 	Write-Host "* Check Internet Connection"
 	Write-Host "* Report errors to JTSDK Forum (https:`/`/groups.io`/g`/JTSDK)"
@@ -40,11 +45,14 @@ Write-Host "  --> Version requested found in: $env:jtsdk64VersionConfig"
 # Retrieve Boost Version
 
 $boostv = $configTable.Get_Item("boostv")
-$boostv_u = $boostv.replace(".","_")
+# $boostv_u = $boostv.replace(".","_") # Not needed when downloading package from GITHUB
 
 # Process the Boost Download Directory - Nominally C:\JTSDK64-Tools\src
 
-$pathTest = $env:JTSDK_HOME + "\src\boost_" + $boostv_u
+#exensive fixes from here on for GITHUB
+
+# $pathTest = $env:JTSDK_HOME + "\src\boost_" + $boostv_u
+$pathTest = $env:JTSDK_HOME + "\src\boost-" + $boostv
 Write-Host "  --> Path: $pathTest"
 
 Remove-Item $env:JTSDK_HOME\src\* -include *.zip
@@ -58,31 +66,34 @@ if (!(Test-Path $pathTest)) {
 	Remove-Item $pathTest -force -recurse
 	Write-Host "Done."
 }	
+
+# All this is now redudnant as build process take place in Nominally C:\JTSDK64-Tools\src
 # Process the Boost Build Directory - Nominally C:\JTSDK64-Tools\tmp
 
-$pathTest = $env:JTSDK_HOME + "\tmp\boost" + $env:boostv_u
-if (!(Test-Path $pathTest)) {
-	Write-Host "* Requested Boost v$env:boostv build directory not found."	
-} else {
-	Write-Host -NoNewline "* Deleting build directory/ies: $pathTest  (please wait) ... "	
-	Remove-Item $pathTest -force -recurse
-	Write-Host "Done."
-}	
+#$pathTest = $env:JTSDK_HOME + "\tmp\boost" + $env:boostv_u
+#if (!(Test-Path $pathTest)) {
+#	Write-Host "* Requested Boost v$env:boostv build directory not found."	
+#} else {
+#	Write-Host -NoNewline "* Deleting build directory/ies: $pathTest  (please wait) ... "	
+#	Remove-Item $pathTest -force -recurse
+#	Write-Host "Done."
+#}	
+
 # Process the Boost Deployment Directory
 
 $pathTest = $env:JTSDK_HOME + "\tools\boost\" + $env:boostv
 if (!(Test-Path $pathTest)) {
 	Write-Host "* Requested Boost v$env:boostv deployment directory not found."	
 } else {
-	Write-Host -NoNewline "* Deleting deployment directory/ies: $pathTest (please wait) ... "	
+	Write-Host -NoNewline "* Deleting deployment directories: $pathTest (please wait) ... "	
 	Remove-Item $pathTest -force -recurse
-	Write-Host "Done."
+	Write-Host  -ForegroundColor Yellow "Done."
 }	
 
 Write-Host ""
-Write-Host "* Boost v$env:boostv Construction and Deployment environment reset."
+Write-Host -ForgroundColor Yellow "* Boost v$env:boostv Construction and Deployment environment reset."
 Write-Host ""
-Write-Host "*** *** PLEASE CLOSE AND THEN REPOPEN ALL POWERSHELL AND MSYS2 ENVIRONMENTS *** ***"
+Write-Host -ForgroundColor Red "*** *** PLEASE CLOSE AND THEN REPOPEN ALL POWERSHELL AND MSYS2 ENVIRONMENTS *** ***"
 
 Write-Host ""
 

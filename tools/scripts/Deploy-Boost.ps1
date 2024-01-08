@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Deploy-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.3.2
+# Version ......: 3.2.3.3
 # Description ..: Downloads the latest Git Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -10,11 +10,15 @@
 # Copyright ....: Copyright (C) 2021 - 2023 Hamlib SDK Contributors
 # License ......: GPL-3
 #
+# Version 3.2.3.3 Corrects using GITHUB static release site and different package nomenclature for source - Steve I 2024-01-08
+#
+# Development Note: As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
+#
 #-----------------------------------------------------------------------------#
 
 function ErrorDetected($fnctn) {
 	Write-Host ""
-	Write-Host "*** *** ERROR DETECTED IN $fnctn *** ***"
+	Write-Host -ForegroundColor Red "*** *** ERROR DETECTED IN $fnctn *** ***"
 	Write-Host ""
 	Write-Host "* Check Internet Connection"
 	Write-Host "* Report errors to JTSDK Forum (https:`/`/groups.io`/g`/JTSDK)"
@@ -56,7 +60,7 @@ if (!(Test-Path $pathTest)) {
 	Invoke-Expression -Command $scriptRoot\Compile-Boost.ps1
 	if ($LASTEXITCODE -ne 0) { ErrorDetected("Build") };	
 } else {
-	Write-Host "* Requested Boost v$env:boostv already deployed."
+	Write-Host -ForegroundColor Yellow "* Configured version of Boost in Versions.ini [v$env:boostv] already deployed."
 }	
 
 Write-Host ""

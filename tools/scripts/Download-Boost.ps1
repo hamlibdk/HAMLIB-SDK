@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2
+# Version ......: 3.2.3.3
 # Description ..: Downloads selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -9,6 +9,10 @@
 # Author .......: Hamlib SDK Contributors <hamlibdk@outlook.com>
 # Copyright ....: Copyright (C) 2021 - 2022 Hamlib SDK Contributors
 # License ......: GPL-3
+#
+# Version 3.2.3.3 Corrects using GITHUB static release site as source - Steve I 2024-01-08
+#
+# Development Note: As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
 #
 #-----------------------------------------------------------------------------#
 
@@ -45,14 +49,14 @@ $boostv = $configTable.Get_Item("boostv")
 # Place into file format for Boost distribution
 # Note: Multi stage here - can be simplified.
 
-$dlFile = "boost_$boostv.zip"
-$dlFile = $dlFile.replace(".","_")
-$dlFile = $dlfile.replace("_zip",".zip")	# Formatted as the filename found on the Web
+$dlFile = "boost-$boostv.zip"
 $dLoc = $dlFile.Replace(".zip","")			# Remove the .zip extenstion [ For decompression ]
 
 # Boost Distribution URL
 
-$dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"
+#$dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"
+# URL used for Development: https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.zip
+$dlPath = "https://github.com/boostorg/boost/releases/download/$dLoc/$dlFile"
 
 Write-Host "  --> Requested Source: $dlPath"
 
@@ -61,11 +65,19 @@ Write-Host "  --> Requested Source: $dlPath"
 
 if (!(Test-Path("$env:JTSDK_SRC\$dlFile"))) {
 	Write-Host "  --> Downloading $env:JTSDK_SRC\$dlFile" 
-	Write-Host "      `[Note: this will be *** slow ***`]"
-	try { Invoke-WebRequest $dlPath -UserAgent "" -OutFile "$env:JTSDK_SRC\$dlFile" } catch { exit(1) }
+	Write-Host ""
+	Write-Host "      `[Note: This could be *** SLOW *** depending on link speed and net congestion.`]"
+	Write-Host ""
+	# try { Invoke-WebRequest $dlPath -UserAgent "" -OutFile "$env:JTSDK_SRC\$dlFile" }
+	try { Invoke-WebRequest $dlPath -OutFile "$env:JTSDK_SRC\$dlFile" }	
+	catch { 
+		Write-Host -ForegroundColor Red "  *** ERROR DOWNLOADING FILE ***" 
+		Write-Host ""
+		exit(1) 
+	}
 	Write-Host "  --> Download Complete"
 } else {
-	Write-Host "  --> Souce already downloaded"
+	Write-Host -ForegroundColor Yellow "  --> Source already downloaded"
 	Write-Host "  --> File: $env:JTSDK_SRC\$dlFile"
 	Write-Host "  --> To refresh: Delete $env:JTSDK_SRC\$dlFile and re-run `'Download-Boost.ps1`'"
 }
@@ -76,11 +88,17 @@ Write-Host ""
 
 if (!(Test-Path("$env:JTSDK_SRC\$dLoc"))){
 	Write-Host "  --> Decompressing to: $env:JTSDK_SRC"
-	Write-Host "      `[Note: This will be *** very slow ***`]"
-	try { Expand-Archive "$env:JTSDK_SRC\$dlFile" -DestinationPath $env:JTSDK_SRC -Force } catch { exit(2) }
+	Write-Host ""
+	Write-Host "      `[Note: This will be *** SLOW ***`]"
+	Write-Host""
+	try { Expand-Archive "$env:JTSDK_SRC\$dlFile" -DestinationPath $env:JTSDK_SRC -Force } 
+	catch { 
+		Write-Host -ForegroundColor Red "  *** ERROR DECOMPRESSING FILE ***" 
+		exit(2) 
+	}
 		Write-Host "  --> Decompression complete." 
 } else {	
-	Write-Host "  --> Source already decompressed"
+	Write-Host -ForegroundColor Yellow "  --> Source already decompressed"
 	Write-Host "  --> To refresh: Delete source directory in $env:JTSDK_SRC and re-run `'Download-Boost.ps1`'"
 }
 

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------#
 # Name .........: Compile-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2
+# Version ......: 3.2.3.3
 # Description ..: Compiles selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -11,6 +11,11 @@
 # License ......: GPL-3
 #
 # Base Ref......: https://gist.github.com/zrsmithson/0b72e0cb58d0cb946fc48b5c88511da8
+#
+# Version 3.2.3.3 Corrects using GITHUB static release site and different package nomenclature for source - Steve I 2024-01-08
+#                 Slight script cleanups  - Steve I 2024-01-08
+#
+# Development Note: As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
 #
 #-----------------------------------------------------------------------------------#
 
@@ -43,14 +48,14 @@ Get-Content $env:jtsdkVConf | foreach-object -begin {$configTable=@{}} -process 
 # Retrieve Boost Version
 
 $boostv = $configTable.Get_Item("boostv")
-$boostv_u = $boostv.replace(".","_")
+# $boostv_u = $boostv.replace(".","_") # With change to GITHUB there is a nomenclature change. This is NO LONGER NEEDED !!!
 Write-Host "  --> Boost version to be compiled: $boostv"
 Write-Host ""
 
 # ##### ##### ##### Do not compile if source already exists ##### ##### #####  
 
 if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
-	Write-Host "  --> Requested Boost Library `[$boostv`] Not Found`: Starting to Compile Source."
+	Write-Host -ForegroundColor Yellow "  --> Requested Boost Library `[$boostv`] Not Found`: Starting to Compile Source."
 	# Final Distribution Directory
 
 	$boostDir = "$env:JTSDK_Tools\boost\$boostv"
@@ -64,12 +69,12 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 	
 	Write-Host "  --> Creating Required Directories"
 
-	if (!(Test-Path("$env:JTSDK_SRC\boost_$boostv_u"))) {
-		New-Item -Force -Path "$env:JTSDK_SRC\boost_$boostv_u" -ItemType Directory | Out-Null
+	#if (!(Test-Path("$env:JTSDK_SRC\boost_$boostv_u"))) {
+	if (!(Test-Path("$env:JTSDK_SRC\boost-$boostv"))) {
+		# A fix here for GITGUB
+		New-Item -Force -Path "$env:JTSDK_SRC\boost-$boostv" -ItemType Directory | Out-Null  
 	}
 
-	# ## New-Item -Force -Path "$env:JTSDK_TMP\boost_$boostv_u\boost-build" -ItemType Directory | Out-Null
-	# ## New-Item -Force -Path "$env:JTSDK_TMP\boost_$boostv_u\boost-build\build" -ItemType Directory | Out-Null # For Building
 	New-Item -Force -Path "$env:JTSDK_TOOLS\boost\$boostv" -ItemType Directory | Out-Null
 	Write-Host ""
 
@@ -77,7 +82,8 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 	# Boost.Build setup
 	# ############################################################################################
 
-	Set-Location -Path "$env:JTSDK_SRC\boost_$boostv_u\tools\build"
+	#Set-Location -Path "$env:JTSDK_SRC\boost_$boostv_u\tools\build"
+	Set-Location -Path "$env:JTSDK_SRC\boost-$boostv\tools\build"
 
 	Write-Host "* Commencing Boost.Build Setup"
 	Write-Host ""
@@ -93,15 +99,20 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 	# Build boost.build with b2
 
 	$cmds = ".\b2"
-	$args = "--prefix='$env:JTSDK_TMP\boost_$boostv_u\boost-build' toolset=gcc"
+	# Fixes here for GITHUB
+	# $args = "--prefix='$env:JTSDK_TMP\boost_$boostv_u\boost-build' toolset=gcc"
+	$args = "--prefix='$env:JTSDK_TMP\boost-$boostv\boost-build' toolset=gcc"
 	Start-Process -NoNewWindow -wait $cmds $args
 
-	Write-Host "  --> b2 install --prefix=`"$env:JTSDK_TMP\boost_$boostv_u\boost-build`" Complete."
+	#Write-Host "  --> b2 install --prefix=`"$env:JTSDK_TMP\boost_$boostv_u\boost-build`" Complete."
+	Write-Host "  --> b2 install --prefix=`"$env:JTSDK_TMP\boost-$boostv\boost-build`" Complete."
 
-	$env:PATH=$env:PATH + ";" + "$env:JTSDK_TMP\boost_$boostv_u\boost-build\bin" + ";" + "$env:JTSDK_SRC\boost_$boostv_u\tools\build\src\engine"
+	# $env:PATH=$env:PATH + ";" + "$env:JTSDK_TMP\boost_$boostv_u\boost-build\bin" + ";" + "$env:JTSDK_SRC\boost_$boostv_u\tools\build\src\engine"
+	$env:PATH=$env:PATH + ";" + "$env:JTSDK_TMP\boost-$boostv\boost-build\bin" + ";" + "$env:JTSDK_SRC\boost-$boostv\tools\build\src\engine"
 
-	# ## Write-Host "  --> Added `"$env:JTSDK_TMP\boost_$boostv_u\boost-build`" to system path."
-	Write-Host "  --> Added `"$env:JTSDK_SRC\boost_$boostv_u\tools\build\src\engine`" to system path."
+	# Write-Host "  --> Added `"$env:JTSDK_SRC\boost_$boostv_u\tools\build\src\engine`" to system path."
+	Write-Host "  --> Added `"$env:JTSDK_SRC\boost-$boostv\tools\build\src\engine`" to system path."
+
 
 	# ############################################################################################
 	# Building Boost
@@ -109,17 +120,19 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
 	Write-Host ""
 	Write-Host "* Build Boost"
 
-	Set-Location -Path "$env:JTSDK_SRC\boost_$boostv_u"
+	#Set-Location -Path "$env:JTSDK_SRC\boost_$boostv_u"
+	Set-Location -Path "$env:JTSDK_SRC\boost-$boostv"
 	Write-Host "  --> Commencing actual build"
 
 	$cmds = "b2"
-	$args = "--build-dir=`"$env:JTSDK_SRC\boost_$boostv_u\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc install"
+	# $args = "--build-dir=`"$env:JTSDK_SRC\boost_$boostv_u\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc install"
+	$args = "--build-dir=`"$env:JTSDK_SRC\boost-$boostv\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc install"
 	Start-Process -NoNewWindow -wait $cmds $args
 
-	Write-Host "  --> Build Complete."
+	Write-Host -ForegroundColor Yellow "  --> Build Complete."
 } else {
 	
-	Write-Host "  --> Source already Compiled"
+	Write-Host -ForegroundColor Yellow "  --> Source already Compiled"
 	Write-Host "  --> To refresh: Delete source directory in $env:JTSDK_TOOLS\boost\$boostv and re-run `'Compile-Boost.ps1`'"
 }
 # Complete
