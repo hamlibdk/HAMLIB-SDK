@@ -3,7 +3,7 @@
 
 #define MyAppName "JTSDK Tools 3.2.3.3"
 #define MyAppVersion "3.2.3.3"
-#define MyAppPublisher "(c)2020 - 2023 JTSDK Contributors based on concepts and code 2013-2021 (c) Greg Beam KI7MT"
+#define MyAppPublisher "(c)2020 - 2024 JTSDK Contributors based on concepts and code 2013-2021 (c) Greg Beam KI7MT"
 #define MyAppURL "https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/"
 
 [Setup]
