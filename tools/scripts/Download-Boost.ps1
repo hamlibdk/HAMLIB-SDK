@@ -7,7 +7,7 @@
 #
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Hamlib SDK Contributors <hamlibdk@outlook.com>
-# Copyright ....: Copyright (C) 2021 - 2022 Hamlib SDK Contributors
+# Copyright ....: Copyright (C) 2021 - 2024 Hamlib SDK Contributors
 # License ......: GPL-3
 #
 # Version 3.2.3.3 Corrects using GITHUB static release site as source - Steve I 2024-01-08

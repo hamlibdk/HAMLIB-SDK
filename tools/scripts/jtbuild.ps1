@@ -5,7 +5,7 @@
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
 # Copyright .........: Copyright (C) 2018-2021 Greg Beam, KI7MT
-#                      Copyright (C) 2018-2022 JTSDK Contributors
+#                      Copyright (C) 2018-2024 JTSDK Contributors
 # License ...........: GPL-3
 #
 # jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 03-01-2021

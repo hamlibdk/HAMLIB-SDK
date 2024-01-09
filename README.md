@@ -21,7 +21,7 @@ completely removes needs for capable third-party environments such as [Python][]
 
 ### Release Notes: 3.2.3 Base Stream
 
-The Base package - [JTSDK64-Base-3.2.1][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe
+The Base package - [JTSDK64-Base-3.2.3][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe
 
 This README.md file includes deployment instructions. The very latest news - including tips 
 to solve issues - can be found at https://hamlib-sdk.sourceforge.io/ ( see https://hamlib-sdk.sourceforge.io/QU.html ).
@@ -41,12 +41,13 @@ https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/
 The preferred [MSYS2][] development environment for building Hamlib is now executed by typing 
 **mingw64** at the [PowerShell][] prompt.
 
-### Release Notes: Tools 3.2.3.2 
+### Release Notes: Tools 3.2.3.3 
 
-The current [JTSDK64-Tools-3.2.3.2][] package can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe
+The current [JTSDK64-Tools-3.2.3.3][] package can be found at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.3.exe
 
-[JTSDK64-Tools-3.2.3.2][] now implements a long promised facility to simply change the version of Qt deployed from the 
-**Versions.ini** file.
+[JTSDK64-Tools-3.2.3.3][] changes Boost delivery points to their GitHUB site.
+
+The [Qt][] Version 6 supported stream is also bumped to version 6.6.1.
 
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
@@ -66,7 +67,7 @@ been met (i.e. [PowerShell][] conversion, Ability to compile latest source code 
 bleeding-edge Hamlib code). 
 
 Future kits will be much smaller in distribution size. You will be required to 
-build libraries (i.e. [Boost 1.82](Boost-1.82.0) ) as part of the learning process.
+build libraries (i.e. [Boost 1.84](Boost-1.84.0) ) as part of the learning process.
 
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
@@ -79,7 +80,7 @@ are available - saving many hours. Note that the continued production of these f
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
-The recommended development environment should be [JTSDK64-Base-3.2.3][] with [JTSDK64-Tools-3.2.3.2][] . This 
+The recommended development environment should be [JTSDK64-Base-3.2.3][] with [JTSDK64-Tools-3.2.3.3][] . This 
 incorporates [Qt][] 5.15.2 and [Boost-1.82.0][] working with [MinGW 8.1](MinGW) under 
 the **mingw64** [MSYS2][] environment.
 ************************************************************************************ 
@@ -185,7 +186,7 @@ are designed to be deployed to an existing **Base** package and/or **Base** pack
 **Tools** Package applied.
 
 A **Tools** package can only be applied to a matching **Base** release. i.e. You cannot apply a 
-[Tools 3.2.3.2](JTSDK64-Tools-3.2.3.2) package to a [JTSDK64-Base-3.2.1][] - based deployment.
+[Tools 3.2.3.3](JTSDK64-Tools-3.2.3.3) package to a [JTSDK64-Base-3.2.1][] - based deployment.
 
 ### Application of Maintenance **Tools** packages
 
@@ -196,7 +197,7 @@ A **Tools** package can only be applied to a matching **Base** release. i.e. You
 - Download any **Tools** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/ 
 
 ************************************************************************************
-The current tools package is [JTSDK64-Tools-3.2.3.2][] .
+The current tools package is [JTSDK64-Tools-3.2.3.3][] .
 ************************************************************************************
 
 - Deploy the **Tools** package - if there is one - to your JTSDK install directory.
@@ -283,7 +284,7 @@ The section of the **Versions.ini** file where these keys are found are showb be
 ...
 #Set current Qt version
 qt5v=5.15.2
-qt6v=6.5.1
+qt6v=6.6.1
 ```
 
 There should not be a future need to change key *qt5v* away from Version 5.15.2 as it is unlikely 
@@ -292,16 +293,16 @@ that the Qt Maintainers will ever make a Qt 5 version beyond Version 5.15.2 avai
 The Qt maintainers are constantly evolving and improving Qt releases in the Version 6 stream. It may be 
 necessary to align the *qt6v* key to the currently available Qt version. 
 
-- As at the time of document publication, the latest currently available Qt 6 version available to Open Source licensees is **Qt 6.5.1**.
+- As at the time of document publication, the latest currently available Qt 6 version available to Open Source licensees is **Qt 6.6.1**.
 
 You will be advised on the [JTSDK@GROUPS.io](JTSDK Forum) forum should changes to any of these keys be necessary.
 
-### Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and JTSDK64-Tools-3.2.3.2.exe update package
+### Step 1: Deploy the JTSDK64-Base-3.2.3.exe Installer and JTSDK64-Tools-3.2.3.3.exe update package
  
 ** Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used **
 
 - Deploy the **Base** installer [JTSDK64-Base-3.2.3][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **Tools** Package [JTSDK64-Tools-3.2.3.2][] to your **Base** Deployment.
+- Deploy the latest **Tools** Package [JTSDK64-Tools-3.2.3.3][] to your **Base** Deployment.
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -311,7 +312,7 @@ It is recommended to use all the initial default settings and file locations.
 
 ```
 -------------------------------------------
-          JTSDK Setup v3.2.3.2
+          JTSDK Setup v3.2.3.3
 -------------------------------------------
 
   Required Tool Status
@@ -386,7 +387,7 @@ The following information will be displayed:
 (required) Default Qt (D/Y|F|N) ...:
 ```
 Qt Presents a number of options. 'D' or 'Y' Selects a scripted "Default" 
-deployment being Qt 5.15.2 as the base. 'F' Deploys 5.15.2 and 6.5.1. 
+deployment being Qt 5.15.2 as the base. 'F' Deploys 5.15.2 and 6.6.1. 
 
 - Qt is required. Select 'Y'/'D' or 'F' (note:'Y' or 'D' is recommended)
 ```
@@ -493,7 +494,7 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
 **Step 3a: Upgrade your Qt Deployment**
  
 A Minimum Qt installation pegs at [Qt][] at version 5.15.2. If you did not use the "F" Full option for [Qt][] deployment or you 
-want to add additional Qt versions - i.e. test Qt 6.5.1 - you should do so now. 
+want to add additional Qt versions - i.e. test Qt 6.6.1 - you should do so now. 
 
 **The use of Qt 5.15.2 is the Qt deployment for JT-ware. Qt6 streams are not yet supported for JT-ware compiles.**
 
@@ -504,11 +505,11 @@ To add an additional version of Qt to the default Qt 5.15.2 version:
 - Navigate to the Qt Deployment directory
 - Run the Qt Maintenance Tool from your Qt deployment directory (i.e. **C:\JTASK64-Tools\tools\Qt**)
 
-To add Qt 6.5.1:
+To add Qt 6.6.1:
 
-- Add Qt 6.5.1 MinGW
-- Ensure that components Qt 6.5.1/MinGW 11.2.0 64 bit and Qt 6.5.0/Qt5 Compatability Module are added.
-- Select Qt 6.5.1/All Additional Libraries .
+- Add Qt 6.6.1 MinGW
+- Ensure that components Qt 6.6.1/MinGW 11.2.0 64 bit and Qt 6.5.0/Qt5 Compatability Module are added.
+- Select Qt 6.6.1/All Additional Libraries .
 - Add Developer and Designer Tools / MinGW 11.2.0 64-bit
 - (Recommended) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX download).
 - (Recommended) Add the OpenSSL 3.x.1x toolkit (Future Enhancement).
@@ -516,7 +517,7 @@ To add Qt 6.5.1:
 On Completion:
 
 - Adjust the maker file in **x:\JTSDK64-Tools\config** marker file to match the Qt version that you want to use 
-- i.e. rename **qt5.15.2** to **qt6.5.1**
+- i.e. rename **qt5.15.2** to **qt6.6.1**
 
 ************************************************************************************
 There must only be ONE marker file for Qt in **x:\JTSDK64-Tools\config**
@@ -751,6 +752,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [JTSDK64-Base-3.2.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe
 [JTSDK64-Tools-3.2.3.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe
 [JTSDK64-Tools-3.2.3.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe
+[JTSDK64-Tools-3.2.3.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.3.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/

@@ -126,7 +126,7 @@
 	<h3>Step 4: Download the Source</h3>
 	
     <ul>
-    	<p>You need to determine the download URL of the latest stable Boost release by clicking on the &ldquo;Current Release&rdquo; link at <a href="https://www.boost.org/">https://www.boost.org/</a> . At the time of writing the  current version was <strong>1.82.0</strong>.</p>
+    	<p>You need to determine the download URL of the latest stable Boost release by clicking on the &ldquo;Current Release&rdquo; link at <a href="https://www.boost.org/">https://www.boost.org/</a> . At the time of writing the  current version was <strong>1.84.0</strong>.</p>
 	<ul>
 	  <li>Type  the following commands:</li>
 		
@@ -142,7 +142,7 @@
 	  	<li>In  the msys64 shell, type <strong>wget</strong>, paste the URL, and then press enter. i.e.</li>
 		
 	  	<ul>
-			<li><strong>wget </strong><a href="https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz">https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz</a></li>
+			<li><strong>wget </strong><a href="https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.gz">https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.gz</a></li>
 		</ul>
 	</ul>
 	<p>This downloads the source package.</p>
@@ -150,7 +150,7 @@
 	  	<li>Extract  the source package with:</li>
 		
 		<ul>
-			<li><strong>tar xvfz boost_1_82_0.tar.gz</strong></li>
+			<li><strong>tar xvfz boost-1.84.0.tar.gz</strong></li>
 		</ul>
 	</ul>
     </ul>
@@ -161,7 +161,7 @@
 	  	<p>Execute  the following commands at the MSYS2 command prompt:</p>
 		
 		<ul>
-			<li><strong>cd boost_1_82_0</strong></li>
+			<li><strong>cd boost-1.84.0</strong></li>
 			
 	  		<li><strong>./bootstrap.sh</strong></li>
 			
@@ -176,7 +176,7 @@
     <ul>
         <p>You will find a structure inside <em>/tmp</em> (Windows path <em><strong>x:\msys64\tools\msys64\tmp\boost</strong></em>) that contains your built Boost library set that can be inserted into the JTSDK.</p>
 
-        <p>You will need to rename that folder to match the current version (i.e. rename folder&nbsp; <em><strong>boost</strong></em> to <em><strong>1.82.0</strong></em>) before it can be used with the JTSDK.&nbsp;</p>
+        <p>You will need to rename that folder to match the current version (i.e. rename folder&nbsp; <em><strong>boost</strong></em> to <em><strong>1.84.0</strong></em>) before it can be used with the JTSDK.&nbsp;</p>
 <p>Deliver that folder structure to <em><strong>X:\JTSDK64-Tools\tools\boost\</strong></em> .</p>
 <p>If you made adjustments to the key <em>unixtools</em> inside <em><strong>x:\JTSDK64-Tools\config\Versions.ini</strong></em>  , set its value back to <em>disabled</em>.</p>
 	<ul>	
