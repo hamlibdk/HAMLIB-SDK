@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.3.2
+# Version ......: 3.2.3.3
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -13,7 +13,7 @@
 # Concept ......: Greg Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2023 JTSDK Contributors
+#                 (C) 2020-2024 JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
@@ -29,8 +29,10 @@
 #               : Fudge to handle MinGW 9.0.0 Tools with Qt 18-1-2022 Steve VK3VM
 #               : Refactoring to cater for Qt 6.2.2 and MinGW 9.0.0 18-19-1-2022 Steve VK3VM 
 #               : Further refactoring as Qt 6.2.2 and later now refers to MinGW 11.2.0 16-05-2022 Uwe DG2YCB with Steve VK3VM
-#               : Improvements and refactoring preparing for HLSDK (JTSDK) 4.0 02/03-06-202 Coordinated by Steve VK3VM
+#               : Improvements and refactoring preparing for HLSDK (JTSDK) 4.0 02/03-06-2022 Coordinated by Steve VK3VM
 #               --> Primarily fixes to better support the kit residing on drives rather than just C:
+#               : Amendment in technique for getting output package filename 9-10-1-2024 Steve VK3VM
+#
 #-----------------------------------------------------------------------------::
 
 # --- GENERATE ERROR ----------------------------------------------------------
@@ -492,7 +494,7 @@ function CheckJTSourceSelection {
 # --> Invoking PowerShell through a CMD shell prevents many security warnings !
 
 function InvokeInteractiveEnvironment {
-	invoke-expression 'cmd /c start powershell -NoExit -Command {                           `                `
+	invoke-expression 'cmd /c start pwsh -NoExit -Command {                           `                `
 		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools"
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2.exe"	

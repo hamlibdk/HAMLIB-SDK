@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 3.2.3 
+# Version ...........: 3.2.3.3
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
@@ -31,6 +31,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#               : Amendment in technique for getting output package filename 9-10-1-2024 Steve VK3VM
+#
 #-----------------------------------------------------------------------------#
 
 # ---------------------------------------------------------------- THIS IS THE END !!!
@@ -559,9 +562,17 @@ function PackageTargetTwo {
 	Write-Host ""
 	cmake --build . --target $topt -- -j $JJ
 	if ($LastExitCode -ne 0) { NSISError }
-	#	DIR /B $buildd\*-win64.exe >p.k & $/P wsjtxpkg=<p.k & rm p.k **** Equivalent Below ***
-	$wsjtxpkg = Get-ChildItem -Path $buildd -Filter *-win64.exe | Select -First 1
+	#	DIR /B $buildd\*-win64.exe >p.k & $/P wsjtxpkg=<p.k & rm p.k # Equivalent Below
+	# Next line is problemati with PS 7.4.0 but works with PS Core 5.1
+	# $wsjtxpkg = Get-ChildItem -Path $buildd -Filter *-win64.exe | Select -First 1
+	
+	$wsjtxpkg=Get-ChildItem -Path . -Filter *-win64.exe
+	$wsjtxpkg=Split-Path -Path $wsjtxpkg -Leaf -Resolve
+	
 	Write-Host "Copying package to`: $pkgd"
+	Write-Host "--> Build Directory: $buildd"
+	Write-Host "--> Package Filename: $wsjtxpkg"
+	
 	Copy-Item -Path $buildd\$wsjtxpkg  -Destination $pkgd | Out-Null
 	FinishPackage
 }
