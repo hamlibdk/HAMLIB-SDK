@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.3.3
+# Version ......: 3.2.4b
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -29,9 +29,9 @@
 #               : Fudge to handle MinGW 9.0.0 Tools with Qt 18-1-2022 Steve VK3VM
 #               : Refactoring to cater for Qt 6.2.2 and MinGW 9.0.0 18-19-1-2022 Steve VK3VM 
 #               : Further refactoring as Qt 6.2.2 and later now refers to MinGW 11.2.0 16-05-2022 Uwe DG2YCB with Steve VK3VM
-#               : Improvements and refactoring preparing for HLSDK (JTSDK) 4.0 02/03-06-2022 Coordinated by Steve VK3VM
+#               : Improvements and refactoring preparing for HLSDK (JTSDK) 4.0 02/03-06-202 Coordinated by Steve VK3VM
 #               --> Primarily fixes to better support the kit residing on drives rather than just C:
-#               : Amendment in technique for getting output package filename 9-10-1-2024 Steve VK3VM
+#               _ Addition of PSS for support for Powershell interpreter to be used 10-1-2024 Steve I VK3VM
 #
 #-----------------------------------------------------------------------------::
 
@@ -494,7 +494,7 @@ function CheckJTSourceSelection {
 # --> Invoking PowerShell through a CMD shell prevents many security warnings !
 
 function InvokeInteractiveEnvironment {
-	invoke-expression 'cmd /c start pwsh -NoExit -Command {                           `                `
+	invoke-expression 'cmd /c start $PSS -NoExit -Command {                           `                `
 		$host.UI.RawUI.WindowTitle = "JTSDK64 Tools"
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2.exe"	
@@ -595,6 +595,7 @@ function InvokeInteractiveEnvironment {
 
 # --- Application Information -------------------------------------------------
 
+
 $jtsdk64Version = [IO.File]::ReadAllText($PSScriptRoot+"\ver.jtsdk")
 $env:JTSDK64_VERSION = $jtsdk64Version
 $host.ui.RawUI.WindowTitle = "JTSDK64 Tools " + $jtsdk64Version
@@ -650,6 +651,9 @@ if ((Test-Path $env:JTSDK_TOOLS)) { $env:CORETOOLS="Installed" }
 $env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
 Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
 Write-Host "$env:JTSDK_VC"
+
+# Get PowerShell interpreter to use: options be pwsh (latest deploy) and powershell (Core - 5.1)
+$PSS = $configTable.Get_Item("pss")
 
 CheckQtDeployment 						# --- Qt ------------------------------
 
