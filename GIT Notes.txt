@@ -5,7 +5,7 @@ git add .
 
 git commit -m "Changes Notes"
 
-git push
+git push everyone master --force
 
 
 
