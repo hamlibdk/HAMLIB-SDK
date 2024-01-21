@@ -54,12 +54,15 @@ function InstallSummary {
 	Write-Host "-----------------------------------------------------"
 	Write-Host ""
 	Write-Host "* Installation Summary."
-	#Write-Host ""
-	Get-Host | Select-Object
-	Write-Host -ForegroundColor yellow "* The Latest version of PowerShell is now deployed "
 	Write-Host ""
-	Write-Host "  --> To ensure that this deployment  worked properly, exit this"
-	Write-Host "      environment and re-launch jtsdk64-tools."	
+	#Get-Host | Select-Object
+	Write-Host -ForegroundColor yellow "  --> The latest PowerShell is now deployed "
+	Write-Host ""
+	Write-Host "  --> To ensure that this deployment  worked properly,"
+	Write-Host -NoNewline "      exit this environment and type " 
+	Write-Host -ForegroundColor yellow "pwsh"
+	Write-Host -NoNewline "  --> At the prompt type "
+	Write-Host -ForegroundColor green "`$PSVersionTable"	
 	Write-Host ""
 	exit(0)
 }
@@ -92,7 +95,7 @@ function InstallError {
 
 # INSTALL PowerShell --------------------------------------------------------------
 function InstallPowerShell {
-	Write-Host ""
+	#Write-Host ""
 	Write-Host "-----------------------------------------------------"
 	Write-Host " Latest PowerShell Installation"
 	Write-Host "-----------------------------------------------------"
@@ -106,15 +109,15 @@ function InstallPowerShell {
 	# Original: iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI -Quiet"
 	# Version below will be interactive as it would be useful for PowerShell to be updated from Windows Update (if selection made) !
 	$exitCode = iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI"
-    #if ($exitCode -ne 0) { 
-    #    Write-Host ""
-	#	Write-Host -ForegroundColor red "*** *** *** Error *** *** ***"
-     #   InstallError 
-    #} else {
-		$Host.PrivateData.VerboseForegroundColor = $original
+    $Host.PrivateData.VerboseForegroundColor = $original
+	if ($exitCode -eq 0) { 
+        Write-Host ""
+		Write-Host -ForegroundColor red "*** *** *** Error *** *** ***"
+       InstallError 
+    } else {
 		Write-Host ""
         Write-Host "  --> The latest PowerShell version should now be deployed."
-    #}
+    }
 
 	InstallSummary
 
