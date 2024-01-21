@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64-setup.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.3.1
+# Version ......: 3.4.0b
 # Description ..: JTSDK64 Postinstall Setup Environment
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line
@@ -11,11 +11,15 @@
 # Concept ......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#                 And (C) 2020 - 2023 subsequent JTSDK Contributors
+#                 (C) 2020 - 2024 subsequent JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8 Dec 2020 - 11 Apr 2023
 #                 Uwe DG2YCB 25 Mar 2021 - 17 May 2022 (support for 32-bit)
+#
+#                 Additions for JTSDK 3.4.0 [ PowerShell Deploys ] 2024-01-13 Steve I VK3VM  
+#
+#-----------------------------------------------------------------------------::
 
 # --- CONVERT FORWARD ---------------------------------------------------------
 # --> Converts to Unix/MinGW/MSYS2 Path format !
@@ -28,11 +32,11 @@ function ConvertForward($inValue) {
 }
 
 $env:JTSDK64_VERSION = [IO.File]::ReadAllText($PSScriptRoot+"\ver.jtsdk")
-$host.ui.RawUI.WindowTitle = “JTSDK64 Tools Setup ” + $env:JTSDK64_VERSION
+$host.ui.RawUI.WindowTitle = 'JTSDK64 Tools Setup ' + $env:JTSDK64_VERSION
 
-Clear-Host
+#Clear-Host
 Write-Host "------------------------------------------------------------"
-Write-Host "               JTSDK Tools Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
+Write-Host "                  JTSDK64 Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
 Write-Host "------------------------------------------------------------"
 Write-Host ""
 
@@ -67,6 +71,8 @@ $env:JTSDK_QT_INSTALL_DIR = $env:JTSDK_TOOLS + "\Qt"
 $JTSDK_MSYS2 = $env:JTSDK_TOOLS + "\msys64"
 
 $env:PATH=$env:PATH+";"+$env:JTSDK_HOME+";"+$env:JTSDK_TOOLS+";"+$env:JTSDK_SETUP+";"+$JTSDK_MSYS2
+$env:PS_VER=$psVersionTable.PSVersion.ToString()
+
 
 #------------------------------------------------------------------------------
 # TOOL INSTALL VALIDATION
@@ -78,14 +84,24 @@ $env:VCRUNTIME_STATUS="Not Installed"
 $env:GIT_STATUS="Not Installed"
 $env:QTMAINT_STATUS="Not Installed"
 $env:QTCREATOR_STATUS="Not Installed"
-$env:MinGW900_STATUS="Not Installed"
+$env:MinGW11x_STATUS="Not Installed"
 $env:MinGW81_STATUS="Not Installed"
 $env:MinGW81_32STATUS="Not Installed"
 $env:VSCODE_STATUS="Not Installed"
 $env:BOOST_STATUS="Not Installed"
 $env:OMNIRIG_STATUS="Not Installed"
 
+#------------------------------------------------------------------------------
+# APP CHECK
+#------------------------------------------------------------------------------
+
+# --- Display version of PowerShell invoked -----------------------------------
+
+Write-Host "* Checking current PowerShell environment"
+
 # --- VC Runtime Path ---------------------------------------------------------
+
+Write-Host "* Checking for Visual C/C++ 2022 runtime availability (Please wait)"
 
 $env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
 Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
@@ -95,14 +111,6 @@ $env:QT6_VER = $configTable.Get_Item("qt6v")
 Write-Host -NoNewLine "  --> VC/C++ Runtime Path "
 Write-Host -NoNewLine "$env:VC_RUNPATH" -ForegroundColor DarkCyan
 Write-Host " from Versions.ini ... Set"
-
-#------------------------------------------------------------------------------
-# APP CHECK
-#------------------------------------------------------------------------------
-
-# --- VC Runtimes -------------------------------------------------------------
-
-Write-Host "* Checking for Visual C/C++ 2022 runtime availability (Please wait)"
 
 $vcRunInstance = Get-CimInstance -ClassName Win32_Product -Filter "Vendor = 'Microsoft Corporation' and Name LIKE '%Microsoft Visual C++ 2022%'"
 if ($vcRunInstance) { $env:VCRUNTIME_STATUS="Installed" }
@@ -160,56 +168,59 @@ if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_32\bin") { $env:MinGW81_32STAT
 $env:MinGW81_32STATUS = $env:MinGW81_32STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "JTSDK" -replace "mingw81_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
 if ($env:MinGW81_32STATUS -eq ", Qt ") { $env:MinGW81_32STATUS="Not Installed" }
 
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin") { $env:MinGW900_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin\Qt?Core.dll }
-$env:MinGW900_STATUS = $env:MinGW900_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ") -replace "64"
-if ($env:MinGW900_STATUS -eq ", Qt ") { $env:MinGW900_STATUS="Not Installed" }
+if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin") { $env:MinGW11x_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin\Qt?Core.dll }
+$env:MinGW11x_STATUS = $env:MinGW11x_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ") -replace "64"
+if ($env:MinGW11x_STATUS -eq ", Qt ") { $env:MinGW11x_STATUS="Not Installed" }
 
 
 
 # --- Complete ! --------------------------------------------------------------
 
 Write-Host " "
+Write-Host -ForegroundColor yellow  "Note: PowerShell Windows 5.1 is preferred for Deployment."
+Write-Host " "
 Write-Host "The environment for JTSDK deployment is now in place."
 Write-Host " "
-Read-Host -Prompt "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** "
+#Read-Host -Prompt "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** "
+$input = $(Write-Host -NoNewLine -ForegroundColor blue "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** " ; Read-Host) 
+
 
 #------------------------------------------------------------------------------
 # PRINT TOOL CHAN STATUS / CREATE INTERACTIVE POWERSHELL ENVIRON
 #------------------------------------------------------------------------------
 
 invoke-expression 'cmd /c start powershell -NoExit -Command {                           `           `
-    $host.UI.RawUI.WindowTitle = "JTSDK64 Setup Powershell Window" 
+    $host.UI.RawUI.WindowTitle = "JTSDK64 PowerShell Windows 5.1" 
     New-Alias msys2 "$env:JTSDK_TOOLS\msys64\msys2_shell.cmd"
 	New-Alias postinstall "$env:JTSDK_TOOLS\setup\jtsdk64-postinstall.ps1"
     Write-Host "-------------------------------------------"
-	Write-Host "           JTSDK Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
+	Write-Host "          JTSDK64 Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
 	Write-Host "-------------------------------------------"
 	Write-Host ""
-	Write-Host "  Required Tool Status"  -ForegroundColor Yellow
+	Write-Host "  Required Tools"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     VC Runtimes ....... $env:VCRUNTIME_STATUS"
-	Write-Host "     Git ............... $env:GIT_STATUS"
-	Write-Host "     OmniRig ........... $env:OMNIRIG_STATUS"
+	Write-Host "     PowerShell ..... $env:PS_VER"
+	Write-Host "     VC Runtimes .... $env:VCRUNTIME_STATUS"
+	Write-Host "     Git ............ $env:GIT_STATUS"
+	Write-Host "     OmniRig ........ $env:OMNIRIG_STATUS"
 	Write-Host ""
-	Write-Host "  Qt Script-Provisioned Tool Chain Status"  -ForegroundColor Yellow
+	Write-Host "  Qt Script-Provisioned Tool Chains"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     x64:"  -ForegroundColor Green
+	Write-Host "    x64:"  -ForegroundColor Green
+	Write-Host "     MinGW 8.1 ...... Qt $env:MinGW81_STATUS"
+	Write-Host "     MinGW 11.x ..... Qt $env:MinGW11x_STATUS"
 	Write-Host ""
-	Write-Host "     MinGW 8.1 ......... Qt $env:MinGW81_STATUS"
-	Write-Host "     MinGW 9.0 (11.2) .. Qt $env:MinGW900_STATUS"
+	Write-Host "    x86 (Legacy: unsupported):"  -ForegroundColor Green
+    Write-Host "     MinGW 8.1 ...... Qt $env:MinGW81_32STATUS"
 	Write-Host ""
-	Write-Host "     x86:"  -ForegroundColor Green
+	Write-Host "  Optional Components"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     MinGW 8.1 ......... Qt $env:MinGW81_32STATUS"
-	Write-Host ""
-	Write-Host "  Optional Component Status"  -ForegroundColor Yellow
-	Write-Host ""
-	Write-Host "     VS Code ........... $env:VSCODE_STATUS"
-	Write-Host "     Boost ............. $env:BOOST_STATUS"
+	Write-Host "     VS Code ........ $env:VSCODE_STATUS"
+	Write-Host "     Boost .......... $env:BOOST_STATUS"
 	Write-Host ""
 	Write-Host "  Post Install / Manual Setup Commands"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "     Main Install ...... postinstall"
-	Write-Host "     MSYS2 Shell ....... msys2"
+	Write-Host "     Main Install ... postinstall"
+	Write-Host "     MSYS2 Shell .... msys2"
 	Write-Host ""
 }'

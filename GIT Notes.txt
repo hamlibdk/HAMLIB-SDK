@@ -1,4 +1,5 @@
-git tagGIT Instructions
+GIT Instructions
+================
 
 git add .
 
@@ -61,7 +62,7 @@ See: https://stackoverflow.com/questions/7328454/how-to-synchronize-multiple-git
 
 --> Especially: for i in $(git remote); do git push --mirror "$i"; done
 
-git tag -a v3.2.4 -m "Release v3.2.4"
+git tag -a v3.4.0 -m "Pre Release v3.4.0"
 
 then
 
