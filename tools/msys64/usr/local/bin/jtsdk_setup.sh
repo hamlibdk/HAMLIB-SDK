@@ -107,7 +107,7 @@ function gnusetup () {
     clear ||:
     echo ''
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"INSTALL mingw64 GNU COMPILERS AND COMMON TOOLS"${C_NC}
+    echo -e ${C_Y}"INSTALL mingw64 GNU COMPILERS & COMMON TOOLS/LIBRARIES"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 
@@ -115,7 +115,7 @@ function gnusetup () {
 	
 	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" "msys2-w32api-runtime" \
 	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" \ 
-	"mingw-w64-x86_64-cmake" "mingw-w64-x86_64-ninja")
+	"mingw-w64-x86_64-cmake" "mingw-w64-x86_64-ninja" "mingw-w64-x86_64-libusb" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -234,9 +234,9 @@ function change-repo () {
 		echo " Available Repositories:"
 		echo ''
 		echo ' 1 ... Master (preferred)'
-		echo ' 2 ... G4WJS (Now SK so may not be maintained)'
-		echo ' 3 ... M9WDB (Bleeding edge - contact Mike W9MDB before use)'
-		echo ' 4 ... Custom/Your Own (No Pull)'
+		#echo ' 2 ... SK REPO (Now SK - Deprecated)'
+		echo ' 2 ... M9WDB (Bleeding edge - contact Mike W9MDB before use)'
+		echo ' 3 ... Custom/Your Own (No Pull)'
 		echo ''
         echo " e. Enter 'e' or 'q' to exit"
 		echo ''
@@ -251,21 +251,22 @@ function change-repo () {
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
+            #2)
+            #    #rm ${JTSDK_CONFIG_F}/hl* 
+			#	#touch $JTSDK_CONFIG_F/hlskrepo
+			#	#clear-hamlib
+			#	#echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
+			#	echo "This option is no longer available."
+			#	echo ''
+            #   read -p "Press enter to continue..." ;;
             2)
-                rm ${JTSDK_CONFIG_F}/hl* 
-				touch $JTSDK_CONFIG_F/hlg4wjs
-				clear-hamlib
-				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
-				echo ''
-                read -p "Press enter to continue..." ;;
-            3)
                 rm ${JTSDK_CONFIG_F}/hl* 
 				touch $JTSDK_CONFIG_F/hlw9mdb
 				clear-hamlib
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
-            4)
+            3)
                 rm ${JTSDK_CONFIG_F}/hl*
 				clear	
 				touch $JTSDK_CONFIG_F/hlnone
@@ -304,11 +305,11 @@ function menu () {
 		echo " 2. Update MSYS2"
         echo " 3. Install Hamlib dependencies"
 		echo " 4. Install msys64 GNU Compilers"
-        echo " 5. Install FL-app dependiencies (Experimental)"
+        echo " 5. Install FL-app dependencies"
 		echo " 6. Update MSYS2 Keyring (Deprecated)"
 		echo " 7. Build Hamlib - Static Libraries"
         echo " 8. Build Hamlib - Dynamic Package"
-		echo " 9. Add Hamlib and LibUSB to pkgconfig (Experimental)"
+		echo " 9. Add Hamlib to pkgconfig"
 		echo " a. Clear Hamlib Source"
 		echo " b. Select HAMLIB Repository"
 		echo " h. List help commands"
@@ -368,7 +369,9 @@ function menu () {
 					# We want to add C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\lib\pkgconfig
 					# PKG_CONFIG_PATH=/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig:/c/JTSDK64-Tools/tools/hamlib/qt/5.15.2/mingw81_64/lib/pkgconfig
 
-					export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$JTSDK_TOOLS_F/hamlib/qt/$QTV/lib/pkgconfig:$libusb_dir_f/libusb-MinGW-x64/lib/pkgconfig"
+					#export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$JTSDK_TOOLS_F/hamlib/qt/$QTV/lib/pkgconfig:$libusb_dir_f/libusb-MinGW-x64/lib/pkgconfig"
+					#Test: removing libusb as may not be necessary !!!
+					export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$JTSDK_TOOLS_F/hamlib/qt/$QTV/lib/pkgconfig"
 					echo "New pkgconfig path: $PKG_CONFIG_PATH"
 				fi;
 				echo ''

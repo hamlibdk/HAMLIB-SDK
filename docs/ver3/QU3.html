@@ -46,7 +46,7 @@
 		</tr>
 	</table>
 	<hr/>
-	<h2>JTSDK 3.2.3 Questions and Suggestions for Resolving for Common Issues</h2>
+	<h2>JTSDK 3.4.0 Questions and Suggestions for Resolving for Common Issues</h2>
 	<hr>
 	<h3>What has happened to the original JTSDK creator?</h3>
     <ul>
@@ -94,8 +94,8 @@ Do you want to change the execution policy?
 	
 <h3>How do I upgrade existing JTSDK deployments?</h3>
 	<ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe">JTSDK64-Base-3.2.3</a> can be installed over the top of previous kits - yet it is 
-	highly recommended that one start from scratch. </p>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-3.4.0.exe">JTSDK64-3.4.0</a> should be able to be installed over the top of previous kits - yet it is 
+	highly recommended that one start from scratch.</p>
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see <a href="DG3.html">Installation</a> section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
 	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
@@ -109,17 +109,17 @@ Do you want to change the execution policy?
 	are designed to be deployed to existing &quot;Base&quot; packages.</p>
 	</ul>
 	
-<h4>Where do I get and how do I apply 'Tools' packages?</h4>
+<h4>Where do I get and how do I apply 'Update' packages?</h4>
 
 	<ul>
-	  <p><strong></strong>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
+	  <p><strong></strong>Update packages can be downloaded from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</p>
 	<p><em>These steps assume that you have a deployed base environment</em></p>
 	<ul>
-	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
+	<li>Download any Update packages if they exist ( i.e. packages with a "U" in the filename) from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a>. </li>
 	</ul>
-	<p><strong>Note:</strong> The current "Tools" Package is&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.3.exe">JTSDK64-Tools-3.2.3.3.exe</a> .</p>
+	<p><strong>Note:</strong> There are no current update packages .</p>
 	<ul>
-	<li>Deploy the tools package to your JTSDK install directory.</li>
+	<li>Deploy the tools package to your JTSDK64 install directory.</li>
 	</ul>
 	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
 	MSYS2 should be deleted and re-created.</p>
@@ -158,35 +158,36 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.2.3.3
+           JTSDK Setup v3.4.0
 -------------------------------------------
 
-  Required Tool Status
+  Required Tools
 
-     VC Runtimes ....... Not Installed
-     Git ............... Not Installed
-     OmniRig ........... Not Installed
+     PowerShell ..... 5.1.22621.2506
+     VC Runtimes .... Not Installed
+     Git ............ Installed
+     OmniRig ........ Installed
 
-  Qt Script-Provisioned Tool Chain Status
+  Qt Script-Provisioned Tool Chains
 
-     x64:
+    x64:
+     MinGW 8.1 ...... Qt Not Installed
+     MinGW 11.x ..... Qt Not Installed
 
-     MinGW 8.1 ......... Qt Not Installed
-     MinGW 9.0 (11.2) .. Qt Not Installed
+    x86 (Legacy: unsupported):
+     MinGW 8.1 ...... Qt Not Installed
 
-     x86:
+  Optional Components
 
-     MinGW 8.1 ......... Qt Not Installed
-
-  Optional Component Status
-
-     VS Code ........... Not Installed
-     Boost ............. Not Installed
+     VS Code ........ Installed
+     Boost .......... Not Installed
 
   Post Install / Manual Setup Commands
 
-     Main Install ...... postinstall
-     MSYS2 Shell ....... msys2
+     Main Install ... postinstall
+     MSYS2 Shell .... msys2
+	 
+PS C:\JTSDK64-Tools>
 </pre> </div>
     <ul>    
         <p>In the above example it is shown that the VC 2022 Runtimes are not deployed.</p>
@@ -303,7 +304,7 @@ compilation terminated.
 </pre></div>
 	<ul>
 	<p>This is  a conflict caused by the complexity of resources i.e. Mixing of Qt-supplied MinGW and MSYS2-supplied tools/compilers.</p>
-<p>The "NCD" version gets you to deploy the <strong>MSYS2</strong> tools and <strong>mingw64</strong> compilers yourself. Possibly new dependencies are conflicting with those supplied by the Qt MinGW compiler sets.&nbsp; &nbsp;&nbsp;</p>
+
 <p><strong>Resolution: Rename MSYS2 windres.exe</strong></p>
 	<ul>
 	<li>Delete the source and build folders in <strong>C:\JTSDK64-Tools\tmp</strong> (use the Windows File Manager as its easier than PowerShell Commands)
@@ -455,7 +456,7 @@ mingw32-make.exe: *** [Makefile:112: package] Error 1
 	<ul>
 	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
 	high-quality, yet flexible build system. </p>
-	<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md</a></p>
+	<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/README.md</a></p>
 	</ul>
 <hr>
 	<table width="100%" border="0">

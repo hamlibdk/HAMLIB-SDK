@@ -19,7 +19,7 @@
 					</td>
       				<td>
 		  				<h1>HAMLIB SDK Version 3 </h1>
-						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					  <h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
 					</td>
     			</tr>
   			</table>
@@ -41,174 +41,15 @@
 			<td width="12.5%" align="center"><a href="AN3.html">Notes</a></td> 
 			<td width="12.5%" align="center"><a href="QU3.html">Questions</a></td>
 			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
-			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">Download</a</td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">Download</a</td>
 		</tr>
 	</table>
 	<hr/>
 	<h2>Guide for Building x86 JT-Ware</h2>
-	<hr>
-	<h3>Introduction</h3>
-    <ul>
-		<p>The scripts and packages provided assist with the construction of <a href="https://www.qt.io/download-open-source#section-2>Qt</a>-based environment are provided that enable <a href=" https: physics.princeton.edu pulsar k1jt wsjtx.html>WSJT-X</a> and derivatives <a href="https://jtdx.tech/en/">JTDX</a> and <a href="http://js8call.com/">JS8CALL</a> - collectively referred to as <strong>JT-ware</strong>.</p>
-	<p>These notes  will assist with with techniques to build JT-ware.</p>
-	<p>Note that the <strong>JTSDK 3.2.3</strong> is by default a x64/64-Bit Environment. Patches are maintained by <a href="https://www.qrz.com/db/dg2ycb">Uwe Risse DG2YCB</a> that will enable the kit to be <strong>modified to build x86/32-bit software</strong>.</p>
-</ul>
-<hr/>
-<h2>Patching the JTSDK 3.2.3 x64 environment to build x86</h3>
-<hr/>
-	<ul>
-	<p>A complete section of the <a href="https://sourceforge.net/projects/hamlib-sdk/">Hamlib SDK SourceForge Repository</a> is dedicated to maintaining patches and instructions for techniques that can be applied for enabling x86 builds.</p>
-		<p>These instructions can be found within the following folder: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/</a>.</p>
-	</ul>
-<h3>Step 1</h3>
-
 <ul>
-	<p>This tutorial is about how to add 32-bit build support to JTSDK64-Tools. It works for version 3.2.3.</p>
 	
-	<p><strong>Ensure that you have a functional version 3.2.3 of JTSDK64-Tools in place.</strong></p> 
-	
-	<p>For all further steps I assume that you installed it to <strong>C:\JTSDK64-Tools</strong> and that you are familiar with how to use the JTSDK64. If you use another directory, adjust the paths accordingly.</p>
+<p><strong>Note</strong>: This is not supported directly. Use the <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/\">Version 3.2 Stream</a> kits and notes there. </strong></p>
 </ul>
-<h3>Step 2</h3>	
-<ul>
-	<p><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/Files%20for%2032-bit%20support%20%28for%203.2.0.x%29.zip">Download the zip file from Sourceforge</a> and move the contained files to the following locations (replace the old files):</p>
-	<ul>	
-		<li> <strong> Versions32.ini </strong>=&gt; <strong>C:\JTSDK64-Tools\config </strong></li>
-		<li><strong>ver.jtsdk</strong> =&gt; <strong>C:\JTSDK64-Tools </strong> </li>
-		<li><strong>jtsdk64.ps1</strong> =&gt; <strong>C:\JTSDK64-Tools </strong> </li>
-		<li><strong>jtsdk32.ps1</strong> =&gt; <strong>C:\JTSDK64-Tools </strong> </li> 
-		<li><strong>jtsdk64-setup.ps1</strong> =&gt; <strong>C:\JTSDK64-Tools </strong> </li>
-		<li><strong>jtbuild.ps1</strong> =&gt; <strong>C:\JTSDK64-Tools\tools\scripts </strong> </li>
-		<li><strong>jtbuild32.ps1</strong> =&gt; <strong>C:\JTSDK64-Tools\tools\scripts </strong> </li>
-		<li><strong>deploy-Boost.ps1</strong> =&gt; <strong>C:\JTSDK64-Tools\tools\scripts </strong> </li>
-		<li><strong>build-hamlib.sh</strong> =&gt; <strong>C:\JTSDK64-Tools\tools\msys64\home\&lt;user&gt;\bin</strong></li>
-		<li><strong>build-hamlib32.sh</strong> =&gt; <strong>C:\JTSDK64-Tools\tools\msys64\home\&lt;user&gt;\bin </strong> </li>
-		<li><strong>jtsdk_setup.sh</strong> =&gt; <strong>C:\JTSDK64-Tools\tools\msys64\home\&lt;user&gt;\bin</strong></li>
-	</ul>
-	<p>Copy the latter 3 files also to <strong>C:\JTSDK-Tools\tools\msys64\etc\skel\bin.</strong></p>
-</ul>
-<h3>Step 3</h3>	
-<ul>
-	<p>Start the Qt Maintenance Tool.&nbsp;</p>
-<p>Download and install at least one 32-bit version of Qt (e.g. 5.15.2) as well as CMake_32.</p>
-<p>The correct location for Qt is <strong>C:\JTSDK64-Tools\tools\Qt</strong>, and the Qt Maintenance Tool automatically generates a sub-directory <strong>C:\JTSDK64-Tools\tools\Qt\Tools\CMake_32</strong>. </p>
-</ul>
-<h3>Step 4</h3>	
-<ul>
-	<p>To be ready for building x86 compilations, we need only a few additional packages:</p>
-	<ul>
-		<li><strong>fftw 3.3.5 (32-bit)</strong> in<strong> C:\JTSDK64-Tools\tools\fftw\3.3.5_32</strong></li>
-		<li><strong>ruby 3.0.2-1 (32-bit)</strong> in <strong>C:\JTSDK64-Tools\tools\ruby\3.0.2-1_32 </strong></li>
-		<li><strong>boost 1.77.0 (mingw 8.1)</strong> in <strong>C:\JTSDK64-Tools\tools\boost\1.77.0_32</strong></li> 
-		<li><strong>portaudio32 19.7.0 (32-bit)</strong> in<strong> C:\JTSDK64-Tools\tools\portaudio32</strong></li>
-	</ul>
-	<p>You can get the 32-bit packages from here:</p>
-	<ul>
-		<li><strong>fftw</strong> =&gt; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/fftw_3.3.5_32.zip">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/fftw_3.3.5_32.zip</a> </li>
-		<li><strong>ruby</strong> =&gt; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/ruby_3.0.2-1_32.zip">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/ruby_3.0.2-1_32.zip</a> </li>
-	<li><strong>boost</strong> =&gt; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/boost_1.77.0_32.zip">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/boost_1.77.0_32.zip</a> </li>
-		<li><strong>portaudio32</strong> =&gt; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/portaudio32.zip">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-x86-Patches/portaudio32.zip</a></li>
-	</ul>
-</ul>
-<h3>Step 5</h3>	
-<ul>
-	<p>Adjust the entries in Versions32.ini to those version numbers you have installed.</p>
-</ul>
-<h3>Step 6</h3>	
-<ul>
-	<p>Have in mind that the 64-bit part of <strong>JTSDK64-Tools</strong> gets its information from <strong>Versions.ini</strong>, and the newly added 32-bit part from the file <strong>Versions32.ini</strong>, so that you can have different settings for making x86 and x64 compilations. Also the internal sub-locations are different for 64-bit and 32-bit.&nbsp;</p>
-	<p>The new 32-bit part doesn’t interfere with the existing 64-bit part of JTSDK64.</p>
-</ul>
-<h3>Step7</h3>	
-<ul>
-	<p>Now it’s time to start the work with your new 64+32-bit supporting JTSDK64-Tools…</p>
-</ul>
-<h3>Step 8</h3>	
-<ul>
-	<p>Start<strong> jtsdk64-setup.ps1</strong> and wait until setup is completed.</p>
-</ul>
-<h3>Step 9</h3>	
-<ul>
-	<p>For 64-bit compilations start<strong> jtsdk64.ps1</strong> as you are familiar with. Everything should work as before. Only the layout of the UI has been slightly optimized, so that it looks the same as for the 32-bit part. </p>
-</ul>
-<h3>Step 10</h3>	
-<ul>
-	<p>For 32-bit compilations start<strong> jtsdk32.ps1</strong>.</p> 
-	<p><strong>Note:</strong> To be able to distinguish the 32-bit part from the 64-bit part, the term “JTSDK32” instead of “JTSDK64” is used in the new 32-bit part of your JTSDK64.</p>
-</ul>
-<h3>Step 11</h3>	
-<ul>
-	<p>Start <strong>msys2</strong>.</p>
-	<p>The msys2 layout now offers you shortcuts for the various options. You simply have to type the right shortcut number and press ENTER to build hamlib.</p>
-	<p>Use shortcut “5” to build a fresh 32-bit version of hamlib into <strong>C:\JTSDK64-Tools\tools\hamlib32</strong> directory.</p>
-	
-</ul>
-<h3>Step 12</h3>	
-<ul>
-	<p>Once hamlib32 has been built, close the <strong>msys2</strong> terminal window.</p> 
-</ul>
-<h3>Step 13</h3>	
-<ul>
-	<p>Now it’s time to put a suitable wsjtx folder into the well-known location (<strong>C:\JTSDK64-Tools\tmp</strong>\) .</p>
-</ul>
-<h3>Step 14</h3>	
-<ul>
-	<p>Open again <strong>jtsdk32.ps1</strong> and start the x86 compilation of wsjtx with the command <strong>jtbuild32 package</strong>.</p>
-</ul>
-<h3>Step 15</h3>	
-<ul>
-	<p>The output directory is <strong>C:\JTSDK64-Tools\tmp\wsjtx-output32</strong>, so that is does not interfere with the 64- bit compilations.</p>
-	<p>In case you get an error message “asciidoctor is required to build the documentation”: 
-	<ul>
-		<li>Open a terminal window</li>
-		<li>Go to <strong>C:\JTSDK64-Tools\tools\ruby\3.0.3_32</strong></li>
-		<li>Type: <strong>gem install asciidoctor</strong></li>
-		<p>This installs the <strong>Asciidoctor</strong> package.</p>
-	</ul>
-	<p>Now compilation of 32-bit builds should work.</p>
-</ul>
-<h3>Step 16</h3>	
-<ul>
-	<p>In case a 64-bit compilation starts instead of building for x86, check whether there is any symbolic link on your computer which leads to the 64-bit version of MinGW. (Such links are usually on <strong>C:\</strong>).</p>
-	<p>Delete all such links.</p>
-	<p>Now, both<strong> jtsdk32.ps1</strong> and<strong> jtsdk64.ps1</strong> should find the right build environment automatically.</p>
-</ul>
-<h3>Complete !</h3>	
-<ul>
-	<p>Enjoy your new 32-bit build support!</p>
-</ul>
-	
-<hr/>
-<h2>Notes for building x86 WSJT-X</h3>
-<hr/>
-    <ul>
-    	<p>There are no special notes for building <strong>WSJTX</strong> at this time.</p>
-		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
-	</ul>
-		
-<hr/>
-<h2>Notes for building x86 JTDX</h2>
-<hr/>
-    <ul>
-    	<p>There are no special notes for building <strong>JTDX</strong> at this time.</p>
-		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
-	</ul>
-<hr/>
-<h2>Notes for building x86 JS8CALL</h2>
-<hr/>
-    <ul>
-    	<p>There are no special notes for building <strong>JTDX</strong> at this time.</p>
-		<p>Source for <strong>WSJT-X</strong> &nbsp;and <strong>JTDX</strong> is development prioritised for any build process.</p>
-	</ul>
-<hr/>
-<h2>Notes for working with your own modified source</h2>
-<hr/>
-	
-	<ul>
-		<p>Modify the source for your own requirements at your own peril.</p> 
-		<p>Ensure that you comply with the source release requirements and terms for <strong>WSJT-X</strong> - again at your own peril.</p>
-		<p>If uncertain as to what these requirements are then please ask in the <strong>WSJT-X Forum</strong></p>
-	</ul>
 <hr>
 <table width="100%" border="0">
   <tbody>
