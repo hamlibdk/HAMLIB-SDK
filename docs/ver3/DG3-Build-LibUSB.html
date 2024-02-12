@@ -53,13 +53,13 @@
 <p>These steps  will demonstrate how to build and deploy a library set under the <strong>mingw64</strong> environment for the JTSDK..</p>
 </ul>
 	
-<h3>Step 1: Download and fully deploy the latest JTSDK i.e. v3.2.3</h3>
+<h3>Step 1: Download and fully deploy the latest JTSDK i.e. v3.4.0</h3>
 
 <ul>
-<li>Version 3.2.3 can be found at:</li>
+<li>Version 3.4.0 can be found at:</li>
 		
 	<ul>
-	<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a></li>
+	<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a></li>
 	</ul>
 </ul>
 
@@ -111,7 +111,7 @@
 <h3>Step 4: Download the  Source</h3>
 	
 <ul>
-  <p>Download URL of the latest stable LibUSB. At the time of writimng the latest version was Version <a href="https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2">1.0.26</a></p>
+  <p>Download URL of the latest stable LibUSB. At the time of writimng the latest version was Version <a href="https://github.com/libusb/libusb/releases/download/v1.0.27/libusb-1.0.27.tar.bz2">1.0.27</a></p>
   <ul>
   	<li>Navigate to <a href="https://libusb.info/">https://libusb.info/</a></li>	
   </ul>
@@ -123,12 +123,12 @@
   <ul>
     <li><strong>cd ~/src</strong></li>
   </ul>	
-<p>Extract  the source package (assuming Version 1.0.26) with:
+<p>Extract  the source package (assuming Version 1.0.27) with:
 </p>
 <ul>
   
   <ul>
-	  <li><strong>tar xjf libusb-1.0.26.tar.bz2</strong></li>
+	  <li><strong>tar xjf libusb-1.0.27.tar.bz2</strong></li>
   </ul>
 </ul>
 </ul>
@@ -140,14 +140,14 @@
   	<li>Execute  the following commands at the MSYS2 command prompt:</li>
 
 	<ul>
-		<li><strong>cd libusb</strong></li>
+		<li><strong>cd libusb-1.0.27</strong></li>
 
 		<li><strong>mkdir /tmp/libusb</strong></li>
 		
 		<li>You may be required to create the &quot;build&quot; directory. Type <strong>mkdir build</strong> </li>
 		<li><strong>cd build</strong></li>
 
-		<li><strong>../configure -–prefix=/tmp/libusb</strong></li>
+		<li><strong>../configure -–prefix=/tmp/libusb --enable-shared --enable-static</strong></li>
 	</ul>
 	
 	<p>The above command places all that is built into the subdirectory <strong>/tmp/libusb</strong> . This way the built libraries are easy to  find.</p>
@@ -167,10 +167,10 @@
 <ul>
 	
     <p>You will find a structure inside <em>/tmp</em> (windows path <em>C:\msys64\tmp\portaudio</em>) that contains the same LibUSB library structure. .</p>
-    <p>Rename the directory /tmp/libusb to a name that6 best fits the &quot;structuring&quot; of the JTSDK. In this case we assume that source for v 1.0.26 has been used</p>
+    <p>Rename the directory /tmp/libusb to a name that6 best fits the &quot;structuring&quot; of the JTSDK. In this case we assume that source for v 1.0.27 has been used</p>
 	<ul>
 		<li>cd /tmp</li>
-		<li>mv libusb 1.0.26</li>
+		<li>mv libusb 1.0.27</li>
 	</ul>
     <p>Deliver that folder structure to <em>X:\JTSDK64-Tools\tools\</em>libusb .</p> 
 
@@ -178,7 +178,7 @@
 	<br><strong>File:</strong> x:\JTSDK64-Tools\config\Versions.ini</br>
 	<ul>
 		<br>...</br>
-		<br>libusbv=1.0.26</br>
+		<br>libusbv=1.0.27</br>
 		<br># Next can also be /MinGW64/dll</br>
 		<br>libusbdll=/bin</br>
 		<br>...</br>
