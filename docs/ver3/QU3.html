@@ -109,13 +109,13 @@ Do you want to change the execution policy?
 	are designed to be deployed to existing &quot;Base&quot; packages.</p>
 	</ul>
 	
-<h4>Where do I get and how do I apply 'Update' packages?</h4>
+<h4>Where do I get and how do I apply 'Update'/'Patch'&nbsp; packages?</h4>
 
 	<ul>
-	  <p><strong></strong>Update packages can be downloaded from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</p>
+	  <p><strong></strong>Update/Patch&nbsp; packages can be downloaded from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</p>
 	<p><em>These steps assume that you have a deployed base environment</em></p>
 	<ul>
-	<li>Download any Update packages if they exist ( i.e. packages with a "U" in the filename) from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a>. </li>
+	<li>Download any Update/Patch packages if they exist ( i.e. packages with a "U" in the filename) from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a>. </li>
 	</ul>
 	<p><strong>Note:</strong> There are no current update packages .</p>
 	<ul>
@@ -249,9 +249,26 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</table>
 
 <p>The marker file to set the version of Qt used is found in <strong>x:\JTSDK64-Tools\config</strong> i.e. <strong>qt5.15.2</strong> (as default).</p>
-<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.6.1&nbsp; </strong>.&nbsp;</p>
+<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.6.2&nbsp; </strong>.&nbsp;</p>
 </ul>
-<h3>Issues observed when trying to build software with Qt 6.6.1 deployments</h3>
+<h3>Qt 5.15.2 Not Being Deployed</h3>
+<ul> 
+<p>As of March 2024 it has been observed that Qt 5.15.2 is no longer available from "Mainstream" installer sources</p>
+<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>Qt 5.15.2 is still available from "Archive" ast the time of writing. This means that Qt must be deployed manually from "Archive" Repositories</strong></td>
+		</tr>
+	</table>
+<p>It is now recommended that one performs a "Full" deployment of Qt at install time.&nbsp;</p>
+<p>This should properly deploy <strong>Qt 6.6.2</strong> along with the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
+<p>Once the JTSDK is deployed you can then add Qt 5.15.2 MANUALLY from Archive.&nbsp;</p>
+<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>See the guide <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> for latest instructions</strong></td>
+		</tr>
+	</table>
+</ul>
+<h3>Issues observed when trying to build software with Qt 6.6.2 deployments</h3>
 <ul>
   <p><strong>Qt 6</strong> is not currently supported by the JT-ware developers. Current source code of all known JT-ware forks at the time that this document was written will not compile under <strong>Qt 6</strong>.</p>
 	<p>JT-ware developers are researching Qt 6-compatible code conversion.&nbsp;</p>
@@ -261,11 +278,11 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
   <p><strong>JTSDK 2.3.2</strong> with <strong>Tools 3.2.3.3</strong> Has the capability to deploy two "streams" of Qt kit:</p>
   <ul>
   <li><strong> Default Deployment</strong>: deploys <strong>Qt Version 5.15.2</strong>. This is not likely to change - but at some stage it may be withdrawn from release by the Qt maintainers. When this occurs our kit will not be able to find these files; it will not install.</li>
-  <li><strong>Full Deployment</strong>: deploys <strong>both Qt versions 5.15.2 and Qt 6.6.1</strong> at the time that this document was written. If one or either of these versions cannot be found then these kits will not be installed.</li>
+  <li><strong>Full Deployment</strong>: deploys <strong>both Qt versions 5.15.2 and Qt 6.6.2</strong> at the time that this document was written. If one or either of these versions cannot be found then these kits will not be installed.</li>
   </ul>
 <p>This kit by default deploys the <a href="https://www.qt.io/download-open-source">Qt SDK For Open Source Release</a>. This is also compliant with the basic beliefs, method and release licensing terms for WSJTX.</p>
   <p>These Qt deployment repositories are stored in <a href="https://download.qt.io/static/mirrorlist/">geo-assigned download repositories</a>. Each repository ONLY MAKES THE LATEST DOWNLOAD RELEASE STREAMS AVAILABLE to the Qt installer.</p>
-  <p>The Qt maintainers may at some stage in the future bump the versions available i.e. From <strong>6.6.1</strong> to&nbsp; <strong>6.6.2</strong> (as an example).&nbsp;</p>
+  <p>The Qt maintainers may at some stage in the future bump the versions available i.e. From <strong>6.6.2</strong> to&nbsp; <strong>6.6.2</strong> (as an example).&nbsp;</p>
   <p><strong><u>Our kit has a way of dealing with this:</u></strong></p>
   <p>Refer to the file <strong>x:\JTSDK64-Tools\config\Versions.ini</strong>&nbsp;</p>
 	<p>There are two keys that (at the time of writing) can br found at the bottom of the file:</p>
@@ -275,7 +292,7 @@ File: x:\JTSDK64-Tools\config\Versions.ini
 ...
 #future enhancement to set Qt version
 qt5v=5.15.2
-qt6v=6.6.1
+qt6v=6.6.2
 </pre>
 	</div>
 	<ul>
@@ -376,9 +393,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 <ul>
 <p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
 	</ul>
-<li>If you are using <strong>Qt 6.6.1</strong>:&nbsp;</li>
+<li>If you are using <strong>Qt 6.6.2</strong>:&nbsp;</li>
 <ul>
-<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.1\bin<strong>"</strong></p>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.2\bin<strong>"</strong></p>
 </ul>
 </ul>
 	<p>These paths can be added to the main Windows system paths.</p>
@@ -391,9 +408,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 			<br/>
 			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
 			<br/><br/>
-			<li>For <strong>Qt 6.6.1</strong>:</li>
+			<li>For <strong>Qt 6.6.2</strong>:</li>
 			<br/>
-			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.1\bin</strong>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.2\bin</strong>
 		</ul>
 		<br/>
 		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>

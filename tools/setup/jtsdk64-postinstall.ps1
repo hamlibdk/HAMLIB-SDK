@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name ........: jtsdk64-postinstall.ps1
 # Project .....: HAMLIB SDK - JTSDK64 Tools Project
-# Version .....: 3.4.0b
+# Version .....: 3.4.0.1
 # Description .: Installs Components based on User selections
 # 
 # Usage .......: Call from jtsdk64-tools-setup environ => jtsdk64-postinstall $*
