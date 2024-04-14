@@ -188,11 +188,20 @@ PS C:\JTSDK64-Tools>
  JT-software. The Latest PowerShell is highly recommended.
 
 * Enter Your Install/Redeployment Selection(s):
-
-</pre> </div>
-    <ul> <ul>   
-      <li>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core . Select 'Y'. You will need then to manually deploy/redeploy PowerShell.&nbsp;</p>
-    </ul></ul>
+</pre></div>
+    <ul> 
+      <p>The command <b>postinstall</b> starts the deployment process.</p>
+    </ul>
+<div class="reducewidth">
+<pre>
+(optional) Latest PowerShell (Y|N) .:
+</pre></div>
+<ul>
+        <p>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core .</p>
+        <ul>
+        <li>Press 'Y'</li>
+      </ul>
+</ul>
 
 <div class="reducewidth"> <pre>
 (required) VC/C++ Runtimes (Y|N) .: y
@@ -231,7 +240,7 @@ PS C:\JTSDK64-Tools>
 	<p>The script for Qt deployment presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
 	deployment being <strong>Qt 5.15.2</strong> as the base (see note below). &#39;F&#39; Deploys <strong>Qt 5.15.2</strong> and <strong>6.6.2</strong>&nbsp; <strong>Qt 5.15.2</strong> is the recommended version for JT-ware development.</p>
 	<ul>
-	<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (note:&#39;F&#39; is now recommended as <strong>Qt 5.15.2</strong> can only be obtained from "Archive" - which cannot be easily scripted. It must be deployed manually from the Maintenance Tool now. See later notes).</li>
+	<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (<strong>Note</strong>:&#39;F&#39; is now recommended as <strong>Qt 5.15.2</strong> can only be obtained from "Archive" - which cannot be easily scripted. It must be deployed manually from the Maintenance Tool now. See later notes).</li>
 	  </ul>
 	</ul>
 	<div class="reducewidth">
@@ -402,7 +411,7 @@ Enter your selection, then hit <return>:
 			<td class="custd"><strong>Qt 5.15.2 is still available from "Archive" ast the time of writing. This means that Qt must be deployed manually from "Archive" Repositories</strong></td>
 		</tr>
 	</table>
-<p>Earlier wit was recommended that one performs a "Full" deployment of Qt at install time.&nbsp;</p>
+<p>Earlier in the guide it was recommended that one performs a "Full" deployment of Qt at install time.</p>
 <p>This should properly deploy <strong>Qt 6.6.2</strong> along with the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
 <p>Once the JTSDK is deployed you can then add <strong>Qt 5.15.2</strong> MANUALLY from Archive.&nbsp;</p>
 <table width="*" align="center" border="1">

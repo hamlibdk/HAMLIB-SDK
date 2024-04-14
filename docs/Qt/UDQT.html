@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK,Jt-ware,wsjtx,jtdx,js8call,build wsjtx,compile wsjtx,Qt,Windows,software,development">
+	<title>Hamlib SDK v3.2.3 Deployment Guide</title>
+	<link rel="stylesheet" href="../style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+</head>
+
+<body>
+		
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="../favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK</h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="ALLQT.html"><img src="../UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="../index.html"><img src="../HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
+
+	<hr>
+<! –– Ref: https://css-tricks.com/the-simplest-ways-to-handle-html-includes/ ––>
+<iframe src="navQt.html" onload="this.insertAdjacentHTML('afterend', (this.contentDocument.body||this.contentDocument).innerHTML);this.remove()"></iframe>
+<!--
+<table width="100%" border="0">
+	<tr>
+		<td width="16.7%" align="center"><a href="./qt/BDQT.html">Basic-Deploy</a></td> 
+		<td width="16.7%" align="center"><a href="./qt/UDQT.html">Update-Deploy</a></td>
+		<td width="16.6%" align="center"><a href="./qt/ADQT.html">Archive-Deploy</a></td>
+		<td width="16.7%" align="center"><a href="./qt/QUQT.html">Questions</a></td>
+		<td width="16.6%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+		<td width="16.7%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">Download</a</td>
+	</tr>
+</table>
+-->
+	<hr/>
+	<h2>Qt Maintenance and Update Guide</h2>
+	<hr>
+
+	<h3>Introduction</h3>
+    <ul>
+	<p>As of March 2024 <strong>Qt 5.15.2</strong> is no longer available from mainstream installer repositories.</p>
+	<p>This does not mean that it is gone and that one cannot install it any more.</p>
+	<p>The Qt Maintainers offer a facility whereby archived versions of their software can be obtained from selected servers.</p>
+	<p>This guide details how to deploy Qt from Archive. It is based on a primary document stored at <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> .</p>
+	<p>Note: This guide assumes that a version of Qt i.e. <strong>Qt 6.2.2 </strong>is deployed.</p>
+	</ul>
+	
+
+	<hr>
+<h2>Deployment</h2>
+<hr>
+
+	<h3>Step 1: Start the Qt Maintenance Tool</h3>
+
+	<ul>
+	<p>The Qt Maintenance Tool <strong>MaintenanceTool.exe</strong> should be able to  be found in your Qt deployment directory</p>
+	<ul>
+		<li>Open a Windows Terminal (it does not matter if it is <strong>CMD.EXE</strong> or <strong>PowerShell Terminal</strong>) i.e Start / Terminal</li>
+		<li>Enter the command: <strong>./MaintenanceTool.exe</strong></li>
+		</ul>
+	</ul>
+	<h3>Step 2: Log in with your Qt Account</h3>
+	<ul>
+	  <p>You should be presented with a screen similar to that shown below:</p>
+		</ul>
+		<p ><img src="Qt-Step-2.jpg" alt="" width="940" height="624" class="center"/></p>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">If you do not have a Qt Account then please sign up for one by clicking <strong>Sign Up</strong></td>
+		</tr>
+	</table>
+	<ul>
+		<ul>
+		  <li>Enter Your Password</li>
+			<li>Click <strong>Next</strong></li>
+		</ul>
+	</ul>
+
+	<h3>Step 3: Add or Remove Components</h3>
+
+	<ul>
+	  <p>You should be presented with a screen similar to that shown below:</p>
+	</ul>
+		<p ><img src="Qt-Step-3a-U.jpg" alt="" width="940" height="624" class="center"/></p>
+	<ul>
+		<ul>
+		  <li>Ensure that <strong>Update Components</strong> is selected</li>
+			<li>Click <strong>Next</strong></li>
+		</ul>
+	<p>The Qt installer will now download components from its pool repository.</p>
+</ul>
+	<p ><img src="Qt-Step-3b-U.jpg" alt="" width="940" height="624" class="center"/></p>
+<ul>
+	<p>The Qt Maintenance Tool fetches update info for code  released through mirrors …</p>
+    <p>Wait until the metadata is completely loaded into the  system.</p>
+</ul>
+	
+	<h3>Step 4: Inspect and Select Components to Update</h3>
+
+	<ul>
+	  <p>You should be presented with a screen similar to that shown below:</p>
+	</ul>
+		<p ><img src="Qt-Step-4a-U.jpg" alt="" width="940" height="624" class="center"/></p>
+	<ul>
+		<p>The example shows a list of offerings availabe to the writer at 2024-04-14. You may or may not have different offerings.</p>
+		<p>Review Offerings. Note that in some cases there may be components that you may not wish to update.</p>
+		<ul>
+			<li>Check the boxes appropriate for components that you wish to update</li>
+			<li>Click “Next”</li>
+		</ul>
+		<p>This loads “Repository” information into the Installer/Maintenance Tool</p>
+</ul>
+	<p ><img src="Qt-Step-5d-U.jpg" alt="" width="940" height="624" class="center"/></p>
+	<ul>
+		<ul>
+			<li>Click Update.</li>
+		</ul>
+	</ul>
+	<img src="Qt-Step-5e-U.jpg" alt="" width="940" height="624" class="center"/></p>
+	<ul>
+	<p>Updates should now occur (Not shown)</p>
+	<ul>
+	<li>Click 'Finish' when complete</li>
+	</ul>
+	</ul>
+	
+	<h3>Complete</h3>
+<ul>
+	<p>Once complete your archived deploy should now be available.</p>
+</ul>
+<hr>
+	<table width="100%" border="0">
+	  <tbody>
+		<tr>
+		  <td>Editor: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
+<td align="right"><a href="../hamlibdk [at] outlook.com"
+			rel="nofollow"
+			onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+		</tr>
+	  </tbody>
+	</table>
+</html>

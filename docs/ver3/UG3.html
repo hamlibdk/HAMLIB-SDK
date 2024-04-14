@@ -388,12 +388,11 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 </pre>
 </div>
 <ul>
-	<p>Qt Presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-	deployment being Qt 5.15.2 as the base. &#39;F&#39; Deploys Qt  5.15.2 and 6.6.2.
-	Qt 5.15.2 (default) is the recommended version for Jt-ware development. </p>
-	<ul>
-		<li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; <strong>Note:</strong> &#39;Y&#39; or &#39;D&#39; is recommended for an initial installation. Add other Qt versions later.</li>
-	</ul>
+	<p>The script for Qt deployment presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
+	deployment being <strong>Qt 5.15.2</strong> as the base (see note below). &#39;F&#39; Deploys <strong>Qt 5.15.2</strong> and <strong>6.6.2</strong>&nbsp; <strong>Qt 5.15.2</strong> is the recommended version for JT-ware development.</p>
+    <ul>
+      <li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (<strong>Note</strong>:&#39;F&#39; is now recommended as <strong>Qt 5.15.2</strong> can only be obtained from "Archive" - which cannot be easily scripted. It must be deployed manually from the Maintenance Tool now. See later notes).</li>
+    </ul>
 </ul>
 <div class="reducewidth">
 <pre>
@@ -531,49 +530,59 @@ Enter your selection, then hit <return>:
 <li>Launch the <strong>JTSDK64-Tools</strong> environment from the icon on your desktop.</li>
 </ul>
 </ul>
-<h4>Step 3a: (Recommended) Upgrade your Qt Deployment</h4>
+<h4>Step 3a: Upgrade your Qt Deployment</h4>
 <ul>
-	<p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version 5.15.2. If you did not use 
-	the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	want to update Qt to an experimental version such as Qt 6.6.2 version you should do so now. 
-	Note that using Qt 5.15.2 is the only Qt version that JT-ware source supports at this time.</p>
+  <p>As of March 2024 it has been observed that <strong>Qt 5.15.2</strong> is no longer available from "Mainstream" installer sources</p>
+  <table width="*" align="center" border="1">
+    <tr>
+      <td class="custd"><strong>Qt 5.15.2 is still available from "Archive" ast the time of writing. This means that Qt must be deployed manually from "Archive" Repositories</strong></td>
+    </tr>
+  </table>
+  <p>Earlier in the guide it was recommended that one performs a "Full" deployment of Qt at install time.&nbsp;</p>
+  <p>This should properly deploy <strong>Qt 6.6.2</strong> along with the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
+  <p>Once the JTSDK is deployed you can then add <strong>Qt 5.15.2</strong> MANUALLY from Archive.&nbsp;</p>
+  <table width="*" align="center" border="1">
+    <tr>
+      <td class="custd"><strong>See the guide <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> for latest instructions</strong></td>
+    </tr>
+  </table>
+</ul>
+<ul>
+  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version <strong>5.15.2</strong>. If you did not use 
+    the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
+    want to update Qt to an experimental version you should do so now. 
+    Note that using Qt <strong>5.15.2</strong> is the only Qt version that JT-ware source supports at this time.</p>
   <p>Perform the following steps:</p>
-	<ul>
-		<li>Navigate to the Qt Deployment directory</li>
-		
-		<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
-	</ul>
-  <p>To add Qt 6.6.2:</p>
-	<ul>
-		<li>Add Qt 6.6.2 MinGW.</li>
-		
-		<li>Ensure that components Qt 6.6.2/MinGW 11.x 64 bit and Qt 6.6.2/Qt5 Compatability Module are added.</li>
-		
-		<li>Select Qt 6.6.2/All Additional Libraries .</li>
-		
-		<li>Add Developer and Designer Tools / MinGW 11.x 64-bit</li>
-		
-		<li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX component downloads). <strong>Note:</strong> This may not be available</li>
-		<li>(Optional) Add the OpenSSL 3.xx toolkit (for future enhancements).</li>
-	</ul>
-	<p>On Completion:</p>
-	<ul>
-		<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
-		
-		<ul>
-		<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.6.2</strong></li>
-		</ul>
-	</ul>
+  <ul>
+    <li>Navigate to the Qt Deployment directory</li>
+    <li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
+  </ul>
+  <p>To add <strong>Qt 6.6.2</strong> (as an example):</p>
+  <ul>
+    <li>Add <strong>Qt 6.6.2</strong> MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 or later ]</li>
+    <li>Ensure that components <strong>Qt 6.6.2</strong>/<strong>MinGW 11.x 64 bit</strong> and <strong>Qt 6.6.2 Qt5 Compatability Module</strong> are added.</li>
+    <li>Select <strong>Qt 6.6.2</strong>/All Additional Libraries .</li>
+    <li>Add Developer and Designer Tools / MinGW 11.2.0 64-bit</li>
+    <li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX component downloads). <strong>Note:</strong> This may not be available now.</li>
+    <li>(Optional) Add the OpenSSL 3.x.x toolkit (for future capabilities).</li>
+  </ul>
+  <p>On Completion:</p>
+  <ul>
+    <li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
+    <ul>
+      <li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.6.2</strong></li>
+    </ul>
+  </ul>
 </ul>
-<hr>
+<table width="*" align="center" border="1">
+  <tr>
+    <td class="custd"><p align="center">There must only be ONE marker file indicating the Qt version selected in <strong>x:\JTSDK64-Tools\config</strong></p>
+      <p align="center">If the system abends with a warning check the <strong>x:\JTSDK64-Tools\config</strong> directory and remove the unwanted item with the prefix <strong>&#39;qt&#39;</strong></p></td>
+  </tr>
+</table>
+<h4>Step 3b: Deploy Hamlib</h4>
 <ul>
-<p>There must only be ONE marker file for Qt in <strong>C:\JTSDK64-Tools\config</strong></p>
-<p>If the system abends with a warning check the <strong>C:\JTSDK64-Tools\config</strong> directory and remove the unwanted item with the prefix &#39;qt&#39;</p>
-</ul>
-<hr>
-<h4>Step 3b: Deploy Hamlib for our selected Qt Version.</h4>
-<ul>
-<p>In <strong>JTSDK64-Tools</strong>:</p>
+  <p>In <strong>JTSDK64-Tools</strong>:</p>
 <ul>
 <li>Launch the MSYS2 environment with: <strong>mingw64</strong></li>
 <li>Type: <strong>menu</strong></li>
