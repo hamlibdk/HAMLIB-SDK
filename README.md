@@ -53,9 +53,11 @@ The preferred [MSYS2][] development environment for building Hamlib is now execu
 
 ### Release Notes: Updates
 
-At this stage there are no updates available.
+AN nupdate package [JTSDK64-3.4.0-U1][] is now available.
 
-The first proposed update package would be [JTSDK64-3.4.0-U1][].
+This update package basically reverts Boost source back to the JFrog download Site, away from the GitHub repo recommended to us in the past:
+
+i.e.: https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.zip 
 
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
@@ -88,8 +90,7 @@ are available - saving many hours. Note that the continued production of these f
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
-The recommended development environment should be [JTSDK64-3.4.0][] with any available update applied to it (i.e [JTSDK64-
-][] . 
+The recommended development environment should be [JTSDK64-3.4.0][] with the update applied i.e [JTSDK64-3.4.0-U1][] . 
 
 The current environment incorporates [Qt][] 5.15.2 and support for building [Boost-1.84.0][] working with [MinGW 8.1](MinGW) under 
 the **mingw64** [MSYS2][] environment.
@@ -176,7 +177,7 @@ will remain a cornerstone concept.
 ## Upgrades from Versions earlier than Version 3.4.0
 ************************************************************************************
 
-It is not recommended that the [JTSDK64-3.4.0][] be installed over the top of previous kits.
+It is not recommended that the [JTSDK64-3.4.0][] and [JTSDK64-3.4.0-U1][] be installed over the top of previous kits.
 
 **It is highly recommended that a new, fresh deployment be considered with each new release.**
 
@@ -211,13 +212,13 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 
 *These steps assume that you have a deployed base environment*
 
-- Download any **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/ 
+- Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/ 
 
 ************************************************************************************
-There are no current **Update Packages**
+The current **Update Package** is [JTSDK64-3.4.0-U1][] .
 ************************************************************************************
 
-- Deploy the **Update** package - if there is one - to your JTSDK install directory.
+- Deploy the **Update** package [JTSDK64-3.4.0-U1][] to your JTSDK install directory.
 
 Updates may be required for the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
@@ -302,7 +303,7 @@ The section of the **Versions.ini** file where these keys are found are shown be
 ...
 #Set current Qt version
 qt5v=5.15.2
-qt6v=6.6.2
+qt6v=6.6.3
 ...
 ```
 
@@ -333,7 +334,7 @@ A screen similar to the following should eventually appear:
 
 ```
 -------------------------------------------
-           JTSDK Setup v3.4.0
+           JTSDK Setup v3.4.0.1
 -------------------------------------------
 
   Required Tools
@@ -412,9 +413,18 @@ The following information will be displayed:
 ```
 (required) Default Qt (D/Y|F|N) ...:
 ```
+************************************************************************************
 **Since initial release Qt 5.15.2 is not avaialble except through "Archive"** 
 
+There is a document at https://hamlib-sdk.sourceforge.io/Qt/ADQT.html that is intended to be used 
+as a guide for Qt 5.15.2 from Archive Repos.
+
+**This deployment must be performed manually - after one has completed a successful Qt 6.x deployment.**
+
+************************************************************************************
+
 Qt Presents a number of options. 'D' or 'Y' Selects a scripted "Default" 
+
 deployment being Qt 5.15.2 as the base. 'F' Deploys 5.15.2 and 6.6.2. 
 
 ************************************************************************************
@@ -816,7 +826,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [JTSDK64-Tools-3.2.3.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.3.exe
 [JTSDK64-3.4-Stream]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/
 [JTSDK64-3.4.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0.exe
-[JTSDK64-3.4.0-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-Tools-3.4.0-U1.exe
+[JTSDK64-3.4.0-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0-U1.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0 Beta
+# Version ......: 3.2.3.3
 # Description ..: Downloads selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -10,9 +10,9 @@
 # Copyright ....: Copyright (C) 2021 - 2024 Hamlib SDK Contributors
 # License ......: GPL-3
 #
-# Development ..: Version 3.2.3.3 Corrects using GITHUB static release site as source - Steve VK3VM 2024-01-08
-#                 As of Version 3.2.4 using GIT source for Boost - Steve VK3VM 2024-01-08
-#                 Version 4.0 Beta Revert back to JFrog Steve VK3CM 2023-04-21
+# Version 3.2.3.3 Corrects using GITHUB static release site as source - Steve I 2024-01-08
+#
+# Development Note: As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
 #
 #-----------------------------------------------------------------------------#
 
@@ -49,20 +49,14 @@ $boostv = $configTable.Get_Item("boostv")
 # Place into file format for Boost distribution
 # Note: Multi stage here - can be simplified.
 
-# Development note: JFrog format does not use - nor . or _
-$dlBoostV = $boostv.Replace(".","_")   #comment for GIT source
-
-# $dlFile = "boost-$boostv.zip"				# For GIT source (Comment if JFrog source)
-$dlFile = "boost_$dlBoostV.zip"				# For JFrog SOurce (Comment if GIT source)
+$dlFile = "boost-$boostv.zip"
 $dLoc = $dlFile.Replace(".zip","")			# Remove the .zip extenstion [ For decompression ]
 
 # Boost Distribution URL
 
-#refert back to JFrog structures 2024-04-21
-$dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"    		# Comment for GIT source
-# Example URL used for GIT Development: https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.zip
-# Example URL used for JFrog Development: https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.zip
-# $dlPath = "https://github.com/boostorg/boost/releases/download/$dLoc/$dlFile"					# Comment for JFrog source
+#$dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"
+# URL used for Development: https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.zip
+$dlPath = "https://github.com/boostorg/boost/releases/download/$dLoc/$dlFile"
 
 Write-Host "  --> Requested Source: $dlPath"
 
@@ -74,8 +68,8 @@ if (!(Test-Path("$env:JTSDK_SRC\$dlFile"))) {
 	Write-Host ""
 	Write-Host "      `[Note: This could be *** SLOW *** depending on link speed and net congestion.`]"
 	Write-Host ""
-	#try { Invoke-WebRequest $dlPath -UserAgent "" -OutFile "$env:JTSDK_SRC\$dlFile" }  	# Originally needed for JFRog Add Insertions... Not needed 2024-04-21
-	try { Invoke-WebRequest $dlPath -OutFile "$env:JTSDK_SRC\$dlFile" }	# GIT Source - Non JFrog
+	# try { Invoke-WebRequest $dlPath -UserAgent "" -OutFile "$env:JTSDK_SRC\$dlFile" }
+	try { Invoke-WebRequest $dlPath -OutFile "$env:JTSDK_SRC\$dlFile" }	
 	catch { 
 		Write-Host -ForegroundColor Red "  *** ERROR DOWNLOADING FILE ***" 
 		Write-Host ""

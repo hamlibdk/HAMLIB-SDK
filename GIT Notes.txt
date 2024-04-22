@@ -39,17 +39,17 @@ https://linuxways.net/ubuntu/how-to-setup-git-server-on-ubuntu-20-04/
 
 Ref below: https://stackoverflow.com/questions/3899627/create-git-branch-with-current-changes 
 
-git branch 3.2.1
+git branch 3.4.0
 
-git checkout 3.2.1
+git checkout 3.4.0
 
 git commit -s
 
 git add .
 
-git commit -m "3.2.1"
+git commit -m "3.4.0.1"
 
-git push --set-upstream origin 3.2.1
+git push --set-upstream origin 3.4.0.1
 
 git config --add remote.everyone.url https://github.com/hamlibdk/HAMLIB-SDK.git
 git config --add remote.everyone.url https://hamlibdk@git.code.sf.net/p/hamlib-sdk/code
@@ -62,7 +62,7 @@ See: https://stackoverflow.com/questions/7328454/how-to-synchronize-multiple-git
 
 --> Especially: for i in $(git remote); do git push --mirror "$i"; done
 
-git tag -a v3.4.0 -m "Pre Release v3.4.0"
+git tag -a v3.4.0.1 -m "v3.4.0-U1"
 
 then
 
