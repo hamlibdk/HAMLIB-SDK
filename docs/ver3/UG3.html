@@ -224,8 +224,8 @@ Do you want to change the execution policy?
 <ul>
   <p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used </strong></p>
 	<ul>
-	<li>Download and deploy the installer ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0.exe">JTSDK-3.4.0.exe</a> ) inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages ( i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0-U1.exe">JTSDK64-3.4.0-U1.exe</a> if it exists) to your Deployment.</li>
+	<li>Download and deploy the installer  i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0.exe">JTSDK-3.4.0.exe</a>  inside a FRESH VM.</li>
+	<li>Deploy any &quot;Tools&quot; Packages i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0-U1.exe">JTSDK64-3.4.0-U1.exe</a>  to your Deployment.</li>
 	</ul>
 	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
 </ul>
@@ -238,7 +238,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.4.0
+           JTSDK Setup v3.4.0.1
 -------------------------------------------
 
   Required Tools
@@ -349,14 +349,24 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
    F = Full ( full set of tools )
    N = Skip Installation
 
- NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory
- to build JT-software.
+ NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory to build
+ JT-software. The Latest PowerShell is highly recommended.
 
- Enter Your Install/Redeployment Selection(s):
+* Enter Your Install/Redeployment Selection(s):
 
-(required) VC/C++ Runtimes (Y|N) .:
+ (optional) Latest PowerShell (Y|N) .:
 </pre>
 </div>
+<ul>    
+    <p>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core .</p>
+        
+	<p>In this example The .NET runtimes are not deployed.</p>
+</ul>
+<div class="reducewidth">
+<pre>
+(required) VC/C++ Runtimes (Y|N) ...:
+</pre>
+</div>	
 <ul>
 	<ul>
 		<li>The VC Runtimes are required. Select &#39;Y&#39;</li>
