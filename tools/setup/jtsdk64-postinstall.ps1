@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name ........: jtsdk64-postinstall.ps1
 # Project .....: HAMLIB SDK - JTSDK64 Tools Project
-# Version .....: 3.4.0.1
+# Version .....: 3.4.0.2
 # Description .: Installs Components based on User selections
 # 
 # Usage .......: Call from jtsdk64-tools-setup environ => jtsdk64-postinstall $*
@@ -92,7 +92,7 @@ function GetSelections([ref]$iPS, [ref]$iVCR, [ref]$iOmniRig, [ref]$iGit, [ref]$
 	Write-Host "* Enter Your Install/Redeployment Selection(s)`:"
 	Write-Host ""
 
-	$iPS.value      = Read-Host " (optional) Latest PowerShell (Y|N) ."
+	$iPS.value      = Read-Host " (required) Latest PowerShell (Y|N) ."
 	$iVCR.value     = Read-Host " (required) VC/C++ Runtimes (Y|N) ..."
 	$iOmniRig.value = Read-Host " (required) OmniRig (Y|N) ..........."
 	$iGit.value     = Read-Host " (required) Git-SCM (Y|N) ..........."

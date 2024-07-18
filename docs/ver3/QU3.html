@@ -249,7 +249,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</table>
 
 <p>The marker file to set the version of Qt used is found in <strong>x:\JTSDK64-Tools\config</strong> i.e. <strong>qt5.15.2</strong> (as default).</p>
-<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.6.2&nbsp; </strong>.&nbsp;</p>
+<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.7.0&nbsp; </strong>.&nbsp;</p>
 </ul>
 <h3>Qt 5.15.2 Not Being Deployed</h3>
 <ul> 
@@ -260,7 +260,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 		</tr>
 	</table>
 <p>It is now recommended that one performs a "Full" deployment of Qt at install time.&nbsp;</p>
-<p>This should properly deploy <strong>Qt 6.6.2</strong> along with the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
+<p>This should properly deploy <strong>Qt 6.7.0</strong> along with the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
 <p>Once the JTSDK is deployed you can then add Qt 5.15.2 MANUALLY from Archive.&nbsp;</p>
 <table width="*" align="center" border="1">
 		<tr>
@@ -268,7 +268,7 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 		</tr>
 	</table>
 </ul>
-<h3>Issues observed when trying to build software with Qt 6.6.2 deployments</h3>
+<h3>Issues observed when trying to build software with Qt 6.7.0 deployments</h3>
 <ul>
   <p><strong>Qt 6</strong> is not currently supported by the JT-ware developers. Current source code of all known JT-ware forks at the time that this document was written will not compile under <strong>Qt 6</strong>.</p>
 	<p>JT-ware developers are researching Qt 6-compatible code conversion.&nbsp;</p>
@@ -278,11 +278,11 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
   <p><strong>JTSDK 2.3.2</strong> with <strong>Tools 3.2.3.3</strong> Has the capability to deploy two "streams" of Qt kit:</p>
   <ul>
   <li><strong> Default Deployment</strong>: deploys <strong>Qt Version 5.15.2</strong>. This is not likely to change - but at some stage it may be withdrawn from release by the Qt maintainers. When this occurs our kit will not be able to find these files; it will not install.</li>
-  <li><strong>Full Deployment</strong>: deploys <strong>both Qt versions 5.15.2 and Qt 6.6.2</strong> at the time that this document was written. If one or either of these versions cannot be found then these kits will not be installed.</li>
+  <li><strong>Full Deployment</strong>: deploys <strong>both Qt versions 5.15.2 and Qt 6.7.0</strong> at the time that this document was written. If one or either of these versions cannot be found then these kits will not be installed.</li>
   </ul>
 <p>This kit by default deploys the <a href="https://www.qt.io/download-open-source">Qt SDK For Open Source Release</a>. This is also compliant with the basic beliefs, method and release licensing terms for WSJTX.</p>
   <p>These Qt deployment repositories are stored in <a href="https://download.qt.io/static/mirrorlist/">geo-assigned download repositories</a>. Each repository ONLY MAKES THE LATEST DOWNLOAD RELEASE STREAMS AVAILABLE to the Qt installer.</p>
-  <p>The Qt maintainers may at some stage in the future bump the versions available i.e. From <strong>6.6.2</strong> to&nbsp; <strong>6.6.2</strong> (as an example).&nbsp;</p>
+  <p>The Qt maintainers may at some stage in the future bump the versions available i.e. From <strong>6.7.0</strong> to&nbsp; <strong>6.7.0</strong> (as an example).&nbsp;</p>
   <p><strong><u>Our kit has a way of dealing with this:</u></strong></p>
   <p>Refer to the file <strong>x:\JTSDK64-Tools\config\Versions.ini</strong>&nbsp;</p>
 	<p>There are two keys that (at the time of writing) can br found at the bottom of the file:</p>
@@ -292,7 +292,7 @@ File: x:\JTSDK64-Tools\config\Versions.ini
 ...
 #future enhancement to set Qt version
 qt5v=5.15.2
-qt6v=6.6.2
+qt6v=6.7.0
 </pre>
 	</div>
 	<ul>
@@ -362,7 +362,7 @@ CMake Error at C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:8
 
 Call Stack (most recent call first):
   C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:585 (get_prerequisites)
   C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
   C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
 
@@ -393,9 +393,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 <ul>
 <p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
 	</ul>
-<li>If you are using <strong>Qt 6.6.2</strong>:&nbsp;</li>
+<li>If you are using <strong>Qt 6.7.0</strong>:&nbsp;</li>
 <ul>
-<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.2\bin<strong>"</strong></p>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.7.0\bin<strong>"</strong></p>
 </ul>
 </ul>
 	<p>These paths can be added to the main Windows system paths.</p>
@@ -408,9 +408,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 			<br/>
 			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
 			<br/><br/>
-			<li>For <strong>Qt 6.6.2</strong>:</li>
+			<li>For <strong>Qt 6.7.0</strong>:</li>
 			<br/>
-			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.2\bin</strong>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.7.0\bin</strong>
 		</ul>
 		<br/>
 		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
@@ -438,7 +438,7 @@ Call Stack (most recent call first):
   C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
   C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
   C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/GetPrerequisites.cmake:942 (get_prerequisites)
-  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:584 (get_prerequisites)
+  C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:585 (get_prerequisites)
   C:/JTSDK64-Tools/tmp/wsjtx/CMake/Modules/BundleUtilities.cmake:804 (get_bundle_keys)
   C:/JTSDK64-Tools/tmp/wsjtx-output/qt/5.15.2/2.2.0/Release/build/cmake_install.cmake:153 (fixup_bundle)
 

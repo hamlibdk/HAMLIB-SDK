@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.4b
+# Version ......: 3.4.0.2
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -31,7 +31,8 @@
 #               : Further refactoring as Qt 6.2.2 and later now refers to MinGW 11.2.0 16-05-2022 Uwe DG2YCB with Steve VK3VM
 #               : Improvements and refactoring preparing for HLSDK (JTSDK) 4.0 02/03-06-202 Coordinated by Steve VK3VM
 #               --> Primarily fixes to better support the kit residing on drives rather than just C:
-#               _ Addition of PSS for support for Powershell interpreter to be used 10-1-2024 Steve I VK3VM
+#               : Addition of PSS for support for Powershell interpreter to be used 10-1-2024 Steve I VK3VM
+#               : Inclusion of CMAKE config variables to fins LibUSB 14-7-2024 Steve I VK3VM
 #
 #-----------------------------------------------------------------------------::
 
@@ -108,9 +109,10 @@ function SetFFTWEnviron($configTable, [ref]$fftw3f_dir_ff) {
 
 # --- LibUSB ------------------------------------------------------------------
 
-function SetLibUSBEnviron ($configTable) {
+function SetLibUSBEnviron ($configTable, [ref]$lusb_dir_ff) {
 	$env:libusbv = $configTable.Get_Item("libusbv")	
 	$env:libusb_dir = $env:JTSDK_TOOLS + "\libusb\" + $env:libusbv
+	$lusb_dir_ff.Value = ($env:libusb_dir).replace("\","/")
 	$env:libusb_dir_f = ConvertForward($env:libusb_dir)
 	$env:JTSDK_PATH += ";"+$env:libusb_dir
 	$env:libusb_dll = $configTable.Get_Item("libusbdll")	
@@ -411,7 +413,7 @@ function SetPortAudioDirs ([ref]$pa_dir_ff) {
 
 # --- Generate Qt Tool Chain Files --------------------------------------------
 
-function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $palibff, $hamlibff, $svnff) {
+function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $palibff, $lusbff, $hamlibff, $svnff) {
 
 	$QTVR = $env:QTV -replace "\.",''
 
@@ -447,6 +449,9 @@ function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $pal
 	Add-Content $of "SET (FFTW3_LIBRARY $fftw3fff/libfftw3-3.dll)"
 	Add-Content $of "SET (FFTW3F_LIBRARY $fftw3fff/libfftw3f-3.dll)"
 	Add-Content $of " "
+	Add-Content $of "# LibUSB"
+	Add-Content $of "SET (LUSB $lusbff )"
+	Add-Content $of " "
 	Add-Content $of "# Hamlib"
 	Add-Content $of "SET (HLIB $hamlibff/qt/$env:QTV)"
 	Add-Content $of " "
@@ -458,7 +463,7 @@ function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $pal
 	Add-Content $of "SET (PALIB_LIBRARY $palibff/lib/libportaudio.dll)"
 	Add-Content $of " "
 	Add-Content $of "# Cmake Consolidated Variables"
-	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{HLIB} `$`{HLIB}/bin `$`{HLIB}/lib `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
+	Add-Content $of "SET (CMAKE_PREFIX_PATH `$`{GCCD} `$`{QTDIR} `$`{LUSB} `$`{HLIB} `$`{HLIB}/bin `$`{HLIB}/lib `$`{ADOCD} `$`{FFTWD} `$`{FFTW3_LIBRARY} `$`{FFTW3F_LIBRARY} `$`{SVND} `$`{PALIB} `$`{PALIB_LIBRARY})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH `$`{JTSDK_TOOLS})"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_PROGRAM NEVER)"
 	Add-Content $of "SET (CMAKE_FIND_ROOT_PATH_LIBRARY BOTH)"
@@ -669,7 +674,9 @@ SetSQLiteEnviron ($configTable)			# --- SQlite --------------------------
 $fftw3f_dir_ff = " "					# --- FFTW ----------------------------
 SetFFTWEnviron -configTable $configTable -fftw3f_dir_ff ([ref]$fftw3f_dir_ff)	
 
-SetLibUSBEnviron ($configTable)			# --- LibUSB --------------------------
+$lusb_dir_ff = " "                      # --- LibUSB -------------------------
+#SetLibUSBEnviron ($configTable)		
+SetLibUSBEnviron -configTable $configTable -lusb_dir_ff ([ref]$lusb_dir_ff)	
 
 SetNSISEnviron ($configTable)			# --- Nullsoft Installer System - NSIS 
 
@@ -709,7 +716,7 @@ $hamlib_base_ff = SetHamlibDirs		     # --- Hamlib Dirs --------------------
 
 # --- Generate the Tool Chain -------------------------------------------------
 
-GenerateToolChain -qtbaseff $QTBASE_ff -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -palibff $pa_dir_ff -hamlibff  $hamlib_base_ff -svnff $svn_dir_ff
+GenerateToolChain -qtbaseff $QTBASE_ff -qtdff $QTD_ff -gccdff $GCCD_ff -rubyff $ruby_dir_ff -fftw3fff $fftw3f_dir_ff -palibff $pa_dir_ff -lusbff $lusb_dir_ff -hamlibff  $hamlib_base_ff -svnff $svn_dir_ff
 
 # -----------------------------------------------------------------------------
 #  FINAL MESSAGE

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-JSQt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0 Alpha
+# Version ......: 3.4.0.2
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -26,6 +26,7 @@
 # Minor maintenance for Qt 6.5.1 Coordinated by Steve VK3VM 02-6-2023
 # Bump to Version 4.0: Incorporation of QT5_VER and QT6_VER variables Coordinated by Steve VK3VM 04-6-2023
 # --> The versions of Qt deployed now set inside Versions.ini. Maintenance now reduced.
+# Bump back to 3.4.0.2: Set so that Latest MinGW components are deployed Steve VK3VM 15-07-2024
 #
 #-----------------------------------------------------------------------------#
 
@@ -139,6 +140,8 @@ Add-Content $of  " widget.selectComponent`(`"qt.tools.openssl.win_x64`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
 #Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
 Add-Content $of  " widget.selectComponent`(`"qt.qt5.$qt5ver.win64_mingw81`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.win64_mingw112`"`)`;"
+Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.win64_mingw131`"`)`;"
 Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
 Add-Content $of  "`}"
 Add-Content $of  " "
