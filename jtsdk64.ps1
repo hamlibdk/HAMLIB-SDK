@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.4.0.2
+# Version ......: 3.4.1 Beta
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -33,6 +33,8 @@
 #               --> Primarily fixes to better support the kit residing on drives rather than just C:
 #               : Addition of PSS for support for Powershell interpreter to be used 10-1-2024 Steve I VK3VM
 #               : Inclusion of CMAKE config variables to fins LibUSB 14-7-2024 Steve I VK3VM
+#               : Major enhancements and removal of "Fudges" to hopefully support Qt 6.7 and MinGW 13.1  18-9-2024 Steve I VK3VM
+#               : Minor legacy bugfix with JTSDK_MSYS2_F fixed 18-9-2024 Steve I VK3VM
 #
 #-----------------------------------------------------------------------------::
 
@@ -269,24 +271,33 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	$env:QTP=$env:QTBASE + "\" + $env:VER_MINGW_GCC + "\plugins\platforms"
 	$env:QTP_F = ConvertForward($env:QTP)
 	$QTP_ff.Value = ($env:QTP).replace("\","/")
-
-	# Fudge to handle MinGW 11.2.0 Tools with Qt
-	# --> MinGW 11.2.0 Tools now just named mingw_64 [ No version prefix ] 
-	if ($env:VER_MINGW_GCC -like "mingw_64") {
-		$VER_MINGW_GCC_tmp = $env:VER_MINGW_GCC
-	#	# The Fudge itself: It is actually the GCC version.
-		$env:VER_MINGW_GCC = "mingw112_64"	
-	}
 	
-	# Dirty method to add additional 0 required for Tools MinGW
-	# May cause issues if the MinGW people change structures or use sub-versions !
-	$verMinGWAddZero= $env:VER_MINGW_GCC -replace "_", "0_"
-	$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$verMinGWAddZero+"\bin"
+	$my_string = $env:QTV.Replace(".", "")
+	
+	# lets say we are using Qt 5.15.13 . Converted to an integer this becomes 51513.
+	# the most common version is Qt 5.15.2. Converted to an nteger this becomes 5152.
+	# To compare the two (properly) we need multiply 5152 by 10 then !
+	#
+	# Lets assume we are using Qt 6.3.3. AS an intenger tthis becomes 644. Its a later
+	# version than Qt 5.15.13 - inter 51513. So to compare and to show that 633 islater 
+	# than 5.15.13 we need multiply 633 by 100. Multiplying by 100 is the most common
+	
+	$mult = 100;
+	if ( $my_string.length -eq 3 ) { $mult = 100 }		# This handles the minimum i.e. 6.3.3
+	if ( $my_string.length -eq 4 ) { $mult = 10 }		# This handles 5152 i.e. 5.15.2
+	if ( $my_string.length -eq 5 ) { $mult = 1 }		# The maximum version size i.e 51513 for 6.15.13
+	
+	$int_ver_min_gcc = [int]$env:QTV.Replace(".", "")
+	
+	$env:GCC_MINGW = "mingw810_64"					# Qt 5.15.2 as a primer/start point
+	if ( ($int_ver_min_gcc * $mult) -lt 51520 ) { GenerateError("This kit does not support Qt versions below Qt 5.15.2" )}
+	if ( ($int_ver_min_gcc * $mult) -ge 62200 ) { $env:GCC_MINGW = "mingw1120_64" }
+	if ( ($int_ver_min_gcc * $mult) -ge 67000 ) { $env:GCC_MINGW = "mingw1310_64" }
+	
+	# $env:GCC_MINGW=$env:VER_MINGW_GCC					# possibly redundant ??? 
+	$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$env:GCC_MINGW+"\bin"
 	$GCCD_ff.Value = ($env:GCCD).replace("\","/")
 	$env:GCCD_F = ConvertForward($env:GCCD)
-	
-	# De-Fudge to handle MinGW 11.2.0 Tools with Qt
-	if ( Get-Variable -name VER_MINGW_GCC_tmp -ErrorAction SilentlyContinue ) { $env:VER_MINGW_GCC = $VER_MINGW_GCC_tmp }
 	
 	# Note: This is the NEW First occurence of JTSDK_PATH
 	$env:JTSDK_PATH=";" + $env:GCCD + ";" + $env:QTD + ";" + $env:QTP + ";" + $env:QTP + "\lib" 
@@ -305,18 +316,25 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 # --- CHECK BOOST DEPLOY IS FOR CORRECT MINGW VERSION -------------------------
 # --> Get from examing nomenclature in C:\JTSDK64-Tools\tools\boost\<ver>\lib
 #     i.e. xxxx-mgw8-XXX for MinGW 8.1    xxxx-mgw7-XXX for MinGW 7.3	
-#          As of Qt 6.2.2 minGW 11.2.0 is deployed so format xxxx-mgw11-XXX
+#          As of Qt 6.2.2 MinGW 11.2.0 is deployed so format xxxx-mgw11-XXX
+#          As of Qt 6.7.0 MinGW 13.2.0 is deployed so format xxxx-mgw13-XXX
 
-function CheckBoostCorrectMinGWVersion($boostDir) {
+function CheckBoostCorrectQtmingwDirVersion($boostDir) {
 	$retval = "Not Found"
 		
 	$listBoostDeploy = Get-ChildItem -Path "$boostDir\lib" -EA SilentlyContinue
 
 	ForEach ($subPathBoost in $listBoostDeploy)
 	{    
+		if ($subPathBoost.Name -like '*-mgw13-*') {
+			# More than Likely GCC13.1 >= Qt 6.7.0 with MinGW 13.1 or later
+			# Needs a better method
+			$retval="mingw_64"			# As found in x:\JTSDK64-Tools\tools\Qt\6.7.x
+			break
+		}
 		if ($subPathBoost.Name -like '*-mgw11-*') {
 			# More than Likely GCC11 and >= Qt 6.2.2 with MinGW 11.2.0 or later
-			# Needs a better method
+			# Needs a better method		# As found in x:\JTSDK64-Tools\tools\Qt\6.2.2 or later
 			$retval="mingw_64"
 			break
 		}
@@ -342,21 +360,25 @@ function SetCheckBoost {
 	$env:boost_dir = $env:JTSDK_TOOLS + "\boost\" + $env:boostv
 	$env:boost_dir_f = ConvertForward($env:boost_dir)
 	
+	Write-Host "* Checking Boost Deployment"
+	
 	if ((Test-Path "$env:JTSDK_TOOLS\boost\$env:boostv")) { 
 
 		$env:JTSDK_PATH += ";" + $env:boost_dir + "\lib"
-		Write-Host -NoNewLine "* Boost version $env:boostv is deployed under "
-		$env:BOOST_V_MINGW = CheckBoostCorrectMinGWVersion($env:boost_dir)
-		Write-Host $env:BOOST_V_MINGW
-		Write-Host -NoNewLine "  --> Current Qt Support: `[$env:VER_MINGW_GCC`] Status: "
-		if ($env:BOOST_V_MINGW -like $env:VER_MINGW_GCC) {
+		Write-Host -NoNewLine "  --> Version `[$env:boostv`] should be compiled and deployed under the "
+		$env:BOOST_V_MINGW = CheckBoostCorrectQtmingwDirVersion($env:boost_dir)
+		Write-Host "`[Qt $env:QTV/$env:BOOST_V_MINGW`] and MSYS2/MinGW environments."
+		Write-Host -NoNewLine "  --> Status: "
+		if ( $env:BOOST_V_MINGW -ne "Not Found" ) {
 			$env:BOOST_STATUS="Functional"
 			Write-Host "Functional"
 		} else {
-			Write-Host "*** NON FUNCTIONAL FOR JTSDK USE ***"
+			Write-Host "*** NON FUNCTIONAL FOR JTSDK USE *** $env:BOOST_V_MINGW $env:VER_MINGW_GCC"
 		}
 	} else {
-		Write-Host "*** BOOST NOT DEPLOYED: Provide library for $env:VER_MINGW_GCC to $env:JTSDK_TOOLS\boost\$env:boostv ***"
+		
+		Write-Host "  --> *** BOOST NOT DEPLOYED ***"
+		Write-Host "  --> Provide library for Qt $env:QTV to $env:JTSDK_TOOLS\boost\$env:boostv"
 	}
 }
 
@@ -506,9 +528,9 @@ function InvokeInteractiveEnvironment {
 		New-Alias mingw32 "$env:JTSDK_TOOLS\msys64\mingw32.exe"	
 		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
 		Clear-Host
-		Write-Host "--------------------------------------------"
-		Write-Host "          JTSDK x64 Tools $env:JTSDK64_VERSION"
-		Write-Host "--------------------------------------------"
+		Write-Host "-------------------------------------------------"
+		Write-Host "            JTSDK x64 Tools $env:JTSDK64_VERSION"
+		Write-Host "-------------------------------------------------"
 		Write-Host ""
 		Write-Host "Config: $env:JTSDK_VC"
 		Write-Host ""
@@ -520,10 +542,10 @@ function InvokeInteractiveEnvironment {
 		}	
 		Write-Host ""
 		Write-Host "Package       Version/Status"
-		Write-Host "--------------------------------------------"
+		Write-Host "-------------------------------------------------"
 		Write-Host "Source .....: $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
-			Write-Host "Qt .........: $env:QTV `[$env:VER_MINGW_GCC`]"
+			Write-Host "Qt .........: $env:QTV/$env:VER_MINGW_GCC, Tools/$env:GCC_MINGW "
 		} else {
 			Write-Host "Qt .........: $env:QTV Missing"
 		}
@@ -578,14 +600,12 @@ function InvokeInteractiveEnvironment {
 			}
 		}
 		if ((Test-Path "$env:boost_dir")) { 
-			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS `[$env:BOOST_V_MINGW`]"
+			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS for $env:GCC_MINGW"
 		} else {
 			Write-Host "Boost ......: $env:boostv Missing"
 		}
 
-		Write-Host "--------------------------------------------"
-		Write-Host ""
-		Write-Host "Commands:"
+		Write-Host "-------------------------------------------------"
 		Write-Host ""
 		Write-Host " Build Boost .......: Deploy-Boost"
 		Write-Host " MSYS2 Environment .: mingw64"
@@ -636,7 +656,7 @@ $env:JTSDK_TOOLS_F = ConvertForward($env:JTSDK_TOOLS)
 $env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
 $env:JTSDK_SCRIPTS_F = ConvertForward($env:JTSDK_SCRIPTS) 
 $env:JTSDK_MSYS2 = $env:JTSDK_TOOLS + "\msys64"
-$env:JTSDK_MSYS2_F = ConvertForward($env:JTSDK_SCRIPTS) 
+$env:JTSDK_MSYS2_F = ConvertForward($env:JTSDK_MSYS2) 
 
 CreateFolders							# --- Create Folders ------------------
 

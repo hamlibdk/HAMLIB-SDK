@@ -86,7 +86,8 @@ Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.82.0][], [Boost-1.83
 are available - saving many hours. Note that the continued production of these files is under review.
 
 - [Boost-1.74.0][] is built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
-- [Boost-1.82.0][], [Boost-1.83.0][], [Boost-1.84.0][] and [Boost-1.85.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+- [Boost-1.82.0][], [Boost-1.83.0][] and [Boost-1.84.0][] and [Boost-1.85.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
+- [Boost-1.85.0][] is built with and supplied under Qt's [MinGW 8.1](MinGW) environs.
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
@@ -407,9 +408,11 @@ The following information will be displayed:
 
  Enter Your Install/Redeployment Selection(s):
 
-(optional) Latest PowerShell (Y|N) ..: 
+(required) Latest PowerShell (Y|N) ..: 
 ```
-- The latest PowerShell (i.e. PowerShell 7) is highly recommended as it has considerable performance benefits. Select 'Y' even if you already have it deployed.
+- The latest PowerShell (i.e. PowerShell 7) is highly recommended as it has considerable performance benefits. Select 'Y' even if you already have it deployed. 
+
+**Note:** PowerShell 7 and PowerShell 5.1 (as supplied with WIndows 10/11) are not necessarily backwardly compatible.
 
 --> PowerShell should be updated to the latest available version (quietly).
 ```
@@ -645,11 +648,11 @@ Pre-compiled drop-in Packages for [Boost-1.74.0][], [Boost-1.82.0][], [Boost-1.8
 
 Each “drop-in” package has folders i.e. 1.74.0-7.3 for [MinGW 7.3](MinGW) (pre-Qt 5.15) and 1.74.0-8.1 (for post-Qt 5.15 including the 6.x.x streams). 
  
-The drop-in packages since [Boost-1.79.0][] now supports [MinGW 8.1](MinGW) and [MinGW 11.2](MinGW) .
+The drop-in packages since [Boost-1.79.0][] now supports [MinGW 8.1](MinGW).
   
 - Extract the folder for the Boost version-package that you want to use into **C:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3 or -8.1 suffix ! 
 
-A Windows symbolic link will work too: i.e.: Assume that both the 1.85.0-8.1 and 1.85.0-11.2 distributions have been unpacked from **Boost-1.85.0-MinGW-v8.1-v11.2.7z** to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or [PowerShell][] windows are positioned at **C:\JTSDK64-Tools\tools\boost**
+A Windows symbolic link will work too: i.e.: Assume that both the 1.85.0-8.1 and 1.85.0-11.2 distributions have been unpacked from [Boost-1.85.0](**Boost-1.85.0-MinGW-v8.1.7z**) to **C:\JTSDK64-Tools\tools\boost** . Assume that the command shell or [PowerShell][] windows are positioned at **C:\JTSDK64-Tools\tools\boost**
 
 Examples:
 
@@ -859,7 +862,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [Boost-1.82.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z
 [Boost-1.83.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.83.0-MinGW-v8.1-v11.2.7z
 [Boost-1.84.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.84.0-MinGW-v8.1-v11.2.7z
-[Boost-1.85.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.85.0-MinGW-v8.1-v11.2.7z
+[Boost-1.85.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/Boost-1.85.0-MinGW-v8.1.7z
 [WSJT-X Support Forum]: mailto://wsjt-devel@lists.sourceforge.net
 [Tests]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Tests/
 [WSJT-X 2.2.3]: https://physics.princeton.edu/pulsar/k1jt/wsjtx-2.2.3.tgz

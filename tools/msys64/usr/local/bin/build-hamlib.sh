@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.2.2.5
+# Version ......: 3.4.0.3
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
@@ -16,10 +16,13 @@
 #          LibUSB DLL library path set from Versions.ini 6-1-2022 Steve VK3VM
 #          Modifications to handle opposite CLI switches and default path dynamic build now 15-1-2022 Steve VK3VM
 #          Change path mods from home dir for .sh files to /usr/local/bin 23-1-2022 Steve VK3VM
+#          Remove unnecessary Run-Make -- compiles in one pass now
+#          Make sure all make calls use -j $CPUS
+#          Remove the contents of bin instead of the directory (so don't have to change out of the directory when rebuilding) 2024-07-26 Mike W9MDB.
 #
 # Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#                 Copyright (c) 2020-2022 JTSDK Contributors
+#                 Copyright (c) 2020-2024 JTSDK Contributors
 #
 # Support for Qt 5.12.12, 5.15.2, 6.3.1 by Steve VK3VM
 #
@@ -455,7 +458,7 @@ function Make-InstallStrip {
 	then
 		echo -n "* Clearing out old ${PREFIX}: "
 		# Yes I know this is dangerous !
-		rm -rf $PREFIX/* > /dev/null
+		rm -rf $PREFIX/bin/* > /dev/null
 		# rm -rf $PREFIX/*
 		echo "Complete"
 		echo ''
@@ -463,7 +466,7 @@ function Make-InstallStrip {
 
 	echo "* Installing Hamlib Headers, Libraries and Utilities to ${PREFIX}"
 	echo ''
-	make install-strip
+	make -j $CPUS install-strip
 }
 
 # Function: Generate Build Info -----------------------------------------------
@@ -513,8 +516,8 @@ CCPPFLAGS="-I${libusb_dir_f}/include" \
 LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 
 # Build Commands
-make -j$CPUS
-make install-strip
+#make -j $CPUS
+#make -j $CPUS install-strip
 
 EOF
 	) > "$PREFIX/$PKG_NAME.build.info"
@@ -889,7 +892,7 @@ Clean-Build
 
 # -- Run Make -----------------------------------------------------------------
 
-Run-Make
+#Run-Make
 
 # -- Make install-strip -------------------------------------------------------
 

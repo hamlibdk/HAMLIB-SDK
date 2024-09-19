@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0 Beta
+# Version ......: 3.4.1 Beta
 # Description ..: Downloads selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -12,7 +12,8 @@
 #
 # Development ..: Version 3.2.3.3 Corrects using GITHUB static release site as source - Steve VK3VM 2024-01-08
 #                 As of Version 3.2.4 using GIT source for Boost - Steve VK3VM 2024-01-08
-#                 Version 4.0 Beta Revert back to JFrog Steve VK3CM 2023-04-21
+#                 Version 4.0 Beta Revert back to JFrog Steve VK3VM 2023-04-21
+#                 Revert back to Ver 3.4.1; Minor cleanups Steve VK3VM 2023-04-21
 #
 #-----------------------------------------------------------------------------#
 
@@ -109,6 +110,6 @@ if (!(Test-Path("$env:JTSDK_SRC\$dLoc"))){
 }
 
 Write-Host "  --> Source in $env:JTSDK_SRC\$dLoc"	
-Write-Host " "
+# Write-Host " "
 
 exit(0)

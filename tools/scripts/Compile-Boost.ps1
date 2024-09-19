@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------#
 # Name .........: Compile-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0 Beta
+# Version ......: 3.4.1 Beta
 # Description ..: Compiles selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -15,7 +15,8 @@
 # Deveopment....: Version 3.2.3.3 Corrects using GITHUB static release site and different package nomenclature for source - Steve I 2024-01-08
 #                 Slight script cleanups  - Steve I 2024-01-08
 #                 As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
-#                 Version 4.0 (beta) - Reverting back to JFrog and JFrog notation Stebve I VK3VM 2024-04-22
+#                 Version 4.0 (beta) - Reverting back to JFrog and JFrog notation Steve I VK3VM 2024-04-22
+#                 Version 3.4.1 (beta) - Reverting back to 3.4.1-stream; minor enhancement so that /include dir is checked to see if endpoint exists Steve I VK3VM 2024-09-19
 #
 #-----------------------------------------------------------------------------------#
 
@@ -54,7 +55,7 @@ Write-Host ""
 
 # ##### ##### ##### Do not compile if source already exists ##### ##### #####  
 
-if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv"))) {
+if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv\include"))) {
 	Write-Host -ForegroundColor Yellow "  --> Requested Boost Library `[$boostv`] Not Found`: Starting to Compile Source."
 	Write-Host " "
 	# Final Distribution Directory
