@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.4.1 Beta
+# Version ......: 3.4.1
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -35,6 +35,7 @@
 #               : Inclusion of CMAKE config variables to fins LibUSB 14-7-2024 Steve I VK3VM
 #               : Major enhancements and removal of "Fudges" to hopefully support Qt 6.7 and MinGW 13.1  18-9-2024 Steve I VK3VM
 #               : Minor legacy bugfix with JTSDK_MSYS2_F fixed 18-9-2024 Steve I VK3VM
+#               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve I VK3VM
 #
 #-----------------------------------------------------------------------------::
 
@@ -69,6 +70,15 @@ function CreateFolders {
 	if (!(Test-Path $env:JTSDK_SCRIPTS)) { 
 		New-Item -Path $env:JTSDK_TOOLS -Name "\scripts" -ItemType "directory"  | Out-Null 
 		Write-Host "  --> Created $env:JTSDK_SCRIPTS"
+	}
+
+#   Suppoort for Extras folder. Note that usage of this is frowned upon but may be necessary for some.
+#   it is BETTER that one FIXES/RECOMPILES the package that needs additional DLL's as it is most
+#   likely that some MS-compiler components are used in the library ... Recompile under MSYS2/MinGW
+
+	if (!(Test-Path "$env:JTSDK_TOOLS\extras")) { 
+		New-Item -Path $env:JTSDK_TOOLS -Name "\extras" -ItemType "directory"  | Out-Null 
+		Write-Host "  --> Created $env:JTSDK_TOOLS\extras"
 	}
 }
 

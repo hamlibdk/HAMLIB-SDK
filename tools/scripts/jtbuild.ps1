@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 3.2.3.3
+# Version ...........: 3.4.1
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
@@ -32,7 +32,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#               : Amendment in technique for getting output package filename 9-10-1-2024 Steve VK3VM
+#               : Amendment in technique for getting output package filename 2024-1-1-10 Steve VK3VM
+#               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve VK3VM
 #
 #-----------------------------------------------------------------------------#
 
@@ -839,10 +840,18 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 #	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null 
 #}
 
-#EXPERIMENT
+# Set Paths -------------------------------------------------------------SET PATHS
+# this sets additional search paths that may be needed - especially for packaging
+
 if ( -Not ( Test-Path env:PATH_BKP ) ) { $env:PATH_BKP = $env:PATH }
 $env:PATH = $env:PATH +";" + $env:QT_JTSDK_PATH
 
+# Suppoort for Extras folder. Note that usage of this is frowned upon but may be necessary for some.
+# it is BETTER that one FIXES/RECOMPILES the package that needs additional DLL's as it is most
+# likely that some MS-compiler components are used in the library ... Recompile under MSYS2/MinGW
+$env:PATH = $env:PATH +";" + $env:JTSDK_TOOLS + "\extras"
+
+# Experiment
 #Push-Location $env:JTSDK_TOOLS\msys64\usr\bin
 #Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe | Out-Null
 #Pop-Location

@@ -39,6 +39,7 @@ function ErrorDetected($fnctn) {
 # Main Logic
 # ----------------------------------------------------------------------------
 
+Clear-Host
 # Commence backup of original Path
 if ( -Not ( Test-Path env:PATH_BKP ) ) { $env:PATH_BKP = $env:PATH }
 # $env:PATH = $env:PATH +";" + $env:QT_JTSDK_PATH
@@ -50,12 +51,12 @@ $env:PATH = $env:PATH + ";" + $pwd.drive.name + ":\JTSDK64-Tools\tools\msys64\mi
 # Note that this is ALREADY there ... It just moves it "higher up the foodchain" 
 # to prevent other compilers being detected and used first (i.e Visual Studio Compilers !
 
-$env:Path = "C:\JTSDK64-Tools\tools\Qt\Tools\$GCC_MINGW\bin;" + $env:Path
+$env:Path = $env:SystemDrive + "\JTSDK64-Tools\tools\Qt\Tools\" + $env:GCC_MINGW + "\bin;" + $env:Path
 
 $scriptRoot = $PSScriptRoot				# Save execution location
 Set-Location -Path $env:JTSDK_HOME		#Change to the JTSDK HOME Directory
 
-Clear-Host
+
 Write-Host "-----------------------------------------------"
 Write-Host "       JTSDK64 Boost Deployment $env:JTSDK64_VERSION"
 Write-Host "-----------------------------------------------"

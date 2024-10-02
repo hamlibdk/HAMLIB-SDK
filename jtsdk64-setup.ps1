@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64-setup.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.4.0b
+# Version ......: 3.4.1b
 # Description ..: JTSDK64 Postinstall Setup Environment
 # Project URL ..: https://github.com/KI7MT/jtsdk64-tools.git
 # Usage ........: Call this file directly from the command line
@@ -31,20 +31,40 @@ function ConvertForward($inValue) {
 	return $inValue.replace(":","")
 }
 
-$env:JTSDK64_VERSION = [IO.File]::ReadAllText($PSScriptRoot+"\ver.jtsdk")
-$host.ui.RawUI.WindowTitle = 'JTSDK64 Tools Setup ' + $env:JTSDK64_VERSION
+# --- CENTER TEXT -------------------------------------------------------------
+# --> Writest text in the center of the line
+# --> Based off: https://stackoverflow.com/questions/48621267/is-there-a-way-to-center-text-in-powershell
+# --> if Width = 0 assumes buffer width
+# function Write-HostCenter { param($Message) Write-Host ("{0}{1}" -f (' ' * (([Math]::Max(0, $Host.UI.RawUI.BufferSize.Width / 2) - [Math]::Floor($Message.Length / 2)))), $Message) }
+function Write-HostCenter($Message, $width) {
+	if ( $width -eq 0 ) { 
+		$bufferWidth =  [Math]::Max(0, $Host.UI.RawUI.BufferSize.Width)
+	} else {
+		$bufferWidth = $width
+	}
+	$pad=""
+	For ($i=0; $i -le $bufferWidth/2; $i++) {
+		Write-Host -NoNewLine " "
+	}
+	Write-Host $Message 
+}
 
-#Clear-Host
-Write-Host "------------------------------------------------------------"
-Write-Host "                  JTSDK64 Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
-Write-Host "------------------------------------------------------------"
-Write-Host ""
 
 #------------------------------------------------------------------------------
 # GLOBAL ENVIRONMENT VARIABLES and PATHS
 #------------------------------------------------------------------------------
 
 # --- Main Paths --------------------------------------------------------------
+
+$env:JTSDK64_VERSION = [IO.File]::ReadAllText($PSScriptRoot+"\ver.jtsdk")
+$host.ui.RawUI.WindowTitle = 'JTSDK64 Tools Setup ' + $env:JTSDK64_VERSION
+
+#Clear-Host
+# Write-HostCenter("Test", 12);
+Write-Host "------------------------------------------------------------"
+Write-Host "                  JTSDK64 Setup $env:JTSDK64_VERSION" -ForegroundColor Yellow
+Write-Host "------------------------------------------------------------"
+Write-Host ""
 
 Write-Host "* Setting Environment Variables"
 $env:JTSDK_HOME = $PSScriptRoot 
@@ -84,9 +104,6 @@ $env:VCRUNTIME_STATUS="Not Installed"
 $env:GIT_STATUS="Not Installed"
 $env:QTMAINT_STATUS="Not Installed"
 $env:QTCREATOR_STATUS="Not Installed"
-$env:MinGW11x_STATUS="Not Installed"
-$env:MinGW81_STATUS="Not Installed"
-$env:MinGW81_32STATUS="Not Installed"
 $env:VSCODE_STATUS="Not Installed"
 $env:BOOST_STATUS="Not Installed"
 $env:OMNIRIG_STATUS="Not Installed"
@@ -156,34 +173,39 @@ Write-Host "* Checking Qt deployment"
 if (Test-Path "$env:JTSDK_TOOLS\Qt\MaintenanceTool.exe") { $env:QTMAINT_STATUS="Installed" }
 if (Test-Path "$env:JTSDK_TOOLS\Qt\Tools\QtCreator\bin\qtcreator.exe") { $env:QTCREATOR_STATUS="Installed" }
 
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw73_64\bin") { $env:MinGW73_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw73_64\bin\Qt?Core.dll }
-$env:MinGW73_STATUS = $env:MinGW73_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw73_64" -replace "mingw73_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW73_STATUS -eq ", Qt ") { $env:MinGW73_STATUS="Not Installed" }
+# $objList = Where-Object {$_.name -match "[\d+].[\d+].[\d+]?"} | select name
+# $objTest = Get-ChildItem C:\JTSDK64-Tools\Tools\Qt\Tools -filter "mingw*" -Directory
+# $objTest | ForEach-Object -process {$_.Name}
 
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_64\bin") { $env:MinGW81_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_64\bin\Qt?Core.dll }
-$env:MinGW81_STATUS = $env:MinGW81_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw81_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW81_STATUS -eq ", Qt ") { $env:MinGW81_STATUS="Not Installed" }
+$env:QtMinGWDeployed="None"
+if (Test-Path -path "$env:SystemDrive:\JTSDK64-Tools\Tools\Qt\Tools") {	 
+	Get-ChildItem "$env:SystemDrive:\JTSDK64-Tools\Tools\Qt\Tools" -filter "mingw*" -Directory | ForEach-Object -process {
+		if ( $env:QtMinGWDeployed -eq "None" ) { $env:QtMinGWDeployed = "" }
+		$env:QtMinGWDeployed=$env:QtMinGWDeployed + $_.Name + " "
+	}
+}
 
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_32\bin") { $env:MinGW81_32STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw81_32\bin\Qt?Core.dll }
-$env:MinGW81_32STATUS = $env:MinGW81_32STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "JTSDK" -replace "mingw81_32" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ")
-if ($env:MinGW81_32STATUS -eq ", Qt ") { $env:MinGW81_32STATUS="Not Installed" }
-
-if (Test-Path "$env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin") { $env:MinGW11x_STATUS = Get-ChildItem $env:JTSDK_TOOLS\Qt\[1-9]*\mingw_64\bin\Qt?Core.dll }
-$env:MinGW11x_STATUS = $env:MinGW11x_STATUS -replace "JTSDK64" -replace "Tools2" -replace "Tools3" -replace "mingw_64" -replace "Qt5Core.dll" -replace "Qt6Core.dll" -replace "[^\d\.\  ]" -replace (" ",", Qt ") -replace "64"
-if ($env:MinGW11x_STATUS -eq ", Qt ") { $env:MinGW11x_STATUS="Not Installed" }
-
-
+$env:QtDeployed="None"
+if (Test-Path -path "$env:SystemDrive:\JTSDK64-Tools\Tools\Qt\Licenses" ) { 
+	try {
+		Get-ChildItem "$env:SystemDrive:\JTSDK64-Tools\Tools\Qt\" | Where-Object {$_.name -match "[\d+].[\d+].[\d+]?"} | ForEach-Object -process {
+			if ( $env:QtDeployed -eq "None" ) { $env:QtDeployed = "" }
+			$env:QtDeployed=$env:QtDeployed + $_.name + " "
+		}
+	}
+	catch {
+	}
+}
 
 # --- Complete ! --------------------------------------------------------------
 
 Write-Host " "
 Write-Host -ForegroundColor yellow  "Note: PowerShell Windows 5.1 is preferred for Deployment."
 Write-Host " "
-Write-Host "The environment for JTSDK deployment is now in place."
+Write-Host "* The environment for JTSDK deployment is now in place."
 Write-Host " "
-#Read-Host -Prompt "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** "
-$input = $(Write-Host -NoNewLine -ForegroundColor blue "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** " ; Read-Host) 
 
+$input = $(Write-Host -NoNewLine -ForegroundColor blue "*** Press [ENTER] to Launch JTSDK64-Setup Environment *** " ; Read-Host) 
 
 #------------------------------------------------------------------------------
 # PRINT TOOL CHAN STATUS / CREATE INTERACTIVE POWERSHELL ENVIRON
@@ -204,14 +226,13 @@ invoke-expression 'cmd /c start powershell -NoExit -Command {                   
 	Write-Host "     Git ............ $env:GIT_STATUS"
 	Write-Host "     OmniRig ........ $env:OMNIRIG_STATUS"
 	Write-Host ""
-	Write-Host "  Qt Script-Provisioned Tool Chains"  -ForegroundColor Yellow
+	Write-Host "  Qt Tool Chain(s) Deployed"  -ForegroundColor Yellow
 	Write-Host ""
-	Write-Host "    x64:"  -ForegroundColor Green
-	Write-Host "     MinGW 8.1 ...... Qt $env:MinGW81_STATUS"
-	Write-Host "     MinGW 11.x ..... Qt $env:MinGW11x_STATUS"
+	Write-Host -NoNewLine "    Qt: "  -ForegroundColor Green
+    Write-Host "$env:QtDeployed"
 	Write-Host ""
-	Write-Host "    x86 (Legacy: unsupported):"  -ForegroundColor Green
-    Write-Host "     MinGW 8.1 ...... Qt $env:MinGW81_32STATUS"
+	Write-Host -NoNewLine "    Tools: "  -ForegroundColor Green 
+	Write-Host "$env:QtMinGWDeployed"
 	Write-Host ""
 	Write-Host "  Optional Components"  -ForegroundColor Yellow
 	Write-Host ""

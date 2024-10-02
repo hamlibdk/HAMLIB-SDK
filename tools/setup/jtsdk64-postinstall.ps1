@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name ........: jtsdk64-postinstall.ps1
 # Project .....: HAMLIB SDK - JTSDK64 Tools Project
-# Version .....: 3.4.0.2
+# Version .....: 3.4.1
 # Description .: Installs Components based on User selections
 # 
 # Usage .......: Call from jtsdk64-tools-setup environ => jtsdk64-postinstall $*
@@ -58,17 +58,17 @@ function StartMessage {
 	Write-Host " At the prompts indicate which components you want to"
 	Write-Host " install or redeploy."
 	Write-Host ""
-	Write-Host " For VC Runtimes, OmniRig, Git, MSYS2 and VS Code use"
+	Write-Host " For VC Runtimes, OmniRig, Git, MSYS2 and VS Code use:"
 	Write-Host " --> Y`/Yes or N`/No"
 	Write-Host ""
-	Write-Host " For the Qt Install Selection:"
+	Write-Host " Qt deployment now just runs the Installer and/or"
+	Write-Host " Maintenance Tool and no longer offers a scripted"
+	Write-Host " deployment option. Use:"
+	Write-Host " --> Y`/Yes or N`/No"
 	Write-Host ""
-	Write-Host "   D / Y = Default ( minimal set of tools )"
-	Write-Host "   F = Full ( full set of tools )"
-	Write-Host "   N = Skip Installation"
-	Write-Host ""
-	Write-Host " NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory to build"  
-	Write-Host " JT-software. The Latest PowerShell is highly recommended."
+	Write-Host " NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory to" 
+	Write-Host " build JT-software. The Latest PowerShell is highly" 
+	Write-Host " recommended."
 }
 
 # ------------------------------------------------------------------- DISPLAY SELECTIONS
@@ -76,13 +76,13 @@ function DisplaySelections ($userInputPS, $userInputVCR, $userInputOmniRig, $use
 	Write-Host ""
 	Write-Host "* Your Installation Selections:"
 	Write-Host ""
-	Write-Host "  --> Latest PowerShell .............: $userInputPS"
-	Write-Host "  --> VC Runtimes ...................: $userInputVCR"
-	Write-Host "  --> OmniRig .......................: $userInputOmniRig"
-	Write-Host "  --> Git ...........................: $userInputGit"
-	Write-Host "  --> Qt ............................: $userInputQt"
-	Write-Host "  --> MSYS2 .........................: $userInputMsys2"
-	Write-Host "  --> VS Code .......................: $userInputVSCode"
+	Write-Host "  --> Latest PowerShell ................: $userInputPS"
+	Write-Host "  --> VC Runtimes ......................: $userInputVCR"
+	Write-Host "  --> OmniRig ..........................: $userInputOmniRig"
+	Write-Host "  --> Git ..............................: $userInputGit"
+	Write-Host "  --> Qt ...............................: $userInputQt"
+	Write-Host "  --> MSYS2 ............................: $userInputMsys2"
+	Write-Host "  --> VS Code ..........................: $userInputVSCode"
 	Write-Host ""
 }
 
@@ -91,14 +91,13 @@ function GetSelections([ref]$iPS, [ref]$iVCR, [ref]$iOmniRig, [ref]$iGit, [ref]$
 	Write-Host ""
 	Write-Host "* Enter Your Install/Redeployment Selection(s)`:"
 	Write-Host ""
-
-	$iPS.value      = Read-Host " (required) Latest PowerShell (Y|N) ."
-	$iVCR.value     = Read-Host " (required) VC/C++ Runtimes (Y|N) ..."
-	$iOmniRig.value = Read-Host " (required) OmniRig (Y|N) ..........."
-	$iGit.value     = Read-Host " (required) Git-SCM (Y|N) ..........."
-	$iQt.value      = Read-Host " (required) Default Qt (D/Y|F|N) ...."
-	$iMsys2.value   = Read-Host " (required) MSYS2 Setup (Y|N) ......."
-	$iVSCode.value  = Read-Host " (optional) VS Code (Y|N) ..........."
+	$iPS.value      = Read-Host " (recommended) Latest PowerShell (Y|N) ."
+	$iVCR.value     = Read-Host " (required) VC/C++ Runtimes (Y|N) ......"
+	$iOmniRig.value = Read-Host " (required) OmniRig (Y|N) .............."
+	$iGit.value     = Read-Host " (required) Git-SCM (Y|N) .............."
+	$iQt.value      = Read-Host " (required) Qt (Y|N) ..................."
+	$iMsys2.value   = Read-Host " (required) MSYS2 Setup (Y|N) .........."
+	$iVSCode.value  = Read-Host " (optional) VS Code (Y|N) .............."
 	$iPS.value      = $iPS.value.ToUpper()
 	$iVCR.value     = $iVCR.value.ToUpper()
 	$iOmniRig.value = $iOmniRig.value.ToUpper() 
@@ -171,38 +170,15 @@ function ProcessVSCode {
 
 # ------------------------------------------------------------------- PROCESS Qt
 function ProcessQt {
-	$cmd = "$env:JTSDK_SETUP\qt\Generate-JSQt.ps1"
-	$step = "QT Generate Script"
-    Invoke-Expression "$cmd $param"
-    if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
-
+	$install="Y"
+	$step = "Qt Manual Deployment"
 	$cmd = "$env:JTSDK_SETUP\qt\Install-Qt.ps1"
-	
-	# If option -eq D, install default (minimal) set of scripted Qt options
-	
-	if  (($userInputQt -eq "D") -or ($userInputQt -eq "Y")) {
-		$install="Y"
-		$step = "QT Default Install"
-        $param="min"
-        Invoke-Expression "$cmd $param"
-        if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
-		Write-Host "* Removing pre-existing Qt Configration marker(s)"
-		Get-ChildItem $env:JTSDK_CONFIG | Where{$_.Name -Match "qt*"} | Remove-Item
-		Write-Host "* Setting Qt Configration marker [$defaultQt]"
-		$tmpOut = $env:JTSDK_CONFIG + "\qt" + $defaultQt
-		Out-File -FilePath $tmpOut
-	}
-	
-	# If option -eq F, install full (basic) set of Scripted Qt options
-	
-	if  ($userInputQt -eq "F") {
-		$install="Y"
-		$step = "QT Full Install"
-        $param="full"
-        Invoke-Expression "$cmd $param"
-        if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
-		Write-Host "* Using Tools-delivered Qt Configration marker --> Check that this is appropriate."
-	}
+	$param="manual"
+       Invoke-Expression "$cmd $param"
+	if ($LASTEXITCODE -ne 0) { WriteErrorMessage($step) }
+	Write-Host "* Removing pre-existing Qt Configration marker(s) --> If they exist"
+	Get-ChildItem $env:JTSDK_CONFIG | Where{$_.Name -Match "qt*"} | Remove-Item
+	Write-Host "* Using Tools-delivered Qt Configration marker --> This will almost certainly need manual review."
 }
 
 # ------------------------------------------------------------------- PROCESS MSYS2
@@ -293,7 +269,7 @@ if ($userInputVSCode -eq "Y") {
 	ProcessVSCode
 	$install = "Y"
 }
-if ($userInputQt -ne "N") { 
+if ($userInputQt -eq "Y") { 
 	ProcessQt
 	$install = "Y"	
 }
