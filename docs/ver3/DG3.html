@@ -46,7 +46,7 @@
 		</tr>
 	</table>
 	<hr/>
-	<h2>JTSDK 3.4.0 Deployment Guide</h2>
+	<h2>JTSDK 3.4.1 Deployment Guide</h2>
 	<hr>
 
 	<h3>PowerShell Security Warnings</h3>
@@ -104,18 +104,18 @@ Do you want to change the execution policy?
       <p>Install the base package so that it can be found in the Windows search path.</p>
     </ul>
     <h3></h3>
-	<h3>Step 1: Deploy the JTSDK64-3.4.0.exe Installer and the latest Update package</h3>
+	<h3>Step 1: Deploy the JTSDK64-3.4.1.exe Installer and the latest Update package</h3>
 
 	<ul>
 	  <p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used. </strong></p>
 		<ul>
-			<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0.exe">JTSDK64-3.4.0</a> inside a FRESH VM.</li>	
-			<li>Deploy the latest Update Package <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0-U2.exe">JTSDK64-3.4.0-U2</a> to your "Base" deployment .</li>
+			<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe">JTSDK64-3.4.1</a> inside a FRESH VM.</li>	
+			<li>Deploy the latest Update Package (if available). i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U1.exe">JTSDK64-3.4.1-U1</a> would be the first package (if available).</li>
 		</ul>
 	</ul>
 	<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd">The latest "Tools" package can be found at&nbsp;<a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</td>
+			<td class="custd">The latest "Tools" package (if available) can be found at&nbsp;<a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</td>
 		</tr>
 	</table>
 		<p></p>
@@ -141,28 +141,25 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.4.0.2
+           JTSDK Setup v3.4.1
 -------------------------------------------
 
   Required Tools
 
-     PowerShell ..... 5.1.22621.2506
-     VC Runtimes .... Installed
-     Git ............ Installed
-     OmniRig ........ Installed
+     PowerShell ..... 5.1.26100.1882
+     VC Runtimes .... Not Installed
+     Git ............ Not Installed
+     OmniRig ........ Not Installed
 
-  Qt Script-Provisioned Tool Chains
+  Qt Tool Chain(s) Deployed
 
-    x64:
-     MinGW 8.1 ...... Qt Not Installed
-     MinGW 11.x ..... Qt Not Installed
+    Qt: none
 
-    x86 (Legacy: unsupported):
-     MinGW 8.1 ...... Qt Not Installed
+    Tools: none
 
   Optional Components
 
-     VS Code ........ Installed
+     VS Code ........ Not Installed
      Boost .......... Not Installed
 
   Post Install / Manual Setup Commands
@@ -188,25 +185,24 @@ PS C:\JTSDK64-Tools>
  At the prompts indicate which components you want to
  install or redeploy.
 
- For VC Runtimes, OmniRig, Git, MSYS2 and VS Code use
+ For VC Runtimes, OmniRig, Git, MSYS2 and VS Code use:
  --> Y/Yes or N/No
 
- For the Qt Install Selection:
+ Qt deployment now just runs the Installer and/or
+ Maintenance Tool and no longer offers a scripted
+ deployment option. Use:
+ --> Y/Yes or N/No
 
-   D / Y = Default ( minimal set of tools )
-   F = Full ( full set of tools )
-   N = Skip Installation
-
- NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory to build
- JT-software. The Latest PowerShell is highly recommended.
+ NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory to
+ build JT-software. The Latest PowerShell is highly
+ recommended.
 
 * Enter Your Install/Redeployment Selection(s):
+
+ (recommended) Latest PowerShell (Y|N) .:
 </pre></div>
 
-<div class="reducewidth">
-<pre>
-(required) Latest PowerShell (Y|N) .:
-</pre></div>
+
 <ul>
         <p>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core .</p>
         <ul>
@@ -215,16 +211,15 @@ PS C:\JTSDK64-Tools>
 </ul>
 
 <div class="reducewidth"> <pre>
-(required) VC/C++ Runtimes (Y|N) .: y
-</pre> </div>
+(required) VC/C++ Runtimes (Y|N) .....:</pre> </div>
 <ul>
 <p> The Visual C/C++ Runtimes are required.</p>
 <ul>
 <li>Press 'Y'</li>
-	</ul></ul>
+  </ul></ul>
 
 <div class="reducewidth"> <pre>
-(required) OmniRig (Y|N) ..........:
+(required) OmniRig (Y|N) ..............:
 </pre>
 </div>
 	<ul>
@@ -234,7 +229,7 @@ PS C:\JTSDK64-Tools>
 	</ul>
 	<div class="reducewidth">
 <pre>
-(required) Git-SCM (Y|N) ..........:
+(required) Git-SCM (Y|N) ..............:
 </pre>
 	</div>
 	<ul>
@@ -244,23 +239,19 @@ PS C:\JTSDK64-Tools>
 	</ul>
 	<div class="reducewidth">
 <pre>
-(required) Default Qt (D/Y|F|N) ...:
+(required) Qt (Y|N) ...................:
 </pre>
 	</div>
 	<ul>
+		</div>
+	<ul>
 	<p><strong>Note</strong>: Qt 5.15.2 is <strong>NO LONGER AVAILABE THROUGH MAINSTREAM REPOSITORIES</strong>.</p>
-    <p>Qt 5.15.2 must be deployed manually (from &quot;Archive&quot;).</p>
-    <p>The script for Qt deployment presents a number of options. &#39;D&#39; or &#39;Y&#39; Selects a scripted &quot;Default&quot; 
-      deployment being <strong>Qt 5.15.2</strong> as the base (which now requires manual deployment - see note below). &#39;F&#39; Deploys <strong>Qt 5.15.2</strong> and <strong>6.7.0</strong>&nbsp; <strong>Qt 5.15.2</strong> is the recommended version for JT-ware development.</p>
-    <ul>
-      <li>Select &#39;Y&#39;/&#39;D&#39; or &#39;F&#39; (<strong>Note</strong>:&#39;F&#39; is now recommended as <strong>Qt 5.15.2</strong> can only be obtained from "Archive" - which cannot be easily scripted. It must be deployed manually from the Maintenance Tool now. See later notes).</li>
-    </ul>
-	</ul>
-	<div class="reducewidth">
+    <p>Qt 5.15.2 and any later versions, plus their support tools (i.e. MinGW 8.1, MinGW 13.1) must be deployed manually. Qt 5.15.2 must be deployed from &quot;Archive&quot; repositories......................</p>
+    <p>As it is impractical to script deployment from Archive repos, scripted deployments have been removed. One must manually deploy Qt and its components.</p></ul><div class="reducewidth">
 <pre>
-(required) MSYS2 Setup (Y|N) ......:
+(required) MSYS2 Setup (Y|N) .........:
 </pre>
-	</div>
+</div>
 	<ul>
 		<p>You are required to set up the MSYS2 environment.</p>
 		<ul>
@@ -269,7 +260,7 @@ PS C:\JTSDK64-Tools>
 </ul>
 	<div class="reducewidth">
 <pre>
-(optional) VS Code (Y|N) ..........:
+(optional) VS Code (Y|N) .............:
 </pre> </div>
 	<ul>
 	<p><a href="https://code.visualstudio.com/">Visual Studio Code</a> is an optional component. VS Code is an excellent editor for working with 
@@ -280,34 +271,37 @@ PS C:\JTSDK64-Tools>
 	<li>Select &#39;Y&#39; or &#39;N&#39;</li>
 	</ul>
 	<p>You are then presented with the selections you have made:</p>
-	
+	</ul>	
 <div class="reducewidth">
 <pre>
 * Your Installation Selections:
 
-  --&gt; VC Runtimes .: Y
-  --&gt; OmniRig .....: Y
-  --&gt; Git .........: Y
-  --&gt; Qt ..........: Y
-  --&gt; MSYS2 .......: Y
-  --&gt; VS Code .....: Y
+  --> Latest PowerShell ................: Y
+  --> VC Runtimes ......................: Y
+  --> OmniRig ..........................: Y
+  --> Git ..............................: Y
+  --> Qt ...............................: Y
+  --> MSYS2 ............................: Y
+  --> VS Code ..........................: Y
 </pre></div>
+<ul>
 	<p>During this phase some tools will require some interaction at the keyboard or via the 
 	mouse (especially the Qt deployment as one MUST now have their own account and agree 
 	to their licensing terms).</p>
-	</ul>
+</ul>
 	
-	<table width="*" align="center" border="1">
+<table width="*" align="center" border="1">
 		<tr>
 			<td class="custd"><strong>Follow on-screen prompts carefully.</strong></td>
 		</tr>
-	</table>
+</table>
+		<br/>
 		<table width="*" align="center" border="1">
 		<br/>
 		<tr>
 			<td class="custd"><strong>Manual intevention with installation programs will be required.</strong></td>
 		</tr>
-		</table>
+</table>
 		<br/>
 		<table width="*" align="center" border="1">
 		<tr>
@@ -317,11 +311,15 @@ PS C:\JTSDK64-Tools>
 	<ul>
       <p>Refer any installation issues issues to the <a href="https://groups.io/g/JTSDK">JTSDK Forum</a></p>
 	</ul>
-<h4>Step 2a: Prepare the MSYS2 Environment</h4>
+</ul>
+<h4>Note: Deploying Qt</h4> 
 <ul>
-	<p>A MSYS2 environment window will open as part of the <strong>postinstall</strong> process. </p>
-</ul>	
-</u>
+	<p>A set of resources for deploying Qt 5.15.2 is available at <a href="https://hamlib-sdk.sourceforge.io/Qt/indexQt.html">https://hamlib-sdk.sourceforge.io/Qt/indexQt.html</a></p>
+	<p>The resource <a href="https://hamlib-sdk.sourceforge.io/Qt/UDQT.html">https://hamlib-sdk.sourceforge.io/Qt/UDQT.html</a> details how to deploy Qt 5.15.2 from Archive.</p> 
+</ul><h4>Step 2a: Prepare the MSYS2 Environment</h4>
+<ul>
+	<p>A MSYS2 environment window will open as part of the <strong>postinstall</strong> process.</p>
+</ul>
 <div class="reducewidth">
 <pre>
 JTSDK64 Tools MSYS2 (MSYS)
@@ -403,7 +401,7 @@ Enter your selection, then hit <return>:
 	</ul>
 	<ul>
 		<ul>
-		<li>Close the <strong>JTSDK64-Setup</strong> and any MSYS2 terminal shells. <p></p></li>
+		<li>Close the <strong>JTSDK64-Setup</strong> and any MSYS2 terminal shells. </li>
 		</ul>
 	</ul>
 	
@@ -425,7 +423,7 @@ Enter your selection, then hit <return>:
 		</tr>
 	</table>
 <p>Earlier in the guide it was recommended that one performs a "Full" deployment of Qt at install time.</p>
-<p>This should properly deploy <strong>Qt 6.7.0</strong> along with its <strong>MinGW 13.1.0</strong> components and the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
+<p>This should properly deploy <strong>Qt 6.7.2</strong> along with its <strong>MinGW 13.1.0</strong> components and the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
 <p>Once the JTSDK is deployed you can then add <strong>Qt 5.15.2</strong> MANUALLY from Archive.&nbsp;</p>
 <table width="*" align="center" border="1">
 		<tr>
@@ -445,13 +443,13 @@ Enter your selection, then hit <return>:
 			
 			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
 		</ul>
-		<p>To add <strong>Qt 6.7.0</strong> (as an example):</p>
+		<p>To add <strong>Qt 6.7.2</strong> (as an example):</p>
 		<ul>
-			<li>Add <strong>Qt 6.7.0</strong> MinGW. [ Note that the package is MinGW 13.1.0 64-bit ]</li>
+			<li>Add <strong>Qt 6.7.2</strong> MinGW. [ Note that the package is MinGW 13.1.0 64-bit ]</li>
 			
-			<li>Ensure that components <strong>Qt 6.7.0</strong>/<strong>MinGW 13.1.0 64 bit</strong> and <strong>Qt 6.7.0 Qt5 Compatability Module</strong> are added.</li>
+			<li>Ensure that components <strong>Qt 6.7.2</strong>/<strong>MinGW 13.1.0 64 bit</strong> and <strong>Qt 6.7.2 Qt5 Compatability Module</strong> are added.</li>
 			
-			<li>Select <strong>Qt 6.7.0</strong>/All Additional Libraries .</li>
+			<li>Select <strong>Qt 6.7.2</strong>/All Additional Libraries .</li>
 			
 			<li>Add Developer and Designer Tools / MinGW 13.1.0 64-bit</li>
 			
@@ -463,7 +461,7 @@ Enter your selection, then hit <return>:
 			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
 			
 			<ul>
-			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.7.0</strong></li>
+			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.7.2</strong></li>
 			</ul>
 		</ul>
 	</ul>
@@ -553,20 +551,33 @@ Enter your selection, then hit <return>:
     <br/>
     	<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd"><strong>&nbsp;&nbsp; Environments should now be complete for building Jt-ware&nbsp;&nbsp;</strong></td>
+			<td class="custd"><strong>&nbsp;&nbsp; Environments should now be complete for building JT-ware&nbsp;&nbsp;</strong></td>
 		</tr>
 	</table>
 
-<h4>(Optional) Step 3d: Update Path settings so that JTDX can find DLL's that it needs.</h4>
+<h4>Step 3d: Deal with JT-ware packaging issues </h4>
 
 <table width="*" align="center" border="1">
 	<tr>
-		<td class="custd"><strong>There is a possible error with JTDX that can be overcome with this simple set of steps.</strong>.</td>
+		<td class="custd"><strong>There are build errors at the final packaging stage that may arise that can be overcome with this simple set of steps.</strong>.</td>
 	</tr>
 </table>
 <ul>
-		
-		<p>On your Windows Destop:</p>
+<p><strong>General JT-ware Packaging Issues: Support for an "extras" folder</strong></p>
+<ul>
+<p>In order to overcome several issues <strong>extras</strong> folder has been included into <strong>X:\JTSDK64-Tools\tools</strong> where additional &quot;missing&quot; packaged DLL's can be placed.</p>
+<ul>
+<p>i.e. copy missing DLL's, such as <strong>libgfortran-4.dll</strong> into this folder for recent WSJTX-builds to succeed.</p>
+</ul>
+<p>Packaging requirements are therefore met.</p>
+<p>This option is NOT RECOMMENDED FOR LONG TERM USE. It should be used as a LAST RESORT.</p>
+<p>Fix the actual problem - whether it be how the libraries used are built OR it may be redundant scripted requirements from legacy code that has been re-introduced.</p>
+</ul>
+
+<strong>JTDX-specific Dependency issue</strong>s
+<ul>	
+  <p>There is a JTDX-specific build issue (that may have already been addressed) that can be fixed quite easily by adding components into the WIndows search path.
+  </p><p>On your Windows Destop:</p>
 	<ul>
 	  <li>Start the <em>Windows Control Panel</em> (setps assumed to be known - i.e. Start / Run / Control).</li>
 		<li>Select <em>System / Advanced System Properties / Advanced / Environment Variables</em></li>
@@ -576,13 +587,14 @@ Enter your selection, then hit <return>:
 		    <li>Click New ==&gt; <strong>C:\Windows\SysWOW64\downlevel </strong></li>
 		    <li>Click New ==&gt; <strong>C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong></li>
 		    <li> Click Ok / Ok.</li>
-	      </ul>
+      </ul>
 	  
-		<li>It is now advisable to reboot your system.</li>
-	</ul>
+	  <li>It is now advisable to reboot your system.</li>
+  </ul>
 		
-	<p><strong>Note:</strong> This is a temporary work-arround. Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
+	<p><strong>Note:</strong> This is a temporary work-arround (if it has not been addressed already). Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
 	
+	</ul>
 </ul>
 <h3>Step 4: Build your JT- Software</h3>
 
@@ -600,7 +612,7 @@ Enter your selection, then hit <return>:
 <hr/>
 	<h3>Upgrades</h3>
 	<ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-3.4.0.exe">JTSDK64-3.4.0</a> can be installed over the top of previous kits - yet it is 
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-3.4.1.exe">JTSDK64-3.4.1</a> can be installed over the top of previous kits - yet it is 
 	highly recommended that one start from scratch. </p>
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
@@ -612,7 +624,7 @@ Enter your selection, then hit <return>:
 <hr/>	
 
 <ul>
-	<p>Maintenance updates will be applied in the form of &quot;Update" packages. The first anticipated update to the <strong>JTSDK64-3.4.0</strong> stream would be anticipated to be <strong>JTSDK64-3.4.0-U2.exe</strong> .&nbsp;</p>
+	<p>Maintenance updates will be applied in the form of &quot;Update" packages. The first anticipated update to the <strong>JTSDK64-3.4.1</strong> stream would be anticipated to be <strong>JTSDK64-3.4.1-U1.exe</strong> .&nbsp;</p>
 	<p>Maintainers are no longer supporting the "Base" and "Tools&quot; nomenclature.</p>
 </ul>
 <table width="*" align="center" border="1">
@@ -629,7 +641,7 @@ Enter your selection, then hit <return>:
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> &nbsp; There is no current update package. The first update package would be expected to be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0-U2.exe">JTSDK64-3.4.0-U2.exe</a>.</p>
+	<p><strong>Note:</strong> &nbsp; There is no current update package. The first update package would be expected to be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U2.exe">JTSDK64-3.4.1-U1.exe</a>.</p>
 </ul>
 <h4>Application of Maintenance Update packages</h4>
 
@@ -637,14 +649,14 @@ Enter your selection, then hit <return>:
 	  <p>Update packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
 		<p>Update packages can only be applied to matching stream deployments</p>
 		<ul>
-			<li>As an example (and if it exists), you can only apply a&nbsp; <strong>3.4.0-u1 </strong>package to deployments based on Version 3.4.0.&nbsp; It does not matter what&nbsp; update packages are deployed to the Version 3.4.0-stream deployment - the latest update package can always be applied to it.
+			<li>As an example (and if it exists), you can only apply a&nbsp; <strong>3.4.1-u1 </strong>package to deployments based on Version 3.4.1.&nbsp; It does not matter what&nbsp; update packages are deployed to the Version 3.4.1-stream deployment - the latest update package can always be applied to it.
 		</ul>
 		
         <p><em>These steps assume that you have a deployed base environment</em></p>
 		<ul>
 			<li>Download any update packagess from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> - if they exist </li>
 		</ul>
-		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0.exe">JTSDK64-3.4.0.exe</a>.</p>
+		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe">JTSDK64-3.4.1.exe</a>.</p>
 		<ul>
 			<li>Deploy the update package to your JTSDK install directory.</li>
 		</ul>
@@ -666,15 +678,15 @@ Enter your selection, then hit <return>:
 		</ul>
 		<p><strong>Note:</strong> The <strong>src</strong> directory in your backup should contain your previous work. It is safe to copy this enture foler across to your new MSYS2 Profile.</p>
 		<p>You will need to pull down your Hamlib repository again and/or restore any custom work to folders created within the MSYS2 environment.</p>
-	</li></ul></ul>
-	
+	</li>
+	</ul>
 	<hr>
 	<h2>Conclusion and Further References</h2>
 	<hr>
 	<ul>
 	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
 	high-quality, yet flexible build system. </p>
-	<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md</a></p>
+	<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/README.md</a></p>
 	</ul>
 <hr>
 	<table width="100%" border="0">

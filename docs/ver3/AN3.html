@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
-	<title>JSDK v3.4.0 Application Notes</title>
+	<title>JSDK v3.4.1 Application Notes</title>
 	<link rel="stylesheet" href="../style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
 </head>
@@ -46,13 +46,13 @@
 	</table>
 	<hr/>
 
-<h2>JTSDK 3.4.0 Application Notes</h2>
+<h2>JTSDK 3.4.1 Application Notes</h2>
 
 <hr>
 
 <h3>Direction</h3>
 <ul>
-<p>The <strong>JTSDK 3.4.0</strong> evolves the kits from Windows Batch Files towards Windows 
+<p>The <strong>JTSDK 3.4.1</strong> evolves the kits from Windows Batch Files towards Windows 
 <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a>-based scripts. <a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> is also supported in Mac and 
 Linux environs, so common-adaptation for these purposes may occur as the kits evolve. </p>
 <p>This started as an experiment to reduce maintenance (i.e. new package versions). 
@@ -65,15 +65,15 @@ completely removes needs for capable third-party environments such as <a href="h
 <ul>
 <p>The <strong>Version 3.2</strong> stream is a learning, discovery and technique refinement experiment. </p>
 </ul>
-<h3>Version 3.4.0</h3>
+<h3>Version 3.4.1</h3>
 <ul>
-<p>The <strong>JTSDK 3.4.0</strong> outwardly will appear similar to the <strong>JTSDK 3.2.0</strong>-stream. Yet the 
-<strong>JTSDK 3.4.0</strong> has significant enhancements in that many of the key commands now accept 
+<p>The <strong>JTSDK 3.4.1</strong> outwardly will appear similar to the <strong>JTSDK 3.2.0</strong>-stream. Yet the 
+<strong>JTSDK 3.4.1</strong> has significant enhancements in that many of the key commands now accept 
 switches that can make the process of developing code quicker and simpler.</p>
 <p>In addition the &quot;mirroring&quot; of <strong>build-hamlib.sh</strong> and <strong>build-hamlib.sh-static</strong> has been 
 broken - with <strong>build-hamlib.sh</strong> offering a number of additional command-line switches to 
 aid developers.</p>
-<p>The <strong>JTSDK 3.4.0</strong> provides a version of <a href="https://libusb.info/">LibUSB 1.0.27</a> that we have supplied.</p>
+<p>The <strong>JTSDK 3.4.1</strong> provides a version of <a href="https://libusb.info/">LibUSB 1.0.27</a> that we have supplied.</p>
 	</ul>
 
 	<table width="*" align="center" border="1">
@@ -155,7 +155,20 @@ processes are executed may change.</p>
 <p>The complexity of the GIT code distribution system - initially conceived by Linus Torvalds of Linux fame - makes code and script management harder than it needs to be. We need a dedicated manager for this role that can teach us how to use this system more effectively.</p>
 </ul>
 <hr/>
-<h2>Notes for building WSJT-X</h3>
+<h2>General Notes for building JT-ware</h2>
+<hr/>
+<h3>Extras folder X:\JTSDK64-Tools\tools\extras for additional &quot;missing&quot; DLL's</h3>
+<ul>
+<p>In order to overcome isssues reported a an <strong>extras</strong> folder has been included into <strong>X:\JTSDK64-Tools\tools</strong> where additional &quot;missing&quot; packaged DLL's can be placed.</strong></p>
+<ul>
+<p>i.e. copy missing DLL's, such as <strong>libgfortran-4.dll</strong> into this folder for recent WSJTX-builds to succeed.</p>
+</ul>
+<p>Packaging requirements are therefore met.</p>
+<p>This option is NOT RECOMMENDED FOR LONG TERM USE. It should be used as a LAST RESORT.</p>
+<p><strong>Fix the actual problem</strong> - whether it be how the libraries used are built OR it may be redundant scripted requirements from legacy code that has been re-introduced.</p>
+</ul>
+<hr/>
+<h2>Notes for building WSJT-X</h2>
 <hr/>
 		<table width="*" align="center" border="1">
 		<tr>
@@ -178,7 +191,7 @@ processes are executed may change.</p>
 
 <h3>CPACK Packaging Issues - Not Finding DLL's</h3>
 <ul>
-	<p><strong>Issue:</strong> Unable to package JTDX because of NUMEROUS DLL's reported as being missing</p>
+	<p><strong>Issue:</strong> Unable to package WSJTX or JTDX because of NUMEROUS DLL's reported as being missing</p>
 
 	<p><strong>Resolution:</strong> Issue an appropriate command to find the path of necessary libraries before performing a <strong>jtbuild package </strong>command</p>
 <ul>
@@ -186,9 +199,9 @@ processes are executed may change.</p>
 <ul>
 <p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
 </ul>
-<li>If you are using <strong>Qt 6.7.0</strong> (experimental only - Will not build JT-ware yet):</li>
+<li>If you are using <strong>Qt 6.7.2</strong> (experimental only - Will not build JT-ware yet):</li>
 <ul>
-<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.7.0\bin<strong>"</strong></p>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.7.2\bin<strong>"</strong></p>
 </ul>
 </ul>
 	<p>These paths could also  be added to the main Windows system paths.</p>
@@ -202,10 +215,10 @@ processes are executed may change.</p>
 			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
 			</ul>
 			<br/>
-			<li>For <strong>Qt 6.7.0</strong> (Developmental):</li>
+			<li>For <strong>Qt 6.7.2</strong> (Developmental):</li>
 			<br/>
 			<ul>
-			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.7.0\bin</strong>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.7.2\bin</strong>
 			</ul>
 		</ul>
 		<br/>

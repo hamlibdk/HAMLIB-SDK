@@ -147,8 +147,7 @@ Do you want to change the execution policy?
 <h2>Upgrades</h2>
 <hr>
 <ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-3.4.1.exe">JTSDK64-3.4.1</a> can be installed over the top of previous kits - yet it is 
-	highly recommended that one start from scratch. </p>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe">JTSDK64-3.4.1</a> can be installed over the top of previous kits - although it is <b>highly recommended that you start from scratch</b>. </p>
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
 	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
@@ -202,6 +201,7 @@ Do you want to change the execution policy?
 <hr>
 
 <h3>Preparation: Deploy a Virtualisation Environment</h3>
+
 <ul>
 	<p>It is recommended to deploy the JTSDK into a fresh Windows Virtual Machine. For those 
 	unfamiliar with &quot;Virtual Machines&quot; and &quot;Virtualisation Technologies&quot; you shoud refer to  <a href="https://www.redhat.com/en/topics/virtualization/what-is-virtualization">https://www.redhat.com/en/topics/virtualization/what-is-virtualization</a> .</p>
@@ -213,37 +213,55 @@ Do you want to change the execution policy?
 	<li><a href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Hyper-V</a></li>
 	<li><a href="https://kb.vmware.com/s/article/2057907">VMWare Workstation</a> </li>
 	<li><a href="https://kb.vmware.com/s/article/2053973">VMware Player</a></li>
-
 	<li><a href="https://www.virtualbox.org/wiki/Downloads">Virtual Box</a></li>
 	</ul>
 	<p>Trial Virtual Machine images for Windows 10 (with Microsoft&#39;s Compiler Suite) can 
-	be downloaded from <a href="https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/">https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/</a> . 
-	These Virtual machines should have a lifetime of at least 30 days.</p>
+	be downloaded from <a href="https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/">https://developer.microsoft.com/en-us/windows/downloads/virtual-machines</a>.</p>
+	<p>These Virtual machines should have a lifetime of at least 30 days.</p>
 </ul>
-<h3>Pre-Requisite: Ensure that the latest WSJT-X and/or JT-ware Release is deployed.</h3>
-<ul>
-	
-<p>Due to changes within CMake from version 3.28.0 onwards, it may be necessary to have a current deployment of WSJT-X and/or your JT-ware variant that you are working on deployed and <b>IN THE SEAERCH PATH</b>.</p>
 
-<p>Obtain a current release version of your product from:</p>
-<ul>
-	<li>WSJTX: <a href="https://wsjt.sourceforge.io/wsjtx.html">https://wsjt.sourceforge.io/wsjtx.html</a></li>
-	<li>JTDX: <a href="https://sourceforge.net/projects/jtdx/">https://sourceforge.net/projects/jtdx/</a></li>
-	<li>JS8Call: <a href="http://js8call.com/">http://js8call.com/</a></li>
-</ul>
-	<p>Install the base package so that it can be found in the Windows search path.</p>
-</ul>
-<h3>Step 1: Deploy the JTSDK64-3.4.1.exe Installer and any update packages should they exist</h3>
-<ul>
-  <p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used </strong></p>
+<h3>Pre-Requisite: Ensure that the latest WSJT-X and/or JT-ware Release is deployed.</h3>
+    <ul>
+      <p>Due to changes within CMake from version 3.28.0 onwards, it may be necessary to have a current deployment of WSJT-X and/or your JT-ware variant that you are working on deployed and <b>IN THE SEAERCH PATH</b>.</p>
+      <p>Obtain a current release version of your product from:</p>
+      <ul>
+        <li>WSJTX: <a href="https://wsjt.sourceforge.io/wsjtx.html">https://wsjt.sourceforge.io/wsjtx.html</a></li>
+        <li>JTDX: <a href="https://sourceforge.net/projects/jtdx/">https://sourceforge.net/projects/jtdx/</a></li>
+        <li>JS8Call: <a href="http://js8call.com/">http://js8call.com/</a></li>
+      </ul>
+      <p>Install the base package so that it can be found in the Windows search path.</p>
+    </ul>
+    <h3></h3>
+	<h3>Step 1: Deploy the JTSDK64-3.4.1.exe Installer and the latest Update package</h3>
+
 	<ul>
-	<li>Download and deploy the installer  i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe">JTSDK-3.4.1.exe</a>  inside a FRESH VM.</li>
-	<li>Deploy any &quot;Tools&quot; Packages i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U1.exe">JTSDK64-3.4.1-U1.exe</a>  to your Deployment (if they exist).</li>
+	  <p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used. </strong></p>
+		<ul>
+			<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe">JTSDK64-3.4.1</a> inside a FRESH VM.</li>	
+			<li>Deploy the latest Update Package (if available). i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U1.exe">JTSDK64-3.4.1-U1</a> would be the first package (if available).</li>
+		</ul>
 	</ul>
-	<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
-</ul>
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">The latest "Tools" package (if available) can be found at&nbsp;<a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</td>
+		</tr>
+	</table>
+		<p></p>
+	<ul>
+		<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
+	</ul>
+
 <h3>Step 2: Launch the Installation Environment</h3>
-    <h4>Special Note for Windows 11, Tools Packages and VC Runtimes Deployment</h4>   
+
+<h4>Preparation: Disable Antivirus Real Time Scanning</h4>   
+
+    <ul>
+    <p>It is recommended that you disable real-time scanning for your Antivirus program. This can significantly slow down deployment.</p>
+	<p>As users will have many varied solutions (Including the most common option being Windows Antivirus) the steps to do this will not be documented here.</p>
+    </ul>	
+		
+		
+<h4>Special Note for Windows 11, Update Packages and VC Runtimes Deployment</h4>   
 
     <ul>
     <p>When you start up the <em>JTSDK64-Setup</em> environment in <strong>Windows 11</strong> you may notice the following:</p>
@@ -256,16 +274,16 @@ Do you want to change the execution policy?
 
   Required Tools
 
-     PowerShell ..... 5.1.22621.4249
+     PowerShell ..... 5.1.26100.1882
      VC Runtimes .... Not Installed
      Git ............ Not Installed
      OmniRig ........ Not Installed
 
   Qt Tool Chain(s) Deployed
 
-    Qt: None
+    Qt: none
 
-    Tools: None
+    Tools: none
 
   Optional Components
 
@@ -279,71 +297,15 @@ Do you want to change the execution policy?
 	 
 PS C:\JTSDK64-Tools>
 </pre> </div>
-<ul>    
-  <p>The command <b>postinstall</b> starts the deployment process.</p>
-    </ul>
-<div class="reducewidth">
-
-<pre>
-...
- * Enter Your Install/Redeployment Selection(s):
- 
-   (required) Latest PowerShell (Y|N) .:
-</pre> </div>
-<ul>    
-    <p>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core .</p>
-        
-	<p>In this example The .NET runtimes are not deployed.</p>
-	<p>Note: The system may try to reboot after deployment of each runtime package. Try to avoid this if you can.</p>
-</ul>
-<div class="reducewidth">
-<pre>
-...
-(required) VC/C++ Runtimes (Y|N) .: y
-...
-...
------------------------------------------------------
-Installing Visual C/C++ x86 and x64 Runtimes
------------------------------------------------------
-
-* Downloading VC/C++ Installer
-
-  --> Downloading the latest VC/C++ x86 Installer: Complete
-  --> Downloading the latest VC/C++ x64 Installer: Complete
-
------------------------------------------------------
- Visual C/C++ Runtime - Error In x86 Install
------------------------------------------------------
-
-****************************************************
-Processing Error
-****************************************************
-
-The exit status from step [ VC Runtimes Install ] returned
-a non-zero status. Check the error message and
-and try again.
-
-If the problem presists, contact: JTSDK@Groups.io
-
-PS C:\JTSDK64-Tools\tools\setup\vcruntime>
-</pre> </div>
-    <ul>    
-        <p>This is because LATER versions of the VC Runtimes may be reployed in your Windows 11 deployment</p>
-        <p>The postinstall script has difficulty handling and detecting later versions of the VC runtimes.</p>
-        <p>Restart the deployment. Ignore the deployment of The VC 2022 runtimes (i.e. select 'N') if you experience this error.</p>
-    </ul>
-    <h4>Mainstream Deployment</h4> 
-
+<h4>Deployment</h4>
 <ul>
-	<p>Perform the following steps:</p>
+	<p>Commence Deployment with the following command: </p>	
 	<ul>
-	<li>Launch the <strong>JTSDK64-Setup</strong> environment from the link on your desktop</li>
-	<li>In this environment type: <strong>postinstall</strong></li>
+	  <li><b>postinstall</b></li>
 	</ul>
-	<p>The following information will be displayed:</p>
+      <p>The command <b>postinstall</b> starts the deployment process.</p>
 </ul>
-<div class="reducewidth">
-<pre>
+<div class="reducewidth"> <pre>
 ------------------------------------------------------
   JTSDK64 Tools Post Install/Redeployment Selections
 ------------------------------------------------------
@@ -365,122 +327,127 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 
 * Enter Your Install/Redeployment Selection(s):
 
- (recommended) Latest PowerShell (Y|N) ...:
+ (recommended) Latest PowerShell (Y|N) .:
+</pre></div>
+
+
+<ul>
+        <p>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core .</p>
+        <ul>
+        <li>Press 'Y'</li>
+      </ul>
+</ul>
+
+<div class="reducewidth"> <pre>
+(required) VC/C++ Runtimes (Y|N) .....:</pre> </div>
+<ul>
+<p> The Visual C/C++ Runtimes are required.</p>
+<ul>
+<li>Press 'Y'</li>
+  </ul></ul>
+
+<div class="reducewidth"> <pre>
+(required) OmniRig (Y|N) ..............:
 </pre>
 </div>
-<ul>    
-    <p>It is highly recommended (for performance reasons) that you deploy the latest PowerShell Core .</p>
-        
-	<p>In this example The .NET runtimes are not deployed.</p>
-</ul>
-<div class="reducewidth">
-<pre>
-(required) VC/C++ Runtimes (Y|N) .....:
-</pre>
-</div>	
-<ul>
 	<ul>
-		<li>The VC Runtimes are required. Select &#39;Y&#39;</li>
+		<P>The OmniRig Rig Control tool is required.</p> 
+		<ul><li>Select &#39;Y&#39; .</li>
+		</ul>
 	</ul>
-</ul>
-<div class="reducewidth">
+	<div class="reducewidth">
 <pre>
-(required) OmniRig (Y|N) .............:
+(required) Git-SCM (Y|N) ..............:
 </pre>
-</div>
-<ul>
+	</div>
 	<ul>
-	<li>The OmniRig Rig Control tool is required. Select &#39;Y&#39;</li>
+		<p>The Git-SCM is required.</p>
+		<ul><li>Select &#39;Y&#39; .</li>
+		</ul>
 	</ul>
-</ul>
 <div class="reducewidth">
 <pre>
-(required) Git-SCM (Y|N) .............:
+(required) Qt (Y|N) ...................:
 </pre>
-</div>
-<ul>
+	</div>
 	<ul>
-	<li>The Git-SCM is required. Select &#39;Y&#39;</li>
-	</ul>
-</ul>
-<div class="reducewidth">
+	<p><strong>Note</strong>: Qt 5.15.2 is <strong>NO LONGER AVAILABE THROUGH MAINSTREAM REPOSITORIES</strong>.</p>
+    <p>Qt 5.15.2 and any later versions, plus their support tools (i.e. MinGW 8.1, MinGW 13.1) must be deployed manually. Qt 5.15.2 must be deployed from &quot;Archive&quot; repositories......................</p>
+    <p>As it is impractical to script deployment from Archive repos, scripted deployments have been removed. One must manually deploy Qt and its components.</p></ul><div class="reducewidth">
 <pre>
-(required) (required) Qt (Y|N) ) .....................:
+(required) MSYS2 Setup (Y|N) .........:
 </pre>
 </div>
-<ul>
-	<p><strong>Note 1</strong>: The kit no longer provides options for scripted deployments.</p>
-	<p><strong>Note</strong> 2: Qt 5.15.2 is <strong>NO LONGER AVAILABE THROUGH MAINSTREAM REPOSITORIES</strong>.</p>
-	<p>Any Qt deployment - especially Qt 5.15.2 - must be deployed manually. Qy 5.15.2 can only be deployed from &quot;Archive&quot; repositories.</p>
-	<p>Select &#39;Y&#39;</p>
-</ul>
-<ul>
-  <table width="*" align="center" border="1">
-    <tr>
-      <td class="custd"><strong>See  <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> for a set of instructions on how to deploy Qt 5.15.2.</strong></td>
-    </tr>
-  </table>
-	</ul>
-<div class="reducewidth">
-<pre>
-(required) MSYS2 Setup (Y|N) ........:
-</pre>
-</div>
-<ul>
 	<ul>
-		<li>You are required to set up the MSYS2 environment. Select &#39;Y&#39;</li>
-	</ul>
+		<p>You are required to set up the MSYS2 environment.</p>
+		<ul>
+		<li>Select &#39;Y&#39; .</li>
+		</ul>
 </ul>
-<div class="reducewidth">
+	<div class="reducewidth">
 <pre>
-(optional) VS Code (Y|N) ............:
-</pre>
-</div>
-<ul>
-	<p><a href="https://code.visualstudio.com/">Visual Studio Code</a> is an optional component. VS Code is an excellent editor for working with PowerShell scripts (if you need to customise these yourself). It also has a number of useful code formatter addins.</p>
+(optional) VS Code (Y|N) .............:
+</pre> </div>
+	<ul>
+	<p><a href="https://code.visualstudio.com/">Visual Studio Code</a> is an optional component. VS Code is an excellent editor for working with 
+	PowerShell scripts (if you need to customise these yourself). It also has a number of useful code formatter addins.</p>
 
 	<p>Note that deploying VS Code is not mandatory for JTSDK operation.</p>
 	<ul>
 	<li>Select &#39;Y&#39; or &#39;N&#39;</li>
 	</ul>
 	<p>You are then presented with the selections you have made:</p>
-</ul>
+	</ul>	
 <div class="reducewidth">
 <pre>
 * Your Installation Selections:
 
-  --&gt; Latest PowerShell .....: Y
-  --&gt; VC Runtimes ...........: Y
-  --&gt; OmniRig ...............: Y
-  --&gt; Git ...................: Y
-  --&gt; Qt ....................: Y
-  --&gt; MSYS2 .................: Y
-  --&gt; VS Code ...............: Y
-</pre>
-</div>
+  --> Latest PowerShell ................: Y
+  --> VC Runtimes ......................: Y
+  --> OmniRig ..........................: Y
+  --> Git ..............................: Y
+  --> Qt ...............................: Y
+  --> MSYS2 ............................: Y
+  --> VS Code ..........................: Y
+</pre></div>
 <ul>
 	<p>During this phase some tools will require some interaction at the keyboard or via the 
 	mouse (especially the Qt deployment as one MUST now have their own account and agree 
 	to their licensing terms).</p>
+	</ul>
+	
+<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>Follow on-screen prompts carefully.</strong></td>
+		</tr>
+	</table>
+		<br/>
+		<table width="*" align="center" border="1">
+		<br/>
+		<tr>
+			<td class="custd"><strong>Manual intevention with installation programs will be required.</strong></td>
+		</tr>
+</table>
+		<br/>
+		<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>If anything goes wrong RE-START the postinstall script, selecting 'N' to the option that failed.</strong></td>
+		</tr>
+	</table>
+	<ul>
+      <p>Refer any installation issues issues to the <a href="https://groups.io/g/JTSDK">JTSDK Forum</a></p>
+	</ul>
 </ul>
-
-<table width="*" align="center" border="1">
-	<tr>
-		<td class="custd">Follow on-screen prompts carefully.</td>
-	</tr>
-</table>
-<p/>
-<table width="*" align="center" border="1">
-	<tr>
-		<td class="custd">Qt Deployment steps are not shown here. See the <a href="https://hamlib-sdk.sourceforge.io/Qt/ADQT.html">Qt Deployment Guide</a> for deploying Qt 5.15.2</td>
-	</tr>
-</table>
-
-
+<h4>Note: Deploying Qt</h4> 
+<ul>
+	<p>A set of resources for deploying Qt 5.15.2 is available at <a href="https://hamlib-sdk.sourceforge.io/Qt/indexQt.html">https://hamlib-sdk.sourceforge.io/Qt/indexQt.html</a></p>
+	<p>The resource <a href="https://hamlib-sdk.sourceforge.io/Qt/UDQT.html">https://hamlib-sdk.sourceforge.io/Qt/UDQT.html</a> details how to deploy Qt 5.15.2 from Archive.</p> 
+</ul>
 <h4>Step 2a: Prepare the MSYS2 Environment</h4>
 <ul>
 	<p>A MSYS2 environment window will open as part of the <strong>postinstall</strong> process. </p>
-</ul>
+</ul>	
+
 <div class="reducewidth">
 <pre>
 JTSDK64 Tools MSYS2 (MSYS)
@@ -494,14 +461,12 @@ for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 sdk@radio ~
 $
-</pre>
-</div>
-<ul>
-<ul>
-<li>At the $ prompt type: <strong>menu</strong>
-</li>
-</ul>
-<div class="reducewidth">
+</pre> </div>
+	<ul>
+	<li>At the $ prompt type: <strong>menu</strong>
+	</li>
+	</ul>
+	<div class="reducewidth">
 <pre>
 -------------------------------------
 JTSDK64 Tools Main Menu
@@ -526,195 +491,250 @@ JTSDK64 Tools Main Menu
 Enter your selection, then hit <return>:
 
 </pre>
-</div>
-</ul>
+	</div>
+	
 <h4>Step 2b: Update the  MSYS2 Environment</h4>
-<ul>
-	<p>The tools are constantly being updated. We should work with the latest and best environment available to us.</p>
+	
 	<ul>
-	<li>Select <strong>2. Update MSYS2</strong> to update the MSYS2 environment. </li>
+		<p>Perform the following steps:</p>
+		<ul>
+			<li>Select <strong>2. Update MSYS2</strong> to update the MSYS2 environment. </li>
+		</ul>
+		<p>Note that the window may close on completion if there are updates. </p>
+		<ul>
+		<li>If the MSYS2 Window closes reopen it within the <strong>JTSDK64-Setup</strong> environment by typing <strong>msys2</strong> at the PowerShell environment prompt.</li>
+		<li>If the update process requests that you close the open <strong>msys2</strong> terminal then close the window. Re-open the environment by typing <strong>msys2</strong> at the PowerShell environment prompt.</li>
+		<li>Repeat Step 2b - if necessary - until there are no more updates available.</li>
 	</ul>
-	<p>Note that the window may close on completion if there are updates. </p>
-	<ul>
-	<li>If the MSYS2 Window closes reopen it within the <strong>JTSDK64-Setup</strong> environment by typing <strong>msys2</strong> at the PowerShell environment prompt.</li>
-	<li>If the update process requests that you close the open <strong>msys2</strong> terminal then close the window. Re-open the environment by typing <strong>msys2</strong> at the PowerShell environment prompt.</li>
-	<li>Repeat these steps if neceessary until there are no more updates available.</li>
 	</ul>
-</ul>
+	
 <h4>Step 2c: Install Hamlib Dependencies</h4>
-<ul>
-<p>This step involves deploying the basic tools and compiler sets reuired to build Hamlib.</p>
-<ul>
-<li>If the MSYS2 Window closes reopen it within the <strong>JTSDK64-Setup</strong> environment with <strong>msys2</strong></li>
-<li>Back at menu, select <strong>3. Install Hamlib Dependencies</strong> to deploy the tools needed to build Hamlib.</li>
-<li>Select <strong> 4. Install msys64 GNU Compilers </strong> so that a msys64 POSIX-compliant build environment can be launched.</li>
-</ul>
-</ul>
-<h4>Step 2d: Basic Deployment Complete</h4>
-<ul>
-<p>Once complete you should exit the <strong>JTSDK64-Setup</strong> environment.</p> 
+	
 	<ul>
-	<li>Close the <strong>JTSDK64-Setup</strong> and any MSYS2 terminal shells. </li>
+		<p>Perform the following steps:</p>
+		<ul>
+			<li>If the MSYS2 Window closes reopen it within the <strong>JTSDK64-Setup</strong> environment with <strong>msys2</strong></li>
+			<li>Back at menu, select <strong>3. Install Hamlib Dependencies</strong> to deploy the tools and libraries needed to build Hamlib.</li>
+			<li>Select <strong> 4. Install msys64 GNU Compilers </strong> so that a msys64 POSIX-compliant build environment can be launched.</li>
+
+		</ul>
+        <br/>
+		<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>The basic deployment is now complete.</strong></td>
+		</tr>
+	    </table>
+		
+	
+		<p>Once complete you should exit the <strong>JTSDK64-Setup</strong> environment.</p> 
 	</ul>
+	<ul>
+		<ul>
+		<li>Close the <strong>JTSDK64-Setup</strong> and any MSYS2 terminal shells.</li>
+		</ul>
+	</ul>
+	
+	<h3>Step 3: Set Up The Main Tools Environment</h3>
+	
+	<ul>
+	<p>Perform the following step:</p>
+		<ul>
+		<li>Launch the <strong>JTSDK64-Tools</strong> environment from the icon on your desktop.</li>
+		</ul>
 </ul>
-<h3>Step 3: Set Up the JTSDK64-Tools Environment</h3>
-<ul>
-<p>These steps require you to work in the <strong>JTSDK64-Tools</strong> environment.</p>
-<ul>
-<li>Launch the <strong>JTSDK64-Tools</strong> environment from the icon on your desktop.</li>
-</ul>
-</ul>
+	
 <h4>Step 3a: Upgrade your Qt Deployment</h4>
-<ul>
-  <p>As of March 2024 it has been observed that <strong>Qt 5.15.2</strong> is no longer available from "Mainstream" installer sources</p>
-  <table width="*" align="center" border="1">
-    <tr>
-      <td class="custd"><strong>Qt 5.15.2 is still available from "Archive" ast the time of writing. This means that Qt must be deployed manually from "Archive" Repositories</strong></td>
-    </tr>
-  </table>
-  <br/>
+	<ul> 
+<p>As of March 2024 it has been observed that <strong>Qt 5.15.2</strong> is no longer available from "Mainstream" installer sources</p>
+<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>Qt 5.15.2 is still available from "Archive" ast the time of writing. This means that Qt must be deployed manually from "Archive" Repositories</strong></td>
+		</tr>
+	</table>
+<p>Earlier in the guide it was recommended that one performs a "Full" deployment of Qt at install time.</p>
+<p>This should properly deploy <strong>Qt 6.7.2</strong> along with its <strong>MinGW 13.1.0</strong> components and the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
+<p>Once the JTSDK is deployed you can then add <strong>Qt 5.15.2</strong> MANUALLY from Archive.&nbsp;</p>
+<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>See the guide <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> for latest instructions</strong></td>
+		</tr>
+	</table>
+</ul>
+		
+	<ul>
+	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version <strong>5.15.2</strong>. If you did not use 
+	  the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
+	  want to update Qt to an experimental version you should do so now. 
+	  Note that using Qt <strong>5.15.2</strong> is the only Qt version that JT-ware source supports at this time.</p>
+	  <p>Perform the following steps:</p>
+		<ul>
+		  	<li>Navigate to the Qt Deployment directory</li>
+			
+			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
+		</ul>
+		<p>To add <strong>Qt 6.7.2</strong> (as an example):</p>
+		<ul>
+			<li>Add <strong>Qt 6.7.2</strong> MinGW. [ Note that the package is MinGW 13.1.0 64-bit ]</li>
+			
+			<li>Ensure that components <strong>Qt 6.7.2</strong>/<strong>MinGW 13.1.0 64 bit</strong> and <strong>Qt 6.7.2 Qt5 Compatability Module</strong> are added.</li>
+			
+			<li>Select <strong>Qt 6.7.2</strong>/All Additional Libraries .</li>
+			
+			<li>Add Developer and Designer Tools / MinGW 13.1.0 64-bit</li>
+			
+		  <li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX component downloads). <strong>Note:</strong> This may not be available now.</li>
+			<li>(Optional) Add the OpenSSL 3.x.x toolkit (for future capabilities).</li>
+        </ul>
+	  <p>On Completion:</p>
+		<ul>
+			<li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
+			
+			<ul>
+			<li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.7.2</strong></li>
+			</ul>
+		</ul>
+	</ul>
+	
 	<table width="*" align="center" border="1">
-    <tr>
-      <td class="custd"><strong>it is HIGHLY RECOMMENDED that the latest Qt from the Version 6.6 stream be used for JT-Ware Experiments</strong></td>
-    </tr>
-  </table>
-  <p>Scripted deployment of Qt has now been removed from the kit. <strong>Qt and its associated MinGW tools must now be deployed manually</strong>.</p>
-  <p>This section will not detail how to deploy Qt.&nbsp;Qt deployment instructions (for the latest version) can be found at <a href="https://doc.qt.io/qt-6/windows-deployment.html">https://doc.qt.io/qt-6/windows-deployment.html</a> .</p>
-  <table width="*" align="center" border="1">
-    <tr>
-      <td class="custd"><strong>See <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> for a set of instructions on how to deploy Qt 5.15.2.</strong></td>
-    </tr>
-  </table>
-</ul>
-<ul>
-  <p><strong>Note:</strong> As a minimum, <a href="https://www.qt.io/download-open-source">Qt</a> <strong>5.15.2</strong>. along with the MinGW 8.1 Toolset should be deployed.</p>
-	</ul>
-  <h3>Example: To add additional supported versions of Qt (i.e. from the 6.7-stream)</h3>
-  <ul>
-    <p>Perform the following steps:</p>
-	 <ul>
-    <li>Navigate to the Qt Deployment directory</li>
-    <li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
-  </ul>
-  <p>To add <strong>Qt 6.7.2</strong> (as an example - later versions may be available):</p>
-  <ul>
-    <li>Add <strong>Qt 6.7.2</strong> MinGW. [ Note that the packages may be named 'mingw900' but it is really MinGW 11.2 or later ]</li>
-    <li>Ensure that components <strong>Qt 6.7.2</strong>/<strong>MinGW 13.1.0 64 bit</strong> and <strong>Qt 6.7.2 Qt5 Compatability Module</strong> are added.</li>
-    <li>Select <strong>Qt 6.7.2</strong>/All Additional Libraries .</li>
-    <li>Add Developer and Designer Tools / MinGW 13.1.0 64-bit</li>
-    <li>(Optional) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX component downloads). <strong>Note:</strong> This may not be available now.</li>
-    <li>(Optional) Add the OpenSSL 3.x.x toolkit (for future capabilities).</li>
-  </ul>
-  <p>On Completion:</p>
-  <ul>
-    <li>Adjust the maker file in <strong>x:\JTSDK64-Tools\config</strong> marker file to match the Qt version that you want to use </li>
-    <ul>
-      <li>i.e. rename <strong>qt5.15.2</strong> to <strong>qt6.7.2</strong></li>
-    </ul>
-  </ul>
-</ul>
-<table width="*" align="center" border="1">
-  <tr>
-    <td class="custd"><p align="center">There must only be ONE marker file indicating the Qt version selected in <strong>x:\JTSDK64-Tools\config</strong></p>
-      <p align="center">If the system abends with a warning check the <strong>x:\JTSDK64-Tools\config</strong> directory and remove the unwanted item with the prefix <strong>&#39;qt&#39;</strong></p></td>
-  </tr>
-</table>
+		<tr>
+			<td class="custd"><p align="center">There must only be ONE marker file indicating the Qt version selected in <strong>x:\JTSDK64-Tools\config</strong></p>
+				
+			<p align="center">If the system abends with a warning check the <strong>x:\JTSDK64-Tools\config</strong> directory and remove the unwanted item with the prefix <strong>&#39;qt&#39;</strong></p>
+			</td>
+		</tr>
+	</table>
+	
 <h4>Step 3b: Deploy Hamlib</h4>
-<ul>
-  <p>In <strong>JTSDK64-Tools</strong>:</p>
-<ul>
-<li>Launch the <strong>MSYS2</strong> environment with: <strong>mingw64</strong></li>
-<li>Type: <strong>menu</strong></li>
-<li>Select <strong>7. Build Hamlib - Dynamic Libraries</strong></li>
-</ul>
-</ul>
-<hr>
-<ul>
-<p><strong>Note:</strong> If you have difficulties packaging <a href="https://hamlib.github.io/">Hamlib</a> with <a href="https://jtdx.tech/en/">JTDX</a> and/or <a href="http://js8call.com/">JS8CALL</a> you may need to use the The <strong>build-hamlib.sh</strong> script from the MSYS2 terminal as follows:</p>
+	
 	<ul>
-	<li><strong>build-hamlib.sh -nlibusb -static</strong></li>
+		<p>In <strong>JTSDK64-Tools</strong>:</p>
+		<ul>
+			<li>Launch the MSYS2 environment with: <strong>mingw64</strong></li>
+			
+			<li>Type: <strong>menu</strong></li>
+			
+			<li>Select <strong>7. Build Hamlib - Dynamic Libraries</strong></li>
+		</ul>
+
+		<p><strong>Note:</strong> If you have difficulties packaging <a href="https://hamlib.github.io/">Hamlib</a> with <a href="https://jtdx.tech/en/">JTDX</a> and/or <a href="http://js8call.com/">JS8CALL</a> you may need to use the The <strong>build-hamlib.sh</strong> script from the MSYS2 terminal as follows:</p>
+		<ul>
+			<li><strong>build-hamlib.sh -nlibusb -dynamic</strong></li>
+		</ul>
+		<p>This will take time as it pulls from the master repository for Hamlib. </p>
+
+		<p>Source distribution repositories can be changed by changing the marker file in <strong>x:\JTSDK64-Tools\config</strong> </p>
+		<ul>
+			<li>Valid options are: <strong>hlmaster</strong> (default and recommended), <strong>hlw4mdb</strong>, <strong>hlg4wjs</strong> or <strong>hlnone</strong> for no default pull and update.</li>
+		</ul>
 	</ul>
-</ul>
-<hr>
-<ul>
-<p>This will take time as it pulls from the master repository for Hamlib. </p>
-<p>Source distribution repositories can be changed by changing the marker file in <strong>C:\JTSDK64-Tools\config</strong> </p>
-	<ul>
-	<li>Valid options are: <strong>hlmaster</strong> (default and recommended), <strong>hlw4mdb</strong>, <strong>hlg4wjs</strong> or <strong>hlnone</strong> for no default pull and update.</li>
-	</ul>
-</ul>
+	
 <h4>Step 3c: Deploy Boost for our selected Qt/MinGW Version.</h4>
-<ul>
-<p><strong><em>THIS IS SLOW</em></strong>. There are &quot;dropins&quot; available on the Sourceforge and GitHub sites if you are lazy. Yet the best procedure is to build your own.</p>
-<p>In JTSDK64-Tools:</p>
-<ul>
-<li>Type: <strong>Deploy-Boost</strong></li>
-</ul>
 
-<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.85.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-software under your selected Qt version on your machine.</p>
-
-<p>Precompiled drop-in packages for  <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.85.0-MinGW-v8.1-v11.2.7z">Boost-1.85.0</a> are available at the time of writing.</p>
-<p>Each “drop-in” package has folders i.e. 1.85.0-8.1 and 1.85.0-11.1 (for post-Qt 5.15 including the 6.x.x streams). </p>
-<ul>
-<li>Extract the folder for the Boost version-package that you want to use into <strong>C:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix.</li>
-</ul>
-<p>A Windows symbolic link will work too: i.e.: Assume that both the 1.85.0-8.1 and 1.85.0-11.2 distributions have been unpacked from <strong>Boost-1.85.0-MinGW-v8.1-v11.2.7z</strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> . Assume that the command shell or powershell windows are positioned at <strong>C:\JTSDK64-Tools\tools\boost</strong></p>
-<ul>
-<li>Cmd:<strong> mklink /D 1.85.0 1.85.0-8.1 </strong></li>
-<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.85.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.85.0-8.1 </strong></li>
-</ul>
-<p>The preference is to build your own Boost package and NOT use these ! <strong> Warning: Boost does not build 100% properly and to full capability under MinGW/MSYS2 environments that we use – yet its good enough for our purposes !</strong></p>
-</ul>
 <table width="*" align="center" border="1">
 	<tr>
-		<td class="custd">A script <strong>Reset-Boost.ps1</strong> is available to reset any failed attempts at building Boost.</td>
-  </tr>
+		<td class="custd"><strong><em>&nbsp;** THIS IS SLOW **</em></strong>. Despite &quot;dropins&quot; being available on the Sourceforge and Github the best procedure is to build your own.</td>
+	</tr>
 </table>
-<br/>
+	<ul>
+		
+		<p>In JTSDK64-Tools:</p>
+		<ul>
+		<li>Type: <strong>Deploy-Boost</strong></li>
+		</ul>
+	
+		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.84.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-ware under your selected Qt version on your machine.</p>
+	
+	<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.81.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.82.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.83.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.83.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.84.0-MinGW-v8.1-v11.2.7z">Boost-1.84.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.85.0-MinGW-v8.1-v11.2.7z">Boost-1.85.0</a> are available - saving many hours.. </p>
+	<ul>
+		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> is built with and supplied under Qt's MinGW 7.3 and MinGW 8.1 environs.</li>
+	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z">Boost-1.82.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.83.0-MinGW-v8.1-v11.2.7z">Boost-1.83.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.84.0-MinGW-v8.1-v11.2.7z">Boost-1.84.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.85.0-MinGW-v8.1-v11.2.7z">Boost-1.85.0</a> are built with and supplied under Qt's MinGW 8.1 and MinGW 11.2 environs (and perhaps later versions). </li>
+	</ul>
+	<p>Extract the folder for the Boost version-package that you want to use into <strong>x:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the  -8.1 or -11.2 suffix ! </p>
+		<p>A Windows symbolic link will also work with a drop-in package. Refer to the example below:</p> 
+		<ul>
+		
+		<li>Assume that both the <strong>1.85.0-8.1</strong> and <strong>1.85.0-11.2</strong> distributions have been unpacked from <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.85.0-MinGW-v8.1-v11.2.7z">Boost-1.85.0-MinGW-v8.1-v11.2.7z</a></strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> .</li> 
+		
+			<li>The <strong>Command Shell</strong> or <strong>PowerShell</strong> terminals must be positioned at <strong>x:\JTSDK64-Tools\tools\boost</strong></li>
+			
+			<ul>
+				<li><strong>cd x:\JTSDK64-Tools\tools\boost</strong></li>
+				
+			</ul>
+			<li>Execute the command that is most appropriate for your terminal environment. Examples are shown below:</li>
+			
+			<ul>
+				<li>Command Shell (CMD):<strong> mklink /D 1.85.0 1.85.0-8.1 </strong></li>
+				
+				<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.85.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.85.0-8.1 </strong></li>
+			</ul>
+		</ul>
+		<p><strong>Note:</strong> The preference is to build your own Boost package and NOT use these "dropins".</p>
+	</ul>
+
+	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd">A commandlet&nbsp; <strong>Reset-Boost.ps1</strong> is available to reset Boost builds.</td>
+	  </tr>
+</table>
+    <br/>
+    	<table width="*" align="center" border="1">
+		<tr>
+			<td class="custd"><strong>&nbsp;&nbsp; Environments should now be complete for building JT-ware&nbsp;&nbsp;</strong></td>
+		</tr>
+	</table>
+
+<h4>Step 3d: Deal with JT-ware packaging issues </h4>
+
 <table width="*" align="center" border="1">
 	<tr>
-		<td class="custd">Environments should now be complete for building JT-ware</td>
+		<td class="custd"><strong>There are build errors at the final packaging stage that may arise that can be overcome with this simple set of steps.</strong>.</td>
 	</tr>
 </table>
 <ul>
-	<p>That seemed a lot of work. Please dissect these scripts to see what actually took place !</p>
+<p><strong>General JT-ware Packaging Issues: Support for an "extras" folder</strong></p>
+<ul>
+<p>In order to overcome several issues <strong>extras</strong> folder has been included into <strong>X:\JTSDK64-Tools\tools</strong> where additional &quot;missing&quot; packaged DLL's can be placed.</p>
+<ul>
+<p>i.e. copy missing DLL's, such as <strong>libgfortran-4.dll</strong> into this folder for recent WSJTX-builds to succeed.</p>
 </ul>
-<h4>(Optional) Step 3d: Update Path settings so that JTDX can find DLL's that it needs.</h4>
+<p>Packaging requirements are therefore met.</p>
+<p>This option is NOT RECOMMENDED FOR LONG TERM USE. It should be used as a LAST RESORT.</p>
+<p>Fix the actual problem - whether it be how the libraries used are built OR it may be redundant scripted requirements from legacy code that has been re-introduced.</p>
+</ul>
 
-<table width="*" align="center" border="1">
-	<tr>
-		<td class="custd"><strong>This may not be needed in the future.</strong> There is a packaging error with JTDX that can be overcome with this simple set of steps.</td>
-	</tr>
-</table>
+<strong>JTDX-specific Dependency issue</strong>s
 <ul>	
-<p>On your Windows Destop:</p>
+  <p>There is a JTDX-specific build issue (that may have already been addressed) that can be fixed quite easily by adding components into the WIndows search path.
+  </p><p>On your Windows Destop:</p>
 	<ul>
 	  <li>Start the <em>Windows Control Panel</em> (setps assumed to be known - i.e. Start / Run / Control).</li>
 		<li>Select <em>System / Advanced System Properties / Advanced / Environment Variables</em></li>
 		<li>Under &quot;User variables for &lt;user&gt;&quot;, <u>double-click on &quot;path&quot;</u></li>
 		<li>In the &quot;Edit environment variable&quot; dialog add the following two entries:</li>
 		  <ul>
-			<li>Click New ==&gt; <strong>C:\Windows\SysWOW64\downlevel </strong></li>
-			<li>Click New ==&gt; <strong>C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong></li>
-			<li> Click Ok / Ok.</li>
-		  </ul>
-	  </li>
-		<li>It is now advisable to reboot your system.</li>
-	</ul>
-
-<p><strong>Note:</strong>This is only a temporary work-around. Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
+		    <li>Click New ==&gt; <strong>C:\Windows\SysWOW64\downlevel </strong></li>
+		    <li>Click New ==&gt; <strong>C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong></li>
+		    <li> Click Ok / Ok.</li>
+      </ul>
+	  
+	  <li>It is now advisable to reboot your system.</li>
+  </ul>
+		
+	<p><strong>Note:</strong> This is a temporary work-arround (if it has not been addressed already). Hopefully JTDX CMakeFile scripts will be updated in a future release so these patches are no longer requried.</p>
+	
 </ul>
-
+</ul>
 <h3>Step 4: Build your JT- Software</h3>
+
 <ul>
-	<p>Now you are ready to BUILD a JT-release. </p>
-<p>The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from <strong>C:\JTSDK64-Tools\config</strong>. Rename the file <strong>src-wsjtx</strong> from a default pull of WSJT-X to either <strong>src-jtdx</strong> or <strong>src-js8call</strong> if desired. </p>
-<p>The &quot;major&quot; used JT-ware distributions are supported without discrimination or political comment.</p>
+  <p>The release-source-code pulled is for the latest JT-software release. The JT-source that you pull is configurable from <strong>C:\JTSDK64-Tools\config</strong>. Rename the file <strong>src-wsjtx</strong> from a default pull of WSJT-X to either <strong>src-jtdx</strong> or <strong>src-js8call</strong> if desired. </p>
+  <p>The &quot;major&quot; used Jt-ware distributions are supported without discrimination or political comment.</p>
 	<p>In JTSDK64-Tools:</p>
 	<ul>
 	<li>Type: <strong>jtbuild</strong>      i.e. <strong>jtbuild package</strong></li>
 	</ul>
-<p>Options preferred are package (a Windows Installer package - the preferred &quot;clean&quot; way) and rinstall (just a static directory full of &quot;runnable&quot; files).</p>
+  <p>Options preferred are <strong>package</strong> (a Windows Installer package - the preferred &quot;clean&quot; way) and <strong>rinstall</strong> (just a static directory full of &quot;runnable&quot; files).</p>
 </ul>
 <hr>
 <h2>Additional Options for Developers</h2>
