@@ -414,19 +414,19 @@ PS C:\JTSDK64-Tools>
 	<p>During this phase some tools will require some interaction at the keyboard or via the 
 	mouse (especially the Qt deployment as one MUST now have their own account and agree 
 	to their licensing terms).</p>
-	</ul>
+</ul>
 	
 <table width="*" align="center" border="1">
-		<tr>
-			<td class="custd"><strong>Follow on-screen prompts carefully.</strong></td>
-		</tr>
-	</table>
-		<br/>
-		<table width="*" align="center" border="1">
-		<br/>
-		<tr>
-			<td class="custd"><strong>Manual intevention with installation programs will be required.</strong></td>
-		</tr>
+	<tr>
+		<td class="custd"><strong>Follow on-screen prompts carefully.</strong></td>
+	</tr>
+</table>
+<br/>
+<table width="*" align="center" border="1">
+		
+  <tr>
+	<td class="custd"><strong>Manual intevention with installation programs will be required.</strong></td>
+  </tr>
 </table>
 		<br/>
 		<table width="*" align="center" border="1">
@@ -441,6 +441,7 @@ PS C:\JTSDK64-Tools>
 <h4>Note: Deploying Qt</h4> 
 <ul>
 	<p>A set of resources for deploying Qt 5.15.2 is available at <a href="https://hamlib-sdk.sourceforge.io/Qt/indexQt.html">https://hamlib-sdk.sourceforge.io/Qt/indexQt.html</a></p>
+	<p><strong>Qt MUST be deployed to <u>x:\JTSDK64-Tools\tools\Qt</u></strong> .</p>
 	<p>The resource <a href="https://hamlib-sdk.sourceforge.io/Qt/UDQT.html">https://hamlib-sdk.sourceforge.io/Qt/UDQT.html</a> details how to deploy Qt 5.15.2 from Archive.</p> 
 </ul>
 <h4>Step 2a: Prepare the MSYS2 Environment</h4>
@@ -543,7 +544,7 @@ Enter your selection, then hit <return>:
 		</ul>
 </ul>
 	
-<h4>Step 3a: Upgrade your Qt Deployment</h4>
+	<h4>(Optional) Step 3a: Upgrade your Qt Deployment</h4>
 	<ul> 
 <p>As of March 2024 it has been observed that <strong>Qt 5.15.2</strong> is no longer available from "Mainstream" installer sources</p>
 <table width="*" align="center" border="1">
@@ -551,9 +552,8 @@ Enter your selection, then hit <return>:
 			<td class="custd"><strong>Qt 5.15.2 is still available from "Archive" ast the time of writing. This means that Qt must be deployed manually from "Archive" Repositories</strong></td>
 		</tr>
 	</table>
-<p>Earlier in the guide it was recommended that one performs a "Full" deployment of Qt at install time.</p>
-<p>This should properly deploy <strong>Qt 6.7.2</strong> along with its <strong>MinGW 13.1.0</strong> components and the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
-<p>Once the JTSDK is deployed you can then add <strong>Qt 5.15.2</strong> MANUALLY from Archive.&nbsp;</p>
+<p>By this stage you should already have Qt deployed</p>
+<p>Yoiu can add additional kits such as <strong>Qt 6.7.2</strong> along with its <strong>MinGW 13.1.0</strong> components and the <strong>Qt Maintenance Tool</strong>.&nbsp;</p>
 <table width="*" align="center" border="1">
 		<tr>
 			<td class="custd"><strong>See the guide <a href="https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx">https://sourceforge.net/projects/hamlib-sdk/files/JTware-Deployment/Deploying-Archived-Versions-of-Qt-via-Maintenance-Tool.docx</a> for latest instructions</strong></td>
@@ -561,16 +561,14 @@ Enter your selection, then hit <return>:
 	</table>
 </ul>
 		
+	
+	  <p><strong>Example: Adding additional Qt Kits</strong></p>
 	<ul>
-	  <p>A Minimum Qt installation pegs at <a href="https://www.qt.io/download-open-source">Qt</a> at version <strong>5.15.2</strong>. If you did not use 
-	  the &quot;F&quot; Full option for <a href="https://www.qt.io/download-open-source">Qt</a> deployment or you 
-	  want to update Qt to an experimental version you should do so now. 
-	  Note that using Qt <strong>5.15.2</strong> is the only Qt version that JT-ware source supports at this time.</p>
 	  <p>Perform the following steps:</p>
 		<ul>
 		  	<li>Navigate to the Qt Deployment directory</li>
 			
-			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTASK64-Tools\tools\Qt</strong>)</li>
+			<li>Run the <strong>Qt Maintenance Tool</strong> from your Qt deployment directory (i.e. <strong>C:\JTSK64-Tools\tools\Qt</strong>)</li>
 		</ul>
 		<p>To add <strong>Qt 6.7.2</strong> (as an example):</p>
 		<ul>

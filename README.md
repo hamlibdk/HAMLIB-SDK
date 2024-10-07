@@ -291,33 +291,6 @@ The following procedure (supplied by Joe K0OG) can be used to fix this problem:
 
 This will recreate the new profile and should permit successful builds.]
 
-### Pre-Requisite: Ensure that the Version.ini keys for Qt deployment match Qt versions available
-
-The **Versions.ini** file inside the *X:\JTSDK64-Tools\config* folder contains two keys that are 
-used to align the JTSDK Installer scripts to the Open Source versions of Qt that the Qt Maintainers 
-make available.
-
-The section of the **Versions.ini** file where these keys are found are shown below:
-
-**File:** Versions.ini
-```
-...
-#Set current Qt version
-qt5v=5.15.2
-qt6v=6.7.2
-...
-```
-
-There should not be a future need to change key *qt5v* away from Version 5.15.2 as it is unlikely 
-that the Qt Maintainers will ever make a Qt 5 version beyond Version 5.15.2 available to open source users.
-
-The Qt maintainers are constantly evolving and improving Qt releases in the Version 6 stream. It may be 
-necessary to align the *qt6v* key to the currently available Qt version. 
-
-- As at the time of document publication, the latest currently available Qt 6 version available to Open Source licensees is **Qt 6.7.2**.
-
-You will be advised on the [JTSDK@GROUPS.io](JTSDK Forum) forum should changes to any of these keys be necessary.
-
 ### Pre-Requisite: Ensure that the latest WSJT-X and/or JT-ware Release is deployed
 
 Due to changes within CMake from version 3.28.0 onwards, it may be necessary to have a current deployment of WSJT-X 
@@ -330,6 +303,17 @@ Obtain a current release version of your product from:
 - JS8Call: http://js8call.com/
 
 **Install it so that it can be found in the search path.***
+
+**Update**
+
+As of **JTSDK 3.4.1** a folder **extras** now exists within **X:\JTSDK64-Tools\tools**.
+
+- i.e. x:\JTSDK64-Tools\tools\extras
+
+DLL's and other components thta may be missing during builds can be placed within that folder.
+
+The most common "missing" component needed to build WSJTX is **libgfortran-4.dll** . 
+This DLL may be copied and placed into that folder, negating the need for deployment of latest supplied installers.
 
 ### Step 1: Deploy the JTSDK64-3.4.1.exe Installer and any available Update Packages
  
@@ -435,14 +419,15 @@ i.e. [Qt][]5.15.2 requires the [MinGW][]8.1 toolchain.
 
 There is a document at https://hamlib-sdk.sourceforge.io/Qt/ADQT.html that is intended to be used 
 as a guide for Qt 5.15.2 from Archive Repos.
-
+************************************************************************************
 **This deployment must be performed manually.**
 
-You can also add a Qt 6 toolchain at the same time
+**Manual deployments should typically be made to x:\JTSDK64-Tools\tools\Qt**
+************************************************************************************
+You must also deploy the matching toolchain for the MinGW Version 
 
-i.e. [Qt][]6.7.2 requires the [MinGW][]13.1 toolchain.
-
-
+- [Qt][]6.7.2 requires the [MinGW][]8.1 toolchain.
+- [Qt][]6.7.2 requires the [MinGW][]13.1 toolchain.
 ************************************************************************************
 
 - A Qt toolchain is required. Select 'Y'

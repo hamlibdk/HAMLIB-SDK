@@ -49,9 +49,7 @@ function InstallQt($script) {
 	Write-Host "-----------------------------------------------------"
 	Write-Host " Qt Installation"
 	Write-Host "-----------------------------------------------------"
-	Write-Host ""
-	Write-Host "* Downloading latest Qt Installer"
-	Write-Host ""
+	# Write-Host ""
 	Invoke-Expression -Command $PSScriptRoot\Download-QtInstaller.ps1
 
 	#Deal with 	Online Installer unable to be downloaded
@@ -63,6 +61,8 @@ function InstallQt($script) {
 		$msg="*** *** Cannot find Qt Installer *** ***"
 		InstallError($msg)
 	}
+	
+	Write-Host ""
 	
 	# Check to see that Qt is not already installed
 	Write-Host "* Check if Qt already installed"
@@ -81,6 +81,8 @@ function InstallQt($script) {
 	} else {
 		$cmd = "$QT_INSTPROG $QT_SOURCE"
 	}
+	
+	Write-Host ""
 	
 	$exitCode = Invoke-Command -ScriptBlock { cmd /c $cmd *> $null; return $LASTEXITCODE }
 	# A proper exit returns 1 at the moment ... crazy !
