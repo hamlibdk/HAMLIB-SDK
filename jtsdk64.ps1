@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.4.1
+# Version ......: 4.0.0a
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -13,7 +13,7 @@
 # Concept ......: Greg Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2024 JTSDK Contributors
+#                 (C) 2020-2025 JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
@@ -36,6 +36,7 @@
 #               : Major enhancements and removal of "Fudges" to hopefully support Qt 6.7 and MinGW 13.1  18-9-2024 Steve I VK3VM
 #               : Minor legacy bugfix with JTSDK_MSYS2_F fixed 18-9-2024 Steve I VK3VM
 #               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve I VK3VM
+#               : Bump to Version 4.0 coordinated by Steve I VK3VM
 #
 #-----------------------------------------------------------------------------::
 
@@ -260,8 +261,6 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 
 	# Validate Support
 	$locQTV =ConvertNumber($env:QTV) 
-	#Write-Host $locQTV
-	#Read-Host -Prompt "Press any key to continue"
 	if ( $locQTV -ge 600 ) 
 	{
 		if ( $locQTV -lt 630 ) 
@@ -288,8 +287,8 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	# the most common version is Qt 5.15.2. Converted to an nteger this becomes 5152.
 	# To compare the two (properly) we need multiply 5152 by 10 then !
 	#
-	# Lets assume we are using Qt 6.3.3. AS an intenger tthis becomes 644. Its a later
-	# version than Qt 5.15.13 - inter 51513. So to compare and to show that 633 islater 
+	# i.e: Assume we are using Qt 6.3.3. As an integer this becomes 644. It is a later
+	# version than Qt 5.15.13 - inter 51513. So to compare and to show that 633 is later 
 	# than 5.15.13 we need multiply 633 by 100. Multiplying by 100 is the most common
 	
 	$mult = 100;
@@ -538,9 +537,9 @@ function InvokeInteractiveEnvironment {
 		New-Alias mingw32 "$env:JTSDK_TOOLS\msys64\mingw32.exe"	
 		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
 		Clear-Host
-		Write-Host "-------------------------------------------------"
-		Write-Host "            JTSDK x64 Tools $env:JTSDK64_VERSION"
-		Write-Host "-------------------------------------------------"
+		Write-Host "--------------------------------------------------"
+		Write-Host "             JTSDK x64 Tools $env:JTSDK64_VERSION"
+		Write-Host "--------------------------------------------------"
 		Write-Host ""
 		Write-Host "Config: $env:JTSDK_VC"
 		Write-Host ""
@@ -552,7 +551,7 @@ function InvokeInteractiveEnvironment {
 		}	
 		Write-Host ""
 		Write-Host "Package       Version/Status"
-		Write-Host "-------------------------------------------------"
+		Write-Host "--------------------------------------------------"
 		Write-Host "Source .....: $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
 			Write-Host "Qt .........: $env:QTV/$env:VER_MINGW_GCC, Tools/$env:GCC_MINGW "
@@ -615,7 +614,7 @@ function InvokeInteractiveEnvironment {
 			Write-Host "Boost ......: $env:boostv Missing"
 		}
 
-		Write-Host "-------------------------------------------------"
+		Write-Host "--------------------------------------------------"
 		Write-Host ""
 		Write-Host " Build Boost .......: Deploy-Boost"
 		Write-Host " MSYS2 Environment .: mingw64"
@@ -705,7 +704,6 @@ $fftw3f_dir_ff = " "					# --- FFTW ----------------------------
 SetFFTWEnviron -configTable $configTable -fftw3f_dir_ff ([ref]$fftw3f_dir_ff)	
 
 $lusb_dir_ff = " "                      # --- LibUSB -------------------------
-#SetLibUSBEnviron ($configTable)		
 SetLibUSBEnviron -configTable $configTable -lusb_dir_ff ([ref]$lusb_dir_ff)	
 
 SetNSISEnviron ($configTable)			# --- Nullsoft Installer System - NSIS 
@@ -739,7 +737,6 @@ $env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\b
 $env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\lib"	# -- Always Find HAMLIB Library Dir in search path
 
 # The next line is a FUDGE for an issue with JTDX packaging. Not Happy with this - but is necessary !
-#$env:PATH += ";C:\Windows\SysWOW64\downlevel;C:\Windows\System32\downlevel"
 $env:PATH += ";"+$env:windir+"\SysWOW64\downlevel;"+$env:windir+"\System32\downlevel"
 
 $hamlib_base_ff = SetHamlibDirs		     # --- Hamlib Dirs --------------------

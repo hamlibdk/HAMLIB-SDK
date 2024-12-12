@@ -1,16 +1,29 @@
 # JTSDK64 Applications and Tools
 
 ************************************************************************************
-## JTSDK Version 3.4 Stream
+## JTSDK Version 4.0 Stream
+************************************************************************************
+**This kit is in ALPHA RELEASE !**
+
+This means that primary operational objectives have been met (i.e. Qt deployed to C:\Qt) It also means that there may be operational bugs !!!
+
+This packaging is FAR FROM PERFECT !
+
+Documentation is VERY IMMATURE.
+
+Please test. Comment back on **jtsdk@groups.io** ! 
 ************************************************************************************
 
-The **Version 3.4** stream is a learning, discovery and technique refinement experiment.
+
+The **Version 4.0** stream is a learning, discovery and technique refinement experiment.
 
 ### Direction
 
-The **JTSDK 3.4.1** matures the evolution of the kits from Windows Batch Files towards Windows 
+The **JTSDK 4.0.0** matures the evolution of the kits from Windows Batch Files towards Windows 
 [PowerShell][]-based scripts. [PowerShell][] is also supported in Mac and 
-Linux environs, so common-adaptation for these purposes may occur as the kits evolve. 
+Linux environs, so common-adaptation for these purposes may occur as the kits evolve.
+
+An immediate aim is to also provide Windows aarch64 kits. Please watch this space.
 
 This started as an experiment to reduce maintenance (i.e. new package versions). 
 The deployment environment **jtsdk64-setup.ps1** will always require hard-coded 
@@ -19,31 +32,30 @@ base package support. Once an environment is set up maintenance tasks are simpli
 [PowerShell][] eclipses the capabilities of Windows Batch files. [PowerShell][] 
 completely removes needs for capable third-party environments such as [Python][].
 
-### Release Notes: 3.4 Stream
+### Release Notes: 4.0 Stream
 
-As of [JTSDK64-3.4.1][] there are no longer distinctions between "Base" and "Tools" packages. There will just me "Main Releases" and "Updates".
+As of [JTSDK64-3.4.0][] there are no longer distinctions between "Base" and "Tools" packages. There will just me "Main Releases" and "Updates".
 
-- Under the [JTSDK64-3.2-Stream][] the "Base Package" was [JTSDK64-Base-3.2.3][]. Under the [JTSDK64-3.4-Stream][] the former "Base" deployment package will become [JTSDK64-3.4.1][].
-- Under the [JTSDK64-3.2-Stream][] the "Patch Package" was  [JTSDK64-Tools-3.2.3.3][]. Under the [JTSDK64-3.4-Stream][] the "Update" packages will become [JTSDK64-3.4.1-U1][].
+- Under the [JTSDK64-3.2-Stream][] the "Base Package" was [JTSDK64-Base-3.2.3][]. Under the JTSDK64-4.0-Stream the former "Base" deployment package will become [JTSDK64-4.0.0][].
+- Under the [JTSDK64-3.2-Stream][] the "Patch Package" was  [JTSDK64-Tools-3.2.3.3][]. Under the JTSDK64-4.0-Stream the "Update" packages will become [JTSDK64-4.0.0-U1][].
 
-The Main deployment package - [JTSDK64-3.4.1][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe
+The Main deployment package - [JTSDK64-4.0.0][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe
 
 This README.md file includes deployment instructions. The very latest news - including tips 
-to solve issues - can be found at https://hamlib-sdk.sourceforge.io/ ( see https://hamlib-sdk.sourceforge.io/QU.html ).
+to solve issues - can be found at https://hamlib-sdk.sourceforge.io/ .
 
-The **JTSDK 3.4.1** primarily integrates the new nomenclature and former "Tools" package [JTSDK64-Tools-3.2.3.3][] 
-integrated fully into [JTSDK64-Base-3.2.3][] . 
+The **JTSDK 4.0.0** walks back some of the Qt deployment automation removed in [JTSDK64-3.4.1][] . 
 
 There are also updates to some utilities and Libraries (i.e. NSIS 3.09, Updates to Ruby, LibUSB bumped to Version 1.0.27).
 
-Outwardly will appear similar to past kits. Yet the **JTSDK 3.2.3** 
-has significant enhancements - centred around Hamlib being deployed now as a DLL - 
-in that many of the key commands now accept switches that can make the process of developing 
-code quicker and simpler.
+Outwardly this stream will initially appear similar to past kits. Yet the **JTSDK 4.0.0** 
+demonstrates significant enhancements and script redesigns.
 
-[JTSDK64-3.4.1][] with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
+[JTSDK64-4.0.0][] ships with with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
 
-This kit only supports the construction of 64-bit software. 
+This kit only supports the construction of 64-bit software.
+
+Future releases will deploy Windows aarch64-based kits. Note that the Raspberry Pi 5 hardware platform is used in this project. 
 
 There are patches for x86 builds maintained by The Hamlib SDK Development Team and Uwe DG2YCB 
 that will be advised here and on the [JTSDK Forum][].
@@ -53,7 +65,7 @@ The preferred [MSYS2][] development environment for building Hamlib is now execu
 
 ### Release Notes: Updates
 
-Currently there are no Update packages available. The first update package for this stream would be An update package [JTSDK64-3.4.1-U1][].
+Currently there are no Update packages available. The first update package for this stream would be An update package [JTSDK64-4.0.0-U1][].
 
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
@@ -78,18 +90,16 @@ build libraries (i.e. [Boost 1.85](Boost-1.85.0) ) as part of the learning proce
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.74.0][], [Boost-1.82.0][], [Boost-1.83.0][], [Boost-1.84.0][] and [Boost-1.85.0][]
+Precompiled drop-in packages for [Boost-1.85.0][]
 are available - saving many hours. Note that the continued production of these files is under review.
 
-- [Boost-1.74.0][] is built with and supplied under Qt's [MinGW 7.3](MinGW) and [MinGW 8.1](MinGW) environs.
-- [Boost-1.82.0][], [Boost-1.83.0][] and [Boost-1.84.0][] and [Boost-1.85.0][] are built with and supplied under Qt's [MinGW 8.1](MinGW) and [MinGW 11.3](MinGW) environs. 
-- [Boost-1.85.0][] is built with and supplied under Qt's [MinGW 8.1](MinGW) environs.
+ [Boost-1.85.0][] is built with and supplied under Qt's 5.15.2 [MinGW 8.1](MinGW) environs.
 
-**Note:** It is not recommended to use [Boost-1.86.0][] with [Qt][] 5.15.2 as there are some build and compatability issues.**
+**Note:** It is not recommended to use [Boost-1.86.0][] with [Qt][] 5.15.2 as there are some build and compatability issues experienced at the time of kit development.
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
-The recommended development environment should be [JTSDK64-3.4.1][] with the latest update applied i.e [JTSDK64-3.4.1-U1][] if available. 
+The recommended development environment should be [JTSDK64-4.0.0][] with the latest update applied i.e [JTSDK64-4.0.0-U1][] if available. 
 
 The current environment incorporates [Qt][] 5.15.2 and support for building [Boost-1.85.0][] working with [MinGW 8.1](MinGW) under 
 the **mingw64** [MSYS2][] environment.
@@ -175,12 +185,12 @@ The basic concept of supporting **Windows Environment Variables** through [Power
 will remain a cornerstone concept.
 
 ************************************************************************************
-## Upgrades from Versions earlier than Version 3.4.1
+## Upgrades from Versions earlier than Version 4.0.0
 ************************************************************************************
 
-It is not recommended that the [JTSDK64-3.4.1][] be installed over the top of previous kits.
+The [JTSDK64-4.0.0][] cannot be installed over the top of previous kits.
 
-**It is highly recommended that a new, fresh deployment be considered with each new release.**
+**A new, fresh deployment be considered with this release.**
 
 Should you try an upgrade, you may need to back-up/re-name your **X:\JTSDK64-Tools\tools\msys64** environment if you are performing an upgrade.
 
@@ -219,7 +229,7 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 There are no current update packages available.
 ************************************************************************************
 
-- Deploy the **Update** package (if it is available and if it exists) [JTSDK64-3.4.1-U1][] to your JTSDK install directory.
+- Deploy the **Update** package (if it is available and if it exists) [JTSDK64-4.0.0-U1][] to your JTSDK install directory.
 
 Updates may be required for the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
@@ -293,8 +303,7 @@ This will recreate the new profile and should permit successful builds.]
 
 ### Pre-Requisite: Ensure that the latest WSJT-X and/or JT-ware Release is deployed
 
-Due to changes within CMake from version 3.28.0 onwards, it may be necessary to have a current deployment of WSJT-X 
-and/or your JT-ware variant that you are working on deployed and **IN THE SEAERCH PATH**.
+Due to changes within CMake from version 3.28.0 onwards, it may be necessary to have a current deployment of WSJT-X and/or your JT-ware variant that you are working on deployed and **IN THE SEAERCH PATH**.
 
 Obtain a current release version of your product from:
 
@@ -315,12 +324,12 @@ DLL's and other components thta may be missing during builds can be placed withi
 The most common "missing" component needed to build WSJTX is **libgfortran-4.dll** . 
 This DLL may be copied and placed into that folder, negating the need for deployment of latest supplied installers.
 
-### Step 1: Deploy the JTSDK64-3.4.1.exe Installer and any available Update Packages
+### Step 1: Deploy the JTSDK64-4.0.0.exe Installer and any available Update Packages
  
 ** Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used **
 
-- Deploy the **Release** installer [JTSDK64-3.4.1][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **update** Package, if it exists, to your deployment i.e. [JTSDK64-3.4.1-U1][]
+- Deploy the **Release** installer [JTSDK64-4.0.0][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
+- Deploy the latest **update** Package, if it exists, to your deployment i.e. [JTSDK64-4.0.0-U1][]
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -332,7 +341,7 @@ A screen similar to the following should eventually appear:
 
 ```
 -------------------------------------------
-           JTSDK Setup v3.4.1
+           JTSDK Setup v4.0.0
 -------------------------------------------
 
   Required Tools
@@ -370,24 +379,29 @@ The following information will be displayed:
   JTSDK64 Tools Post Install/Redeployment Selections
 ------------------------------------------------------
 
- At the prompts indicate which components you want to
+At the prompts indicate which components you want to
  install or redeploy.
 
- For VC Runtimes, OmniRig, Git, MSYS2 and VS Code use:
+ For VC Runtimes, OmniRig, Git, MSYS2 and VS Code use
  --> Y/Yes or N/No
 
- Qt deployment now just runs the Installer and/or
- Maintenance Tool and no longer offers a scripted
- deployment option. Use:
- --> Y/Yes or N/No
+ For Qt Installations:
 
- NOTE: VC Runtimes, Git, Qt and MSYS2 are mandatory to
- build JT-software. The Latest PowerShell is highly
- recommended.
+   Y = Default ( 6.6.3 )
+   N = Skip Installation
+
+   Qt 5.15.2 must be deployed from Archive using the
+   Qt Maintenance Tool.
+
+ NOTES: VC Runtimes, Git, Qt & MSYS2 are mandatory to
+ build JT-software.
+
+ The Latest PowerShell is highly recommended for
+ improved performance.
 
 * Enter Your Install/Redeployment Selection(s):
 
- (recommended) Latest PowerShell (Y|N) .: 
+ (reauired) Latest PowerShell (Y|N) .: 
 ```
 - The latest PowerShell (i.e. PowerShell 7) is highly recommended as it has considerable performance benefits. Select 'Y' even if you already have it deployed. 
 
@@ -407,8 +421,10 @@ The following information will be displayed:
 (required) Git-SCM (Y|N) ..........: 
 ```
 - The Git-SCM is required. Select 'Y'
+
+The display in the next option is dependent upon the version of Qt that you have configured to be script deployed in **Versions.ini**:
 ```
-(required) Qt (Y|N) ...................:
+(required) Qt 6.6.3 (Y|N) ..........:
 ```
 ************************************************************************************
 **Since initial release Qt 5.15.2 is not avaialble except through "Archive"** 
@@ -420,13 +436,14 @@ i.e. [Qt][]5.15.2 requires the [MinGW][]8.1 toolchain.
 There is a document at https://hamlib-sdk.sourceforge.io/Qt/ADQT.html that is intended to be used 
 as a guide for Qt 5.15.2 from Archive Repos.
 ************************************************************************************
-**This deployment must be performed manually.**
+**This deployment is scripted.** Some user input is required.
 
-**Manual deployments should typically be made to x:\JTSDK64-Tools\tools\Qt**
+**Deployments typically be made to x:\Qt** . A Junction is now placed into the Toolkit to allow seamless access to the Qt toolkit from the JTSDK.
 ************************************************************************************
 You must also deploy the matching toolchain for the MinGW Version 
 
-- [Qt][]6.7.2 requires the [MinGW][]8.1 toolchain.
+- [Qt][]5.15.2 requires the [MinGW][]8.1 toolchain.
+- [Qt][]6.3.3 requires the [MinGW][]11.2 toolchain.
 - [Qt][]6.7.2 requires the [MinGW][]13.1 toolchain.
 ************************************************************************************
 
@@ -473,7 +490,7 @@ JTSDK64 Tools MSYS2 (MSYS)
 For main menu, type ..: menu
 For Help Menu, type ..: jthelp
 
-Copyright (C) 2013-2024, GPLv3, Greg Beam, KI7MT and Contributors.
+Copyright (C) 2013-2025, GPLv3, Greg Beam, KI7MT and Contributors.
 This is free software; There is NO warranty; not even
 for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -555,7 +572,7 @@ To add an additional version of Qt to the default Qt 5.15.2 version:
 - Navigate to the Qt Deployment directory
 - Run the Qt Maintenance Tool from your Qt deployment directory (i.e. **C:\JTASK64-Tools\tools\Qt**)
 
-To add Qt 6.7.2:
+To add Qt 6.7.2 manually:
 
 - Add Qt 6.7.2 MinGW
 - Ensure that components Qt 6.7.2/MinGW 13.1.0 64 bit and Qt 6.7.2/Qt5 Compatability Module are added.
@@ -612,7 +629,7 @@ The section of the **Versions.ini** file where the appropriate key can be found 
 # # next can be pwsh (PS 7+) or powershell (PS Windows 5.1)
 pss=powershell
 ```
-- Change *powershell* to *pss*
+- Change *powershell* to *pwsh*
 - Save **Versions.ini**
 - Close and re-open the JTSDK64-Tools environment if you make any changes.
 ************************************************************************************
@@ -826,6 +843,8 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [JTSDK64-3.4.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe
 [JTSDK64-3.4.1-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U1.exe
 [JTSDK64-3.4.1-U2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U2.exe
+[JTSDK64-4.0.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe
+[JTSDK64-4.0.0-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/

@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Generate-JSQt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0 Alpha
+# Version ......: 4.0.0a
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -13,29 +13,35 @@
 #
 # Usage of files created:
 #
-#      Minimal Install
+#      Minimal Install - Deprecated 2024-11-06 - 12-08
 #      qt-unified-windows-x64-online.exe --script .\qt-min-install.qs
 #
 #      Full Install
 #      qt-unified-windows-x64-online.exe --script .\qt-full-install.qs
 #
-# Updated for Qt 5.15.2 as default Steve VK3VM 18-5-2022
-# Major maintenance for Qt 6.3.1; 5.12.12 references removed Steve VK3VM 7-8-2022
-# Minor maintenance for Qt 6.3.2 Steve VK3VM 07-8-2022
-# Minor maintenance for Qt 6.5.0 Steve VK3VM 10-4-2023
-# Minor maintenance for Qt 6.5.1 Coordinated by Steve VK3VM 02-6-2023
-# Bump to Version 4.0: Incorporation of QT5_VER and QT6_VER variables Coordinated by Steve VK3VM 04-6-2023
-# --> The versions of Qt deployed now set inside Versions.ini. Maintenance now reduced.
+#      Updated for Qt 5.15.2 as default Steve VK3VM 18-5-2022
+#      Major maintenance for Qt 6.3.1; 5.12.12 references removed Steve VK3VM 7-8-2022
+#      Minor maintenance for Qt 6.3.2 Steve VK3VM 07-8-2022
+#      Minor maintenance for Qt 6.5.0 Steve VK3VM 10-4-2023
+#      Minor maintenance for Qt 6.5.1 Coordinated by Steve VK3VM 02-6-2023
+#      Bump to Version 4.0: Incorporation of QT5_VER and QT6_VER variables Coordinated by Steve VK3VM 04-6-2023
+#      --> The versions of Qt deployed now set inside Versions.ini. Maintenance now reduced.
+#      Bump back to 3.4.0.2: Set so that Latest MinGW components are deployed Steve VK3VM 15-07-2024
+#      Start 4.0.0 Maintenance Steve VK3VM 02-12-2024
+#      Fix minor spelling bug coordinated by Steve i VK3CM 2024-12-08
 #
 #-----------------------------------------------------------------------------#
-
 
 # GENERATOR ERROR ------------------------------------------------------------
 
 function GenerateError {
-	Write-Host " "
-	Write-Host " Post Install Test Failed!!"
-	Write-Host " Report error to JTSDK@Groups.io"
+	Write-Host "-----------------------------------------------------"
+	Write-Host " JTSDK Error In Qt Deployment"
+	Write-Host "-----------------------------------------------------"
+	Write-Host ""
+	Write-Host "* Post Install Test Failed!!" -ForegroundColor yellow
+	Write-Host ""
+	Write-Host "  Report error to JTSDK@Groups.io" -ForegroundColor yellow
 	exit(-1)
 }
 
@@ -71,7 +77,8 @@ $fullOutFileText = "Qt Full Install Script"
 $fullOutFilename = "qt-full-install.qs"
 
 # app directories
-$installDir_F="$env:JTSDK_TOOLS\$appFormalName"
+# $installDir_F="$env:JTSDK_TOOLS\$appFormalName"    # Original when to x:\JTSDK64-Tools\tools
+$installDir_F=$env:SystemDrive+"\Qt"					 # Deploys now to x:\ where x = System Drive !	
 
 # covert back-slahes to forward-slashes, as Qt installer will fail otherwise
 $installDir_F = $installDir_F.replace("\","/")
@@ -85,97 +92,102 @@ $qt6ver=$env:QT6_VER.replace(".","")
 
 # Write-Host " "
 Write-Host "-----------------------------------------------------"
-Write-Host " Generate QT Install Scripts"
+Write-Host " Generate Qt Install Scripts"
 Write-Host "-----------------------------------------------------"
 Write-Host " "
 Write-Host "* Qt Versions to be deployed - Read from Versions.ini"
 Write-Host " "
-Write-Host "  --> Qt 5 Deployment .. $env:QT5_VER"
+# Write-Host "  --> Qt 5 Deployment .. $env:QT5_VER"
 Write-Host "  --> Qt 6 Deployment .. $env:QT6_VER"
 Write-Host " "
-Write-Host "* $minOutFileText"
-Write-Host " "
-Write-Host "  --> Expected Path .... $outFilePath"
-Write-Host "  --> Script Location .. $outFilePath\$minOutFilename"
 
-$of = "$outFilePath\$minOutFilename"
+# Comment out Qt 5 install script (that will now fail as not available from mainstream repos)
+#
+#Write-Host "* $minOutFileText"
+#Write-Host " "
+#Write-Host "  --> Expected Path .... $outFilePath"
+#Write-Host "  --> Script Location .. $outFilePath\$minOutFilename"
 
-New-Item -Force $of > $null
-Add-Content $of  "function Controller`(`) `{"
-Add-Content $of  " installer.autoRejectMessageBoxes`(`);"
-Add-Content $of  " installer.installationFinished.connect`(function`(`) `{"
-Add-Content $of  "  gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  " `}`)"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.WelcomePageCallback `= function`(`) `{"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`, 3000`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.CredentialsPageCallback `= function`(`)`{"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.IntroductionPageCallback `= function`(`) `{"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.TargetDirectoryPageCallback `= function`(`) `{"
-Add-Content $of  " gui.currentPageWidget`(`).TargetDirectoryLineEdit.setText`(`"$installDir_F`"`)`;"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.ComponentSelectionPageCallback `= function`(`) `{"
-Add-Content $of  " var widget `= gui.currentPageWidget`(`)`;"
-Add-Content $of  " widget.deselectAll`(`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.license.thirdparty`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.license.lgpl`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2017_x64`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2019_x64`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.maintenance`"`)"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.qtcreator`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.cmake`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.openssl.win_x64`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
-#Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
-Add-Content $of  " widget.selectComponent`(`"qt.qt5.$qt5ver.win64_mingw81`"`)`;"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.LicenseAgreementPageCallback `= function`(`) `{"
-Add-Content $of  " gui.currentPageWidget`(`).AcceptLicenseRadioButton.setChecked`(true`);"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.StartMenuDirectoryPageCallback `= function`(`) `{"
-Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.ReadyForInstallationPageCallback `= function`(`)"
-Add-Content $of  "`{"
-Add-Content $of  "  gui.clickButton`(buttons.NextButton`)`;"
-Add-Content $of  "`}"
-Add-Content $of  " "
-Add-Content $of  "Controller.prototype.FinishedPageCallback `= function`(`) `{"
-Add-Content $of  "  var checkBoxForm `= gui.currentPageWidget`(`).LaunchQtCreatorCheckBoxForm"
-Add-Content $of  "  if `(checkBoxForm `&`& checkBoxForm.launchQtCreatorCheckBox`) `{"
-Add-Content $of  "    checkBoxForm.launchQtCreatorCheckBox.checked `= false`;"
-Add-Content $of  "  `}"
-Add-Content $of  "  gui.clickButton`(buttons.FinishButton`);"
-Add-Content $of  "`}"
-
-$pathTest = "$outFilePath\$minOutFilename"
-
-if (Test-Path $pathTest) {
-    Write-Host "  --> Script Validation: Passed `[found $minOutFilename`]"
-    Write-Host " "
-} else {
-    GenerateError
-}
+#of = "$outFilePath\$minOutFilename"
+#
+#New-Item -Force $of > $null
+#Add-Content $of  "function Controller`(`) `{"
+#Add-Content $of  " installer.autoRejectMessageBoxes`(`);"
+#Add-Content $of  " installer.installationFinished.connect`(function`(`) `{"
+#Add-Content $of  "  gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  " `}`)"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.WelcomePageCallback `= function`(`) `{"
+#Add-Content $of  " gui.clickButton`(buttons.NextButton`, 3000`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.CredentialsPageCallback `= function`(`)`{"
+#Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.IntroductionPageCallback `= function`(`) `{"
+#Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.TargetDirectoryPageCallback `= function`(`) `{"
+#Add-Content $of  " gui.currentPageWidget`(`).TargetDirectoryLineEdit.setText`(`"$installDir_F`"`)`;"
+#Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.ComponentSelectionPageCallback `= function`(`) `{"
+#Add-Content $of  " var widget `= gui.currentPageWidget`(`)`;"
+#Add-Content $of  " widget.deselectAll`(`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.license.thirdparty`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.license.lgpl`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2017_x64`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.vcredist_msvc2019_x64`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.maintenance`"`)"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.qtcreator`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.cmake`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.openssl.win_x64`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.tools.win64_mingw810`"`)`;"
+##Add-Content $of  " widget.selectComponent`(`"qt.qt5.5152.win64_mingw81`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.qt5.$qt5ver.win64_mingw81`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.win64_mingw112`"`)`;"
+#Add-Content $of  " widget.selectComponent`(`"qt.qt6.$qt6ver.win64_mingw131`"`)`;"
+##Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.LicenseAgreementPageCallback `= function`(`) `{"
+#Add-Content $of  " gui.currentPageWidget`(`).AcceptLicenseRadioButton.setChecked`(true`);"
+#Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.StartMenuDirectoryPageCallback `= function`(`) `{"
+#Add-Content $of  " gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.ReadyForInstallationPageCallback `= function`(`)"
+#Add-Content $of  "`{"
+#Add-Content $of  "  gui.clickButton`(buttons.NextButton`)`;"
+#Add-Content $of  "`}"
+#Add-Content $of  " "
+#Add-Content $of  "Controller.prototype.FinishedPageCallback `= function`(`) `{"
+#Add-Content $of  "  var checkBoxForm `= gui.currentPageWidget`(`).LaunchQtCreatorCheckBoxForm"
+#Add-Content $of  "  if `(checkBoxForm `&`& checkBoxForm.launchQtCreatorCheckBox`) `{"
+#Add-Content $of  "    checkBoxForm.launchQtCreatorCheckBox.checked `= false`;"
+#Add-Content $of  "  `}"
+#Add-Content $of  "  gui.clickButton`(buttons.FinishButton`);"
+#Add-Content $of  "`}"
+#
+#$pathTest = "$outFilePath\$minOutFilename"
+#
+#if (Test-Path $pathTest) {
+#    Write-Host "  --> Script Validation: Passed `[found $minOutFilename`]"
+#    Write-Host " "
+#} else {
+#    GenerateError
+#}
 
 # GENERATE FULL SCRIPT --------------------------------------------------------
 
-Write-Host "* $fullOutFileText"
+Write-Host "* $fullOutFileText For version $env:QT6_VER"
 Write-Host " "
 Write-Host "  --> Expected Path .... $outFilePath"
 Write-Host "  --> Script Location .. $outFilePath\$fullOutFilename"
@@ -316,5 +328,5 @@ if (Test-Path $pathTest) {
 } else {
     GenerateError
 }
-Write-Host " "
+#Write-Host " "
 exit(0)

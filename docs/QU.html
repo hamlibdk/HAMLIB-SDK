@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development">
 	<title>Hamlib SDK v3.2.3 User Guide</title>
-	<link rel="stylesheet" href="../style-new.css">
-	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+	<link rel="stylesheet" href="style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 </head>
 
 <body>
@@ -16,18 +16,18 @@
 			<table width="*" border="0">
     			<tr>
       				<td>
-						<img src="../favicon.ico" alt=""/>
+						<img src="favicon.ico" alt=""/>
 					</td>
       				<td>
-		  				<h1>HAMLIB SDK Version 3 </h1>
+		  				<h1>HAMLIB SDK </h1>
 						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
 					</td>
     			</tr>
   			</table>
 		</td>
 		<td align="right" style="vertical-align: top"  >
-			<a href="UG3.html"><img src="../UGIcon.png" width="34" height="33" alt=""/></a>
-			<a href="index3.html"><img src="../HomeIcon.png" width="34" height="33" alt=""/></a>
+			<a href="UG.html"><img src="UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index.html"><img src="HomeIcon.png" width="34" height="33" alt=""/></a>
 		</td>
 	</tr>
 </table>
@@ -35,18 +35,18 @@
 	<hr>
 	<table width="100%" border="0">
 		<tr>
-			<td width="12.5%" align="center"><a href="DG3.html">Installation</a></td> 
-			<td width="12.5%" align="center"><a href="DG3-Build-x64-JT-ware.html">Build x64</a></td>
-			<td width="12.5%" align="center"><a href="DG3-Build-x86-JT-ware.html">Build x86</a></td>
-		    <td width="12.5%" align="center"><a href="DO3.html">Developers</a></td>
-			<td width="12.5%" align="center"><a href="AN3.html">Notes</a></td> 
-			<td width="12.5%" align="center"><a href="QU3.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="DG.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU.html">Questions</a></td>
 			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
 			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">Download</a</td>
 		</tr>
 	</table>
 	<hr/>
-	<h2>JTSDK 3.4.0 Questions and Suggestions for Resolving for Common Issues</h2>
+	<h2>JTSDK 3.2.3 Questions and Suggestions for Resolving for Common Issues</h2>
 	<hr>
 	<h3>What has happened to the original JTSDK creator?</h3>
     <ul>
@@ -94,9 +94,9 @@ Do you want to change the execution policy?
 	
 <h3>How do I upgrade existing JTSDK deployments?</h3>
 	<ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-3.4.0.exe">JTSDK64-3.4.0</a> should be able to be installed over the top of previous kits - yet it is 
-	highly recommended that one start from scratch.</p>
-	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see <a href="DG3.html">Installation</a> section).</strong> </p>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Base-3.2.3.exe">JTSDK64-Base-3.2.3</a> can be installed over the top of previous kits - yet it is 
+	highly recommended that one start from scratch. </p>
+	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see <a href="DG.html">Installation</a> section).</strong> </p>
 	<p>It is highly recommended that a new, fresh deployment be considered with each new base package release.</p>
 	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
 	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </p>
@@ -109,17 +109,17 @@ Do you want to change the execution policy?
 	are designed to be deployed to existing &quot;Base&quot; packages.</p>
 	</ul>
 	
-<h4>Where do I get and how do I apply 'Update' packages?</h4>
+<h4>Where do I get and how do I apply 'Tools' packages?</h4>
 
 	<ul>
-	  <p><strong></strong>Update packages can be downloaded from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a> .</p>
+	  <p><strong></strong>&quot;Tools&quot; packages are updates to the <strong></strong>&quot;Base&quot; environments.</p>
 	<p><em>These steps assume that you have a deployed base environment</em></p>
 	<ul>
-	<li>Download any Update packages if they exist ( i.e. packages with a "U" in the filename) from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/</a>. </li>
+	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/</a> </li>
 	</ul>
-	<p><strong>Note:</strong> There are no current update packages .</p>
+	<p><strong>Note:</strong> The current "Tools" Package is&nbsp; <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.1.exe">JTSDK64-Tools-3.2.3.1.exe</a> .</p>
 	<ul>
-	<li>Deploy the tools package to your JTSDK64 install directory.</li>
+	<li>Deploy the tools package to your JTSDK install directory.</li>
 	</ul>
 	<p>Updates may apply to the MSYS2 environment. Therefore the &quot;profile&quot; directory for 
 	MSYS2 should be deleted and re-created.</p>
@@ -158,36 +158,35 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v3.4.0
+           JTSDK Setup v3.2.3.1
 -------------------------------------------
 
-  Required Tools
+  Required Tool Status
 
-     PowerShell ..... 5.1.22621.2506
-     VC Runtimes .... Not Installed
-     Git ............ Installed
-     OmniRig ........ Installed
+     VC Runtimes ....... Not Installed
+     Git ............... Not Installed
+     OmniRig ........... Not Installed
 
-  Qt Script-Provisioned Tool Chains
+  Qt Script-Provisioned Tool Chain Status
 
-    x64:
-     MinGW 8.1 ...... Qt Not Installed
-     MinGW 11.x ..... Qt Not Installed
+     x64:
 
-    x86 (Legacy: unsupported):
-     MinGW 8.1 ...... Qt Not Installed
+     MinGW 8.1 ......... Qt Not Installed
+     MinGW 9.0 (11.2) .. Qt Not Installed
 
-  Optional Components
+     x86:
 
-     VS Code ........ Installed
-     Boost .......... Not Installed
+     MinGW 8.1 ......... Qt Not Installed
+
+  Optional Component Status
+
+     VS Code ........... Not Installed
+     Boost ............. Not Installed
 
   Post Install / Manual Setup Commands
 
-     Main Install ... postinstall
-     MSYS2 Shell .... msys2
-	 
-PS C:\JTSDK64-Tools>
+     Main Install ...... postinstall
+     MSYS2 Shell ....... msys2>
 </pre> </div>
     <ul>    
         <p>In the above example it is shown that the VC 2022 Runtimes are not deployed.</p>
@@ -249,44 +248,11 @@ PS C:\JTSDK64-Tools\tools\setup\vcruntime>
 	</table>
 
 <p>The marker file to set the version of Qt used is found in <strong>x:\JTSDK64-Tools\config</strong> i.e. <strong>qt5.15.2</strong> (as default).</p>
-<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.6.1&nbsp; </strong>.&nbsp;</p>
+<p>Rename that file as appropriate to match the version of Qt that is deployed or that you want to use i.e. from <strong>qt5.15.2</strong> to <strong>qt6.5.0 </strong>.&nbsp;</p>
 </ul>
-<h3>Issues observed when trying to build software with Qt 6.6.1 deployments</h3>
-<ul>
-  <p><strong>Qt 6</strong> is not currently supported by the JT-ware developers. Current source code of all known JT-ware forks at the time that this document was written will not compile under <strong>Qt 6</strong>.</p>
-	<p>JT-ware developers are researching Qt 6-compatible code conversion.&nbsp;</p>
-</ul>
-<h3>Issues observed when trying to perform a Full Deployment: Qt 5 and/or Qt 6  does not Deploy</h3>
-<ul>
-  <p><strong>JTSDK 2.3.2</strong> with <strong>Tools 3.2.3.3</strong> Has the capability to deploy two "streams" of Qt kit:</p>
-  <ul>
-  <li><strong> Default Deployment</strong>: deploys <strong>Qt Version 5.15.2</strong>. This is not likely to change - but at some stage it may be withdrawn from release by the Qt maintainers. When this occurs our kit will not be able to find these files; it will not install.</li>
-  <li><strong>Full Deployment</strong>: deploys <strong>both Qt versions 5.15.2 and Qt 6.6.1</strong> at the time that this document was written. If one or either of these versions cannot be found then these kits will not be installed.</li>
-  </ul>
-<p>This kit by default deploys the <a href="https://www.qt.io/download-open-source">Qt SDK For Open Source Release</a>. This is also compliant with the basic beliefs, method and release licensing terms for WSJTX.</p>
-  <p>These Qt deployment repositories are stored in <a href="https://download.qt.io/static/mirrorlist/">geo-assigned download repositories</a>. Each repository ONLY MAKES THE LATEST DOWNLOAD RELEASE STREAMS AVAILABLE to the Qt installer.</p>
-  <p>The Qt maintainers may at some stage in the future bump the versions available i.e. From <strong>6.6.1</strong> to&nbsp; <strong>6.6.2</strong> (as an example).&nbsp;</p>
-  <p><strong><u>Our kit has a way of dealing with this:</u></strong></p>
-  <p>Refer to the file <strong>x:\JTSDK64-Tools\config\Versions.ini</strong>&nbsp;</p>
-	<p>There are two keys that (at the time of writing) can br found at the bottom of the file:</p>
-<div class="reducewidth">
-<pre>
-File: x:\JTSDK64-Tools\config\Versions.ini
-...
-#future enhancement to set Qt version
-qt5v=5.15.2
-qt6v=6.6.1
-</pre>
-	</div>
-	<ul>
-	<li>Edit the appropriate key (most likely <em>qt6v</em>) to point to the currently distributable Qt version.</li>
-	<li>Save your new <strong>Versions.ini</strong> file.</li>
-	<li>Close any open environment terminals (Most likely to be a <strong>JTSDK64-Setup</strong> terminal).</li>
-	<li>Restart the appropriate environment terminal. Use the <strong>postinstall</strong> script to attempt a fresh scripted deployment of Qt.</li>
-	
-	</ul>
-</ul>
-		
+<h3>Issues observed when trying to build software with Qt 6.5.0 deployments</h3>
+<p><strong>Qt 6</strong> is not currently supported by the JT-ware developers. Current source code of all known JT-ware forks at the time that this document was written will not compile under <strong>Qt 6</strong>.</p>
+<p>JT-ware developers are researching Qt 6-compatible code conversion.&nbsp;</p>
 <h3>JT-ware compile error around code that uses the Resource Compilers</h3>
 <ul> 
 <p>Many users have observed a compiler error (especially with JTDX) at around the 60% mark that relates to the Resource Compiler.</p>
@@ -304,7 +270,7 @@ compilation terminated.
 </pre></div>
 	<ul>
 	<p>This is  a conflict caused by the complexity of resources i.e. Mixing of Qt-supplied MinGW and MSYS2-supplied tools/compilers.</p>
-
+<p>The "NCD" version gets you to deploy the <strong>MSYS2</strong> tools and <strong>mingw64</strong> compilers yourself. Possibly new dependencies are conflicting with those supplied by the Qt MinGW compiler sets.&nbsp; &nbsp;&nbsp;</p>
 <p><strong>Resolution: Rename MSYS2 windres.exe</strong></p>
 	<ul>
 	<li>Delete the source and build folders in <strong>C:\JTSDK64-Tools\tmp</strong> (use the Windows File Manager as its easier than PowerShell Commands)
@@ -376,9 +342,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 <ul>
 <p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin<strong>"</strong></p>
 	</ul>
-<li>If you are using <strong>Qt 6.6.1</strong>:&nbsp;</li>
+<li>If you are using <strong>Qt 6.5.0</strong>:&nbsp;</li>
 <ul>
-<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.1\bin<strong>"</strong></p>
+<p><strong>$env:Path += "</strong>;C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.5.0\bin<strong>"</strong></p>
 </ul>
 </ul>
 	<p>These paths can be added to the main Windows system paths.</p>
@@ -391,9 +357,9 @@ PS C:\JTSDK64-Tools\tmp\wsjtx-output\qt\5.15.2\2.2.0\Release\build>
 			<br/>
 			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\bin</strong>
 			<br/><br/>
-			<li>For <strong>Qt 6.6.1</strong>:</li>
+			<li>For <strong>Qt 6.5.0</strong>:</li>
 			<br/>
-			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.6.1\bin</strong>
+			<strong>C:\Windows\SysWOW64\downlevel;C:\JTSDK64-Tools\tools\hamlib\qt\6.5.0\bin</strong>
 		</ul>
 		<br/>
 		<li>Restart the build proess i.e. <strong>jtbuild package</strong></li>
@@ -456,14 +422,14 @@ mingw32-make.exe: *** [Makefile:112: package] Error 1
 	<ul>
 	<p>The aim of <strong>JTSDK64-Tools</strong> is to use an Agile delivery approach to create a
 	high-quality, yet flexible build system. </p>
-	<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/README.md</a></p>
+	<p>Base ref: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/README.md</a></p>
 	</ul>
 <hr>
 	<table width="100%" border="0">
 	  <tbody>
 		<tr>
 		  <td>Author: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
-		  <td align="right"><a href="../hamlibdk [at] outlook.com"
+		  <td align="right"><a href="hamlibdk [at] outlook.com"
 			rel="nofollow"
 			onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
 		</tr>
