@@ -68,3 +68,11 @@ then
 
 for i in $(git remote); do git push --mirror "$i"; done
 
+..............
+
+Password Changes:
+
+git config --global credential.helper wincred
+
+(Source: git config --global credential.helper wincred)
+
