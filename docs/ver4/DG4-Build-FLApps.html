@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Portaudio, audio, portaudio.com">
+	<title>JTSDK 4.0 Guide for Building LibUSB</title>
+	<link rel="stylesheet" href="../style-new.css">
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+</head>
+
+<body>
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table width="*" border="0">
+    			<tr>
+      				<td>
+						<img src="../favicon.ico" alt=""/>
+					</td>
+      				<td>
+		  				<h1>HAMLIB SDK Version 4 </h1>
+						<h2>Evolving the JT-ware Software Developer's Kit (JTSDK)</h2>
+					</td>
+    			</tr>
+  			</table>
+		</td>
+		<td align="right" style="vertical-align: top"  >
+			<a href="UG4.html"><img src="../UGIcon.png" width="34" height="33" alt=""/></a>
+			<a href="index4.html"><img src="../HomeIcon.png" width="34" height="33" alt=""/></a>
+		</td>
+	</tr>
+</table>
+
+<hr/>
+<table width="100%" border="0">
+		<tr>
+			<td width="12.5%" align="center"><a href="DG4.html">Installation</a></td> 
+			<td width="12.5%" align="center"><a href="DG4-Build-x64-JT-ware.html">Build x64</a></td>
+			<td width="12.5%" align="center"><a href="DG4-Build-x86-JT-ware.html">Build x86</a></td>
+		    <td width="12.5%" align="center"><a href="DO4.html">Developers</a></td>
+			<td width="12.5%" align="center"><a href="AN4.html">Notes</a></td> 
+			<td width="12.5%" align="center"><a href="QU4.html">Questions</a></td>
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/">Sourceforge</a></td> 
+			<td width="12.5%" align="center"><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/">Download</a</td>
+		</tr>
+	</table>
+	<hr/>
+<h2>Guide for Building FL-Applications</h2>
+<hr/>
+<ul>
+<p>This site is designed to cement and promote techniques that work for building x64 versions of the FL-Apps with the <a href="https://www.fltk.org/">Fast-Light Toolkit</a> under the JTSDK64 MSYS2 Framework.</p>
+<ul>
+<li>The term JT-ware is used to describe WSJT-X and any software forked and/or derived from WSJT-X.</li>
+	<li>The term FL-apps is used to describe any of the applications supported by David W1HKJ.</li>
+</ul>
+  <p>At the time of writing only <a href="sourceforge.net/projects/fldigi/files/flrig/">flrig</a> (perhaps the most important tool for JT-Ware) can be compliled using these techniques. The MSYS2 and mingw64 environments are constantly evolving. Hopefully other apps will be available soon.</p>
+</ul>
+	
+<h3>Step 1: Deploy the FL-Toolkit under the MSYS2/MinGW Environment</h3>
+
+<ul>
+<p>From the JTSDK64-Tools Powershell Terminal:&nbsp;</p>
+<ul>		
+	<li>Type <b>mingw64</b> to load the MSYS2/MinGW Development Environment</li>
+    <li>Type: <strong>menu</strong></li>
+  <li>&nbsp;From the "menu", select <strong>Option 5. Install FL-App dependencies</strong>.</li>
+  <li>&nbsp;Close the MSYS2 terminal WIndow.</li>
+    <li>&nbsp;Type <strong>mingw64</strong> to re-load the MSYS2/MinGW Development Environment</li>
+</ul>
+</ul>
+
+<h3>Step 2: Download and Decompress the flrig source</h3>
+<ul>
+  <p><strong>Note:</strong> These steps are valid for flrig 2.0.0.5. Should later versions become available (see:&nbsp;<a href="sourceforge.net/projects/fldigi/files/flrig/">sourceforge.net/projects/fldigi/files/flrig/</a> ) adjust instructions accordingly.&nbsp; &nbsp;&nbsp;</p>
+  <p>Under the MSYS2/MinGW environment:</p>
+<ul>
+	<li>Create a directory ~/src (if it does not already exist) and change into that directory:</li>
+	<ul>	
+	  	<li>mkdir ~/src</li>
+      	<li>cd ~/src</li>
+	</ul>
+</ul>
+	<ul>
+		<li>Execute  the following command to retrieve flrig 2.0.0.5:</li>
+		
+		<ul>
+			<li>wget https://sourceforge.net/projects/fldigi/files/flrig/flrig-2.0.05.tar.gz</li>
+		</ul>
+		
+	</ul>
+	<ul>
+		<li>Extract the source from the downloaded package with:</li>
+		<ul>
+			<li>tar xvfz flrig-2.0.05.tar.gz</li>
+		</ul>
+	</ul>
+  <p>This should have now downloaded and decompressed the source file package. Change into the build directory:</p>
+	<ul>
+		<li>cd flrig-2.0.05</li>
+	</ul>
+</ul>
+<h3>Step 3: Compile the software</h3>
+<ul>
+	<p>Execute the following commands:</p>
+	<ul>
+	  <li>./configure --enable-static CFLAGS="-static" LDFLAGS="-static" CXXFLAGS="-static"</li>
+		
+	  <li>make nsisinst</li>
+    </ul>
+</ul>
+
+<h3>Complete</h3>
+	
+<ul>
+	
+    <p>You should have a readily built flrig-2.0.05_setup.exe .exe installer inside the source tree i.e. ~/src/flrig-2.0.05/src .</p>
+</ul>		
+<hr>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>Editor: <a href="https://www.qrz.com/db/vk3vm">Steve VK3VM/VK3SIR</a></td>
+      <td align="right"><a href="../hamlibdk [at] outlook.com"
+   		rel="nofollow"
+   		onclick="this.href='mailto:' + 'hamlibdk' + '@' + 'outlook.com'">Contact</a></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

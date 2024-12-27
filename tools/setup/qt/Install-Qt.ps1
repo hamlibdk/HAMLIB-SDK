@@ -58,7 +58,7 @@ function InstallQt($script) {
 
 	$exe = "$PSScriptRoot\qt-unified-windows-x64-online.exe"
 	if (Test-Path $exe) {
-		Write-Host "* Validated download of installer `[$exe`]"
+		Write-Host "  --> Validated download of installer `[$exe`]"
 	} else {
 		$msg="*** *** Cannot find Qt Installer *** ***"
 		InstallError($msg)
@@ -67,17 +67,18 @@ function InstallQt($script) {
 	Write-Host ""
 	
 	# Check to see that Qt is not already installed
-	Write-Host "* Check if Qt already installed"
+	Write-Host "* Checking if Qt already installed: " -NoNewline
 	
 	#If Qt is already installed run the MaintenanceTool
 	$exe = "$env:JTSDK_TOOLS"+"\Qt\MaintenanceTool.exe"
 	if ( $script -ne "manual" ) {								# As long as Manual is not selected !
 		if ((Test-Path $exe) -ne 0) { PreviousQtInstall }
-
+		Write-Host "[ Installed ]"
 		Write-Host ""
 		Write-Host "* Starting Qt Installation. "
 		$cmd = "$QT_INSTPROG --ao --script .\qt`-$script`-install.qs $QT_SOURCE"  	# Re-enabled 4.0.0 script installation support
 	} else {
+		Write-Host "[ Not Installed ]"
 		$cmd = "$QT_INSTPROG $QT_SOURCE"
 	}
 	
