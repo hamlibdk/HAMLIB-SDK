@@ -4,8 +4,6 @@
 <file name="index4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732745400000000" remote="133732745400000000" Dst="2" />
 <file name="nav4.js" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133292298210000000" remote="133292298210000000" Dst="2" />
 <file name="nav4.php" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133726604200000000" remote="133726604200000000" Dst="2" />
-<file name="741c397c" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732745230000000" remote="133732745230000000" Dst="2" />
-<file name="78ee5708" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732745240000000" remote="133732745240000000" Dst="2" />
 <file name="AN4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732805990000000" remote="133732805990000000" Dst="2" />
 <file name="DG4-Build-Boost.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732806000000000" remote="133732806000000000" Dst="2" />
 <file name="DG4-Build-FFTW.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732806010000000" remote="133732806010000000" Dst="2" />
@@ -15,9 +13,9 @@
 <file name="DG4-Build-x64-JT-ware.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732806030000000" remote="133732806030000000" Dst="2" />
 <file name="DG4-Build-x86-JT-ware.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732745380000000" remote="133732745380000000" Dst="2" />
 <file name="DG4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732806030000000" remote="133732806030000000" Dst="2" />
-<file name="DO4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133797541070000000" remote="133797541070000000" Dst="2" />
+<file name="DO4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732745400000000" remote="133810177880000000" Dst="2" />
 <file name="QU4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732806040000000" remote="133732806040000000" Dst="2" />
-<file name="UG4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133777360630000000" remote="133777360630000000" Dst="2" />
+<file name="UG4.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133732806050000000" remote="133810177890000000" Dst="2" />
 <file name="DG4-Build-x64.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133726604180000000" remote="133726604180000000" Dst="2" />
 <file name="DG4-Build-FLApps.html" server="web.sourceforge.net//home/project-web/hamlib-sdk/htdocs/" local="133797541060000000" remote="133797541060000000" Dst="2" />
 </dwsync>
