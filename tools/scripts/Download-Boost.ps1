@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.4.1 Beta
+# Version ......: 4.0.0 Alpha
 # Description ..: Downloads selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -14,6 +14,7 @@
 #                 As of Version 3.2.4 using GIT source for Boost - Steve VK3VM 2024-01-08
 #                 Version 4.0 Beta Revert back to JFrog Steve VK3VM 2023-04-21
 #                 Revert back to Ver 3.4.1; Minor cleanups Steve VK3VM 2023-04-21
+#                 Deal with contrary download locations for boost - read from Versions.ini coordinated by Steve VK3VM 2024-01-11
 #
 #-----------------------------------------------------------------------------#
 
@@ -46,6 +47,7 @@ Get-Content $env:jtsdk64VersionConfig | foreach-object -begin {$configTable=@{}}
 # Retrieve Boost Version
 
 $boostv = $configTable.Get_Item("boostv")
+$boostsource = $configTable.Get_Item("boostsource")
 
 # Place into file format for Boost distribution
 # Note: Multi stage here - can be simplified.
@@ -60,10 +62,16 @@ $dLoc = $dlFile.Replace(".zip","")			# Remove the .zip extenstion [ For decompre
 # Boost Distribution URL
 
 #refert back to JFrog structures 2024-04-21
-$dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"    		# Comment for GIT source
+# $dlPath = "https://boostorg.jfrog.io/artifactory/main/release/$boostv/source/$dlFile"    		# Comment for GIT source
 # Example URL used for GIT Development: https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.zip
 # Example URL used for JFrog Development: https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.zip
 # $dlPath = "https://github.com/boostorg/boost/releases/download/$dLoc/$dlFile"					# Comment for JFrog source
+
+# Read path from veriable from Versions.ini
+# i.e.1. We look for  https://boostorg.jfrog.io/artifactory/main/release/1.87.0/source/boost_1_87_0.zip 
+# i.e.2: It now downloads again from https://archives.boost.io/release/1.87.0/source/boost_1_87_0.zip 
+
+$dlPath = $boostsource+"release/$boostv/source/$dlFile"
 
 Write-Host "  --> Requested Source: $dlPath"
 
