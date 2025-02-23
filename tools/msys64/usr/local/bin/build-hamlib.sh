@@ -2,31 +2,29 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 3.4.0.3
+# Version ......: 4.0.0a
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
-#
-# Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
-#          Qt Version Adjustments 21-04 to 11-Feb-2021
-#          Refactoring to use Environment variables better 13-2-2021 - 21-3-2021
-#          Fix for LibUSB Non Inclusion 6 - 7/9/2021 Steve VK3VM
-#          Aligned configure otions to (src)/scripts/build-w64.sy 9/9/2021
-#          Dynamic libraries delivered properly to main library tree 4/5-01-2022 Steve VK3VM
-#          LibUSB DLL library path set from Versions.ini 6-1-2022 Steve VK3VM
-#          Modifications to handle opposite CLI switches and default path dynamic build now 15-1-2022 Steve VK3VM
-#          Change path mods from home dir for .sh files to /usr/local/bin 23-1-2022 Steve VK3VM
-#          Remove unnecessary Run-Make -- compiles in one pass now
-#          Make sure all make calls use -j $CPUS
-#          Remove the contents of bin instead of the directory (so don't have to change out of the directory when rebuilding) 2024-07-26 Mike W9MDB.
-#
-# Author .......: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
+# Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Copyright ....: Copyright (C) 2013-2021 Greg Beam, KI7MT
-#                 Copyright (c) 2020-2024 JTSDK Contributors
+#                 Copyright (c) 2020-2025 JTSDK Contributors
 #
-# Support for Qt 5.12.12, 5.15.2, 6.3.1 by Steve VK3VM
-#
-# Minor bugs (in configure line) and better support for env vars 28-08-2022 Steve VK3VM
+# Updates.......: Adjusted by Steve VK3VM 21-04 to 28-08-2020 for JTSDK 3.1 and GIT sources
+#                 Qt Version Adjustments 21-04 to 11-Feb-2021
+#                 Refactoring to use Environment variables better 13-2-2021 - 21-3-2021
+#                 Fix for LibUSB Non Inclusion 6 - 7/9/2021 Steve VK3VM
+#                 Aligned configure otions to (src)/scripts/build-w64.sy 9/9/2021
+#                 Dynamic libraries delivered properly to main library tree 4/5-01-2022 Steve VK3VM
+#                 LibUSB DLL library path set from Versions.ini 6-1-2022 Steve VK3VM
+#                 Modifications to handle opposite CLI switches and default path dynamic build now 15-1-2022 Steve VK3VM
+#                 Change path mods from home dir for .sh files to /usr/local/bin 23-1-2022 Steve VK3VM
+#                 Remove unnecessary Run-Make -- compiles in one pass now
+#                 Make sure all make calls use -j $CPUS
+#                 Remove the contents of bin instead of the directory (so don't have to change out of the directory when rebuilding) 2024-07-26 Mike W9MDB.
+#                 Support for Qt 5.12.12, 5.15.2, 6.3.1 by Steve VK3VM
+#                 Minor bugs (in configure line) and better support for env vars 28-08-2022 Steve VK3VM
+#                 Replace [CR][LF} with [CR] and some code formatting enhancements 2025-01-15 Coordinated by Steve I VK3VM
 #
 ################################################################################
 
@@ -157,7 +155,7 @@ Package-Data () {
 		echo -e " Qt Platform ........: ${C_G}$QTP_F"${C_NC}
 	
 	fi
-	echo -e " Source Dir .........: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}	
+	echo -e " Source Dir .........: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}
 	echo -e " Build Dir ..........: ${C_G}$BUILDD"${C_NC}
 	if [ $PROCESSLIBUSB = "Yes" ];
 	then
@@ -177,7 +175,7 @@ Package-Data () {
 Tool-Check () {
 	#echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" CHECKING TOOL-CHAIN [ QT $QTV ]"${C_NC}
+	echo -e ${C_Y}" CHECKING TOOL-CHAIN [ Qt $QTV ]"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 
 	# setup array and perform simple version checks
@@ -200,27 +198,28 @@ Tool-Check () {
 			echo ''
 			exit 1
 		else
-			echo -en " $i "
+			echo -en "${C_NC} $i "
 			size=${#i}
 			while [ $size -le 10 ] 
 			do
 					echo -en "."
 					size=$(( size + 1 ))
 			done	 
-			echo -en "........:" && echo -e ${C_G}' OK'${C_NC}
+			echo -en "........:${C_NC}" && echo -e ${C_G}' OK'${C_NC}
 		fi
 	done
 
 	# List tools versions
-	echo -e ' Compiler ...........: '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Compiler Path ......: '${C_G}"$GCCPATH"${C_NC}
-	echo -e ' Bin Utils ..........: '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Libtool ............: '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
-	echo -e ' Pkg-Config .........: '${C_G}"$(pkg-config --version)"${C_NC}
+	
+	echo -e ${C_NC}' Compiler ...........: '${C_G}"$(gcc --version |awk 'FNR==1')"${C_NC}
+	echo -e ${C_NC}' Compiler Path ......: '${C_G}"$GCCPATH"${C_NC}
+	echo -e ${C_NC}' Bin Utils ..........: '${C_G}"$(ranlib --version |awk 'FNR==1')"${C_NC}
+	echo -e ${C_NC}' Libtool ............: '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
+	echo -e ${C_NC}' Pkg-Config .........: '${C_G}"$(pkg-config --version)"${C_NC}
 	
 	if [ "$?" = "0" ];
 	then
-	echo -en " Tool-Chain .........: "&& echo -e ${C_G}'OK'${C_NC}
+	echo -en ${C_NC}" Tool-Chain .........: "&& echo -e ${C_G}'OK'${C_NC}
 		echo ''
 	else
 		echo ''
@@ -392,7 +391,7 @@ function Run-Config () {
 		fi
 		
 		echo -e "  --> Build Type: "${C_G}$STSHMSG${C_NC}' built '${C_G}$LIBUSBMSG${C_NC}${C_NC}' LibUSB'${C_NC}
-		echo ''
+		echo -e ${C_NC}''
 		
 		# echo "CPPFLAGS: ${libusb_dir_f}/include"
 		# echo "ORIGINAL: ${libusb_dir_f}/MinGW64/dll"

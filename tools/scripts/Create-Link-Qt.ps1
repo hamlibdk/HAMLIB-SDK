@@ -23,7 +23,7 @@
 
 # --- MAIN LOGIC --------------------------------------------------------------
 
-Write-Output "* Locating Qt deployments... Please Wait (This may take a few minutes)"
+Write-Output "* Locating Qt deployments ... Please Wait (This may take a few minutes)"
 Write-Output ""
 
 # Test to see if Qt Link/Junction already exists

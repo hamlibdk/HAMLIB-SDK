@@ -2,15 +2,16 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.3.3
+# Version ......: 4.0.0
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
-#
-# Updates.......:  20-2-2021 - 15-1-2022 Steve VK3VM / VK3SIR 
-#
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-#				  Enhancements (c) 2021 - 2024 JTSDK & Hamlib Development Contributors
+#				  Enhancements (c) 2021 - 2025 JTSDK & Hamlib Development Contributors
+#
+# Updates.......: General Updates for new environment - by Steve VK3VM/VK3SIR 20-2-2021-02-20-->2022-01-15 
+#                 Menu additions for Fl-app support - by Steve VK3VM/VK3SIR 2023-11-12-->15 
+#                 Addition of Keyring file Updates, parallel, ICU and MSMPI Library deployment - experiment coordinated by Steve VK3VM (who is "On Leave" at the moment) 2025-02-20   
 #
 ################################################################################
 
@@ -83,7 +84,7 @@ function jtsetup () {
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" "bison" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" "parallel" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -107,14 +108,49 @@ function gnusetup () {
     clear ||:
     echo ''
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"INSTALL mingw64 GNU COMPILERS AND COMMON TOOLS"${C_NC}
+    echo -e ${C_Y}"INSTALL mingw64 GNU COMPILERS & COMMON TOOLS/LIBRARIES"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 
     # declare the package array
 	
+	# The last 2 elements of the array "mingw-w64-x86_64-icu" and "mingw-w64-x86_64-msmpi" POSSIBLY unnecessary
+	
 	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" "msys2-w32api-runtime" \
-	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" )
+	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" \
+	"mingw-w64-x86_64-cmake" "mingw-w64-x86_64-ninja" "mingw-w64-x86_64-libusb" "mingw-w64-x86_64-icu" \
+	"mingw-w64-x86_64-msmpi" )
+
+    # loop through the pkg_list array and install as needed
+    for i in "${pkg_list[@]}"
+    do
+        pacman -S --overwrite "*" --needed --noconfirm --disable-download-timeout "$i"
+    done
+
+    echo ''
+    echo -e ${C_Y}"Finished Package Installation"${C_NC}
+    echo ''
+
+}
+
+# Function: install Fl-app dependencies ---------------------------------------
+function flappsetup () {
+
+    # make directories
+    mkdir -p $HOME/src > /dev/null 2>&1
+
+    # start installation
+    clear ||:
+    echo ''
+    echo '---------------------------------------------------------------------'
+    echo -e ${C_Y}"INSTALL FL-APP DEPENDENCIES (EXPERIMENTAL)"${C_NC}
+    echo '---------------------------------------------------------------------'
+    echo ''
+
+    # declare the package array
+	
+	declare -a pkg_list=("mingw-w64-x86_64-fltk" "mingw-w64-x86_64-libsamplerate" "mingw-w64-x86_64-libsndfile" \
+	"mingw-w64-x86_64-portaudio" "mingw-w64-x86_64-gobject-introspection-runtime" "libuuid-devel" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -129,6 +165,7 @@ function gnusetup () {
 }
 
 # Function: Update JTSDK64 Tools MSYS2 Scripts ---------------------------------
+# See: https://repo.msys2.org/msys/x86_64/ for the latest 
 function msys-keyring () {
 
     clear ||:
@@ -137,8 +174,8 @@ function msys-keyring () {
     echo -e ${C_Y}"UPGRADE MSYS2 KEYRING"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
-	curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
-	curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig
+	curl -O https://repo.msys2.org/msys/x86_64/msys2-keyring-1~20250214-1-any.pkg.tar.zst
+	curl -O https://repo.msys2.org/msys/x86_64/msys2-keyring-1~20250214-1-any.pkg.tar.zst.sig
 	pacman -U --noconfirm --config <(echo) msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
 	echo '*********************************************************************'
     echo -e ${C_Y}"IF FIRST RUN CLOSE MSYS2 and JTSDK-Setup shells."${C_NC}
@@ -202,9 +239,9 @@ function change-repo () {
 		echo " Available Repositories:"
 		echo ''
 		echo ' 1 ... Master (preferred)'
-		echo ' 2 ... G4WJS (Now SK so may not be maintained)'
-		echo ' 3 ... M9WDB (Bleeding edge - contact Mike W9MDB before use)'
-		echo ' 4 ... Custom/Your Own (No Pull)'
+		#echo ' 2 ... SK REPO (Now SK - Deprecated)'
+		echo ' 2 ... M9WDB (Bleeding edge - contact Mike W9MDB before use)'
+		echo ' 3 ... Custom/Your Own (No Pull)'
 		echo ''
         echo " e. Enter 'e' or 'q' to exit"
 		echo ''
@@ -221,19 +258,12 @@ function change-repo () {
                 read -p "Press enter to continue..." ;;
             2)
                 rm ${JTSDK_CONFIG_F}/hl* 
-				touch $JTSDK_CONFIG_F/hlg4wjs
-				clear-hamlib
-				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
-				echo ''
-                read -p "Press enter to continue..." ;;
-            3)
-                rm ${JTSDK_CONFIG_F}/hl* 
 				touch $JTSDK_CONFIG_F/hlw9mdb
 				clear-hamlib
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
-            4)
+            3)
                 rm ${JTSDK_CONFIG_F}/hl*
 				clear	
 				touch $JTSDK_CONFIG_F/hlnone
@@ -272,11 +302,13 @@ function menu () {
 		echo " 2. Update MSYS2"
         echo " 3. Install Hamlib dependencies"
 		echo " 4. Install msys64 GNU Compilers"
-        echo " 5. Update MSYS2 Keyring"
-		echo " 6. Build Hamlib - Static Libraries"
-        echo " 7. Build Hamlib - Dynamic Package"
-		echo " 8. Clear Hamlib Source"
-		echo " 9. Select HAMLIB Repository"
+        echo " 5. Install FL-app dependencies"
+		echo " 6. Update MSYS2 Keyring (Deprecated)"
+		echo " 7. Build Hamlib - Static Libraries"
+        echo " 8. Build Hamlib - Dynamic Package"
+		echo " 9. Add Hamlib to pkgconfig"
+		echo " a. Clear Hamlib Source"
+		echo " b. Select HAMLIB Repository"
 		echo " h. List help commands"
 		echo " v. List version information"
 		echo ''
@@ -304,26 +336,48 @@ function menu () {
 			4)
                 gnusetup
                 read -p "Press enter to continue..." ;;
-            5)
+			5)
+                flappsetup
+                read -p "Press enter to continue..." ;;
+			6)
                 msys-keyring
                 read -p "Press enter to continue..." ;;
-            6)
+            7)
                 build-hamlib-static
 				echo ""
 				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD DYNAMIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
-			7)
+			8)
                 build-hamlib-dll
 				echo ""
 				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD STATIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
-			8)
+			9)
+				echo ""
+                echo -e ${C_R}"ADDING JTSDK HAMLIB and LibUSB SOURCE TO pkgconfig"${C_NC}
+                echo ''
+				SUB='qt'
+				if [[ "$PKG_CONFIG_PATH" == *"$SUB"* ]]; then
+					echo -e ${C_Y}"Qt pkgconfig path for Hamlib and LibUSB already added"${C_NC}
+					echo ''
+				else
+					# We want to add C:\JTSDK64-Tools\tools\hamlib\qt\5.15.2\lib\pkgconfig
+					# PKG_CONFIG_PATH=/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig:/c/JTSDK64-Tools/tools/hamlib/qt/5.15.2/mingw81_64/lib/pkgconfig
+
+					#export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$JTSDK_TOOLS_F/hamlib/qt/$QTV/lib/pkgconfig:$libusb_dir_f/libusb-MinGW-x64/lib/pkgconfig"
+					#Test: removing libusb as may not be necessary !!!
+					export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$JTSDK_TOOLS_F/hamlib/qt/$QTV/lib/pkgconfig"
+					echo "New pkgconfig path: $PKG_CONFIG_PATH"
+				fi;
+				echo ''
+                read -p "Press enter to continue..." ;;
+			a)
                 clear-hamlib
                 echo ''
                 read -p "Press enter to continue..." ;;
-			9)
+			b)
                 change-repo
                 echo ''
                 read -p "Press enter to continue..." ;;
@@ -357,7 +411,7 @@ function greeting_message (){
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
     echo ''
-    echo "Copyright (C) 2013-2024, GPLv3, $AUTHOR."
+    echo "Copyright (C) 2013-2025, GPLv3, $AUTHOR."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''

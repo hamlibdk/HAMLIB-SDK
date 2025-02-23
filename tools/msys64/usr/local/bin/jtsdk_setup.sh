@@ -2,15 +2,16 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 3.2.4b
+# Version ......: 4.0.0
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
-#				  Enhancements (c) 2021 - 2024 JTSDK & Hamlib Development Contributors
+#				  Enhancements (c) 2021 - 2025 JTSDK & Hamlib Development Contributors
 #
-# Updates.......:  20-2-2021 - 15-1-2022 Steve VK3VM / VK3SIR 
-#                  12-15-11-2023 - Menu additions for Fl-app support Steve VK3VM/VK3SIR
+# Updates.......: General Updates for new environment - by Steve VK3VM/VK3SIR 20-2-2021-02-20-->2022-01-15 
+#                 Menu additions for Fl-app support - by Steve VK3VM/VK3SIR 2023-11-12-->15 
+#                 Addition of Keyring file Updates, parallel, ICU and MSMPI Library deployment - experiment coordinated by Steve VK3VM (who is "On Leave" at the moment) 2025-02-20   
 #
 ################################################################################
 
@@ -83,7 +84,7 @@ function jtsetup () {
     # declare the package array
     declare -a pkg_list=("apr" "apr-util" "autoconf" "automake-wrapper" "groff" \
     "doxygen" "gettext-devel" "git" "subversion" "libtool" "swig" "libxml2-devel" "bison" \
-    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" )
+    "make" "libgdbm-devel" "pkg-config" "texinfo" "base-devel" "zip" "gzip" "parallel" )
 
     # loop through the pkg_list array and install as needed
     for i in "${pkg_list[@]}"
@@ -114,7 +115,7 @@ function gnusetup () {
     # declare the package array
 	
 	declare -a pkg_list=("mingw-w64-x86_64-toolchain" "mingw-w64-x86_64-cmake" "msys2-w32api-runtime" \
-	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" \ 
+	"mingw-w64-x86_64-extra-cmake-modules" "make" "pkg-config" "openssh" "mingw-w64-x86_64-libnova" \
 	"mingw-w64-x86_64-cmake" "mingw-w64-x86_64-ninja" "mingw-w64-x86_64-libusb" )
 
     # loop through the pkg_list array and install as needed
@@ -161,6 +162,7 @@ function flappsetup () {
 }
 
 # Function: Update JTSDK64 Tools MSYS2 Scripts ---------------------------------
+# See: https://repo.msys2.org/msys/x86_64/ for the latest 
 function msys-keyring () {
 
     clear ||:
@@ -169,8 +171,8 @@ function msys-keyring () {
     echo -e ${C_Y}"UPGRADE MSYS2 KEYRING"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
-	curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
-	curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig
+	curl -O https://repo.msys2.org/msys/x86_64/msys2-keyring-1~20250214-1-any.pkg.tar.zst
+	curl -O https://repo.msys2.org/msys/x86_64/msys2-keyring-1~20250214-1-any.pkg.tar.zst.sig
 	pacman -U --noconfirm --config <(echo) msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
 	echo '*********************************************************************'
     echo -e ${C_Y}"IF FIRST RUN CLOSE MSYS2 and JTSDK-Setup shells."${C_NC}
@@ -251,14 +253,6 @@ function change-repo () {
 				echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
 				echo ''
                 read -p "Press enter to continue..." ;;
-            #2)
-            #    #rm ${JTSDK_CONFIG_F}/hl* 
-			#	#touch $JTSDK_CONFIG_F/hlskrepo
-			#	#clear-hamlib
-			#	#echo "On exiting menu close all MSYS2 and jtsdk64.cmd windows to set changes."
-			#	echo "This option is no longer available."
-			#	echo ''
-            #   read -p "Press enter to continue..." ;;
             2)
                 rm ${JTSDK_CONFIG_F}/hl* 
 				touch $JTSDK_CONFIG_F/hlw9mdb
@@ -414,7 +408,7 @@ function greeting_message (){
     echo -e "For main menu, type ..: ${C_C}menu${C_NC}"
     echo -e "For Help Menu, type ..: ${C_C}jthelp${C_NC}"
     echo ''
-    echo "Copyright (C) 2013-2024, GPLv3, $AUTHOR."
+    echo "Copyright (C) 2013-2025, GPLv3, $AUTHOR."
     echo 'This is free software; There is NO warranty; not even'
     echo 'for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'   
     echo ''
