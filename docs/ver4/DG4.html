@@ -104,7 +104,7 @@ Do you want to change the execution policy?
       <p>Install the base package so that it can be found in the Windows search path.</p>
     </ul>
     <h3></h3>
-	<h3>Step 1: Deploy the JTSDK64-3.4.1.exe Installer and the latest Update package</h3>
+	<h3>Step 1: Deploy the JTSDK64-4.0.0.exe Installer and the latest Update package</h3>
 
 	<ul>
 	  <p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used. </strong></p>
@@ -246,8 +246,26 @@ PS C:\JTSDK64-Tools>
 
 	<p><strong>Note</strong>: Qt 5.15.2 is <strong>NO LONGER AVAILABLE THROUGH MAINSTREAM REPOSITORIES</strong>.</p>
     <p>Qt 5.15.2 and any later versions, plus their support tools (i.e. MinGW 8.1, MinGW 13.1) must be deployed manually. Qt 5.15.2 must be deployed from &quot;Archive&quot; repositories......................</p>
-    <p>As it is impractical to script deployment from Archive repos, scripted deployments have been removed. One must manually deploy Qt and its components.</p></ul><div class="reducewidth">
+    <p>As it is impractical to script deployment from Archive repos, scripted deployments have been removed. One must manually deploy Qt and its components.</p>
+  <ul>
+    <li>Select 'Y' .</lo>
+  </ul>
+		<p><strong>If you select 'N'</strong></p>
+		<p>If "N" is selected then an additional option is made available:</p>
+  </ul>
+<div class="reducewidth">
 <pre>
+ (required) Qt 6.6.3 (Y|N) ..........: n
+ --> Create link to Qt (Y|N) ........:
+ </pre>
+</div>
+<ul>
+  <p>If "Y" is selected the system will search for Qt deployments and allow you to set up a link to a custom Qt deployment.</p>
+	
+	<p>This permits you to create the necessary link within <strong>x:\JTSDK64-Tools\tools</strong> to your Qt deployment. Action is not documented here - please experiment before using.</p> 
+</ul>
+<div class="reducewidth">
+  <pre>
 (required) MSYS2 Setup (Y|N) ..........:
 </pre>
 </div>
@@ -619,7 +637,7 @@ Enter your selection, then hit <return>:
 <hr/>	
 
 <ul>
-	<p>Maintenance updates will be applied in the form of &quot;Update" packages. The first anticipated update to the <strong>JTSDK64-3.4.1</strong> stream would be anticipated to be <strong>JTSDK64-3.4.1-U1.exe</strong> .&nbsp;</p>
+	<p>Maintenance updates will be applied in the form of &quot;Update" packages. The first anticipated update to the <strong>JTSDK64-4.0.0</strong> stream would be anticipated to be <strong>JTSDK64-4.0.0-U1.exe</strong> .&nbsp;</p>
 	<p>Maintainers are no longer supporting the "Base" and "Tools&quot; nomenclature.</p>
 </ul>
 <table width="*" align="center" border="1">
