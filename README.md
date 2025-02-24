@@ -398,7 +398,7 @@ At the prompts indicate which components you want to
 
 * Enter Your Install/Redeployment Selection(s):
 
- (reauired) Latest PowerShell (Y|N) .: 
+ (required) Latest PowerShell (Y|N) .: 
 ```
 - The latest PowerShell (i.e. PowerShell 7) is highly recommended as it has considerable performance benefits. Select 'Y' even if you already have it deployed. 
 
@@ -433,18 +433,27 @@ i.e. [Qt][]5.15.2 requires the [MinGW][]8.1 toolchain.
 There is a document at https://hamlib-sdk.sourceforge.io/Qt/ADQT.html that is intended to be used 
 as a guide for Qt 5.15.2 from Archive Repos.
 ************************************************************************************
-**This deployment is scripted.** Some user input is required.
+**If you select "Y" the deployment is scripted.** Some user input is required.
 
-**Deployments typically be made to x:\Qt** . A Junction is now placed into the Toolkit to allow seamless access to the Qt toolkit from the JTSDK.
+**Deployments typically are made to x:\Qt** . 
+
+A Junction is now placed into the Toolkit in **x:\JTSDK64-Tools\tools** to allow seamless access to the Qt toolkit from the JTSDK.
+
+If "N" is selected then an additional option is made available:
+
+```
+ (required) Qt 6.6.3 (Y|N) ..........: n
+ --> Create link to Qt (Y|N) ........:
+```
+
+If "Y" is selected the system will search for Qt deployments and allow you to set up a link to a
+custom Qt deployment.
+
 ************************************************************************************
-You must also deploy the matching toolchain for the MinGW Version 
 
-- [Qt][]5.15.2 requires the [MinGW][]8.1 toolchain.
-- [Qt][]6.3.3 requires the [MinGW][]11.2 toolchain.
-- [Qt][]6.7.2 requires the [MinGW][]13.1 toolchain.
-************************************************************************************
+The kit will not function if a Qt toolchain and MinGW environment is not deployed.
 
-- A Qt toolchain is required. Select 'Y'
+- Select 'Y'
 ```
 (required) MSYS2 Setup (Y|N) ......:
 ```
