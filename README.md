@@ -476,9 +476,9 @@ You are then presented with the selections you have made:
   --> VC Runtimes ...................: Y
   --> OmniRig .......................: Y
   --> Git ...........................: Y
-  --> Qt ............................: D
+  --> Qt ............................: Y
   --> MSYS2 .........................: Y
-  --> VS Code .......................: N
+  --> VS Code .......................: Y
 ```
 
 During this phase some tools will require some interaction at the keyboard or via the 
