@@ -3,13 +3,11 @@
 ************************************************************************************
 ## JTSDK Version 4.0 Stream
 ************************************************************************************
-**This kit is in ALPHA RELEASE !**
+**This kit is in Beta RELEASE !**
 
 This means that primary operational objectives have been met (i.e. Qt deployed to C:\Qt) It also means that there may be operational bugs !!!
 
-This packaging is FAR FROM PERFECT !
-
-Documentation is VERY IMMATURE.
+Documentation (including this page) needs a significant review and perhaps overhaul !
 
 Please test. Comment back on **jtsdk@groups.io** ! 
 ************************************************************************************
@@ -95,14 +93,14 @@ are available - saving many hours. Note that the continued production of these f
 
  [Boost-1.85.0][] is built with and supplied under Qt's 5.15.2 [MinGW 8.1](MinGW) environs.
 
-**Note:** It is not recommended to use [Boost-1.86.0][] with [Qt][] 5.15.2 as there are some build and compatability issues experienced at the time of kit development.
+**Note:** It is not recommended to use [Boost-1.86.0][] or later with [Qt][] 5.15.2 as there are some build and compatability issues (related to Qt 5.16.2's MinGW 8.1).
 
 Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
 ************************************************************************************
 The recommended development environment should be [JTSDK64-4.0.0][] with the latest update applied i.e [JTSDK64-4.0.0-U1][] if available. 
 
 The current environment incorporates [Qt][] 5.15.2 and support for building [Boost-1.85.0][] working with [MinGW 8.1](MinGW) under 
-the **mingw64** [MSYS2][] environment.
+the **mingw64 8.1** [MSYS2][] environment.
 ************************************************************************************ 
 
 ### The Next Steps
@@ -135,7 +133,7 @@ and hence reputation of Amateur Radio.
 
 ### Added Support and Features
 
-The [Tests][] folder  contains bleeding-edge  efforts to translate and improve 
+The [Tests][] folder contains bleeding-edge efforts to translate and improve 
 scripts. Some past scripts may not be able to be eliminated easily or in fact be 
 converted at all.
 
@@ -219,11 +217,11 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 
 ### Application of Maintenance **Update** packages
 
-**Update** packages are updates to the **main Deployments**.
+**Update** packages are updates to the **Main Deployments**.
 
-*These steps assume that you have a deployed base environment*
+**Note:** These steps assume that you have a deployed base environment.
 
-- Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/ 
+- Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/ 
 
 ************************************************************************************
 There are no current update packages available.
@@ -268,13 +266,12 @@ If you have concerns please refer to https://www.technorms.com/8208/check-if-pro
 There are lots of virtualisation environments available. Click on the links below to 
 obtain details on how to deploy these systems:
 
-- [Hyper-V][]
-- [VMWare Workstation][] 
-- [VMware Player][]
-- [Virtual Box][]
+- [Hyper-V][] - See https://gist.github.com/HimDek/6edde284203a620745fad3f762be603b  
+- [VMWare Workstation][] - See https://blogs.vmware.com/workstation/2024/05/vmware-workstation-pro-now-available-free-for-personal-use.html
+- [Virtual Box][] - See https://www.virtualbox.org/wiki/Downloads
 
-Trial Virtual Machine images for Windows 10 (with Microsoft's Compiler Suite) can 
-be downloaded from https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/ . 
+Trial Virtual Machine images for Windows (with Microsoft's Compiler Suite) may be available from 
+https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/ . 
 These Virtual machines should have a lifetime of at least 30 days.
 
 ### Pre-Requisite: Windows Profiles/Logins must not contain spaces
@@ -840,6 +837,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [JTSDK64-Tools-3.2.3.2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.2.exe
 [JTSDK64-Tools-3.2.3.3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/JTSDK64-Tools-3.2.3.3.exe
 [JTSDK64-3.4-Stream]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/
+[JTSDK64-3.4.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.0.exe
 [JTSDK64-3.4.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1.exe
 [JTSDK64-3.4.1-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U1.exe
 [JTSDK64-3.4.1-U2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U2.exe
