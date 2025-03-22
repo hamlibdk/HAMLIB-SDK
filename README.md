@@ -3,15 +3,6 @@
 ************************************************************************************
 ## JTSDK Version 4.0 Stream
 ************************************************************************************
-**This kit is in Beta RELEASE !**
-
-This means that primary operational objectives have been met (i.e. Qt deployed to C:\Qt) It also means that there may be operational bugs !!!
-
-Documentation (including this page) needs a significant review and perhaps overhaul !
-
-Please test. Comment back on **jtsdk@groups.io** ! 
-************************************************************************************
-
 
 The **Version 4.0** stream is a learning, discovery and technique refinement experiment.
 
@@ -53,10 +44,7 @@ demonstrates significant enhancements and script redesigns.
 
 This kit only supports the construction of 64-bit software.
 
-Future releases will deploy Windows aarch64-based kits. Note that the Raspberry Pi 5 hardware platform is used in this project. 
-
-There are patches for x86 builds maintained by The Hamlib SDK Development Team and Uwe DG2YCB 
-that will be advised here and on the [JTSDK Forum][].
+Future releases will aim to deploy Windows aarch64-based kits. 
 
 The preferred [MSYS2][] development environment for building Hamlib is now executed by typing 
 **mingw64** at the [PowerShell][] prompt.
