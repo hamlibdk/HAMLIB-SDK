@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Install-Qt.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0.0a
+# Version ......: 4.0.1
 # Description ..: Installs Qt for Windows tailored for JT- Applications
 #
 # Usage ........: Call this from jtsdk64-tools-setup => Install-Qt.ps1 [option]
@@ -22,6 +22,7 @@
 #                 Set option for manual Qt deployment Coordinated by Steve VK3VM 29-9-2024
 #                 Minor output and documntation tweaks Coordinated by Steve VK3VM 29-9-2024 
 #                 Start 0f 4.0 stream - re-enable scripted deploy to x:\ not x:\JTSDK64-Tools\tools by Steve VK3VM 02-12-2024 
+#                 Fix for new Qt Name [ & fixes bug ] coordinated by Steve VK3VM 2025-03-24
 #
 #-----------------------------------------------------------------------------#
 
@@ -56,7 +57,7 @@ function InstallQt($script) {
 
 	#Deal with 	Online Installer unable to be downloaded
 
-	$exe = "$PSScriptRoot\qt-unified-windows-x64-online.exe"
+	$exe = "$PSScriptRoot\$QT_INSTPROG"
 	if (Test-Path $exe) {
 		Write-Host "  --> Validated download of installer `[$exe`]"
 	} else {

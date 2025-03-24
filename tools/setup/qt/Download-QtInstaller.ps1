@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------#
 # Name .........: Download-QtInstaller.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.2.2.4 
+# Version ......: 4.0.1
 # Description ..: Downloads the latest Qt Installer
 # Usage ........: Call this file directly from the command line
 #
@@ -17,21 +17,23 @@ Set-Location -Path $PSScriptRoot
 
 # Process variables
 
-# dir$app = "curl"
-$appName="qt-unified-windows-x64-online.exe"
-$appURL="https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe"
+Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
+$QT_INSTPROG = $configTable.Get_Item("qtinstprog")
+$QT_SOURCE = $configTable.Get_Item("qtsource")
+
+# $appURL="https://download.qt.io/official_releases/online_installers/qt-unified-windows-x64-online.exe"
+
+$appURL="$QT_SOURCE/$QT_INSTPROG"
+
 #$param = "-o $appName -J -L $appURL"
 
 #Write-Host " "
 Write-Host "* Downloading Qt Installer"
 Write-Host " "
-Write-Host "  --> Downloading the latest Qt Installer"
-# Write-Host " Using Curl."
+# Write-Host "  --> Downloading the latest Qt Installer"
+Write-Host "  --> URL: $appURL"
 
-# DOS Command: curl -o %app_name% -J -L %app_url
-# Using CURL Installation: Start-Process -FilePath $app -ArgumentList $param
-
-Invoke-RestMethod -Uri $appURL -Method Get -OutFile $appName
+Invoke-RestMethod -Uri $appURL -Method Get -OutFile $QT_INSTPROG
 
 Write-Host "  --> Qt Installer Download Complete"
 Write-Host " "
