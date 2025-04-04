@@ -55,11 +55,12 @@
 	<p>If you  want ALSA support – which requires a licensed SDK - refer to notes in the WSJT-X source.</p>
     </ul>
 	<hr/>	
-	<h2>Using the Deploy-Boost Script</h2>
+	<h2>Configuring the Environment</h2>
 	<hr/>
 <ul>
-	<p>This script, available from the <strong>JTSDK64-Tools</strong> console, can automate the entire process of building <strong>Boost</strong>. To use this script to properly build <strong>Boost</strong> there are some configuration changes to the environment that should be made first. The environment configuration setting <em>unixtools=</em> should be set to <em>enabled</em> inside <strong>Versions.ini</strong>.</p>
-<p>This setting should be returned to <em>disabled</em> after you have built <strong>Boost</strong>.</p>
+  <p>The script <strong>Deploy-Boost</strong> is available from the <strong>JTSDK64-Tools</strong> console and automates the process of building and deploying Boost.</p>
+	<p>These processes here describe how to build and deploy Boost without the use of the <strong>Deploy-Boost</strong> tool.</p>
+<p>Execute the following command from the <strong>JTSDK64-Tools</strong> console:</p>
 		<ul>
 	      <li>Using Windows File Manager, navigate to <strong>x:\JTSDK64-Tools\config</strong>.</li>
 		    <li>Right click on <strong>Versions.ini</strong> and select your favorite text editor or select 'Open' to edit the file.</li>
@@ -86,7 +87,7 @@
             <li>Execute  the following command inside the JTSDK-Tools environment:</li>
             
             <ul>
-            <li><strong>msys2</strong></li>
+            <li><strong>mingw64</strong></li>
             </ul>
             
             <li>Execute  the following commands inside the MSYS2 environment:</li>
@@ -142,7 +143,7 @@
 	  	<li>In  the msys64 shell, type <strong>wget</strong>, paste the URL, and then press enter. i.e.</li>
 		
 	  	<ul>
-			<li><strong>wget </strong><a href="https://github.com/boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0.tar.gz">https://github.com/boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0.tar.gz</a></li>
+			<li><strong>wget </strong><a href="https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.gz">https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.gz</a></li>
 		</ul>
 	</ul>
 	<p>This downloads the source package.</p>

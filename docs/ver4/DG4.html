@@ -110,19 +110,19 @@ Do you want to change the execution policy?
 	  <p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used. </strong></p>
 		<ul>
 			<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe">JTSDK64-4.0.0</a> inside a FRESH VM.</li>	
-			<li>Deploy the latest Update Package (if available). i.e. <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe">JTSDK64-4.0.0-U1</a> would be the first package (if available).</li>
+			<li>Deploy the latest Update Package <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe">JTSDK64-4.0.0-U1</a> .</li>
 		</ul>
 	</ul>
 	<table width="*" align="center" border="1">
 		<tr>
-			<td class="custd">The latest "Tools" package (if available) can be found at&nbsp;<a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/</a> .</td>
+			<td class="custd">The latest&nbsp; Installer and Update packages can be found at&nbsp;<a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/</a> .</td>
 		</tr>
 	</table>
 		<p></p>
-	<ul>
-		<p>It is recommended to use all the default settings and file locations provided by the installer.</p>
-	</ul>
-
+<ul>
+    <p>It is recommended to use all the default settings and file locations provided by the installer.</p>
+	    <p><strong>Note</strong>: If there are previous update packages available for download only deploy the latest update package version.&nbsp; &nbsp;</p>
+</ul>
 	<h3>Step 2: Launch the Installation Environment</h3>
 
 <h4>Preparation: Disable Antivirus Real Time Scanning</h4>   
@@ -141,7 +141,7 @@ Do you want to change the execution policy?
 	<div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v4.0.0
+          JTSDK Setup v4.0.0.1
 -------------------------------------------
 
   Required Tools
@@ -255,9 +255,9 @@ PS C:\JTSDK64-Tools>
   </ul>
 <div class="reducewidth">
 <pre>
- (required) Qt 6.6.3 (Y|N) ..........: n
+ (required) Qt 6.6.3 (Y|N) ..........: N
  --> Create link to Qt (Y|N) ........:
- </pre>
+</pre>
 </div>
 <ul>
   <p>If "Y" is selected the system will search for Qt deployments and allow you to set up a link to a custom Qt deployment.</p>
@@ -523,40 +523,14 @@ Enter your selection, then hit <return>:
 	<ul>
 		
 		<p>In JTSDK64-Tools:</p>
-		<ul>
+<ul>
 		<li>Type: <strong>Deploy-Boost</strong></li>
 		</ul>
 	
-		<p>Around 90 minutes later you should now have a deployment of Boost based at the recommended v1.84.0 (configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini</strong>) that is suitable to build JT-ware under your selected Qt version on your machine.</p>
-	
-	<p>Precompiled drop-in packages for <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.81.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.82.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.83.0-MinGW-v8.1-v11.2.7z.7z">Boost-1.83.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.84.0-MinGW-v8.1-v11.2.7z">Boost-1.84.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/Boost-1.85.0-MinGW-v8.1.7z">Boost-1.85.0</a> are available - saving many hours.. </p>
-	<ul>
-		<li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.74.0-MinGW-v7.3-v8.1.7z">Boost-1.74.0</a> is built with and supplied under Qt's MinGW 7.3 and MinGW 8.1 environs.</li>
-	  <li><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.81.0-MinGW-v8.1-v11.2.7z">Boost-1.81.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.82.0-MinGW-v8.1-v11.2.7z">Boost-1.82.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.83.0-MinGW-v8.1-v11.2.7z">Boost-1.83.0</a>, <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream/Boost-1.84.0-MinGW-v8.1-v11.2.7z">Boost-1.84.0</a> and <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/Boost-1.85.0-MinGW-v8.1-v11.2.7z">Boost-1.85.0</a> are built with and supplied under Qt's MinGW 8.1 and MinGW 11.2 environs (and perhaps later versions). </li>
-	</ul>
-	<p>Extract the folder for the Boost version-package that you want to use into <strong>x:\JTSDK64-Tools\tools\boost</strong> (create the directory if it does not exist) and then remove the  -8.1 or -11.2 suffix ! </p>
-		<p>A Windows symbolic link will also work with a drop-in package. Refer to the example below:</p> 
-		<ul>
-		
-		<li>Assume that both the <strong>1.85.0-8.1</strong> and <strong>1.85.0-11.2</strong> distributions have been unpacked from <strong><a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/Boost-1.85.0-MinGW.7z">Boost-1.85.0-MinGW.7z</a></strong> to <strong>C:\JTSDK64-Tools\tools\boost</strong> .</li> 
-		
-			<li>The <strong>Command Shell</strong> or <strong>PowerShell</strong> terminals must be positioned at <strong>x:\JTSDK64-Tools\tools\boost</strong></li>
-			
-			<ul>
-				<li><strong>cd x:\JTSDK64-Tools\tools\boost</strong></li>
-				
-			</ul>
-			<li>Execute the command that is most appropriate for your terminal environment. Examples are shown below:</li>
-			
-			<ul>
-				<li>Command Shell (CMD):<strong> mklink /D 1.85.0 1.85.0-8.1 </strong></li>
-				
-				<li>PowerShell:<strong> New-Item -ItemType SymbolicLink -Path C:\JTSDK64-Tools\tools\boost\boost-1.85.0 -Value C:\JTSDK64-Tools\tools\boost\boost-1.85.0-8.1 </strong></li>
-			</ul>
+<p>Anywhere between 5 to&nbsp; 90 minutes later you should now have a working deployment of Boost ) that is suitable to build JT-ware under your selected Qt version on your machine.</p> 
+<p>The version to be deployed is configurable in <strong>C:\JTSDK64-Tools\config\Versions.ini </strong>(see the key <em>boostv=</em> )</p>
+<p>Precompiled drop-in packages for Boost are no longer available. You will need to build your own.
 		</ul>
-		<p><strong>Note:</strong> The preference is to build your own Boost package and NOT use these "dropins".</p>
-	</ul>
-
 	<table width="*" align="center" border="1">
 		<tr>
 			<td class="custd">A commandlet&nbsp; <strong>Reset-Boost.ps1</strong> is available to reset Boost builds.</td>
@@ -576,7 +550,7 @@ Enter your selection, then hit <return>:
 		<td class="custd"><strong>There are build errors at the final packaging stage that may arise that can be overcome with this simple set of steps.</strong>.</td>
 	</tr>
 </table>
-<ul>
+
 <p><strong>General JT-ware Packaging Issues: Support for an "extras" folder</strong></p>
 <ul>
 <p>In order to overcome several issues <strong>extras</strong> folder has been included into <strong>X:\JTSDK64-Tools\tools</strong> where additional &quot;missing&quot; packaged DLL's can be placed.</p>
@@ -588,7 +562,7 @@ Enter your selection, then hit <return>:
 <p>Fix the actual problem - whether it be how the libraries used are built OR it may be redundant scripted requirements from legacy code that has been re-introduced.</p>
 </ul>
 
-<strong>JTDX-specific Dependency issue</strong>s
+<strong>JTDX-specific Dependency issues</strong>
 <ul>	
   <p>There is a JTDX-specific build issue (that may have already been addressed) that can be fixed quite easily by adding components into the WIndows search path.
   </p><p>On your Windows Destop:</p>
@@ -637,7 +611,7 @@ Enter your selection, then hit <return>:
 <hr/>	
 
 <ul>
-	<p>Maintenance updates will be applied in the form of &quot;Update" packages. The first anticipated update to the <strong>JTSDK64-4.0.0</strong> stream would be anticipated to be <strong>JTSDK64-4.0.0-U1.exe</strong> .&nbsp;</p>
+	<p>Maintenance updates will be applied in the form of &quot;Update" packages. The first anticipated update to the <strong>JTSDK64-4.0.0</strong> stream is&nbsp; <strong>JTSDK64-4.0.0-U1.exe</strong> .&nbsp;</p>
 	<p>Maintainers are no longer supporting the "Base" and "Tools&quot; nomenclature.</p>
 </ul>
 <table width="*" align="center" border="1">
@@ -654,7 +628,7 @@ Enter your selection, then hit <return>:
 	<ul>
 	<li>Download any &quot;Tools&quot; packages from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> &nbsp; There is no current update package. The first update package would be expected to be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe">JTSDK64-4.0.0-U1.exe</a>.</p>
+	<p><strong>Note</strong> The first update package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe">JTSDK64-4.0.0-U1.exe</a>.</p>
 </ul>
 <h4>Application of Maintenance Update packages</h4>
 
@@ -667,7 +641,7 @@ Enter your selection, then hit <return>:
 		
         <p><em>These steps assume that you have a deployed base environment</em></p>
 		<ul>
-			<li>Download any update packagess from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/</a> - if they exist </li>
+			<li>Download the latest update packagess from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/</a>  </li>
 		</ul>
 		<p><strong>Note:</strong> The current package is <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe">JTSDK64-4.0.0.exe</a>.</p>
 		<ul>

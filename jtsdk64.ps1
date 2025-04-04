@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0.0a
+# Version ......: 4.0.0
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -538,7 +538,7 @@ function InvokeInteractiveEnvironment {
 		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
 		Clear-Host
 		Write-Host "--------------------------------------------------"
-		Write-Host "             JTSDK x64 Tools $env:JTSDK64_VERSION"
+		Write-Host "           JTSDK x64 Tools $env:JTSDK64_VERSION"
 		Write-Host "--------------------------------------------------"
 		Write-Host ""
 		Write-Host "Config: $env:JTSDK_VC"

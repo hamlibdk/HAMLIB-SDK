@@ -26,9 +26,11 @@ completely removes needs for capable third-party environments such as [Python][]
 As of [JTSDK64-3.4.0][] there are no longer distinctions between "Base" and "Tools" packages. There will just me "Main Releases" and "Updates".
 
 - Under the [JTSDK64-3.2-Stream][] the "Base Package" was [JTSDK64-Base-3.2.3][]. Under the JTSDK64-4.0-Stream the former "Base" deployment package will become [JTSDK64-4.0.0][].
-- Under the [JTSDK64-3.2-Stream][] the "Patch Package" was  [JTSDK64-Tools-3.2.3.3][]. Under the JTSDK64-4.0-Stream the "Update" packages will become [JTSDK64-4.0.0-U1][].
+- Under the [JTSDK64-3.2-Stream][] the "Patch Package" was  [JTSDK64-Tools-3.2.3.3][]. Under the JTSDK64-4.0-Stream the "Update" packages will become/is [JTSDK64-4.0.0-U1][].
 
 The Main deployment package - [JTSDK64-4.0.0][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe
+
+The Update deployment package - [JTSDK64-4.0.0-U1][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe
 
 This README.md file includes deployment instructions. The very latest news - including tips 
 to solve issues - can be found at https://hamlib-sdk.sourceforge.io/ .
@@ -76,27 +78,10 @@ build libraries (i.e. [Boost 1.85](Boost-1.85.0) ) as part of the learning proce
 Current packaging preempts known cases of proposed licence and delivery condition changes. 
 
 ************************************************************************************
-Precompiled drop-in packages for [Boost-1.85.0][]
-are available - saving many hours. Note that the continued production of these files is under review.
-
- [Boost-1.85.0][] is built with and supplied under Qt's 5.15.2 [MinGW 8.1](MinGW) environs.
-
-**Note:** It is not recommended to use [Boost-1.86.0][] or later with [Qt][] 5.15.2 as there are some build and compatability issues (related to Qt 5.16.2's MinGW 8.1).
-
-Extract the folder for the Boost version-package that you want to use into **x:\JTSDK64-Tools\tools\boost** (create the directory if it does not exist) and then remove the -7.3, -8.1 or -11.2 suffix ! 
+Precompiled drop-in packages are no longer available as Sourceforge, our project host, are auditing space.  
 ************************************************************************************
-The recommended development environment should be [JTSDK64-4.0.0][] with the latest update applied i.e [JTSDK64-4.0.0-U1][] if available. 
-
-The current environment incorporates [Qt][] 5.15.2 and support for building [Boost-1.85.0][] working with [MinGW 8.1](MinGW) under 
-the **mingw64 8.1** [MSYS2][] environment.
+The recommended development environment should be [JTSDK64-4.0.0][] with the latest update [JTSDK64-4.0.0-U1][] applied. 
 ************************************************************************************ 
-
-### The Next Steps
-
-Version 4 of the JTSDK will involve a number of strategic re-thinks - and will be developed actively once 
-[Qt][] 5.15.2 is unavailable for deployment. 
-
-Watch the [JTSDK Forum][] for updates and to contribute.
 
 ### Conventions used in this document.
 
@@ -212,10 +197,10 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 - Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/ 
 
 ************************************************************************************
-There are no current update packages available.
+The current update deployment package - [JTSDK64-4.0.0-U1][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe
 ************************************************************************************
 
-- Deploy the **Update** package (if it is available and if it exists) [JTSDK64-4.0.0-U1][] to your JTSDK install directory.
+- Deploy the **Update** package [JTSDK64-4.0.0-U1][] to your JTSDK install directory.
 
 Updates may be required for the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
@@ -314,7 +299,7 @@ This DLL may be copied and placed into that folder, negating the need for deploy
 ** Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used **
 
 - Deploy the **Release** installer [JTSDK64-4.0.0][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **update** Package, if it exists, to your deployment i.e. [JTSDK64-4.0.0-U1][]
+- Deploy the latest **update** Package to your installation i.e. [JTSDK64-4.0.0-U1][]
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -326,7 +311,7 @@ A screen similar to the following should eventually appear:
 
 ```
 -------------------------------------------
-           JTSDK Setup v4.0.0
+          JTSDK Setup v4.0.0.1
 -------------------------------------------
 
   Required Tools

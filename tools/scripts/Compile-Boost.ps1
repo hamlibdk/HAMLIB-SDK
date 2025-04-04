@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------#
 # Name .........: Compile-Boost.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 3.4.1 Beta
+# Version ......: 4.0.0
 # Description ..: Compiles selected Boost deployment specified in Versions.ini
 # Usage ........: Call this file directly from the command line
 #
@@ -17,6 +17,7 @@
 #                 As of Version 3.2.4 using GIT source for Boost - Steve I 2024-01-08
 #                 Version 4.0 (beta) - Reverting back to JFrog and JFrog notation Steve I VK3VM 2024-04-22
 #                 Version 3.4.1 (beta) - Reverting back to 3.4.1-stream; minor enhancement so that /include dir is checked to see if endpoint exists Steve I VK3VM 2024-09-19
+#                 Version 4.0.0 - Adjustments to support builds on versions > 1.85.0 coordinated by Steve I VK3VM 2025-04-03
 #
 #-----------------------------------------------------------------------------------#
 
@@ -135,7 +136,10 @@ if (!(Test-Path("$env:JTSDK_TOOLS\boost\$boostv\include"))) {
 
 	$cmds = "b2"
 	# For JFrog
-	$args = "--build-dir=`"$env:JTSDK_SRC\boost_$boostv_u\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc install"
+	# $args = "--build-dir=`"$env:JTSDK_SRC\boost_$boostv_u\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc install"
+	# To support versions > 1.85.0
+	$args = "--build-dir=`"$env:JTSDK_SRC\boost_$boostv_u\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc link=static,shared address-model=64 install"
+
 	# For GitHub
 	# $args = "--build-dir=`"$env:JTSDK_SRC\boost-$boostv\build`" --build-type=complete --prefix=`"$env:JTSDK_TOOLS\boost\$boostv`" toolset=gcc install"
 	Start-Process -NoNewWindow -wait $cmds $args
