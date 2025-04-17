@@ -53,7 +53,17 @@ The preferred [MSYS2][] development environment for building Hamlib is now execu
 
 ### Release Notes: Updates
 
-Currently there are no Update packages available. The first update package for this stream would be An update package [JTSDK64-4.0.0-U1][].
+An update package [JTSDK64-4.0.0-U1][] is available for [JTSDK64-4.0.0][] .
+
+This package provides some basic scripting updates/enhancements as well as updates for:
+
+- LibUSB (to Version 1.0.28)
+- Ruby (to Version 3.4.3-1)
+- NSIS (to Version 3.11)
+
+Apply this package to a base [JTSDK64-4.0.0][] before performing any post-installation steps.
+
+If your [JTSDK64-4.0.0][] is functional and fully deployed then it can be applied to this installation. Ensure that you back up your **Versions.ini** file before proceeding. Customise your **Versions.ini** settings, based on your backup, for your preferred versions of utilities after deployment.
 
 ************************************************************************************
 **The Project needs contributors - Especially for management and to write Cross-Language Documentation !**
