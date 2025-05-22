@@ -26,11 +26,11 @@ completely removes needs for capable third-party environments such as [Python][]
 As of [JTSDK64-3.4.0][] there are no longer distinctions between "Base" and "Tools" packages. There will just me "Main Releases" and "Updates".
 
 - Under the [JTSDK64-3.2-Stream][] the "Base Package" was [JTSDK64-Base-3.2.3][]. Under the JTSDK64-4.0-Stream the former "Base" deployment package will become [JTSDK64-4.0.0][].
-- Under the [JTSDK64-3.2-Stream][] the "Patch Package" was  [JTSDK64-Tools-3.2.3.3][]. Under the JTSDK64-4.0-Stream the "Update" packages will become/is [JTSDK64-4.0.0-U2][].
+- Under the [JTSDK64-3.2-Stream][] the "Patch Package" was  [JTSDK64-Tools-3.2.3.3][]. Under the JTSDK64-4.0-Stream the "Update" packages will become/is [JTSDK64-4.0.0-U3][].
 
 The Main deployment package - [JTSDK64-4.0.0][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe
 
-The Update deployment package - [JTSDK64-4.0.0-U2][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U2.exe
+The Update deployment package - [JTSDK64-4.0.0-U3][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U3.exe
 
 This README.md file includes deployment instructions. The very latest news - including tips 
 to solve issues - can be found at https://hamlib-sdk.sourceforge.io/ .
@@ -53,7 +53,7 @@ The preferred [MSYS2][] development environment for building Hamlib is now execu
 
 ### Release Notes: Updates
 
-An update package [JTSDK64-4.0.0-U2][] is available for [JTSDK64-4.0.0][] .
+An update package [JTSDK64-4.0.0-U3][] is available for [JTSDK64-4.0.0][] .
 
 This package provides some basic scripting updates/enhancements as well as updates for:
 
@@ -91,7 +91,7 @@ Current packaging preempts known cases of proposed licence and delivery conditio
 ************************************************************************************
 Precompiled drop-in packages are no longer available as Sourceforge, our project host, are auditing space.  
 ************************************************************************************
-The recommended development environment should be [JTSDK64-4.0.0][] with the latest update [JTSDK64-4.0.0-U2][] applied. 
+The recommended development environment should be [JTSDK64-4.0.0][] with the latest update [JTSDK64-4.0.0-U3][] applied. 
 ************************************************************************************ 
 
 ### Conventions used in this document.
@@ -208,10 +208,10 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 - Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/ 
 
 ************************************************************************************
-The current update deployment package - [JTSDK64-4.0.0-U2][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U2.exe
+The current update deployment package - [JTSDK64-4.0.0-U3][] - can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U3.exe
 ************************************************************************************
 
-- Deploy the **Update** package [JTSDK64-4.0.0-U2][] to your JTSDK install directory.
+- Deploy the **Update** package [JTSDK64-4.0.0-U3][] to your JTSDK install directory.
 
 Updates may be required for the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
@@ -310,7 +310,7 @@ This DLL may be copied and placed into that folder, negating the need for deploy
 ** Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used **
 
 - Deploy the **Release** installer [JTSDK64-4.0.0][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **update** Package to your installation i.e. [JTSDK64-4.0.0-U2][]
+- Deploy the latest **update** Package to your installation i.e. [JTSDK64-4.0.0-U3][]
 
 It is recommended to use all the initial default settings and file locations.
  
@@ -322,7 +322,7 @@ A screen similar to the following should eventually appear:
 
 ```
 -------------------------------------------
-          JTSDK Setup v4.0.0.1
+          JTSDK Setup v4.0.0.3
 -------------------------------------------
 
   Required Tools
@@ -837,6 +837,7 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [JTSDK64-4.0.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe
 [JTSDK64-4.0.0-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe
 [JTSDK64-4.0.0-U2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U2.exe
+[JTSDK64-4.0.0-U3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U3.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/
