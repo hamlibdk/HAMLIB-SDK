@@ -333,7 +333,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 
 function CheckBoostCorrectQtmingwDirVersion($boostDir) {
 	$retval = "Not Found"
-	$env:B_MINGW="Not Found"
+	$env:BOOST_M="Not Found"
 		
 	$listBoostDeploy = Get-ChildItem -Path "$boostDir\lib" -EA SilentlyContinue
 
@@ -343,24 +343,24 @@ function CheckBoostCorrectQtmingwDirVersion($boostDir) {
 			# More than Likely GCC13.1 >= Qt 6.7.0 with MinGW 13.1 or later
 			# Needs a better method
 			$retval="mingw_64"			# As found in x:\JTSDK64-Tools\tools\Qt\6.7.x
-			$env:B_MINGW="mingw1310_64"
+			$env:BOOST_M="mingw1310_64"
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw11-*') {
 			# More than Likely GCC11 and >= Qt 6.2.2 with MinGW 11.2.0 or later
 			# Needs a better method		# As found in x:\JTSDK64-Tools\tools\Qt\6.2.2 or later
 			$retval="mingw_64"
-			$env:B_MINGW="mingw112_64"
+			$env:BOOST_M="mingw1120_64"
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw8-*') {
 			$retval="mingw81_64"
-			$env:B_MINGW=$retval
+			$env:BOOST_M="mingw810_64"
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw7-*') {
 			$retval="mingw73_64"
-			$env:B_MINGW=$retval
+			$env:BOOST_M="mingw730_64"
 			break
 		}
 	}
@@ -628,7 +628,7 @@ function InvokeInteractiveEnvironment {
 			}
 		}
 		if ((Test-Path "$env:boost_dir")) { 
-			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS [$env:B_MINGW]"
+			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS [$env:BOOST_M]"
 		} else {
 			Write-Host "Boost ......: $env:boostv Missing"
 		}
