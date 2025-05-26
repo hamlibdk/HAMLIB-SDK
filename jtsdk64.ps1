@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.0.0
+# Version ......: 4.1.0a
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -36,7 +36,10 @@
 #               : Major enhancements and removal of "Fudges" to hopefully support Qt 6.7 and MinGW 13.1  18-9-2024 Steve I VK3VM
 #               : Minor legacy bugfix with JTSDK_MSYS2_F fixed 18-9-2024 Steve I VK3VM
 #               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve I VK3VM
-#               : Bump to Version 4.0 coordinated by Steve I VK3VM
+#               : Bump to Version 4.0 and minor tweaks coordinated by Steve I VK3VM
+#               : Prefix changed to toss all builds of Hamlib into x:\JTSDK64-Tools\tools\hamlib rather than Qt version specific directory 
+#                 --> as Qt specific versioning now redundant since Qt completely built under MinGW/MSYS2 2025-05-24 Coordinated by Steve I VK3VM   
+#               : Move $env:HLREPO into Versions.ini 2025-05-25 coordinated by Steve I VK3VM
 #
 #-----------------------------------------------------------------------------::
 
@@ -330,6 +333,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 
 function CheckBoostCorrectQtmingwDirVersion($boostDir) {
 	$retval = "Not Found"
+	$env:B_MINGW="Not Found"
 		
 	$listBoostDeploy = Get-ChildItem -Path "$boostDir\lib" -EA SilentlyContinue
 
@@ -339,20 +343,24 @@ function CheckBoostCorrectQtmingwDirVersion($boostDir) {
 			# More than Likely GCC13.1 >= Qt 6.7.0 with MinGW 13.1 or later
 			# Needs a better method
 			$retval="mingw_64"			# As found in x:\JTSDK64-Tools\tools\Qt\6.7.x
+			$env:B_MINGW="mingw1310_64"
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw11-*') {
 			# More than Likely GCC11 and >= Qt 6.2.2 with MinGW 11.2.0 or later
 			# Needs a better method		# As found in x:\JTSDK64-Tools\tools\Qt\6.2.2 or later
 			$retval="mingw_64"
+			$env:B_MINGW="mingw112_64"
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw8-*') {
 			$retval="mingw81_64"
+			$env:B_MINGW=$retval
 			break
 		}
 		if ($subPathBoost.Name -like '*-mgw7-*') {
 			$retval="mingw73_64"
+			$env:B_MINGW=$retval
 			break
 		}
 	}
@@ -418,20 +426,31 @@ function SetHamlibDirs {
 	return ($env:hamlib_base).replace("\","/")
 }
 
-# --- SET HAMLIB REPO SOURCE --------------------------------------------------
+# --- SET HAMLIB VARIABLES ----------------------------------------------------
 
 function SetHamlibRepo {
 	Write-Host -NoNewLine "* Hamlib Repository Source: "
 
-	# This logic works - assuming only one marker...
-	$env:HLREPO = "NONE"
-	if (Test-Path "$env:JTSDK_CONFIG\hlmaster") { $env:HLREPO = "MASTER" }
-	# The next repo has been deprecated. It is here as an example - but it may not work.
-	if (Test-Path "$env:JTSDK_CONFIG\hlw9mdb") { $env:HLREPO = "W9MDB" }
-	Write-Host "$env:HLREPO"
-	if ($env:HLREPO -eq "NONE") {
-		Write-Host "  --> Please set a repository source marker in $env:JTSDK_CONFIG"
-	}
+	# # This logic works - assuming only one marker...
+	# $env:HLREPO = "NONE"
+	# if (Test-Path "$env:JTSDK_CONFIG\hlmaster") { $env:HLREPO = "MASTER" }
+	# # The next repo has been deprecated. It is here as an example - but it may not work.
+	# if (Test-Path "$env:JTSDK_CONFIG\hlw9mdb") { $env:HLREPO = "W9MDB" }
+	# Write-Host "$env:HLREPO"
+	# if ($env:HLREPO -eq "NONE") {
+	#	Write-Host "  --> Please set a repository source marker in $env:JTSDK_CONFIG"
+	# }
+	
+	# Env var HLREPO now set from a key inside Versions.ini 
+    $env:HLREPO = $configTable.Get_Item("hlrepo")
+	$env:HLREPO = $env:HLREPO.ToUpper()
+	$validValues = "NONE", "MASTER"
+    if ($validValues -contains $env:HLREPO ) {
+        Write-Host "$env:HLREPO"
+    } else {
+        Write-Host "Invalid key value for hlrepo in Versions.ini"
+		GenerateError("Invalid key value for hlrepo in Versions.ini")
+    }
 }
 
 # --- PortAudio Dirs ----------------------------------------------------------
@@ -484,7 +503,7 @@ function GenerateToolChain ($qtbaseff, $qtdff, $gccdff, $rubyff, $fftw3fff, $pal
 	Add-Content $of "SET (LUSB $lusbff )"
 	Add-Content $of " "
 	Add-Content $of "# Hamlib"
-	Add-Content $of "SET (HLIB $hamlibff/qt/$env:QTV)"
+	Add-Content $of "SET (HLIB $hamlibff)"
 	Add-Content $of " "
 	Add-Content $of "# Subversion"
 	Add-Content $of "SET (SVND $svnff)"
@@ -537,21 +556,16 @@ function InvokeInteractiveEnvironment {
 		New-Alias mingw32 "$env:JTSDK_TOOLS\msys64\mingw32.exe"	
 		New-Alias mingw64 "$env:JTSDK_TOOLS\msys64\mingw64.exe"	
 		Clear-Host
+		Write-Host "            JTSDK x64 Tools $env:JTSDK64_VERSION"
 		Write-Host "--------------------------------------------------"
-		Write-Host "           JTSDK x64 Tools $env:JTSDK64_VERSION"
+		Write-Host "Package       Version/Status"
 		Write-Host "--------------------------------------------------"
-		Write-Host ""
-		Write-Host "Config: $env:JTSDK_VC"
-		Write-Host ""
-		Write-Host -NoNewLine "MSYS2 Path: "
+		Write-Host -NoNewLine "MSYS2 Path..: "
 		if ( $env:UNIXTOOLS -eq "enabled") {
 			Write-Host "$env:JTSDK_MSYS2"
 		} else {
 			Write-Host "$env:UNIXTOOLS"
 		}	
-		Write-Host ""
-		Write-Host "Package       Version/Status"
-		Write-Host "--------------------------------------------------"
 		Write-Host "Source .....: $env:JT_SRC" 
 		if ((Test-Path "$env:JTSDK_TOOLS\qt\$env:qtv")) { 
 			Write-Host "Qt .........: $env:QTV/$env:VER_MINGW_GCC, Tools/$env:GCC_MINGW "
@@ -559,15 +573,20 @@ function InvokeInteractiveEnvironment {
 			Write-Host "Qt .........: $env:QTV Missing"
 		}
 		Write-Host -NoNewLine "Hamlib .....: "
-		if ((Test-Path "$env:hamlib_base\qt\$env:QTV")) { 
-			if (Test-Path "$env:hamlib_base\qt\$env:QTV\lib\libhamlib.dll.a") {
-				Write-Host "Dynamic"
+		if ((Test-Path "$env:hamlib_base")) { 
+			if (Test-Path "$env:hamlib_base\lib\libhamlib.dll.a") {
+				Write-Host -n "Dynamic"
 			} else {
-				Write-Host "Static"
+				if (Test-Path "$env:hamlib_base\lib") {
+					Write-Host -n "Static"
+				} else {
+					Write-Host -n "Missing"
+				}
 			}
 		} else {
-			Write-Host "Missing"
+			Write-Host -n "Missing"
 		}
+		Write-Host " [Git: $env:HLREPO]"
 		if ((Test-Path "$env:fftw3f_dir")) { 
 			Write-Host "FFTW .......: $env:fftwv"
 		} else {
@@ -609,16 +628,16 @@ function InvokeInteractiveEnvironment {
 			}
 		}
 		if ((Test-Path "$env:boost_dir")) { 
-			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS for $env:GCC_MINGW"
+			Write-Host "Boost ......: $env:boostv $env:BOOST_STATUS [$env:B_MINGW]"
 		} else {
 			Write-Host "Boost ......: $env:boostv Missing"
 		}
 
 		Write-Host "--------------------------------------------------"
 		Write-Host ""
-		Write-Host " Build Boost .......: Deploy-Boost"
-		Write-Host " MSYS2 Environment .: mingw64"
-		Write-Host " Build JTware ......: jtbuild `[option`]"
+		Write-Host "Build Boost .......: Deploy-Boost"
+		Write-Host "MSYS2 Environ......: mingw64"
+		Write-Host "Build JTware ......: jtbuild `[option`]"
 		Write-Host ""
 	}'
 }
@@ -733,8 +752,8 @@ SetPortAudioDirs -pa_dir_ff ([ref]$pa_dir_ff)
 # --- SET FINAL ENVIRONMENT PATHS and CONSOLE TITLE ---------------------------
 
 $env:PATH += $env:JTSDK_PATH
-$env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\bin"	# -- Always Find HAMLIB in search path
-$env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\qt\"+$env:QTV+"\lib"	# -- Always Find HAMLIB Library Dir in search path
+$env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\bin"	# -- Always Find HAMLIB in search path
+$env:PATH += ";"+$pwd.drive.name+":\JTSDK64-Tools\tools\hamlib\lib"	# -- Always Find HAMLIB Library Dir in search path
 
 # The next line is a FUDGE for an issue with JTDX packaging. Not Happy with this - but is necessary !
 $env:PATH += ";"+$env:windir+"\SysWOW64\downlevel;"+$env:windir+"\System32\downlevel"

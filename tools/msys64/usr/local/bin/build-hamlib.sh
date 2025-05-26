@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 4.0.0a
+# Version ......: 4.1.0a
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
@@ -25,6 +25,8 @@
 #                 Support for Qt 5.12.12, 5.15.2, 6.3.1 by Steve VK3VM
 #                 Minor bugs (in configure line) and better support for env vars 28-08-2022 Steve VK3VM
 #                 Replace [CR][LF} with [CR] and some code formatting enhancements 2025-01-15 Coordinated by Steve I VK3VM
+#                 Prefix changed to toss all builds of Hamlib into x:\JTSDK64-Tools\tools\hamlib rather than Qt version specific directory 
+#                 -> as Qt specific versioning now redundant since Qt completely built under MinGW/MSYS2 2025-05-24 Coordinated by Steve I VK3VM   
 #
 ################################################################################
 
@@ -63,7 +65,9 @@ DRIVE=`cygpath -w ~ | head -c 1 | tr '[:upper:]' '[:lower:]'`
 
 SRCD="$HOME/src/hamlib"
 BUILDD="$SRCD/build"
-PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
+# COmmenting this line configures Hamlib to be placed in a Qt version NEUTRAL Directory
+#PREFIX="${JTSDK_TOOLS_F}/hamlib/qt/$QTV"
+PREFIX="${JTSDK_TOOLS_F}/hamlib"
 
 # -- LibUSB Variables ---------------------------------------------------------
 # Using the VS2019 Delivered DLL as issues with MinGW version delivered in LibUSB 1.0.24
@@ -134,7 +138,7 @@ function Determine-CPUs () {
 Package-Data () {
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_G}" COMPILE INFORMATION [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_G}" HAMLIB COMPILE INFORMATION"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	echo -e " Script Option(s) ...: ${C_G}${OPTIONS}"${C_NC}
@@ -144,17 +148,7 @@ Package-Data () {
 	echo -e " User ...............: ${C_G}$BUILDER"${C_NC}
 	echo -e " CPU/Job Count ......: ${C_G}$CPUS"${C_NC}
 	echo -e " Compiler ...........: ${C_G}$GCCUSED"${C_NC}
-	if [ $MSYSTEM == "MINGW32" ] || [ $MSYSTEM == "MINGW64" ];
-	then 
-		echo -e " Platform ...........: ${C_G}$MSYSTEM"${C_NC}
-	else
-		echo -e " Platform ...........: ${C_G}Qt MinGW"${C_NC}
-		echo -e " Qt Version .........: ${C_G}$QTV"${C_NC}
-		echo -e " Qt Tools/Toolchain .: ${C_G}$GCCD_F"${C_NC}
-		echo -e " Qt Directory .......: ${C_G}$QTD_F"${C_NC}
-		echo -e " Qt Platform ........: ${C_G}$QTP_F"${C_NC}
-	
-	fi
+	echo -e " Platform ...........: ${C_G}$MSYSTEM"${C_NC}
 	echo -e " Source Dir .........: ${C_G}$HOME/${BUILD_BASE_DIR}"${C_NC}
 	echo -e " Build Dir ..........: ${C_G}$BUILDD"${C_NC}
 	if [ $PROCESSLIBUSB = "Yes" ];
@@ -175,7 +169,7 @@ Package-Data () {
 Tool-Check () {
 	#echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" CHECKING TOOL-CHAIN [ Qt $QTV ]"${C_NC}
+	echo -e ${C_Y}" CHECKING TOOL-CHAIN"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 
 	# setup array and perform simple version checks
@@ -217,9 +211,11 @@ Tool-Check () {
 	echo -e ${C_NC}' Libtool ............: '${C_G}"$(libtool --version |awk 'FNR==1')"${C_NC}
 	echo -e ${C_NC}' Pkg-Config .........: '${C_G}"$(pkg-config --version)"${C_NC}
 	
+	
 	if [ "$?" = "0" ];
 	then
-	echo -en ${C_NC}" Tool-Chain .........: "&& echo -e ${C_G}'OK'${C_NC}
+	# Redundant/Useless Info Removed 2025-05-26 Steve I VK3VM
+	#	echo -en ${C_NC}" Tool-Chain .........: "&& echo -e ${C_G}'OK'${C_NC}
 		echo ''
 	else
 		echo ''
@@ -229,7 +225,6 @@ Tool-Check () {
 		exit ''
 		exit 1
 	fi
-	
 }
 
 #Function: Clone Repository ---------------------------------------------------
@@ -238,10 +233,17 @@ Tool-Check () {
 # Default (no valid entry of hlnone or hlg4wjs or in C:\JTSDK64-Tools\ )
 # is the master HAMLIB repository
 
+# With Bill G4WJS(sk) and Mike W9MDB(sk) functionality to pull from their Repos
+# will be removed COMPLETELY from code. Steve I VK3VM 2025-05-26
+#
+# Only 2 valid options now: hlnone (supporting custom/packaged builds) and hlmaster !
+
 function Clone-Repo () {
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" CLONING GIT REPOSITORY [ $HLREPO ]"${C_NC}
+	echo -e ${C_Y}" GIT CLONE [ $PKG_NAME ]"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
+	echo ''
+	echo -e ${C_NC}' Repository..........: '${C_G}"$HLREPO"${C_NC}
 	echo ''
 	if [ $PERFORMGITPULL = "Yes" ];
 	then
@@ -290,24 +292,11 @@ function Clone-Repo () {
 					rm -rf "$SRCD/src"
 				fi
 
-				# clone the repository
-				if [ "$HLREPO" = "G4WJS" ];
-				then 
-					echo 'HAMLIB: Cloning from G4WJS(sk) Repository'
-					echo ''
-					git clone https://git.code.sf.net/u/bsomervi/hamlib src
-				else 
-					if [ "$HLREPO" = "W9MDB" ];
-					then
-						echo 'HAMLIB: Cloning from W9MDB Repository'
-						echo ''
-						git clone https://github.com/mdblack98/Hamlib src
-					else
-						echo 'HAMLIB: Cloning from MASTER Repository'
-						echo ''
-						git clone https://github.com/Hamlib/Hamlib.git src
-					fi
-				fi 
+				# Script to handle alternate repos would go here.
+				# Removed as maintainers SK - STeve I VK3VM 2025-05-26
+				echo 'HAMLIB: Cloning from MASTER Repository'
+				echo ''
+				git clone https://github.com/Hamlib/Hamlib.git src
 				
 				cd "$SRCD/src"
 
@@ -325,7 +314,7 @@ function Perform-Bootstrap () {
 	cd "$SRCD/src"
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" PERFORM BOOTSTRAP [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_Y}" BOOTSTRAP [ $PKG_NAME ]"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	if [ $PROCESSBOOTSTRAP = "Yes" ];
@@ -354,7 +343,7 @@ function Run-Config () {
 		
 	echo ''
 	echo -e ${C_NC}'---------------------------------------------------------------'
-	echo -e ${C_Y}" CONFIGURING [ $PKG_NAME ]"${C_NC}
+	echo -e ${C_Y}" CONFIGURATION [ $PKG_NAME ]"${C_NC}
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	if [ $PROCESSCONFIGURE = "Yes" ];
@@ -374,8 +363,6 @@ function Run-Config () {
 		if [ $SHAREDBUILD = "Yes" ]; 
 		then 
 				# Matches new default path (i.e. to build Hamlib DLL only) 4/1/2022 SIR
-				# SHAREDVAR='--enable-shared'
-				# STATICVAR='--disable-static'
 				SHAREDVAR='--enable-shared'
 				STATICVAR='--disable-static'
 				STSHMSG='Shared/Dynamic'
@@ -393,11 +380,6 @@ function Run-Config () {
 		echo -e "  --> Build Type: "${C_G}$STSHMSG${C_NC}' built '${C_G}$LIBUSBMSG${C_NC}${C_NC}' LibUSB'${C_NC}
 		echo -e ${C_NC}''
 		
-		# echo "CPPFLAGS: ${libusb_dir_f}/include"
-		# echo "ORIGINAL: ${libusb_dir_f}/MinGW64/dll"
-		# echo "NEW.....: ${libusb_dir_f}${libusb_dll}"
-		# read -p "Press ENTER to continue"
-		
 		# New options to match that in (hamlib-src)/scripts/build-w64.sh - creates cleaner configuration results
 		# Implemented Steve VK3SIR 9-9-2021
 		# Setup so maybe can fully implement -shared / -static command line options	
@@ -411,7 +393,7 @@ function Run-Config () {
 		$LIBUSBVAR \
 		CPPFLAGS="-I${libusb_dir_f}/include" \
 		LDFLAGS="-L${libusb_dir_f}${libusb_dll}" 
-		#LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
+		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll"
 		# CPPFLAGS="-I${libusb_dir_f}/include -I/usr/include" \
 		# LDFLAGS="-L${libusb_dir_f}/MinGW64/dll -L/usr/lib"
 	else
@@ -494,7 +476,6 @@ BUILDER......: $BUILDER
 Prefix.......: $PREFIX
 Pkg Name.....: $PKG_NAME
 Pkg Version..: development
-Tool Chain...: $QTV
 
 # Source Location and Integration
 Git URL......: https://github.com/Hamlib/Hamlib.git
@@ -561,11 +542,8 @@ function Copy-DLLs {
 		cp -u "$GCCPATH/libreadline8.dll" "$PREFIX/bin"
 	fi
 	
-	# -- Special Cleanup for Dynamic Builds ---------------------------------------
+	# -- Special Package-DLL's-Needed script for Dynamic Builds ---------------------------------------
 	# Note: This may NOT be required in the future when configure option --disable-static works
-	
-	# echo "PREFIX: $PREFIX"
-	# read -p "Press any key to resume ..."
 	
 	if [ $STATICBUILD = "No" ];
 	then
@@ -591,7 +569,7 @@ function Copy-DLLs {
 		fi
 	fi
 	
-		# -- Special Cleanup for Static Builds -----------------------------------
+	# -- Special Cleanup for Static Builds -----------------------------------
 	# Note: This may NOT be required in the future when configure option --disable-dynamic works
 	
 	# echo "PREFIX: $PREFIX"
@@ -635,9 +613,8 @@ function Test-Binaries {
 	echo -e ${C_NC}'---------------------------------------------------------------'
 	echo ''
 	# Overcomes a bug encountered when LibUSB support is enabled
-	# PREFIXB="${JTSDK_TOOLS}\hamlib\qt"
-	# PREFIXB="${PREFIXB}\\${QTV}"
-	PREFIXB="${JTSDK_TOOLS_F}/hamlib/qt/${QTV}"
+	# PREFIXB="${JTSDK_TOOLS_F}/hamlib/qt/${QTV}"
+	PREFIXB="${JTSDK_TOOLS_F}/hamlib"
 	#cmd /C "$PREFIXB\bin\rigctl.exe --version"
 	"${PREFIXB}"/bin/rigctl.exe --version
 	
@@ -649,8 +626,6 @@ function Test-Binaries {
 		echo -e ${C_NC}'---------------------------------------------------------------'
 		echo ''
 		# Overcomes a bug encountered when LibUSB support is enabled
-		# PREFIXB="${JTSDK_TOOLS}\hamlib\qt\\${QTV}"
-		# cmd /C "$PREFIXB\bin\rigtestlibusb.exe"
 		"${PREFIXB}"/bin/rigtestlibusb.exe
 	fi
 }
