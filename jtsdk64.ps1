@@ -560,7 +560,7 @@ function InvokeInteractiveEnvironment {
 		Write-Host "--------------------------------------------------"
 		Write-Host "Package       Version/Status"
 		Write-Host "--------------------------------------------------"
-		Write-Host -NoNewLine "MSYS2 Path..: "
+		Write-Host -NoNewLine "Qt-MSYS2 ...: "
 		if ( $env:UNIXTOOLS -eq "enabled") {
 			Write-Host "$env:JTSDK_MSYS2"
 		} else {

@@ -543,7 +543,7 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
 --------------------------------------------------
 Package       Version/Status
 --------------------------------------------------
-MSYS2 Path..: Disabled
+Qt-MSYS2 ...: Disabled
 Source .....: wsjtx
 Qt .........: 5.15.2/mingw81_64, Tools/mingw810_64
 Hamlib .....: Missing [Git: MASTER]
@@ -551,8 +551,8 @@ FFTW .......: 3.3.10
 LibUSB .....: 1.0.28
 NSIS .......: 3.11
 PkgConfig ..: 2.1.0
-Ruby .......: 3.4.2-1
-Subversion .: 1.14.2b
+Ruby .......: 3.4.4-2
+Subversion .: 1.14.5
 CMake ......: 4.0.2
 Boost ......: Missing
 --------------------------------------------------
