@@ -1,4 +1,4 @@
-# JTSDK64 Applications and Tools: Pre-Release (Development)
+# JTSDK64 Applications and Tools: Beta Release 1
 
 ************************************************************************************
 ## JTSDK Version 4.1 Stream
@@ -487,7 +487,7 @@ $ menu
 ```
 -------------------------------------
 JTSKD64 Tools Main Menu
-------------------------------------
+-------------------------------------
 
  1. Set MSYS2 path to find Qt compilers
  2. Update MSYS2
@@ -500,10 +500,13 @@ JTSKD64 Tools Main Menu
  9. Add Hamlib to pkgconfig
  a. Clear Hamlib Source
  b. Select HAMLIB Repository
- h. List help commands
+ d. Downgrade GCC (Not Recommended)
+ r. Restore GCC (Not Recommended)
  v. List version information
 
- e. Enter 'e' or 'q' to exit
+ h. List help commands
+
+ x. Enter 'x' or 'q' to exit
 
 Enter your selection, then hit <return>:
 ```
@@ -551,8 +554,8 @@ FFTW .......: 3.3.10
 LibUSB .....: 1.0.28
 NSIS .......: 3.11
 PkgConfig ..: 2.1.0
-Ruby .......: 3.4.4-2
-Subversion .: 1.14.5
+Ruby .......: 3.4.2-1
+Subversion .: 1.14.2b
 CMake ......: 4.0.2
 Boost ......: Missing
 --------------------------------------------------

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="keywords" content="JTSDK, JT-ware, wsjtx, jtdx, js8call, build wsjtx, compile wsjtx, Qt, Windows, software, development, Portaudio, audio, portaudio.com">
-	<title>JTSDK 4.1 Guide for Building LibUSB</title>
+	<title>JTSDK 4.1 Guide for Building Fast-Light Toolkit Apps</title>
 	<link rel="stylesheet" href="../style-new.css">
 	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
 </head>
@@ -53,6 +53,7 @@
 	<li>The term FL-apps is used to describe any of the applications supported by David W1HKJ.</li>
 </ul>
   <p>At the time of writing only <a href="sourceforge.net/projects/fldigi/files/flrig/">flrig</a> (perhaps the most important tool for JT-Ware) can be compliled using these techniques. The MSYS2 and mingw64 environments are constantly evolving. Hopefully other apps will be available soon.</p>
+  <p><strong>Note:</strong> There are issues with the MSYS2 Environment. Use the MinGW64/MSYS2 environments supplied with <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe">JTSDK64-4.0.0</a> and do not update it (i.e. with <strong>pacman -Syuu</strong>).</p>
 </ul>
 	
 <h3>Step 1: Deploy the FL-Toolkit under the MSYS2/MinGW Environment</h3>
@@ -70,7 +71,7 @@
 
 <h3>Step 2: Download and Decompress the flrig source</h3>
 <ul>
-  <p><strong>Note:</strong> These steps are valid for <strong>flrig 2.0.0.5</strong>. Should later versions become available (see:&nbsp;<a href="sourceforge.net/projects/fldigi/files/flrig/">sourceforge.net/projects/fldigi/files/flrig/</a> ) adjust instructions accordingly.&nbsp; &nbsp;&nbsp;</p>
+  <p><strong>Note:</strong> These steps are valid for <strong>flrig 2.0.7</strong>. Should later versions become available (see:&nbsp;<a href="sourceforge.net/projects/fldigi/files/flrig/">sourceforge.net/projects/fldigi/files/flrig/</a> ) adjust instructions accordingly.&nbsp; &nbsp;&nbsp;</p>
   <p>Under the MSYS2/MinGW environment:</p>
 <ul>
 	<li>Create a directory ~/src (if it does not already exist) and change into that directory:</li>
@@ -80,22 +81,22 @@
 	</ul>
 </ul>
 	<ul>
-		<li>Execute  the following command to retrieve <strong>flrig 2.0.0.5</strong>:</li>
+		<li>Execute  the following command to retrieve <strong>flrig 2.0.7</strong>:</li>
 		
 		<ul>
-			<li>wget https://sourceforge.net/projects/fldigi/files/flrig/flrig-2.0.05.tar.gz</li>
+			<li>wget https://sourceforge.net/projects/fldigi/files/flrig/flrig-2.0.07.tar.gz</li>
 		</ul>
 		
 	</ul>
 	<ul>
 		<li>Extract the source from the downloaded package with:</li>
 		<ul>
-			<li>tar xvfz flrig-2.0.05.tar.gz</li>
+			<li>tar xvfz flrig-2.0.07.tar.gz</li>
 		</ul>
 	</ul>
   <p>This should have now downloaded and decompressed the source file package. Change into the build directory:</p>
 	<ul>
-		<li>cd flrig-2.0.05</li>
+		<li>cd flrig-2.0.07</li>
 	</ul>
 </ul>
 <h3>Step 3: Compile the software</h3>
@@ -112,7 +113,7 @@
 	
 <ul>
 	
-    <p>You should have a readily built <strong>flrig-2.0.05_setup.exe</strong> .exe installer inside the source tree i.e. ~/src/flrig-2.0.05/src .</p>
+    <p>You should have a readily built <strong>flrig-2.0.07_setup.exe</strong> .exe installer inside the source tree i.e. ~/src/flrig-2.0.07/src .</p>
 </ul>		
 <hr>
 <table width="100%" border="0">

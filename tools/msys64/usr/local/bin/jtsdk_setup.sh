@@ -2,18 +2,24 @@
 ################################################################################
 #
 # Title ........: jtsdk_setup.sh
-# Version ......: 4.0.0
+# Version ......: 4.1.0b
 # Description ..: Setup the MSYS2 Environ for the JTSDK64
-# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
+# Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream
 # Concept ......: (c) Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 # Author .......: Base (c) 2013 - 2021 Greg, Beam, KI7MT, <ki7mt@yahoo.com>
 #				  Enhancements (c) 2021 - 2025 JTSDK & Hamlib Development Contributors
 #
 # Updates.......: General Updates for new environment - by Steve VK3VM/VK3SIR 20-2-2021-02-20-->2022-01-15 
 #                 Menu additions for Fl-app support - by Steve VK3VM/VK3SIR 2023-11-12-->15 
-#                 Addition of Keyring file Updates, parallel, ICU and MSMPI Library deployment - experiment coordinated by Steve VK3VM (who is "On Leave" at the moment) 2025-02-20   
+#                 Addition of Keyring file Updates, parallel, ICU and MSMPI Library deployment - experiment 
+#                   coordinated by Steve VK3VM (who is "On Leave" at the moment) 2025-02-20   
+#                 Addition of downgrade GCC Functions and general script refactoring - coordinated by Steve VK3VM 2025-06-18-->19  
 #
 ################################################################################
+
+# Global (Yuk)
+
+rval="        "
 
 # script version
 AUTHOR="Greg Beam, KI7MT and JTSDK Contributors"
@@ -49,13 +55,16 @@ alias build-hamlib-static='bash "build-hamlib.sh" -static'
 function jthelp () {
 
     clear ||:
-    echo ''
+    echo -e ${C_NC}""
+	echo '---------------------------------------------------------------------'
 	echo -e ${C_C}"$JTSDK64_NAME ($MSYSTEM) Help Menu"${C_NC}
+	echo '---------------------------------------------------------------------'
     echo ''
     echo 'The following alias commands are available for direct entry'
     echo 'via the MSYS2 Console:'
-    echo ''
-    echo 'Command              Description'
+    echo -e ${C_NC}""
+	echo '---------------------------------------------------------------------'
+    echo 'Command         Description'
     echo '-----------------------------------------------------------'
     echo -e ${C_C}"jthelp${C_NC}          Show this help Menu"
     echo -e ${C_C}"jtsetup${C_NC}         Install Hamlib Build Dependencies"
@@ -67,6 +76,16 @@ function jthelp () {
 
 }
 
+# Function: Standardised first run message -------------------------------------
+function first-run-message () {
+	echo -e ${C_NC}""
+	echo '*********************************************************************'
+    echo -e ${C_Y}"If FIRST RUN close MSYS2 and JTSDK PowerShell Environments."${C_NC}
+	echo -e ${C_Y}"Reopen JTSDK64-Tools and MinGW/MSYS2 shell(s)."${C_NC}
+	echo -e ${C_Y}"You may need to Log-Out and Log-In again to set changes."${C_NC}
+	echo '*********************************************************************'
+}
+
 # Function: install hamlib build dependencies ----------------------------------
 function jtsetup () {
 
@@ -75,9 +94,9 @@ function jtsetup () {
 
     # start installation
     clear ||:
-    echo ''
+    echo -e ${C_NC}""
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"INSTALL MSYS2 HAMLIB PACKAGES"${C_NC}
+    echo -e ${C_C}"INSTALL MSYS2 HAMLIB PACKAGES"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 
@@ -106,9 +125,9 @@ function gnusetup () {
 
     # start installation
     clear ||:
-    echo ''
+	echo -e ${C_NC}""
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"INSTALL mingw64 GNU COMPILERS & COMMON TOOLS/LIBRARIES"${C_NC}
+    echo -e ${C_C}"INSTALL mingw64 GNU COMPILERS & COMMON TOOLS/LIBRARIES"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 
@@ -127,7 +146,6 @@ function gnusetup () {
     echo ''
     echo -e ${C_Y}"Finished Package Installation"${C_NC}
     echo ''
-
 }
 
 # Function: install Fl-app dependencies ---------------------------------------
@@ -138,9 +156,9 @@ function flappsetup () {
 
     # start installation
     clear ||:
-    echo ''
+    echo -e ${C_NC}""
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"INSTALL FL-APP DEPENDENCIES (EXPERIMENTAL)"${C_NC}
+    echo -e ${C_C}"INSTALL FL-APP DEPENDENCIES (EXPERIMENTAL)"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 
@@ -161,24 +179,104 @@ function flappsetup () {
 
 }
 
+# Function to read a value from the INI file -----------------------------------
+function read-ini-value() {
+
+	local ini_file="/${HOMEDRIVE%?}/JTSDK64-Tools/config/Versions.ini"
+	local key="$1"
+
+	# Use grep and cut to extract the value
+	rval=$(grep "^$key=" "$ini_file" | cut -d'=' -f2 | head -n 1)
+
+	# Handle empty or missing values
+	if [ -z "$rval" ]; then
+		rval="Not Defined"
+	fi
+	# return ${rval} - Not possible so using the GLOBAL (yuk) !
+}
+
+# Function: Clear any pre-existing Hamlib Source -------------------------------
+function downgrade-gcc () {
+
+	CURR_GCC_VERSION=$(gcc --version | head -n 1)
+	local key="gcc-downgradess"
+
+	# Yukky way of doing this using the rval global but shell script functions cannot return strings
+	read-ini-value ${key}
+	GCC_PACKAGE=${rval}
+
+    clear ||:
+    echo -e ${C_NC}""
+    echo '---------------------------------------------------------------------'
+    echo -e ${C_C}"DOWNGRADE GCC TO OLDER VERSION"${C_NC}
+    echo '---------------------------------------------------------------------'
+	echo ''
+	echo -e ${C_R}"Note: This is not recommended as it can break pacman updates."${C_NC} 	
+    echo ''
+	echo -e ${C_G}"  --> Current GCC Version: "${C_NC}${CURR_GCC_VERSION}
+	echo ''
+	echo -e ${C_G}"  --> Downgrade GCC Package: "${C_NC}${GCC_PACKAGE}
+	echo ''
+	if [ "${GCC_PACKAGE}" == "Not Defined" ]; then
+		echo -e ${C_R}"*** Downgrade package not defined. Unable to continue *** "${C_NC}
+		echo ''
+		echo -e ${C_NC}"  --> Please put in a key ${C_Y}gcc-downgrade=${C_NC} and FULL MinGW/MSYS2package name into ${C_Y}Versions.ini "${C_NC}
+		echo ''
+	else
+		read -p 'Press (Y - capital) to continue, any other key to abort ' -n 1 key
+		echo ''	
+		#if [[ "$key" == "y" || "$key" == "Y" ]]; then
+		if [ "$key" == "Y" ]; then
+			echo "Performing Downgrade..."
+			echo ""
+			wget https://repo.msys2.org/mingw/mingw64/${GCC_PACKAGE} -P /tmp
+			tar --zstd -xvf /tmp/${GCC_PACKAGE} -C /
+			rm -f /tmp/${GCC_PACKAGE}
+
+			echo -e ''${C_NC}
+			echo '*********************************************************************'
+			echo -e ${C_Y}"Close MSYS2 and JTSDK PowerShell Environments."${C_NC}
+			echo -e ${C_Y}"Reopen JTSDK64-Tools and MinGW/MSYS2 shell(s)."${C_NC}
+			echo -e ${C_Y}"You may need to Log-Out and Log-In again to set changes."${C_NC}
+			echo '*********************************************************************'
+		else
+			echo -e ${C_R}"Aborted GCC downgrade."${C_NC}
+		fi
+	fi
+    #echo ''
+}
+
+# Function to restore GCC to current deployment version ------------------------
+function restore-gcc() {
+
+    # start installation
+    clear ||:
+    echo -e ${C_NC}""
+    echo '---------------------------------------------------------------------'
+    echo -e ${C_C}"RESTORE GCC TO CURRENT VERSION (EXPERIMENTAL)"${C_NC}
+    echo '---------------------------------------------------------------------'
+    #echo ''
+	pacman -Scc
+	echo ''
+	pacman -S mingw-w64-x86_64-gcc 
+	first-run-message
+    #echo ''
+}
+
 # Function: Update JTSDK64 Tools MSYS2 Scripts ---------------------------------
 # See: https://repo.msys2.org/msys/x86_64/ for the latest 
 function msys-keyring () {
 
     clear ||:
-    echo ''
+    echo -e ${C_NC}""
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"UPGRADE MSYS2 KEYRING"${C_NC}
+    echo -e ${C_C}"UPGRADE MSYS2 KEYRING"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
 	curl -O https://repo.msys2.org/msys/x86_64/msys2-keyring-1~20250214-1-any.pkg.tar.zst
 	curl -O https://repo.msys2.org/msys/x86_64/msys2-keyring-1~20250214-1-any.pkg.tar.zst.sig
 	pacman -U --noconfirm --config <(echo) msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
-	echo '*********************************************************************'
-    echo -e ${C_Y}"IF FIRST RUN CLOSE MSYS2 and JTSDK-Setup shells."${C_NC}
-	echo -e ${C_Y}"Reopen JTSDK-Tools and then MSYS2 shell."${C_NC}
-	echo -e ${C_Y}"You may need to Log-Out and Log-In again to set changes."${C_NC}
-	echo '*********************************************************************'
+	first-run-message
     echo ''
 }
 
@@ -186,17 +284,13 @@ function msys-keyring () {
 function msys-update () {
 
     clear ||:
-    echo ''
+    echo -e ${C_NC}""
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"UPGRADE ALL MSYS2 PACKAGES"${C_NC}
+    echo -e ${C_C}"UPGRADE ALL MSYS2 PACKAGES"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
     pacman -Syuu --needed --noconfirm --disable-download-timeout
-	echo '*********************************************************************'
-    echo -e ${C_Y}"IF FIRST RUN CLOSE MSYS2 and JTSDK-Setup shells."${C_NC}
-	echo -e ${C_Y}"Reopen JTSDK-Tools and then MSYS2 shell."${C_NC}
-	echo -e ${C_Y}"You may need to Log-Out and Log-In again to set changes."${C_NC}
-	echo '*********************************************************************'
+	first-run-message
     echo ''
 
 }
@@ -205,18 +299,17 @@ function msys-update () {
 function clear-hamlib () {
 
     clear ||:
-    echo ''
+    echo -e ${C_NC}""
     echo '---------------------------------------------------------------------'
-    echo -e ${C_Y}"CLEAR EXISTING HAMLIB SOURCE"${C_NC}
+    echo -e ${C_C}"CLEAR EXISTING HAMLIB SOURCE"${C_NC}
     echo '---------------------------------------------------------------------'
     echo ''
-	echo -n 'Clearing ~/src/hamlib: '
+	echo -n '* Clearing ~/src/hamlib:'
     cd ~
 	cd ~/src
 	rm -rf ~/src/hamlib
-	echo 'Done'
+	echo "--> Complete"
     echo ''
-
 }
 
 function change-repo () {
@@ -291,9 +384,9 @@ function menu () {
     while true
     do
         clear ||:
-        echo "-------------------------------------"
+        echo -e ${C_NC}"-------------------------------------"
         echo -e ${C_C}"JTSKD64 Tools Main Menu"${C_NC}
-        echo  "------------------------------------"
+        echo -e ${C_NC}"-------------------------------------"
 		echo ''
 		echo " 1. Set MSYS2 path to find Qt compilers"
 		echo " 2. Update MSYS2"
@@ -306,10 +399,13 @@ function menu () {
 		echo " 9. Add Hamlib to pkgconfig"
 		echo " a. Clear Hamlib Source"
 		echo " b. Select HAMLIB Repository"
-		echo " h. List help commands"
+		echo " d. Downgrade GCC (Not Recommended)"
+		echo " r. Restore GCC (Not Recommended)"
 		echo " v. List version information"
 		echo ''
-        echo " e. Enter 'e' or 'q' to exit"
+		echo " h. List help commands"
+		echo ''
+        echo " x. Enter 'x' or 'q' to exit"
 		echo ''
         echo -n "Enter your selection, then hit <return>: "
         read answer
@@ -342,13 +438,13 @@ function menu () {
             7)
                 build-hamlib-static
 				echo ""
-				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD DYNAMIC LIBRARIES"${C_NC}
+				echo -e ${C_R}"CLEAR SOURCE then Close and RESTART MSYS2 IF YOU INTEND TO BUILD DYNAMIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
 			8)
                 build-hamlib-dll
 				echo ""
-				echo -e ${C_R}"CLEAR SOURCE then CLOSE and RESTART MSYS2 IF YOU INTEND TO BUILD STATIC LIBRARIES"${C_NC}
+				echo -e ${C_R}"CLEAR SOURCE then Close and RESTART MSYS2 IF YOU INTEND TO BUILD STATIC LIBRARIES"${C_NC}
 				echo ""
                 read -p "Press enter to continue..." ;;
 			9)
@@ -378,11 +474,19 @@ function menu () {
                 change-repo
                 echo ''
                 read -p "Press enter to continue..." ;;
+			d)
+                downgrade-gcc
+                echo ''
+                read -p "Press enter to continue..." ;;
+			r)
+                restore-gcc
+                echo ''
+                read -p "Press enter to continue..." ;;
 			v|V)
                 #jtversion
 				greeting_message
                 read -p "Press enter to continue..." ;;
-            e|E|q|Q)
+            x|X|q|Q)
                 greeting_message
                 break ;;
             *)

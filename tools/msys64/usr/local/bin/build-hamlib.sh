@@ -2,7 +2,7 @@
 ################################################################################
 #
 # Title ........: build-hamlib.sh
-# Version ......: 4.1.0a
+# Version ......: 4.1.0
 # Description ..: Build Hamlib from GIT-distributed Hamlib Integration Branches
 # Base Project .: https://github.com/KI7MT/jtsdk64-tools-scripts.git
 # Project URL ..: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.2-Stream
@@ -26,7 +26,8 @@
 #                 Minor bugs (in configure line) and better support for env vars 28-08-2022 Steve VK3VM
 #                 Replace [CR][LF} with [CR] and some code formatting enhancements 2025-01-15 Coordinated by Steve I VK3VM
 #                 Prefix changed to toss all builds of Hamlib into x:\JTSDK64-Tools\tools\hamlib rather than Qt version specific directory 
-#                 -> as Qt specific versioning now redundant since Qt completely built under MinGW/MSYS2 2025-05-24 Coordinated by Steve I VK3VM   
+#                 -> as Qt specific versioning now redundant since Qt completely built under MinGW/MSYS2 2025-05-24 Coordinated by Steve I VK3VM
+#                 GITASPARAM="No" fix as in message https://groups.io/g/JTSDK/message/3235 2025-06-13 Coordinated by Steve I VK3VM
 #
 ################################################################################
 
@@ -691,7 +692,7 @@ SHAREASPARAM="No"
 STATICASPARAM="No"
 BOOTSTRAPASPARAM="No"
 CONFIGASPARAM="No"
-GITASPARM="No"
+GITASPARAM="No"
 LIBUSBASPARAM="No"
 
 # If no parameters entered 14-1-2022 Steve VK3VM 
