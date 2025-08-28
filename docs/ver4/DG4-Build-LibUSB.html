@@ -50,7 +50,7 @@
 <p>A number of operational issues have arisen with the use of compiled LibUSB packages downloaded from <a href="file:///C|/Users/stepheni.HOME/AppData/Local/Microsoft/Windows/INetCache/IE/XFNP0OWK/releases[1]">https://github.com/libusb/libusb/releases</a> </p>
 <p>It is now recommended that users of the JTSDK compile their own LibUSB from the latest source provided by the LibUSB Maintainers,.</p>
 <p>These steps  will demonstrate how to build and deploy a library set under the <strong>mingw64</strong> environment for the JTSDK.</p>
-<p><b>Note:</b> The currrent version of LibUSB at writing is <a href="https://github.com/libusb/libusb/releases/download/v1.0.28/libusb-1.0.28.tar.bz2">1.0.28</a>.</p>
+<p><b>Note:</b> The currrent version of LibUSB at writing is <a href="https://github.com/libusb/libusb/releases/download/v1.0.29/libusb-1.0.29.tar.bz2">1.0.29</a>.</p>
 </ul>
 	
 <h3>Step 1: Download and fully deploy the latest JTSDK</h3>
@@ -111,24 +111,25 @@
 <h3>Step 4: Download the  Source</h3>
 	
 <ul>
-  <p>Download URL of the latest stable LibUSB. At the time of writimng the latest version was Version <a href="https://github.com/libusb/libusb/releases/download/v1.0.28/libusb-1.0.28.tar.bz2">1.0.28</a></p>
+  <p>Download URL of the latest stable LibUSB. At the time of writimng the latest version was Version <a href="https://github.com/libusb/libusb/releases/download/v1.0.29/libusb-1.0.29.tar.bz2">1.0.29</a></p>
   <ul>
   	<li>Navigate to <a href="https://libusb.info/">https://libusb.info/</a></li>	
   </ul>
   <ul>
   	<li>Download the latest source by selecting Donwloads / Latest Source (tarball)</li>
-  	<li> Save this file to the MSYS2 src directory ( i.e. x:\JTSDK64-Tools\tools\msys64\home\&lt;user name&gt;\src )</li>
+  	<li>Save this file to the MSYS2 src directory ( i.e. x:\JTSDK64-Tools\tools\msys64\home\&lt;user name&gt;\src )</li>
+	<li><strong>Note:</strong> It is possible to use this command at the MSYS2 terminal prompt to download LibUSB: wget https://github.com/libusb/libusb/releases/download/v1.0.29/libusb-1.0.29.tar.bz2</li>
   </ul>
   <p>Change to the directory that you have just downloaded this source package to from within a <strong>msys64</strong> shell::</p>
   <ul>
     <li><strong>cd ~/src</strong></li>
   </ul>	
-<p>Extract  the source package (assuming Version 1.0.28) with:
+<p>Extract  the source package (assuming Version 1.0.29) with:
 </p>
 <ul>
   
   <ul>
-	  <li><strong>tar xjf libusb-1.0.28.tar.bz2</strong></li>
+	  <li><strong>tar xjf libusb-1.0.29.tar.bz2</strong></li>
   </ul>
 </ul>
 </ul>
@@ -140,7 +141,7 @@
   	<li>Execute  the following commands at the MSYS2 command prompt:</li>
 
 	<ul>
-		<li><strong>cd libusb-1.0.28</strong></li>
+		<li><strong>cd libusb-1.0.29</strong></li>
 
 		<li><strong>mkdir /tmp/libusb</strong></li>
 		
@@ -167,20 +168,20 @@
 <ul>
 	
     <p>You will find a structure inside <em>/tmp</em> (windows path <em>C:\JTSDK64-Tools\tools\msys64\tmp\libusb</em>) that contains the built LibUSB library structure. .</p>
-    <p>Rename the directory /tmp/libusb to a name that best fits the &quot;structuring&quot; of the JTSDK. In this case we assume that source for v 1.0.28 has been used</p>
+    <p>Rename the directory /tmp/libusb to a name that best fits the &quot;structuring&quot; of the JTSDK. In this case we assume that source for v 1.0.29 has been used</p>
 	<ul>
 		<li>cd /tmp</li>
-		<li>mv libusb 1.0.28</li>
+		<li>mv libusb 1.0.29</li>
 	</ul>
     <p>Deliver that folder structure to <em>X:\JTSDK64-Tools\tools\</em>libusb . From the MSYS2 prompt the command will be:</p> 
 	<ul>
-		<li>mv ./1.0.28 /c/JTSDK64-Tools/tools/libusb</li>
+		<li>mv ./1.0.29 /c/JTSDK64-Tools/tools/libusb</li>
 	</ul>
 	<p>Make the appropriate adjustment in <em>C:\JTSDK64-Tools\config\Versions.ini</em> so that it can be used by the JTSDK. </p>
 	<br><strong>File:</strong> x:\JTSDK64-Tools\config\Versions.ini</br>
 	<ul>
 		<br>...</br>
-		<br>libusbv=1.0.28</br>
+		<br>libusbv=1.0.29</br>
 		<br># Next can also be /MinGW64/dll</br>
 		<br>libusbdll=/bin</br>
 		<br>...</br>
