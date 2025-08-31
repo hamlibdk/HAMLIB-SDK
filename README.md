@@ -1,4 +1,4 @@
-# JTSDK64 Applications and Tools: Beta Release 1
+# JTSDK64 Applications and Tools: Pre-Release (Development)
 
 ************************************************************************************
 ## JTSDK Version 4.1 Stream
@@ -542,7 +542,7 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
 - Launch the **JTSDK64-Tools** environment from the icon on your desktop.
 
 ```
-            JTSDK x64 Tools v4.1.0a
+            JTSDK x64 Tools v4.1.0
 --------------------------------------------------
 Package       Version/Status
 --------------------------------------------------
@@ -551,12 +551,12 @@ Source .....: wsjtx
 Qt .........: 5.15.2/mingw81_64, Tools/mingw810_64
 Hamlib .....: Missing [Git: MASTER]
 FFTW .......: 3.3.10
-LibUSB .....: 1.0.28
+LibUSB .....: 1.0.29
 NSIS .......: 3.11
 PkgConfig ..: 2.1.0
-Ruby .......: 3.4.2-1
+Ruby .......: 3.4.5-1
 Subversion .: 1.14.2b
-CMake ......: 4.0.2
+CMake ......: 4.1.1
 Boost ......: Missing
 --------------------------------------------------
 
@@ -573,7 +573,7 @@ You need to build these two (rather complex) library sources from source code.
 **Step 3a: Upgrade your Qt Deployment**
  
 A Minimum Qt installation pegs at [Qt][] at version 5.15.2. If you did not use the "F" Full option for [Qt][] deployment or you 
-want to add additional Qt versions - i.e. test Qt 6.8.1 - you should do so now. 
+want to add additional Qt versions - i.e. test Qt 6.8.3 - you should do so now. 
 
 **Qt 5.15.2 is the Qt Development and Deployment environment for JT-ware. Qt6 streams are experimental and not supported for mainstream JT-ware compiles.**
 
@@ -590,11 +590,11 @@ To add an additional version of Qt to the default Qt 5.15.2 version:
 - Navigate to the Qt Deployment directory
 - Run the Qt Maintenance Tool from your Qt deployment directory (i.e. **C:\JTASK64-Tools\tools\Qt**)
 
-To add Qt 6.8.1 manually:
+To add Qt 6.8.3 manually:
 
-- Add Qt 6.8.1 MinGW
-- Ensure that components Qt 6.8.1/MinGW 13.1.0 64 bit and Qt 6.8.1/Qt5 Compatability Module are added.
-- Select Qt 6.8.1/All Additional Libraries .
+- Add Qt 6.8.3 MinGW
+- Ensure that components Qt 6.8.3/MinGW 13.1.0 64 bit and Qt 6.8.3/Qt5 Compatability Module are added.
+- Select Qt 6.8.3/All Additional Libraries .
 - Add Developer and Designer Tools / MinGW 13.1.0 64-bit
 - (Recommended) Add the OpenSSL 1.1.1x toolkit (it helps with a WSJTX download - if it is still available).
 - (Recommended) Add the OpenSSL 3.x.1x toolkit (Future Enhancement).
@@ -602,7 +602,7 @@ To add Qt 6.8.1 manually:
 On Completion:
 
 - Adjust the maker file in **x:\JTSDK64-Tools\config** marker file to match the Qt version that you want to use 
-- i.e. rename **qt5.15.2** to **qt6.8.1**
+- i.e. rename **qt5.15.2** to **qt6.8.3**
 
 ************************************************************************************
 There must only be ONE marker file for Qt in **x:\JTSDK64-Tools\config**
@@ -637,7 +637,18 @@ In **JTSDK64-Tools**:
 
 **Step 3c: Deploy Boost for our selected Qt/MinGW Version.**
  
-***THIS IS SLOW***. Source "dropins" of pre-built Boost Libraries are no longer maintained.
+**THIS IS SLOW**. Source "dropins" of pre-built Boost Libraries are no longer maintained.
+
+The version of Boost to be deployed is set in **Versions.ini** .
+
+**File:** Versions.ini
+```
+...
+boostv=1.88.0
+```
+**Note:** At the time of writing, **Versions of Boost > 1.88.0 will not build [WSJT-X 2.7.0][] properly**.
+
+It is anticipated that this may be rectified soon. Please check the [JTSDK Forum][] for the latest updates.
 
 ************************************************************************************
 **Note:** Using PowerShell 7 instead of the default PowerShell Windows 5.1 can speed up the download and decompress stages considerably. 

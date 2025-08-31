@@ -118,7 +118,10 @@
   <ul>
   	<li>Download the latest source by selecting Donwloads / Latest Source (tarball)</li>
   	<li>Save this file to the MSYS2 src directory ( i.e. x:\JTSDK64-Tools\tools\msys64\home\&lt;user name&gt;\src )</li>
-	<li><strong>Note:</strong> It is possible to use this command at the MSYS2 terminal prompt to download LibUSB: wget https://github.com/libusb/libusb/releases/download/v1.0.29/libusb-1.0.29.tar.bz2</li>
+	<li><strong>Note:</strong> It is possible to use this command at the MSYS2 terminal prompt to download LibUSB:&nbsp;</li>
+	<ul>
+	<li><strong>wget https://github.com/libusb/libusb/releases/download/v1.0.29/libusb-1.0.29.tar.bz2</strong></li>
+    </ul>
   </ul>
   <p>Change to the directory that you have just downloaded this source package to from within a <strong>msys64</strong> shell::</p>
   <ul>
@@ -137,8 +140,22 @@
 <h3>Step 5: Configure and build the LibUSB library</h3>
 <ul>
 	<p>The following set of steps actually configures and builds the library.</p>
-	<ul>
+	<p>First you need to check that some of the resources are present to actually build the library</p>
+		<ul>
   	<li>Execute  the following commands at the MSYS2 command prompt:</li>
+		<ul>
+			<li>ls -al</li>
+		</ul>
+	</ul>
+	<p>Check to see that the file <strong>configure</strong> is provided. If not type:</p> 
+		<ul>
+			<li><strong>./bootstrap.sh</strong></li>
+			
+		</ul>
+
+	<p>Now you can build the actual libary</p>
+	
+  	<p>Execute  the following commands at the MSYS2 command prompt:</p>
 
 	<ul>
 		<li><strong>cd libusb-1.0.29</strong></li>
@@ -153,7 +170,7 @@
 	
 	<p>The above command places all that is built into the subdirectory <strong>/tmp/libusb</strong> . This way the built libraries are easy to  find.</p>
 
-  	<li>Start  the actual build and deployment with the following commands:</li>
+  	<p>Start  the actual build and deployment with the following commands:</p>
 	
 	<ul>
 		<li><strong>make</strong></li>
@@ -161,7 +178,7 @@
 		<li><strong>make</strong><strong> </strong><strong>install</strong><strong> </strong></li>
 	</ul>
 </ul>
-</ul>
+
 	
 <h3>Complete</h3>
 	
