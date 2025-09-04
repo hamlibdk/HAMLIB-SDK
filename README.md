@@ -1,4 +1,4 @@
-# JTSDK64 Applications and Tools: Pre-Release (Development)
+# JTSDK64 Applications and Tools: Release
 
 ************************************************************************************
 ## JTSDK Version 4.1 Stream
