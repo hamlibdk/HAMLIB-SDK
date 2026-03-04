@@ -51,12 +51,12 @@
 <ul>
 	<p>The parent <strong>Version 3.2</strong> stream is a learning, discovery and technique refinement experiment. Subsequent versions are an evolution from this.</p>
 </ul>
-<h3>Version 4.1.0</h3>
+<h3>Version 4.1.1</h3>
 <ul>
-	<p>The <strong>JTSDK 4.1.0</strong> outwardly will appear similar to previous <strong>JTSDK Version 3</strong>-stream releases. Yet the <strong>JTSDK 4.1.0</strong> has significant updates and enhancements in that many of the key commands now accept 
+	<p>The <strong>JTSDK 4.1.1</strong> outwardly will appear similar to previous <strong>JTSDK Version 3</strong>-stream releases. Yet the <strong>JTSDK 4.1.1</strong> has significant updates and enhancements in that many of the key commands now accept 
 	  switches that can make the process of developing code quicker and simpler.</p>
-	<p>The <strong>JTSDK 4.1.0 </strong> also moves away from <strong>PowerShell Windows 5.1</strong> (The default MS-Windows-supplied version - also referred to as "PowerShell Core") to more contemporary release versions.  </p>
-	<p>The <strong>JTSDK 4.1.0</strong> solves a long standing issue with <a href="https://libusb.info/">LibUSB</a>  support - that up until now has been 
+	<p>The <strong>JTSDK 4.1.1 </strong> also moves away from <strong>PowerShell Windows 5.1</strong> (The default MS-Windows-supplied version - also referred to as "PowerShell Core") to more contemporary release versions.  </p>
+	<p>The <strong>JTSDK 4.1.1</strong> solves a long standing issue with <a href="https://libusb.info/">LibUSB</a>  support - that up until now has been 
 	disabled. Most changes in this preview incorporate enhancements to the MSYS2 environment 
 	to better support the <a href="https://libusb.info/">LibUSB</a>  with Hamlib.</p>
 </ul>
@@ -138,7 +138,7 @@ Do you want to change the execution policy?
 <h2>Upgrades</h2>
 <hr>
 <ul>
-	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0.exe">JTSDK64-4.1.0</a> should <strong>NOT BE DEPLOYED</strong>over the top of previous kits. It is <b>highly recommended that you start deployments from scratch</b>. </p>
+	<p>The <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1.exe">JTSDK64-4.1.1</a> should <strong>NOT BE DEPLOYED</strong>over the top of previous kits. It is <b>highly recommended that you start deployments from scratch</b>. </p>
 	<p><strong> It is highly recommended that kits are deployed into Virtual machines (see &quot;Deployment&quot; section).</strong> </p>
 	<p>You can keep old deployment(s) by closing all open environment windows and renaming the deployment folder (i.e. <strong>C:\JTSDK64-Tools</strong> to <strong>C:\JTSDK64-Tools-Old</strong>) </p>
 	<p>If you need to revert back to your old deployment then all you need do is rename that folder back to its original filename (i.e. <strong>C:\JTSDK64-Tools-Old</strong> back to <strong>C:\JTSDK64-Tools</strong>) </p>
@@ -148,7 +148,7 @@ Do you want to change the execution policy?
 <hr>
 <ul>
  <p>Maintenance updates will be applied in the form of &quot;Update" packages. </p>
-<p>There is no current update to the <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0.exe">JTSDK64-4.1.0</a>. The first anticipated update would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0-U1.exe">JTSDK64-4.1.0-U1.exe</a>. </p>
+<p>There is no current update to the <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1.exe">JTSDK64-4.1.1</a>. The first anticipated update would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1-U1.exe">JTSDK64-4.1.1-U1.exe</a>. </p>
 <p>Apply any updates as soon as they become available.</p>
 <p><strong>Note</strong>: Maintainers are no longer supporting the "Base" and "Tools&quot; nomenclature.</p>
 </ul>
@@ -166,7 +166,7 @@ Do you want to change the execution policy?
 	<ul>
 		<li>Download the latest &quot;Update&quot; package from <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/">https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/</a></li>
 	</ul>
-	<p><strong>Note:</strong> There is no current update. The first anticipated update would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0-U3.exe">JTSDK64-4.1.0-U1.exe</a> .</p>
+	<p><strong>Note:</strong> There is no current update. The first anticipated update would be <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1-U3.exe">JTSDK64-4.1.1-U1.exe</a> .</p>
 	<ul>
 		<li>Deploy the tools package to your JTSDK install directory (typically <strong>X:\JTSDK64-Tools</strong>).</li>
 	</ul>
@@ -221,13 +221,13 @@ Do you want to change the execution policy?
 	<p>Install the base package so that it can be found in the Windows search path.</p>
 </ul>
 
-<h3>Step 1: Deploy the JTSDK64-4.1.0.exe Installer and the latest Update package</h3>
+<h3>Step 1: Deploy the JTSDK64-4.1.1.exe Installer and the latest Update package</h3>
 
 <ul>
 	<p><strong> Note that these instructions assumes a fresh Windows 11 Virtual Machine is used. </strong></p>
 	<ul>
-		<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0.exe">JTSDK64-4.1.0</a> inside a FRESH VM.</li>	
-		<li>Deploy the latest Update Package - if it exists: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0-U1.exe">JTSDK64-4.1.0-U1</a> .</li>
+		<li>Download and deploy the installer <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1.exe">JTSDK64-4.1.1</a> inside a FRESH VM.</li>	
+		<li>Deploy the latest Update Package - if it exists: <a href="https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1-U1.exe">JTSDK64-4.1.1-U1</a> .</li>
 	</ul>
 </ul>
 <table width="*" align="center" border="1">
@@ -257,7 +257,7 @@ Do you want to change the execution policy?
 <div class="reducewidth">
 <pre>
 -------------------------------------------
-           JTSDK Setup v4.1.0
+           JTSDK Setup v4.1.1
 -------------------------------------------
 
   Required Tools

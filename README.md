@@ -1,4 +1,4 @@
-# JTSDK64 Applications and Tools: Release
+# JTSDK64 Applications and Tools: Pre-Release (Development)
 
 ************************************************************************************
 ## JTSDK Version 4.1 Stream
@@ -8,7 +8,7 @@ The **Version 4.1** stream is a learning, discovery and technique refinement exp
 
 ### Direction
 
-The **JTSDK 4.1.0** matures the evolution of the kits from Windows Batch Files towards Windows 
+The **JTSDK 4.1.1** matures the evolution of the kits from Windows Batch Files towards Windows 
 [PowerShell][]-based scripts. [PowerShell][] is also supported in Mac and 
 Linux environs, so common-adaptation for these purposes may occur as the kits evolve.
 
@@ -23,15 +23,17 @@ completely removes needs for capable third-party environments such as [Python][]
 
 ### Release Notes: 4.1 Stream
 
+This release is primarily a maintenance release and update (to prevent issues seen in the past with the MSYS2 environment).
+
 This README.md file includes deployment instructions. The very latest news - including tips 
 to solve issues - can be found at https://hamlib-sdk.sourceforge.io/ .
 
-The **JTSDK 4.1.0** walks back some of the Qt deployment automation removed in [JTSDK64-3.4.1][] . 
+The **JTSDK 4.1.1** walks back some of the Qt deployment automation removed in [JTSDK64-3.4.1][] . 
 
-Outwardly this stream will initially appear similar to past kits. Yet the **JTSDK 4.1.0** 
+Outwardly this stream will initially appear similar to past kits. Yet the **JTSDK 4.1.1** 
 demonstrates significant enhancements and script redesigns.
 
-[JTSDK64-4.1.0][] ships with with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
+[JTSDK64-4.1.1][] ships with with basic **[MSYS2][]** and **mingw64** compilers and tools pre-deployed.
 
 **This kit only supports the construction of 64-bit software.**
 
@@ -56,11 +58,11 @@ This should also make the construction of other software packages that require [
 
 There are currently no update packages available.
 
-The first update package, when available, would be [JTSDK64-4.1.0-U1][].
+The first update package, when available, would be [JTSDK64-4.1.1-U1][].
 
-If (and when) available, apply this package to a base [JTSDK64-4.1.0][] before performing any post-installation steps.
+If (and when) available, apply this package to a base [JTSDK64-4.1.1][] before performing any post-installation steps.
 
-If your [JTSDK64-4.1.0][] is functional and fully deployed then it can be applied to this installation. Ensure that you back up your **Versions.ini** file before proceeding. Customise your **Versions.ini** settings, based on your backup, for your preferred versions of utilities after deployment.
+If your [JTSDK64-4.1.1][] is functional and fully deployed then it can be applied to this installation. Ensure that you back up your **Versions.ini** file before proceeding. Customise your **Versions.ini** settings, based on your backup, for your preferred versions of utilities after deployment.
 
 ************************************************************************************
 **The Project needs contributors - Especially for AARCH64 development, Management and to write Cross-Language Documentation !**
@@ -87,7 +89,7 @@ Current packaging preempts known cases of proposed licence and delivery conditio
 ************************************************************************************
 Precompiled drop-in packages are no longer available as Sourceforge, our project host, are auditing space.  
 ************************************************************************************
-The recommended development environment should be [JTSDK64-4.1.0][] with its latest update applied (if an update is available). 
+The recommended development environment should be [JTSDK64-4.1.1][] with its latest update applied (if an update is available). 
 ************************************************************************************ 
 
 ### Conventions used in this document.
@@ -163,10 +165,10 @@ The basic concept of supporting **Windows Environment Variables** through [Power
 will remain a cornerstone concept.
 
 ************************************************************************************
-## Upgrades from Versions earlier than Version 4.1.0
+## Upgrades from Versions earlier than Version 4.1.1
 ************************************************************************************
 
-The [JTSDK64-4.1.0][] cannot be installed over the top of previous kits.
+The [JTSDK64-4.1.1][] cannot be installed over the top of previous kits.
 
 **A new, fresh deployment be considered with this release.**
 
@@ -204,7 +206,7 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 - Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/ 
 
 ************************************************************************************
-There are currently no update package available for [JTSDK64-4.1.0][] . Updates, when available, can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/
+There are currently no update package available for [JTSDK64-4.1.1][] . Updates, when available, can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/
 ************************************************************************************
 
 - Deploy the latest **Update** package to your JTSDK install directory (if one is available).
@@ -301,11 +303,11 @@ DLL's and other components thta may be missing during builds can be placed withi
 The most common "missing" component needed to build WSJTX is **libgfortran-4.dll** . 
 This DLL may be copied and placed into that folder, negating the need for deployment of latest supplied installers.
 
-### Step 1: Deploy the JTSDK64-4.1.0.exe Installer and any available Update Packages
+### Step 1: Deploy the JTSDK64-4.1.1.exe Installer and any available Update Packages
  
 **Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used**
 
-- Deploy the **Release** installer [JTSDK64-4.1.0][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
+- Deploy the **Release** installer [JTSDK64-4.1.1][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
 - Deploy the latest **update** Package to your installation if it is available.
 
 It is recommended to use all the initial default settings and file locations.
@@ -318,7 +320,7 @@ A screen similar to the following should eventually appear:
 
 ```
 -------------------------------------------
-          JTSDK Setup v4.1.0
+          JTSDK Setup v4.1.1
 -------------------------------------------
 
   Required Tools
@@ -542,7 +544,7 @@ Once complete you can exit the **JTSDK64-Setup** environment (i.e. close the **J
 - Launch the **JTSDK64-Tools** environment from the icon on your desktop.
 
 ```
-            JTSDK x64 Tools v4.1.0
+            JTSDK x64 Tools v4.1.1
 --------------------------------------------------
 Package       Version/Status
 --------------------------------------------------
@@ -867,10 +869,11 @@ Base ref: https://sourceforge.net/projects/jtsdk/files/win64/3.1.0/README.md Dat
 [JTSDK64-3.4.1-U2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-3.4-Stream/JTSDK64-3.4.1-U2.exe
 [JTSDK64-4.0.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0.exe
 [JTSDK64-4.1.0]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0.exe
+[JTSDK64-4.1.1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1.exe
 [JTSDK64-4.0.0-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U1.exe
 [JTSDK64-4.0.0-U2]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U2.exe
 [JTSDK64-4.0.0-U3]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.0-Stream/JTSDK64-4.0.0-U3.exe
-[JTSDK64-4.1.0-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.0-U1.exe
+[JTSDK64-4.1.1-U1]: https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/JTSDK64-4.1.1-U1.exe
 [Git]: https://git-scm.com/
 [VS Code]: https://code.visualstudio.com/Download
 [Issue Tracker]: https://sourceforge.net/p/hamlib-sdk/tickets/

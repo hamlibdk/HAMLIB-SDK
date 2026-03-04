@@ -1,11 +1,11 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 4.1.1
+# Version ...........: 3.4.1
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
-# Concept ...........: Greg Beam KI7MT, <ki7mt@yahoo.com>
-# Author ............: JTSDK Contributors 20-01-2021 -> current
+# Concept ...........: Greg, Beam, KI7MT, <ki7mt@yahoo.com>
+# Author ............: JTSDK Contributors 20-01-2021 -> 10-09-2021
 # Copyright .........: Copyright (C) 2018-2021 Greg Beam, KI7MT
-#                      Copyright (C) 2018-2026 JTSDK Contributors
+#                      Copyright (C) 2018-2024 JTSDK Contributors
 # License ...........: GPL-3
 #
 # jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 03-01-2021
@@ -18,8 +18,6 @@
 #
 # Stage 2 Objectives (Command Line switches to disable GIT and Configure steps)
 # commenced 10/09/2021 with main objectives met 10/09/2021 (Steve VK3VM)
-#
-# This is the Joe K0OG Version (4th March 2026) and incorporates a NOINSTALL switch.
 #
 # jtbuild.ps1 is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -136,10 +134,6 @@ function ProcessOptions {
 				"package" { 
 					$rcopt.Value="Release"
 					$rtopt.Value="Package"
-					$mainOptionFlag=1}
-				"noinstall" { 
-					$rcopt.Value="Release"
-					$rtopt.Value="Noinstall"
 					$mainOptionFlag=1
 				}
 				"docs" { 
@@ -366,7 +360,6 @@ function HelpOptions {
 	Write-Host "    rinstall   Release, Non-packaged Install"
 	Write-Host "    dinstall   Debug, Non-packaged Install"
 	Write-Host "    package    Release, Windows Package"
-    Write-Host "    noinstall  Release, Build Binary Only"
 	Write-Host "    docs       Release, User Guide"
 	Write-Host ""
 	Write-Host " Switches:" 
@@ -396,7 +389,6 @@ function BuildInformation {
 	Write-Host "  Build .........`: $buildd"
 	Write-Host "  Install .......`: $installd"
 	Write-Host "  Package .......`: $pkgd"
-    Write-Host "  Noinstall .....`: $buildd"
 	Write-Host "  TC File .......`: $tchain"
 	Write-Host "  Clean .........`: $cleanFirst"
 	Write-Host "  Reconfigure ...`: $reconfigure"
@@ -437,7 +429,6 @@ function FinishConfig {
 	Write-Host "  SRC .........`: $srcd"
 	Write-Host "  Build .......`: $buildd"
 	Write-Host "  Install .....`: $installd"
-    Write-Host "  Noinstall ...`: $buildd"
 	Write-Host ""
 	Write-Host " Config Only builds simply configure the build tree with"
 	Write-Host " default options. To further configure or re-configure this build,"
@@ -584,65 +575,6 @@ function PackageTargetTwo {
 	Write-Host "--> Package Filename: $wsjtxpkg"
 	
 	Copy-Item -Path $buildd\$wsjtxpkg  -Destination $pkgd | Out-Null
-	FinishPackage
-}
-
-# ---------------------------------------------------------------- NOINSTALL TARGET FUNCTIONS
-function Noinstall {
-	Set-Location -Path $buildd
-	$jtSrc=($env:JT_SRC).ToUpper()
-	Write-Host ""
-	Write-Host "--------------------------------------------"
-	Write-Host " Building $jtSrc "
-	Write-Host "--------------------------------------------"
-	Write-Host ""
-	Write-Host "* Build Directory: $buildd"
-	Write-Host ""
-	
-	# The following 2 lines first introduced by Steve VK3VM 30-4-2020 
-	# removes an ald annoyance in final info screens !
-	
-	Write-Host "* Removing Old Install Packages `(if exist`)"
-	Write-Host ""
-	Get-childitem $buildd\* -include *.exe -recurse -force | Remove-Item
-	
-	# Remove-Item * -force -include *.exe | Out-Null
-
-	Write-Host "--------------------------------------------"
-	# Write-Host ""
-	
-	if (!(Test-Path "$buildd\Makefile")) { NoinstallTargetOne }
-	
-	if ($reconfigure -eq "Yes") {
-		NoinstallTargetOne
-	} else {
-		NoinstallTargetTwo
-	}
-}
-
-function NoinstallTargetOne {
-	if ( $ncg -eq "F")
-	{
-		cmake -G "MinGW Makefiles" -Wno-dev -D CMAKE_TOOLCHAIN_FILE=$tchain `
-			-D CMAKE_BUILD_TYPE=$copt `
-			-D CMAKE_INSTALL_PREFIX=$pkgd $srcd
-		if ($LastExitCode -ne 0) { ErrorCMake }
-	}
-	NoinstallTargetTwo
-}
-
-function NoinstallTargetTwo {
-	$topt=($topt).ToLower()
-	if ($cleanFirst -eq "Yes") { mingw32-make -f Makefile clean | Out-Null }
-	Write-Host ""
-# Added "--config Debug" to the build K0OG
-#	 cmake --build . --config Debug -- -j $JJ
-    cmake --build . -- -j $JJ
-    Write-Host " "
-    Write-Host "***********************************************"
-    Write-Host "Build Finished - Executable in Output Directory"
-    Write-Host "***********************************************"
-    Write-Host " "
 	FinishPackage
 }
 
@@ -939,10 +871,10 @@ ProcessOptions $aarg -rcopt ([ref]$copt) -rtopt ([ref]$topt) -rcgopt ([ref]$ncg)
 $env:JTSDK_VC = "$env:JTSDK_CONFIG\Versions.ini"
 Get-Content $env:JTSDK_VC | foreach-object -begin {$configTable=@{}} -process { $k = [regex]::split($_,'='); if(($k[0].CompareTo("") -ne 0) -and ($k[0].StartsWith("[") -ne $True)) { $configTable.Add($k[0], $k[1]) } }
 
-$srcd = $configTable.Get_Item("srcd")			# Sets srcd => Source Location
-$dest = $configTable.Get_Item("destd")			# Sets dest => Desctination Location
-$cfgd = $env:JTSDK_CONFIG				# Sets cfgd => JTSDK_CONFIG location
-$qtv = $env:QTV						# Sets qtv => QTV
+$srcd = $configTable.Get_Item("srcd")				# Sets srcd => Source Location
+$dest = $configTable.Get_Item("destd")				# Sets dest => Desctination Location
+$cfgd = $env:JTSDK_CONFIG							# Sets cfgd => JTSDK_CONFIG location
+$qtv = $env:QTV										# Sets qtv => QTV
 
 $cleanFirst="No"
 $cleanFirst=$configTable.Get_Item("cleanfirst")		# Clean First Flag 
@@ -951,13 +883,13 @@ $reconfigure="No"
 $reconfigure=$configTable.Get_Item("reconfigure")	# Reconfigure Flag
 
 $autorun="No"
-$autorun= $configTable.Get_Item("autorun")		# Autorun Flag
+$autorun= $configTable.Get_Item("autorun")			# Autorun Flag
 
 $pullUpd="No"
 $pullUpd=$configTable.Get_Item("pulllatest")		# Pull latest updates Flag
 
-# $JJ=6 # $env:NUMBER_OF_PROCESSORS			# Read from ENV; Can set manually
-$JJ=$env:NUMBER_OF_PROCESSORS                        
+$JJ=$env:NUMBER_OF_PROCESSORS						# Read from ENV; Can set manually
+
 
 # Display Build Commencement Message ----------------------------- COMMENCE BUILD
 
@@ -1000,7 +932,6 @@ if (($relx -gt 0) -and ($relx -eq 0)) { $desc="Release Candidate" }
 $buildd="$dest\qt\$qtv\$aver\$copt\build"
 $installd="$dest\qt\$qtv\$aver\$copt\install"
 $pkgd="$dest\qt\$qtv\$aver\$copt\package"
-
 SetupDirectories
 
 # Build Information ---------------------------------------------- BUILD INFORMATION
@@ -1012,8 +943,7 @@ BuildInformation
 if ($topt -like "Config") { ConfigOnly }
 if ($topt -like "Install") { InstallTarget }
 if ($topt -like "Package") { PackageTarget }
-if ($topt -like "Docs") { DocsTarget }
-if ($topt -like "Noinstall") { Noinstall }
+if ($topt -like "Docs") { DocsTarget } 
 
 # ---------------------------------------------------------------- FINAL CATCH-ALL !!!
 GenerateError("Undefined Target")
