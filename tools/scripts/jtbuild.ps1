@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 4.1.1
+# Version ...........: 4.1.1c
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg Beam KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> current
@@ -9,33 +9,10 @@
 # License ...........: GPL-3
 #
 # jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 03-01-2021
-#
-# # Code is capable of auto-downloading from a WSJTX, JTDX or JS8CALL repository
-# based on flag [ src-wsjtx | src-jtdx | src-js8call ] in C:\JTSDK64-Tools\config
-# 
-# Stage 1 objectives (PowerShell conversion; refactoring; prime functionality; 
-# Qt-independence) commenced 20-1-2020. Objectives met 29-01-2021 (Steve VK3VM)
-#
-# Stage 2 Objectives (Command Line switches to disable GIT and Configure steps)
-# commenced 10/09/2021 with main objectives met 10/09/2021 (Steve VK3VM)
-#
-# This is the Joe K0OG Version (4th March 2026) and incorporates a NOINSTALL switch.
-#
-# jtbuild.ps1 is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation either version 3 of the License, or (at your option) any
-# later version. 
-#
-# This script is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 #               : Amendment in technique for getting output package filename 2024-1-1-10 Steve VK3VM
 #               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve VK3VM
+#               : Issue with folders and versions: Contributions from Joe K0OG and Yukio JG1APS consolidated 2026-04-30 by HSD
+#               : Change WSJT-X source to GITHUB 2026-05-01 coordinated by HSD 
 #
 #-----------------------------------------------------------------------------#
 
@@ -308,7 +285,8 @@ function SelectionChanged {
 		}
 	}
 
-	if ($selection -eq "src-wsjtx") { CloneSource -jtSrc $env:JT_SRC -url "git://git.code.sf.net/p/wsjt/wsjtx" }
+	#if ($selection -eq "src-wsjtx") { CloneSource -jtSrc $env:JT_SRC -url "git://git.code.sf.net/p/wsjt/wsjtx" }
+	if ($selection -eq "src-wsjtx") { CloneSource -jtSrc $env:JT_SRC -url "https://github.com/WSJTX/wsjtx.git" }
 	if ($selection -eq "src-jtdx") { CloneSource -jtSrc $env:JT_SRC -url "https://github.com/jtdx-project/jtdx.git" }
 	if ($selection -eq "src-js8call") { CloneSource -jtSrc $env:JT_SRC -url "https://widefido@bitbucket.org/widefido/js8call.git" }	
 }
@@ -801,44 +779,61 @@ function DocsTargetTwo {
 
 # ---------------------------------------------------------------- GET VERSION DATA
 # Source is either from CMakeLists.txt or from Versions.cmake
+# Version below is from Yukio JG1APX re post https://groups.io/g/JTSDK/message/3440
 function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$rrelx) {
-	Write-Host "* Obtaining Source Version Data"
-	Write-Host ""
-	if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {  # From CMakeList.txt ---------------
-		$mlConfig = Get-Content $env:JTSDK_TMP\wsjtx\CMakeLists.txt
-		Write-Host "  --> Source ....: $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
-		[Int]$count = 0
-		foreach ($line in $mlConfig) {
-			[Bool] $incCont = 0
-			if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value) {
-				$temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
-				#Write-Host "  --> Raw Version data: $temp"
-				$verArr = @($temp.split('.'))
-				$rmav.value = $verArr[0]
-				$rmiv.value = $verArr[1]
-				$rpav.value = $verArr[2]
-				$rrelx.value = $verArr[3]
-				$incCount = 1
-			}
-			
-			if ($line -like 'set_build_type*') {
-				$rrcx.value = ($line) -replace "[^0-9]" , ''
-				$incCount = 1
-			}
-			if ($incCount -eq 1) { $count++ }
-		}
-		
-		# Write-Host 	$rmav.value $rmiv.value $rpav.value $rrelx.value
-
-		if ($count -eq 0) { Write-Host "" }
-
-		try { 
-			if ($verArr[0] -eq 0) { GenerateError("Data not read from CMakeLists.txt" ) } 
-		}
-		catch { 
-			GenerateError("Unable to read data from $env:JTSDK_TMP\wsjtx\CMakeList.txt") 
-		}
-	} else {	# From Versions.cmake -------------------------------------------------------------
+    Write-Host "* Obtaining Source Version Data"
+    Write-Host ""
+    if (!(Test-Path "$env:JTSDK_TMP\wsjtx\Versions.cmake")) {  # From CMakeList.txt ---------------
+# For JS8Call-improved and WSJT-X
+        $mlConfig = Get-Content $env:JTSDK_TMP\wsjtx\CMakeLists.txt
+        Write-Host "  --> Source ....: $env:JTSDK_TMP\wsjtx\CMakeLists.txt"
+        [Int]$count = 0
+        foreach ($line in $mlConfig) {
+            [Bool] $incCont = 0
+# For WSJT-X v2.7.0, 2.8.0, 3.0.0, or 3.1.0-improved
+            if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value) {
+                $temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value
+                #Write-Host "  --> Raw Version data: $temp"
+                $verArr = @($temp.split('.'))
+                $rmav.value = $verArr[0]
+                $rmiv.value = $verArr[1]
+                $rpav.value = $verArr[2]
+                $rrelx.value = $verArr[3]
+                $incCount = 1
+            }
+            if ( $temp -lt "2.7.0" ) { # To be empty
+                $temp = ""
+# For development version of "0.0.0" in JS8call-improved
+                if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{0,3})(\.\d{0,3})" -AllMatches).Matches.Value) {
+                    $temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{0,3})(\.\d{0,3})" -AllMatches).Matches.Value
+                    #Write-Host "  --> Raw Version data: $temp"
+                    if ( $temp -match "0.0.0" ) { $temp = "1.0.0" } # Added by K0OG
+                    $verArr = @($temp.split('.'))
+                    $rmav.value = $verArr[0]
+                    $rmiv.value = $verArr[1]
+                    $rpav.value = $verArr[2]
+                    $rrelx.value = $verArr[3]
+                    $incCount = 1
+                }
+            }
+            
+            if ($line -like 'set_build_type*') {
+                $rrcx.value = ($line) -replace "[^0-9]" , ''
+                $incCount = 1
+            }
+            if ($incCount -eq 1) { $count++ }
+        }
+        
+        # Write-Host     $rmav.value $rmiv.value $rpav.value $rrelx.value
+        if ($count -eq 0) { Write-Host "" }
+        try { 
+            if ($verArr[0] -eq 0) { GenerateError("Data not read from CMakeLists.txt" ) } 
+        }
+        catch { 
+            GenerateError("Unable to read data from $env:JTSDK_TMP\wsjtx\CMakeList.txt") 
+        }
+    } else {    # From Versions.cmake for JS8Call-Subspace edition and JTDX ---------------------
+# --- Original from here on ---
 		$vcConfig = Get-Content $env:JTSDK_TMP\wsjtx\Versions.cmake
 		Write-Host "  --> Source ....: $env:JTSDK_TMP\wsjtx\Versions.cmake"
 		[Int]$count = 0

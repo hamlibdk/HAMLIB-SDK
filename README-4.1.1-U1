@@ -1,0 +1,10 @@
+THIS IS AN UPDATE VERSION TO 4.1.1
+==================================
+
+This includes:
+
+- Updates fo jtsdk64.ps1
+- Updates to jtbuild.ps1
+- a "pre-packed" version of Hamlib (Version 5.0.0) that seems to work with current JT-Ware Builds
+
+Please report back observations to https://groups.io/g/JTSDK

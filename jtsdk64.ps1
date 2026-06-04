@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------::
 # Name .........: jtsdk64.ps1
 # Project ......: Part of the JTSDK64 Tools Project
-# Version ......: 4.1.0a
+# Version ......: 4.1.1a
 # Description ..: Main Development Environment Script
 #                 Sets environment variables for development and MSYS2
 # Original URL .: https://github.com/KI7MT/jtsdk64-tools.git
@@ -13,7 +13,7 @@
 # Concept ......: Greg Beam, KI7MT, <ki7mt@yahoo.com>
 #
 # Copyright ....: (C) 2013-2021 Greg Beam, KI7MT
-#                 (C) 2020-2025 JTSDK Contributors
+#                 (C) 2020-2026 Hamlib SDK and JTSDK Contributors
 # License ......: GPL-3
 #
 # Adjustments...: Steve VK3VM 8-12-2020 to 5-06-2021
@@ -40,6 +40,7 @@
 #               : Prefix changed to toss all builds of Hamlib into x:\JTSDK64-Tools\tools\hamlib rather than Qt version specific directory 
 #                 --> as Qt specific versioning now redundant since Qt completely built under MinGW/MSYS2 2025-05-24 Coordinated by Steve I VK3VM   
 #               : Move $env:HLREPO into Versions.ini 2025-05-25 coordinated by Steve I VK3VM
+#               : Update to support mingw13.1: Contributions from Joe K0OG and Yukio JG1APS consolidated 2026-05-28 by HSD
 #
 #-----------------------------------------------------------------------------::
 
@@ -301,10 +302,18 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	
 	$int_ver_min_gcc = [int]$env:QTV.Replace(".", "")
 	
-	$env:GCC_MINGW = "mingw810_64"					# Qt 5.15.2 as a primer/start point
-	if ( ($int_ver_min_gcc * $mult) -lt 51520 ) { GenerateError("This kit does not support Qt versions below Qt 5.15.2" )}
-	if ( ($int_ver_min_gcc * $mult) -ge 62200 ) { $env:GCC_MINGW = "mingw1120_64" }
-	if ( ($int_ver_min_gcc * $mult) -ge 67000 ) { $env:GCC_MINGW = "mingw1310_64" }
+	#$env:GCC_MINGW = "mingw810_64"					    # Qt 5.15.2 as a primer/start point
+	#if ( ($int_ver_min_gcc * $mult) -lt 51520 ) { GenerateError("This kit does not support Qt versions below Qt 5.15.2" )}
+	#if ( ($int_ver_min_gcc * $mult) -ge 62200 ) { $env:GCC_MINGW = "mingw1120_64" }
+	#if ( ($int_ver_min_gcc * $mult) -ge 67000 ) { $env:GCC_MINGW = "mingw1310_64" }
+	
+	$env:GCC_MINGW = "mingw1310_64"                      # Default: Force 1310_64 for Qt6.11.1 - K0OG
+    if ( ($int_ver_min_gcc * $mult) -lt 51520 ) { GenerateError("This kit does not support Qt versions below Qt 5.15.2" )}
+    # Added the following line to set MINGW version correctly for Qt5.15.2 - K0OG
+    # if ( ($int_ver_min_gcc * $mult) -eq 51520 ) { $env:GCC_MINGW = "mingw810_64" }
+    if ( ($int_ver_min_gcc * $mult) -lt 60000 ) { $env:GCC_MINGW = "mingw810_64" }  # Some using versions later than 5.15.2 so (- ge needed. HSDK 26-05-28) -lt needed. K0OG 052826
+    if ( ($int_ver_min_gcc * $mult) -ge 62200 ) { $env:GCC_MINGW = "mingw1120_64" }
+    if ( ($int_ver_min_gcc * $mult) -ge 67000 ) { $env:GCC_MINGW = "mingw1310_64" }
 	
 	# $env:GCC_MINGW=$env:VER_MINGW_GCC					# possibly redundant ??? 
 	$env:GCCD=$env:JTSDK_TOOLS + "\Qt\Tools\"+$env:GCC_MINGW+"\bin"
