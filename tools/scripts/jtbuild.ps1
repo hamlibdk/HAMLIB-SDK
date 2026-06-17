@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Name ..............: jtbuild.ps1
-# Version ...........: 4.1.1c
+# Version ...........: 4.1.1d
 # Description .......: Build script for WSJT-X, JTDX and JS8CALL
 # Concept ...........: Greg Beam KI7MT, <ki7mt@yahoo.com>
 # Author ............: JTSDK Contributors 20-01-2021 -> current
@@ -13,6 +13,7 @@
 #               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve VK3VM
 #               : Issue with folders and versions: Contributions from Joe K0OG and Yukio JG1APS consolidated 2026-04-30 by HSD
 #               : Change WSJT-X source to GITHUB 2026-05-01 coordinated by HSD 
+#               : More robust version pickup in post https://groups.io/g/JTSDK/message/3480 by Joe K0OG colsolidated by HSD 2026-06-15
 #
 #-----------------------------------------------------------------------------#
 
@@ -804,7 +805,9 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
             if ( $temp -lt "2.7.0" ) { # To be empty
                 $temp = ""
 # For development version of "0.0.0" in JS8call-improved
-                if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{0,3})(\.\d{0,3})" -AllMatches).Matches.Value) {
+				# Next recommended by Joe K0OG in post https://groups.io/g/JTSDK/message/3480
+                # if (($line.trim() |  Select-String -Pattern "\d{1,3}(\.\d{0,3})(\.\d{0,3})" -AllMatches).Matches.Value) {
+                if (($line.trim() | select-string -Pattern "VERSION") -and ($line.trim() |  Select-String -Pattern "\d{0,3}(\.\d{0,3})(\.\d{0,3})" -AllMatches).Matches.Value) {			
                     $temp = ($line  |  Select-String -Pattern "\d{1,3}(\.\d{0,3})(\.\d{0,3})" -AllMatches).Matches.Value
                     #Write-Host "  --> Raw Version data: $temp"
                     if ( $temp -match "0.0.0" ) { $temp = "1.0.0" } # Added by K0OG

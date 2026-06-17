@@ -23,6 +23,10 @@ completely removes needs for capable third-party environments such as [Python][]
 
 ### Release Notes: 4.1 Stream
 
+************************************************************************************
+This kit may produce intermediates that Security Suites detect as Viruses. These fragments are safe.
+************************************************************************************
+
 This release is primarily a maintenance release and update (to prevent issues seen in the past with the MSYS2 environment).
 
 This README.md file includes deployment instructions. The very latest news - including tips 
@@ -56,11 +60,9 @@ This should also make the construction of other software packages that require [
 
 ### Release Notes: Updates
 
-There are currently no update packages available.
+The first update package is [JTSDK64-4.1.1-U1][].
 
-The first update package, when available, would be [JTSDK64-4.1.1-U1][].
-
-If (and when) available, apply this package to a base [JTSDK64-4.1.1][] before performing any post-installation steps.
+Apply this package to a base [JTSDK64-4.1.1][] before performing any post-installation steps.
 
 If your [JTSDK64-4.1.1][] is functional and fully deployed then it can be applied to this installation. Ensure that you back up your **Versions.ini** file before proceeding. Customise your **Versions.ini** settings, based on your backup, for your preferred versions of utilities after deployment.
 
@@ -206,10 +208,10 @@ An **Update** package can only be applied to a matching release. i.e. You cannot
 - Download the latest **Update** packages from https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/ 
 
 ************************************************************************************
-There are currently no update package available for [JTSDK64-4.1.1][] . Updates, when available, can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/
+Update [JTSDK64-3.4.1-U1][] is available for [JTSDK64-4.1.1][] . Updates, when available, can be downloaded at https://sourceforge.net/projects/hamlib-sdk/files/Windows/JTSDK-4.1-Stream/
 ************************************************************************************
 
-- Deploy the latest **Update** package to your JTSDK install directory (if one is available).
+- Deploy the latest **Update** package to your JTSDK install directory (if one is available). Note: [JTSDK64-3.4.1-U1][] is currently available.
 
 Updates may be required for the [MSYS2][] environment. Therefore the "profile" directory for 
 [MSYS2][] may be deleted and re-created.
@@ -308,7 +310,7 @@ This DLL may be copied and placed into that folder, negating the need for deploy
 **Note that these instructions assumes a fresh Windows 10 or 11 Virtual Machine is used**
 
 - Deploy the **Release** installer [JTSDK64-4.1.1][] inside a FRESH, FULLY UPDATED WINDOWS 10 or 11 VM.
-- Deploy the latest **update** Package to your installation if it is available.
+- Deploy the latest **update** Package [JTSDK64-3.4.1-U1][] to your installation.
 
 It is recommended to use all the initial default settings and file locations.
  
