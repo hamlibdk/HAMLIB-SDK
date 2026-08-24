@@ -11,7 +11,7 @@
 # jtbuild.cmd adjustments: Steve VK3VM to work with JTSDK 3.1 12-04 --> 03-01-2021
 #               : Amendment in technique for getting output package filename 2024-1-1-10 Steve VK3VM
 #               : (Non-ideal) Support for "extras" folder 2024-10-2 coordinated by Steve VK3VM
-#               : Issue with folders and versions: Contributions from Joe K0OG and Yukio JG1APS consolidated 2026-04-30 by HSD
+#               : Issue with folders and versions: Contributions from Joe K0OG and Yukio JG1APX consolidated 2026-04-30 by HSD
 #               : Change WSJT-X source to GITHUB 2026-05-01 coordinated by HSD 
 #               : More robust version pickup in post https://groups.io/g/JTSDK/message/3480 by Joe K0OG colsolidated by HSD 2026-06-15
 #
@@ -905,6 +905,9 @@ function GetVersionData ([ref]$rmav, [ref]$rmiv, [ref]$rpav, [ref]$rrcx, [ref]$r
 #if (Test-Path("$env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe")) { 
 #	Rename-Item $env:JTSDK_TOOLS\msys64\usr\bin\sh-bak.exe $env:JTSDK_TOOLS\msys64\usr\bin\sh.exe | Out-Null 
 #}
+
+# Set MSYSTEM_PREFIX for wsjt-x later v3.0.2 ----------------@ JG1APX
+$env:MSYSTEM_PREFIX = $env:JTSDK_MINGW64 -replace "\\", "/" 
 
 # Set Paths -------------------------------------------------------------SET PATHS
 # this sets additional search paths that may be needed - especially for packaging

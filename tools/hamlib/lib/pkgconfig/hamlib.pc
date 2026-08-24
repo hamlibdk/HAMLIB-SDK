@@ -1,0 +1,13 @@
+prefix=/c/JTSDK64-Tools/tools/hamlib
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Hamlib
+Description: Library to control radio and rotator equipment.
+URL: http://www.hamlib.org
+Version: 5.0.0~git
+Requires.private:
+Cflags: -I${includedir} 
+Libs: -L${libdir} -lhamlib
+Libs.private:    -lws2_32 -liphlpapi -lwinmm 

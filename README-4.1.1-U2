@@ -1,0 +1,12 @@
+THIS IS AN UPDATE VERSION TO 4.1.1
+==================================
+
+This includes:
+
+- Updates fo jtsdk64.ps1 Supplied by Yukio JG1APX (See https://groups.io/g/JTSDK/message/3556)
+- Updates to jtbuild.ps1 Supplied by Yukio JG1APX (See https://groups.io/g/JTSDK/message/3556)
+- a "pre-packed" version of Hamlib (Version 5.0.0) that seems to work with current JT-Ware Builds still included.
+
+With Yukio's fixed scripts, the SSL components are properly packaged. Hamlib DLL's can be updated dynamically.
+
+Please report back observations to https://groups.io/g/JTSDK

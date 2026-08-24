@@ -40,7 +40,7 @@
 #               : Prefix changed to toss all builds of Hamlib into x:\JTSDK64-Tools\tools\hamlib rather than Qt version specific directory 
 #                 --> as Qt specific versioning now redundant since Qt completely built under MinGW/MSYS2 2025-05-24 Coordinated by Steve I VK3VM   
 #               : Move $env:HLREPO into Versions.ini 2025-05-25 coordinated by Steve I VK3VM
-#               : Update to support mingw13.1: Contributions from Joe K0OG and Yukio JG1APS consolidated 2026-05-28 by HSD
+#               : Update to support mingw13.1: Contributions from Joe K0OG and Yukio JG1APX consolidated 2026-05-28 by HSD
 #
 #-----------------------------------------------------------------------------::
 
@@ -298,7 +298,7 @@ function SetQtEnvVariables ([ref]$QTBASE_ff, [ref]$QTD_ff, [ref]$GCCD_ff, [ref]$
 	$mult = 100;
 	if ( $my_string.length -eq 3 ) { $mult = 100 }		# This handles the minimum i.e. 6.3.3
 	if ( $my_string.length -eq 4 ) { $mult = 10 }		# This handles 5152 i.e. 5.15.2
-	if ( $my_string.length -eq 5 ) { $mult = 1 }		# The maximum version size i.e 51513 for 6.15.13
+	if ( $my_string.length -eq 5 ) { $mult = 1 }		# The maximum version size i.e 51513 for 5.15.13
 	
 	$int_ver_min_gcc = [int]$env:QTV.Replace(".", "")
 	
@@ -694,6 +694,7 @@ $env:JTSDK_SCRIPTS = $env:JTSDK_TOOLS + "\scripts"
 $env:JTSDK_SCRIPTS_F = ConvertForward($env:JTSDK_SCRIPTS) 
 $env:JTSDK_MSYS2 = $env:JTSDK_TOOLS + "\msys64"
 $env:JTSDK_MSYS2_F = ConvertForward($env:JTSDK_MSYS2) 
+$env:JTSDK_MINGW64 = $env:JTSDK_MSYS2 + "\mingw64"
 
 CreateFolders							# --- Create Folders ------------------
 

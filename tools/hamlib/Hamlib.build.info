@@ -1,0 +1,22 @@
+
+# Package Information
+Build Date...: 05-03-2026 at 15:37
+BUILDER......: stepheni
+Prefix.......: /c/JTSDK64-Tools/tools/hamlib
+Pkg Name.....: Hamlib
+Pkg Version..: development
+
+# Source Location and Integration
+Git URL......: https://github.com/Hamlib/Hamlib.git
+Git Extra....: git checkout integration
+
+# Configure Options <for Static>
+--prefix="/c/JTSDK64-Tools/tools/hamlib" --disable-shared --enable-static --without-cxx-binding CPPFLAGS="-I/c/JTSDK64-Tools/tools/libusb/1.0.29/include" LDFLAGS="-L/c/JTSDK64-Tools/tools/libusb/1.0.29/MinGW64/dll"
+
+# Configure Options <for Shared>
+--prefix="/c/JTSDK64-Tools/tools/hamlib" --without-cxx-binding CCPPFLAGS="-I/c/JTSDK64-Tools/tools/libusb/1.0.29/include" LDFLAGS="-L/c/JTSDK64-Tools/tools/libusb/1.0.29/MinGW64/dll"
+
+# Build Commands
+#make -j 1
+#make -j 1 install-strip
+
